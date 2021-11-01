@@ -2,6 +2,7 @@ package project.spring.nft.domain;
 
 import java.util.Date;
 
+//작품 vo
 public class ArtVO {
 	private int artNo, memberNo;
 	private String artName;
