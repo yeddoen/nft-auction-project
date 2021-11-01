@@ -26,7 +26,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 		} else {
 			logger.info("로그아웃 상태 -> controller method 실행 안됨");
 			saveDestination(request);
-			response.sendRedirect("/nft/member/login");
+			response.sendRedirect("/nft-auction/members/login");
 			return false;			
 		}
 	} //end preHandle()
