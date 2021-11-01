@@ -18,7 +18,7 @@ import project.spring.nft.domain.MemberVO;
 import project.spring.nft.service.MemberService;
 
 @Controller
-@RequestMapping(value = "/member")
+@RequestMapping(value = "/members")
 public class MemberController {
 	private static final Logger logger=
 			LoggerFactory.getLogger(MemberController.class);
@@ -42,7 +42,7 @@ public class MemberController {
 			//TODO : main에서 회원가입 성공 alert 띄우기
 			return "redirect:/main"; 
 		}else {
-			return "redirect:/member/join";
+			return "redirect:/members/sign-up";
 		}
 	} //end joinMemberPOST()
 	
@@ -74,7 +74,7 @@ public class MemberController {
 		}else {
 			logger.info("로그인 실패");
 			reAttr.addFlashAttribute("loginResult", "fail"); 
-			return "redirect:/member/login";
+			return "redirect:/members/login";
 		}
 	} //end loginMemberPOST()
 	

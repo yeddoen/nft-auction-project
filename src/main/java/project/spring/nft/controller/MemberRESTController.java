@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import project.spring.nft.service.MemberService;
 
 @RestController
-@RequestMapping(value = "member/rest")
+@RequestMapping(value = "members/rest")
 public class MemberRESTController {
 	private static final Logger logger=
 			LoggerFactory.getLogger(MemberRESTController.class);
