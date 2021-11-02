@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +16,7 @@
 <script
 	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 
-<title>마이 페이지(일단헤더없이사이드바만추가함!)</title>
+<title>회원정보수정페이지</title>
 <style type="text/css">
 /* 사이드바 래퍼 스타일 */
 .aside {
@@ -88,7 +88,7 @@
 			<div id="sidebar-wrapper">
 				<ul class="sidebar-nav">
 					<li class="sidebar-brand"><a href="#">마이페이지</a></li>
-					<li><a href="#">회원정보</a></li>
+					<li><a href="member">회원정보</a></li>
 					<li><a href="#">위시리스트</a></li>
 					<li><a href="#">등록작품내역</a></li>
 					<li><a href="#">구매작품내역</a></li>
@@ -109,27 +109,31 @@
 			</div>
 			
 			<div class="content">
-				<!-- 회원 정보 기본적으로 보여주기 -->
+				<!-- 회원 정보 수정하기 -->
 				<!-- 아이디, 비밀번호(수정페이지로) 이름, 닉네임, 전화번호, 이메일 -->
 				<p>아이디</p><p>${vo.memberId }</p>
 				<p>비밀번호<button type="button" id="btn-password" onclick="location.href='password-change'">비밀번호 변경</button></p>
 				<p>이름</p><p>${vo.memberName}</p>
-				<p>닉네임</p><p>${vo.memberNickname }</p>
-				<p>전화번호</p><p>${vo.memberPhone }</p>
-				<p>이메일</p><p>${vo.memberEmail }</p>
+				<p>닉네임</p><input type="text" name="memberNickname" placeholder="닉네임 입력" required="required"><br>
+				<p>전화번호</p><input type="text" name="memberPhone" placeholder="전화번호 입력" required="required"><br>
+				<p>이메일</p><input type="text" name="memberEmail" placeholder="이메일 입력" required="required"><br>
+				<p><input type="submit" value="정보변경" >
 			</div>
 			
 			<div class="content-btn">
-				<button type="button" onclick="location.href='update'">회원정보수정</button>
-				
+				<button type="button" id="btn-delete">회원탈퇴</button><!-- 페이지 이동이 아니고 프롬프트 창 띄워 확인받기. -->
 			</div>
 			
 		</div>
 	</section>
 	
 	<script type="text/javascript">
-	
+
+		// 회원 탈퇴 프롬프트창 띄우기
+		$('#btn-delete').onclick(function(){    
+		});
 	</script>
+	
 
 </body>
 </html>

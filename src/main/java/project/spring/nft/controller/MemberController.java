@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -79,9 +80,63 @@ public class MemberController {
 	} //end loginMemberPOST()
 	
 	@GetMapping("/my-page/member")
-	public void readMyPage() {
-		logger.info("readMyPage() 호출");
+	public void myPageGET(Model model, HttpServletRequest request) {
+		logger.info("myPageGET() 호출");
+		
+		HttpSession session=request.getSession();
+		String memberId = (String) session.getAttribute("memberId");
+
+		MemberVO vo = memberService.readByMemberId(memberId);
+		logger.info("마이페이지 회원정보 : " + vo.toString());
+		
+		// model로 보내주는 것 까먹지 말기!!
+		model.addAttribute("vo", vo);
 	}
 	
+	@PostMapping("/my-page/member")
+	public void myPagePOST() {
+		logger.info("myPagePOST() 호출");
+	}
 	
-}
+	// 회원 정보 수정.
+	@GetMapping("/my-page/update")
+	public void updateMemberGET(Model model, HttpServletRequest request) {
+		logger.info("updateGET() 호출");
+		
+		HttpSession session=request.getSession();
+		String memberId = (String) session.getAttribute("memberId");
+		
+		// 정보 가져와서 보여주기
+		MemberVO vo = memberService.readByMemberId(memberId);
+		logger.info("마이페이지 회원정보 : " + vo.toString());
+
+		model.addAttribute("vo", vo);
+		
+	}
+	
+	@PostMapping("/my-page/update")
+	public String updateMemberPOST(MemberVO vo, HttpServletRequest request) {
+		logger.info("updatePOST() 호출 , 입력한 정보 vo : " + vo);
+		int result = memberService.updateMemberInfo(vo);
+		
+		HttpSession session=request.getSession();
+		String memberId = (String) session.getAttribute("memberId");
+		
+		if(result == 1) {
+			logger.info(result + "성공 , 세션 유지 : " + memberId);
+			// TODO : 리다이렉트, 타겟URI 바꾸기!!
+			return "redirect:";
+		}else {
+			logger.info(result + "실패 , 세션 유지 : " + memberId);
+			return "redirect:/main";				
+		}
+		
+	}
+	
+	// 봐야함! delete 페이지 불러오기에서 프롬프트 띄우는 형식으로 변경.
+	@GetMapping("/my-page/delete")
+	public void deleteMemberGET(Model model, HttpServletRequest request) {
+		logger.info("deleteGET() 호출");
+	}
+
+} // end class
