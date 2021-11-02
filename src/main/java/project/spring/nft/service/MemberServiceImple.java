@@ -29,9 +29,9 @@ public class MemberServiceImple implements MemberService {
 	}
 	
 	@Override
-	public MemberVO readByMemberNo(int memberNo) {
-		logger.info("readByMemberNo() 호출");
-		return dao.selectByMemberNo(memberNo);
+	public MemberVO readByMemberId(String memberId) {
+		logger.info("readByMemberId() 호출");
+		return dao.selectByMemberId(memberId);
 	}
 	
 	@Override
@@ -41,9 +41,9 @@ public class MemberServiceImple implements MemberService {
 	}
 
 	@Override
-	public int updateMemberPassword(int memberNo, String updatePassword) {
+	public int updateMemberPassword(String memberId, String updatePassword) {
 		logger.info("updateMemberPassword() 호출 : updatePassword = "+updatePassword);
-		return dao.updateMemberPassword(memberNo, updatePassword);
+		return dao.updateMemberPassword(memberId, updatePassword);
 	}
 
 	@Override
@@ -53,9 +53,9 @@ public class MemberServiceImple implements MemberService {
 	}
 
 	@Override
-	public int deleteMember(int memberNo, String memberPassword) {
-		logger.info("deleteMember() 호출 : memberNo = "+memberNo);
-		return dao.deleteMember(memberNo, memberPassword);
+	public int deleteMember(String memberId, String memberPassword) {
+		logger.info("deleteMember() 호출 : memberNo = "+memberId);
+		return dao.deleteMember(memberId, memberPassword);
 	}
 
-}
+} // end class

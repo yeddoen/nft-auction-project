@@ -82,4 +82,6 @@ public class MemberController {
 	public void readMyPage() {
 		logger.info("readMyPage() 호출");
 	}
+	
+	
 }
