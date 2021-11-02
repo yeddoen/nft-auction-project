@@ -78,7 +78,7 @@ public class MemberController {
 		}
 	} //end loginMemberPOST()
 	
-	@GetMapping("/my-page")
+	@GetMapping("/my-page/member")
 	public void readMyPage() {
 		logger.info("readMyPage() 호출");
 	}

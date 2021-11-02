@@ -39,7 +39,7 @@
 	
 	<interceptors>
 		<interceptor>
-			<mapping path="/members/my-page" />
+			<mapping path="/members/my-page/*" />
 			<beans:ref bean="loginInterceptor"/>
 		</interceptor>
 	</interceptors>
