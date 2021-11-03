@@ -21,8 +21,12 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="project.spring.nft" />
-	
+	<!-- 파일업로드 최대 용량 설정 - 1024 * 1024 * 10B = 10MB -->
+	<beans:bean id="multipartResolver" 
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="10485760"></beans:property>
+	</beans:bean>
+
 	<!-- 뒤로가기 캐쉬 삭제 설정 -->
 	<interceptors>
 		<beans:bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
@@ -39,9 +43,11 @@
 	
 	<interceptors>
 		<interceptor>
-			<mapping path="/members/my-page" />
+			<mapping path="/members/my-page/**" />
+			<mapping path="/arts/register" />
 			<beans:ref bean="loginInterceptor"/>
 		</interceptor>
 	</interceptors>
 	
+	<context:component-scan base-package="project.spring.nft" />
 </beans:beans>

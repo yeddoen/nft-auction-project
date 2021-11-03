@@ -1,30 +1,36 @@
 package project.spring.nft.domain;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 //작품 vo
 public class ArtVO {
-	private int artNo, memberNo;
+	private int artNo;
+	private String memberId;
 	private String artName;
 	private int artPrice;
 	private String artContent;
-	private Date artDate;
+	private String artShowDate;
 	private int artReplyCount, artWishCount, artViewCount;
+	private String artFileName;
+	private String memberNickname;
 	
 	public ArtVO() {}
 
-	public ArtVO(int artNo, int memberNo, String artName, int artPrice, String artContent, Date artDate,
-			int artReplyCount, int artWishCount, int artViewCount) {
+	public ArtVO(int artNo, String memberId, String artName, int artPrice, String artContent, String artShowDate,
+			int artReplyCount, int artWishCount, int artViewCount, String artFileName, String memberNickname) {
 		super();
 		this.artNo = artNo;
-		this.memberNo = memberNo;
+		this.memberId = memberId;
 		this.artName = artName;
 		this.artPrice = artPrice;
 		this.artContent = artContent;
-		this.artDate = artDate;
+		this.artShowDate = artShowDate;
 		this.artReplyCount = artReplyCount;
 		this.artWishCount = artWishCount;
 		this.artViewCount = artViewCount;
+		this.artFileName = artFileName;
+		this.memberNickname = memberNickname;
 	}
 
 	public int getArtNo() {
@@ -35,12 +41,12 @@ public class ArtVO {
 		this.artNo = artNo;
 	}
 
-	public int getMemberNo() {
-		return memberNo;
+	public String getMemberId() {
+		return memberId;
 	}
 
-	public void setMemberNo(int memberNo) {
-		this.memberNo = memberNo;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
 
 	public String getArtName() {
@@ -67,12 +73,12 @@ public class ArtVO {
 		this.artContent = artContent;
 	}
 
-	public Date getArtDate() {
-		return artDate;
+	public String getArtShowDate() {
+		return artShowDate;
 	}
 
-	public void setArtDate(Date artDate) {
-		this.artDate = artDate;
+	public void setArtShowDate(String artShowDate) {
+		this.artShowDate = artShowDate;
 	}
 
 	public int getArtReplyCount() {
@@ -99,11 +105,29 @@ public class ArtVO {
 		this.artViewCount = artViewCount;
 	}
 
+	public String getArtFileName() {
+		return artFileName;
+	}
+
+	public void setArtFileName(String artFileName) {
+		this.artFileName = artFileName;
+	}
+
+	public String getMemberNickname() {
+		return memberNickname;
+	}
+
+	public void setMemberNickname(String memberNickname) {
+		this.memberNickname = memberNickname;
+	}
+
 	@Override
 	public String toString() {
-		return "ArtVO [artNo=" + artNo + ", memberNo=" + memberNo + ", artName=" + artName + ", artPrice=" + artPrice
-				+ ", artContent=" + artContent + ", artDate=" + artDate + ", artReplyCount=" + artReplyCount
-				+ ", artWishCount=" + artWishCount + ", artViewCount=" + artViewCount + "]";
+		return "ArtVO [artNo=" + artNo + ", memberId=" + memberId + ", artName=" + artName + ", artPrice=" + artPrice
+				+ ", artContent=" + artContent + ", artShowDate=" + artShowDate + ", artReplyCount=" + artReplyCount
+				+ ", artWishCount=" + artWishCount + ", artViewCount=" + artViewCount + ", artFileName=" + artFileName
+				+ ", memberNickname=" + memberNickname + "]";
 	}
+	
 	
 }

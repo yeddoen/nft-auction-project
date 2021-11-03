@@ -60,6 +60,7 @@ public class MemberController {
 		
 		if(vo!=null) { //아이디, 비밀번호가 일치하는 정보가 존재할 경우
 			logger.info("로그인 성공 : memberNo = "+vo.getMemberNo());
+			reAttr.addFlashAttribute("loginResult", "success"); 
 			HttpSession session=request.getSession();
 			session.setAttribute("memberId", memberId); //id세션 생성
 			
@@ -78,7 +79,16 @@ public class MemberController {
 		}
 	} //end loginMemberPOST()
 	
-	@GetMapping("/my-page")
+	@GetMapping("/logout")
+	public String logoutMember(HttpServletRequest request, RedirectAttributes reAttr) {
+		logger.info("logoutMember() 호출");
+		HttpSession session=request.getSession();
+		session.removeAttribute("memberId");
+		reAttr.addFlashAttribute("logoutResult", "success"); 
+		return "redirect:/main";
+	}
+	
+	@GetMapping("/my-page/member")
 	public void readMyPage() {
 		logger.info("readMyPage() 호출");
 	}
