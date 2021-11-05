@@ -174,6 +174,7 @@ public class MemberController {
 			return "redirect:/members/my-page/member";
 		}
 
+	}
 	
 	@GetMapping("/logout")
 	public String logoutMember(HttpServletRequest request, RedirectAttributes reAttr) {
@@ -183,7 +184,7 @@ public class MemberController {
 		reAttr.addFlashAttribute("logoutResult", "success"); 
 		return "redirect:/main";
 	}
-	}
+	
 
 	// delete의 GET
 	@GetMapping("/my-page/delete")
