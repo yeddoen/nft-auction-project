@@ -5,8 +5,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- 모바일 디바이스에서 터치/줌 등을 지원하기 위한 meta 태그 -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 제이쿼리 -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<title>Insert title here</title>
+<!-- 부트스트랩 -->
+<link rel="stylesheet"
+	href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+
+<title>회원탈퇴</title>
 <style type="text/css">
 /* 사이드바 래퍼 스타일 */
 .aside {
@@ -78,7 +88,7 @@
 			<div id="sidebar-wrapper">
 				<ul class="sidebar-nav">
 					<li class="sidebar-brand"><a href="#">마이페이지</a></li>
-					<li><a href="#">회원정보</a></li>
+					<li><a href="member">회원정보</a></li>
 					<li><a href="#">위시리스트</a></li>
 					<li><a href="#">등록작품내역</a></li>
 					<li><a href="#">구매작품내역</a></li>
@@ -94,38 +104,19 @@
 			<!-- 본문 헤더 -->
 			<div id="page-content-wrapper">
 				<div class="container-fluid">
-					<h1>회원을 탈퇴하시겠습니까?</h1>
+					<h1>정말 회원을 탈퇴하시겠습니까?</h1>
 				</div>
 			</div>
 
 			<div class="content">
-				<!-- 회원 정보 기본적으로 보여주기 -->
-				<!-- 아이디, 비밀번호(수정페이지로) 이름, 닉네임, 전화번호, 이메일 -->
+				<p>비밀번호를 입력해주세요.</p>
 				<p>
 					아이디<span>&nbsp;${vo.memberId }</span>
 				</p>
-				<p>
-					비밀번호
-					<button type="button" id="btn-password" onclick="location.href=''">비밀번호
-						변경</button>
-				</p>
-				<p>
-					이름<span>&nbsp;${vo.memberName}</span>
-				</p>
-				<p>
-					닉네임<span>&nbsp;${vo.memberNickname }</span>
-				</p>
-				<p>
-					전화번호<span>&nbsp;${vo.memberPhone }</span>
-				</p>
-				<p>
-					이메일<span>&nbsp;${vo.memberEmail }</span>
-				</p>
-			</div>
-
-			<div class="content-btn">
-				<button type="button" onclick="location.href='update'">회원정보수정</button>
-				<button type="button" onclick="location.href='delete'">회원탈퇴</button>
+					<form action="delete" method="post">
+					비밀번호 <input type="password" id="member_pw" name="memberPassword" placeholder="비밀번호 입력" required> 
+						<input type="submit" value="탈퇴하기" id="btn-delete">
+					</form>
 			</div>
 
 		</div>

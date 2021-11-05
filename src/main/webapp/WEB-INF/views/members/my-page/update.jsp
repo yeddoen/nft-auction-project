@@ -77,7 +77,7 @@
 
 .section {
 	width: 70%;
-	align : right;
+	align: right;
 }
 </style>
 </head>
@@ -107,33 +107,45 @@
 					<h1>회원 정보</h1>
 				</div>
 			</div>
-			
+
 			<div class="content">
 				<!-- 회원 정보 수정하기 -->
 				<!-- 아이디, 비밀번호(수정페이지로) 이름, 닉네임, 전화번호, 이메일 -->
-				<p>아이디</p><p>${vo.memberId }</p>
-				<p>비밀번호<button type="button" id="btn-password" onclick="location.href='password-change'">비밀번호 변경</button></p>
-				<p>이름</p><p>${vo.memberName}</p>
-				<p>닉네임</p><input type="text" name="memberNickname" placeholder="닉네임 입력" required="required"><br>
-				<p>전화번호</p><input type="text" name="memberPhone" placeholder="전화번호 입력" required="required"><br>
-				<p>이메일</p><input type="text" name="memberEmail" placeholder="이메일 입력" required="required"><br>
-				<p><input type="submit" value="정보변경" >
+				<!-- ajax 방식 -->
+				<form action="update" method="POST">
+					<p>아이디</p>
+					<p>${vo.memberId }</p>
+					<!-- <input type="text" id="memberId" name="memerId" placeholder="${vo.memberId }" readonly="readonly"> -->
+					<!-- 아이디도 form으로 보내야함!! -->
+					<p>
+						비밀번호
+						<button type="button" id="btn-password"
+							onclick="location.href='password-change'">비밀번호 변경</button>
+					</p>
+					<p>이름</p>
+					<p>${vo.memberName}</p>
+					<p>닉네임</p>
+					<input type="text" id="memberNickname" name="memberNickname"
+						placeholder="닉네임 입력" required="required"><br>
+					<p>전화번호</p>
+					<input type="text" id="memberPhone" name="memberPhone"
+						placeholder="전화번호 입력" required="required"><br>
+					<p>이메일</p>
+					<input type="text" id="memberEmail" name="memberEmail"
+						placeholder="이메일 입력" required="required"><br>
+					<p>
+						<input type="submit" id="btn-update" value="회원정보수정">
+					</p>
+				</form>
 			</div>
-			
+
 			<div class="content-btn">
-				<button type="button" id="btn-delete">회원탈퇴</button><!-- 페이지 이동이 아니고 프롬프트 창 띄워 확인받기. -->
+					<button type="button" id="btn-delete"
+						onclick="location.href='delete'">회원탈퇴</button>
 			</div>
-			
+
 		</div>
 	</section>
-	
-	<script type="text/javascript">
-
-		// 회원 탈퇴 프롬프트창 띄우기
-		$('#btn-delete').onclick(function(){    
-		});
-	</script>
-	
 
 </body>
 </html>
