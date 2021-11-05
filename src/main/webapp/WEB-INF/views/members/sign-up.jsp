@@ -74,14 +74,14 @@
 		<p><input type="password" id="confirm_pw" placeholder="비밀번호 확인" required></p>
 		<span id="confirm_pw_result"></span>
 		<p><input type="text" name="memberNickname" placeholder="닉네임 입력" required></p>
-<<<<<<< HEAD
+
 		<p><input type="text" name="memberPhone" placeholder="전화번호 입력" required></p>
 		<p><input type="text" name="memberEmail" placeholder="이메일 입력" required></p>
 		<p><button class="enableEthereumButton">메타마스크연동</button></p>
-=======
+
 		<p><input type="text" id="member_phone" name="memberPhone" placeholder="전화번호 ('-'없이) 입력" required></p>
 		<p><input type="email" id="member_email" name="memberEmail" placeholder="이메일 입력" required></p>
->>>>>>> 72acca13814712c5b9ec63e80a4e24af4b149b39
+
 		<p><input type="submit" value="가입하기">
 	</form>
 	</div>
@@ -206,7 +206,7 @@
 						$('#confirm_pw_result').html("비밀번호가 일치하지 않습니다.");
 					}
 				}
-<<<<<<< HEAD
+
 			}); //end confirm_pw blur()
 			
 			// TODO : 현재 request로 메타마스크 api만 실행하게 만듬. 
@@ -224,8 +224,8 @@
 		  	    console.log('Please install MetaMask!');
 		  		location.href = "https://metamask.io/";
 		  	}
-=======
-			}); //end confirm_pw blur()		
+
+
 			
 			/* 전화번호 형식적용 */
 			$('#member_phone').keyup(function(){
@@ -237,7 +237,7 @@
 				var regPhone=member_phone.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3")
 				$('#member_phone').val(regPhone);
 			}); //end member_phone keyup()
->>>>>>> 72acca13814712c5b9ec63e80a4e24af4b149b39
+
 			
 		}); //end document
 	</script>
