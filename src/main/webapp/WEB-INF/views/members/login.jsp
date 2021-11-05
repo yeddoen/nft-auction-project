@@ -19,6 +19,7 @@
 		<input type="hidden" id="login_result" value="${loginResult }">
 		<a href="sign-up"><button>회원가입</button></a>
 	</div>
+	<!-- JavaScript -->
 	<script type="text/javascript">
 		$(function() {
 			confirmLoginReslut();

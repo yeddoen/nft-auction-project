@@ -16,8 +16,22 @@
 	var member_check=false; //본인인증 확인용
 	var pw_check=false; //비밀번호 확인용
 		
+	var id_check=false; //아이디 중복체크
+	var member_check=false; //본인인증 확인
+	var pw_check=false; //비밀번호 확인
+ 		
 	/* 가입하기 버튼 활성화 */
 	function submitAble() {
+		var phone=$('#member_phone').val();
+		var email=$('#member_email').val();
+		//전화번호 정규표현식 적용
+		var phone_check=
+			/^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+		phone=phone.replace(/(.{3,4})/g,'-');
+		//이메일 정규표현식 적용
+		var email_check=
+			/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+
 		console.log(id_check+", "+member_check+", "+pw_check);
 		if(id_check==false){
 			alert("아이디 중복체크를 해주세요.");
@@ -31,6 +45,14 @@
 			alert("비밀번호 확인을 진행해주세요.");
 			return false;
 		}
+		if(phone_check.test(phone) === false){
+			alert('올바른 전화번호를 입력해주세요.');
+			return false;
+		}
+		if (email_check.test(email) === false) {
+	    	alert('올바른 이메일 형식을 입력해주세요.');
+	    	return false;
+	    }
 		return true;
 	}//end submitAble()
 </script>
@@ -52,9 +74,14 @@
 		<p><input type="password" id="confirm_pw" placeholder="비밀번호 확인" required></p>
 		<span id="confirm_pw_result"></span>
 		<p><input type="text" name="memberNickname" placeholder="닉네임 입력" required></p>
+<<<<<<< HEAD
 		<p><input type="text" name="memberPhone" placeholder="전화번호 입력" required></p>
 		<p><input type="text" name="memberEmail" placeholder="이메일 입력" required></p>
 		<p><button class="enableEthereumButton">메타마스크연동</button></p>
+=======
+		<p><input type="text" id="member_phone" name="memberPhone" placeholder="전화번호 ('-'없이) 입력" required></p>
+		<p><input type="email" id="member_email" name="memberEmail" placeholder="이메일 입력" required></p>
+>>>>>>> 72acca13814712c5b9ec63e80a4e24af4b149b39
 		<p><input type="submit" value="가입하기">
 	</form>
 	</div>
@@ -179,6 +206,7 @@
 						$('#confirm_pw_result').html("비밀번호가 일치하지 않습니다.");
 					}
 				}
+<<<<<<< HEAD
 			}); //end confirm_pw blur()
 			
 			// TODO : 현재 request로 메타마스크 api만 실행하게 만듬. 
@@ -196,6 +224,20 @@
 		  	    console.log('Please install MetaMask!');
 		  		location.href = "https://metamask.io/";
 		  	}
+=======
+			}); //end confirm_pw blur()		
+			
+			/* 전화번호 형식적용 */
+			$('#member_phone').keyup(function(){
+				var member_phone=$('#member_phone').val();
+				console.log(member_phone);
+				//'-' 입력 막기
+				member_phone=member_phone.replace(/[^0-9]/g,'');
+				//전화번호 '-' 자동 삽입
+				var regPhone=member_phone.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/,"$1-$2-$3")
+				$('#member_phone').val(regPhone);
+			}); //end member_phone keyup()
+>>>>>>> 72acca13814712c5b9ec63e80a4e24af4b149b39
 			
 		}); //end document
 	</script>
