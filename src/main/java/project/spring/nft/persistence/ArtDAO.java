@@ -3,6 +3,7 @@ package project.spring.nft.persistence;
 import java.util.List;
 
 import project.spring.nft.domain.ArtVO;
+import project.spring.nft.pageutil.PageCriteria;
 
 //TODO 기능추가 필요
 public interface ArtDAO {
@@ -11,15 +12,21 @@ public interface ArtDAO {
 	//회원닉네임 업데이트
 	int updateNickName(String memberId);
 	//최신순 정렬 전체 작품 조회
-	List<ArtVO> selectCurrentArt();
+	List<ArtVO> selectCurrentArt(PageCriteria criteria);
 	//찜하기순 정렬 전체 작품 조회
-	List<ArtVO> selectWishArt();
+	List<ArtVO> selectWishArt(PageCriteria criteria);
 	//조회수순 정렬  전체 작품 조회
-	List<ArtVO> selectViewArt();
+	List<ArtVO> selectViewArt(PageCriteria criteria);
+	//작품 전체 개수
+	int getTotalNumsOfRecords();
+	//작품명 검색 개수
+	int getArtNameNumsOfRecords();
+	//작가명 검색 개수
+	int getNicknameNumsOfRecords();		
 	//작품명 검색
-	List<ArtVO> selectArtName(String keyword);
+	List<ArtVO> selectArtName(PageCriteria criteria, String keyword);
 	//작가이름 검색
-	List<ArtVO> selectMemberNo(String keyword);
+	List<ArtVO> selectMemberNickname(PageCriteria criteria, String keyword);
 	//작품 데이터(작품명, 작품설명) 수정
 	//작품(게시된) 삭제
 	

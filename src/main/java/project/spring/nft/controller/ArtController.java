@@ -25,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import project.spring.nft.domain.ArtVO;
+import project.spring.nft.pageutil.PageCriteria;
+import project.spring.nft.pageutil.PageMaker;
 import project.spring.nft.service.ArtService;
 import project.spring.nft.util.FileUploadUtil;
 import project.spring.nft.util.MediaUtil;
@@ -41,13 +43,128 @@ public class ArtController {
 	private ArtService artService;
 	
 	@GetMapping("main")
-	public void main(Model model) {
+	public void main(Model model, Integer page, Integer numsPerPage) {
 		logger.info("readMain() 호출");
-		
-		List<ArtVO> list=artService.readCurrentArt();
-		model.addAttribute("list", list);
-	}
+		logger.info("page = "+page+", numsPerPage = "+numsPerPage);
+		currentAllList(model, page, numsPerPage);
+	} //end main()
 	
+	@GetMapping("cur")
+	public String currentSort(Model model, Integer page, Integer numsPerPage) {
+		logger.info("currentSort() 호출");
+		logger.info("page = "+page+", numsPerPage = "+numsPerPage);
+		currentAllList(model, page, numsPerPage);
+		
+		return "main";
+	} //end currentSort()
+	
+	private void currentAllList(Model model, Integer page, Integer numsPerPage) {
+		logger.info("currentAllList() 호출");
+		
+		PageCriteria criteria = new PageCriteria();
+		if(page !=null) {
+			criteria.setPage(page);
+		}
+		if(numsPerPage!=null) {
+			criteria.setNumsPerPage(numsPerPage);
+		}
+		
+		List<ArtVO> list=artService.readCurrentArt(criteria);
+		model.addAttribute("list", list); //list 데이터 보내기
+		
+		PageMaker pageMaker=new PageMaker();
+		pageMaker.setCriteria(criteria);
+		pageMaker.setTotalCount(artService.getTotalNumsOfRecords());
+		pageMaker.setPageData();
+		model.addAttribute("pageMaker", pageMaker);
+	} //end currentAllList()
+	
+	@GetMapping("wish")
+	public String wishSort(Model model, Integer page, Integer numsPerPage) {
+		logger.info("wishSort() 호출");
+		logger.info("page = "+page+", numsPerPage = "+numsPerPage);
+
+		PageCriteria criteria = new PageCriteria();
+		if(page !=null) {
+			criteria.setPage(page);
+		}
+		if(numsPerPage!=null) {
+			criteria.setNumsPerPage(numsPerPage);
+		}
+		
+		List<ArtVO> list=artService.readWishArt(criteria);
+		model.addAttribute("list", list); //list 데이터 보내기
+		
+		PageMaker pageMaker=new PageMaker();
+		pageMaker.setCriteria(criteria);
+		pageMaker.setTotalCount(artService.getTotalNumsOfRecords());
+		pageMaker.setPageData();
+		model.addAttribute("pageMaker", pageMaker);
+		
+		return "main";
+	} //end wishSort()
+	
+	@GetMapping("view")
+	public String viewSort(Model model, Integer page, Integer numsPerPage) {
+		logger.info("viewSort() 호출");
+		logger.info("page = "+page+", numsPerPage = "+numsPerPage);
+
+		PageCriteria criteria = new PageCriteria();
+		if(page !=null) {
+			criteria.setPage(page);
+		}
+		if(numsPerPage!=null) {
+			criteria.setNumsPerPage(numsPerPage);
+		}
+		
+		List<ArtVO> list=artService.readViewArt(criteria);
+		model.addAttribute("list", list); //list 데이터 보내기
+		
+		PageMaker pageMaker=new PageMaker();
+		pageMaker.setCriteria(criteria);
+		pageMaker.setTotalCount(artService.getTotalNumsOfRecords());
+		pageMaker.setPageData();
+		model.addAttribute("pageMaker", pageMaker);
+		
+		return "main";
+	} //end viewSort()
+	
+	@GetMapping("search")
+	public String search(Model model, Integer page, Integer numsPerPage,
+			String category, String keyword) {
+		logger.info("search() 호출 : category = "+category+", keyword = "+keyword);	
+		logger.info("page = "+page+", numsPerPage = "+numsPerPage);
+
+		PageCriteria criteria = new PageCriteria();
+		if(page !=null) {
+			criteria.setPage(page);
+		}
+		if(numsPerPage!=null) {
+			criteria.setNumsPerPage(numsPerPage);
+		}
+		
+		List<ArtVO> list=null;
+		PageMaker pageMaker=new PageMaker();
+		
+		if(category.equals("artName")) { //직품명 검색
+			list=artService.readArtName(criteria, keyword);	
+			pageMaker.setTotalCount(artService.getArtNameNumsOfRecords());
+		}else { //작가닉네임 검색
+			list=artService.readMemberNickname(criteria, keyword);		
+			pageMaker.setTotalCount(artService.getNicknameNumsOfRecords());
+
+		}
+		model.addAttribute("list", list);
+		
+
+		pageMaker.setCriteria(criteria);
+		pageMaker.setTotalCount(artService.getTotalNumsOfRecords());
+		pageMaker.setPageData();
+		model.addAttribute("pageMaker", pageMaker);
+		
+		return "main";
+	} //end search()
+
 	@GetMapping("/arts/register")
 	public void registerGET() {
 		logger.info("registerGET() 호출");
@@ -77,7 +194,6 @@ public class ArtController {
 	
 	@PostMapping("/arts/upload-ajax")
 	@ResponseBody
-	//컨트롤러에서 데이터만 전송할 때 @ResposeBody
 	public ResponseEntity<String> uploadAjaxPOST(MultipartFile[] files) throws IOException {
 		logger.info("uploadAjaxPOST() 호출");
 		
@@ -85,8 +201,6 @@ public class ArtController {
 		String result=null; //파일 경로 및 썸네일 이미지 이름
 		result=FileUploadUtil.saveUploadedFile(
 				uploadPath, files[0].getOriginalFilename(), files[0].getBytes()); 
-		//getOriginalFilename() : 파일 이름
-		//getBytes() : 파일 정보
 		
 		return new ResponseEntity<String>(result, HttpStatus.OK);
 	} //end uploadAjaxPOST()
@@ -98,12 +212,20 @@ public class ArtController {
 		ResponseEntity<byte[]> entity=null;
 		InputStream in=null;
 		
+		//파일 확장자
+		String extension=fileName.substring(fileName.lastIndexOf(".")+1);
+		logger.info(extension);
+		
+		if(extension.equals("gif")) { //확장자가 gif인 경우
+			fileName=fileName.replace("s_", "");
+		}
+		
 		String filePath=uploadPath+fileName;
 		in=new FileInputStream(filePath); //파일넣기
 		
 		//파일 확장자
-		String extension=filePath.substring(filePath.lastIndexOf(".")+1);
-		logger.info(extension);
+//		String extension=filePath.substring(filePath.lastIndexOf(".")+1);
+//		logger.info(extension);
 		
 		//응답헤더(response header) org.springframework.http에 Content-Type 설정
 		HttpHeaders httpHeaders=new HttpHeaders();

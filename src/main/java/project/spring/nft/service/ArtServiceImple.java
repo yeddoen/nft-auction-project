@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import project.spring.nft.domain.ArtVO;
+import project.spring.nft.pageutil.PageCriteria;
 import project.spring.nft.persistence.ArtDAO;
 
 @Service
@@ -31,33 +32,51 @@ public class ArtServiceImple implements ArtService {
 	}
 
 	@Override
-	public List<ArtVO> readCurrentArt() {
+	public List<ArtVO> readCurrentArt(PageCriteria criteria) {
 		logger.info("readCurrentArt() 호출");
-		return dao.selectCurrentArt();
+		return dao.selectCurrentArt(criteria);
 	}
 
 	@Override
-	public List<ArtVO> readWishArt() {
+	public List<ArtVO> readWishArt(PageCriteria criteria) {
 		logger.info("readWishArt() 호출");
-		return dao.selectWishArt();
+		return dao.selectWishArt(criteria);
 	}
 
 	@Override
-	public List<ArtVO> readViewArt() {
+	public List<ArtVO> readViewArt(PageCriteria criteria) {
 		logger.info("readViewArt() 호출");
-		return dao.selectViewArt();
+		return dao.selectViewArt(criteria);
+	}
+	
+	@Override
+	public int getTotalNumsOfRecords() {
+		logger.info("getTotalNumsOfRecords() 호출");
+		return dao.getTotalNumsOfRecords();
+	}
+	
+	@Override
+	public int getArtNameNumsOfRecords() {
+		logger.info("getArtNameNumsOfRecords() 호출");
+		return dao.getArtNameNumsOfRecords();
+	}
+	
+	@Override
+	public int getNicknameNumsOfRecords() {
+		logger.info("getNicknameNumsOfRecords() 호출");
+		return dao.getNicknameNumsOfRecords();
 	}
 
 	@Override
-	public List<ArtVO> readArtName(String keyword) {
+	public List<ArtVO> readArtName(PageCriteria criteria, String keyword) {
 		logger.info("readArtName() 호출 : keyword = "+keyword);
-		return dao.selectArtName(keyword);
+		return dao.selectArtName(criteria, keyword);
 	}
 
 	@Override
-	public List<ArtVO> readMemberNo(String keyword) {
+	public List<ArtVO> readMemberNickname(PageCriteria criteria, String keyword) {
 		logger.info("readMemberNo() : keyword = "+keyword);
-		return dao.selectMemberNo(keyword);
+		return dao.selectMemberNickname(criteria, keyword);
 	}
 
 }

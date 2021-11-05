@@ -32,26 +32,26 @@ public class ArtDAOTest {
 		//testSelect();
 	}
 
-	private void testSelect() {
-		List<ArtVO> list=dao.selectCurrentArt();
-		for (ArtVO vo : list) {
-			System.out.println(vo.toString());
-		}
-	}
+//	private void testSelect() {
+//		List<ArtVO> list=dao.selectCurrentArt();
+//		for (ArtVO vo : list) {
+//			System.out.println(vo.toString());
+//		}
+//	}
 
-	private void testSearch2() {
-		List<ArtVO> list=dao.selectMemberNo("관리");
-		for (ArtVO vo : list) {
-			System.out.println(vo.toString());
-		}
-	}
-
-	private void testSearch() {
-		List<ArtVO> list=dao.selectArtName("테스");
-		for (ArtVO vo : list) {
-			System.out.println(vo.toString());
-		}
-	}
+//	private void testSearch2() {
+//		List<ArtVO> list=dao.selectMemberNickname("관리");
+//		for (ArtVO vo : list) {
+//			System.out.println(vo.toString());
+//		}
+//	}
+//
+//	private void testSearch() {
+//		List<ArtVO> list=dao.selectArtName("테스");
+//		for (ArtVO vo : list) {
+//			System.out.println(vo.toString());
+//		}
+//	}
 
 	private void testInsert() {
 		ArtVO vo=new ArtVO(0, "test", "제발요요", 10000, "테스트중", null, 0, 0, 0, "s_ssssss.png", "");

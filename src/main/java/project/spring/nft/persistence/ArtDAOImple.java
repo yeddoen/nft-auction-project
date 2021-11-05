@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import project.spring.nft.domain.ArtVO;
+import project.spring.nft.pageutil.PageCriteria;
 
 @Repository
 public class ArtDAOImple implements ArtDAO {
@@ -36,35 +37,59 @@ public class ArtDAOImple implements ArtDAO {
 	}
 	
 	@Override
-	public List<ArtVO> selectCurrentArt() {
-		logger.info("selectCurrentArt() 호출");
-		return sqlSession.selectList(NAMESPACE+".select_all_by_no");
+	public List<ArtVO> selectCurrentArt(PageCriteria criteria) {
+		logger.info("selectCurrentArt() 호출 : criteria = "+criteria);
+		return sqlSession.selectList(NAMESPACE+".select_all_by_no", criteria);
 	}
 
 	@Override
-	public List<ArtVO> selectWishArt() {
-		logger.info("selectWishArt() 호출");
-		return sqlSession.selectList(NAMESPACE+".select_all_by_wish");
+	public List<ArtVO> selectWishArt(PageCriteria criteria) {
+		logger.info("selectWishArt() 호출 : criteria = "+criteria);
+		return sqlSession.selectList(NAMESPACE+".select_all_by_wish", criteria);
 	}
 
 	@Override
-	public List<ArtVO> selectViewArt() {
-		logger.info("selectViewArt() 호출");
-		return sqlSession.selectList(NAMESPACE+".select_all_by_view");
+	public List<ArtVO> selectViewArt(PageCriteria criteria) {
+		logger.info("selectViewArt() 호출 : criteria = "+ criteria);
+		return sqlSession.selectList(NAMESPACE+".select_all_by_view", criteria);
+	}
+	
+	@Override
+	public int getTotalNumsOfRecords() {
+		logger.info("getTotalNumsOfRecords() 호출");
+		return sqlSession.selectOne(NAMESPACE+".select_total_cnt");
+	}
+	
+	@Override
+	public int getArtNameNumsOfRecords() {
+		logger.info("getArtNameNumsOfRecords() 호출");
+		return sqlSession.selectOne(NAMESPACE+".select_art_name_cnt");
+	}
+	
+	@Override
+	public int getNicknameNumsOfRecords() {
+		logger.info("getNicknameNumsOfRecords() 호출");
+		return sqlSession.selectOne(NAMESPACE+".select_nickname_cnt");
 	}
 
 	@Override
-	public List<ArtVO> selectArtName(String keyword) {
+	public List<ArtVO> selectArtName(PageCriteria criteria, String keyword) {
 		logger.info("selectArtName() 호출");
 		keyword=keyword+"%";
-		return sqlSession.selectList(NAMESPACE+".select_by_art_name", keyword);
+		Map<String, Object> searchMap=new HashMap<String, Object>();
+		searchMap.put("criteria", criteria);
+		searchMap.put("keyword", keyword);
+		return sqlSession.selectList(NAMESPACE+".select_by_art_name", searchMap);
 	}
 
 	@Override
-	public List<ArtVO> selectMemberNo(String keyword) {
+	public List<ArtVO> selectMemberNickname(PageCriteria criteria, String keyword) {
 		logger.info("selectMemberNo() 호출");
 		keyword=keyword+"%";
-		return sqlSession.selectList(NAMESPACE+".select_by_member_no", keyword);
+		Map<String, Object> searchMap=new HashMap<String, Object>();
+		searchMap.put("criteria", criteria);
+		searchMap.put("keyword", keyword);
+		return sqlSession.selectList(NAMESPACE+".select_by_member_nickname", searchMap);
 	}
 
 }

@@ -22,38 +22,93 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 최신순 정렬(기본값) -->
 	<select id="select_all_by_no" resultType="ArtVO">
-		select * 
-		from ${art}
-		order by ${artNo} desc
+		select b.${artNo}, b.${memberId}, b.${artName}, b.${artPrice}, 
+			b.${artContent}, b.${artShowDate}, b.${artReplyCount}, 
+			b.${artWishCount}, b.${artViewCount}, b.${artFileName}, b.${memberNickname}
+		from (
+		    select rownum rn, a.*
+		    from(
+		        select * from ${art} order by ${artNo} desc
+		    )a
+		)b
+		where rn between #{start} and #{end}
 	</select>
 	
 	<!-- 찜하기순 정렬 -->
 	<select id="select_all_by_wish" resultType="ArtVO">
-		select *
-		from ${art}
-		order by ${artWishCount} desc
+		select b.${artNo}, b.${memberId}, b.${artName}, b.${artPrice}, 
+			b.${artContent}, b.${artShowDate}, b.${artReplyCount}, 
+			b.${artWishCount}, b.${artViewCount}, b.${artFileName}, b.${memberNickname}
+		from (
+		    select rownum rn, a.*
+		    from(
+		        select * from ${art} order by ${artWishCount} desc
+		    )a
+		)b
+		where rn between #{start} and #{end}
 	</select>
 	
 	<!-- 조회수순 정렬 -->
 	<select id="select_all_by_view" resultType="ArtVO">
-		select *
-		from ${art}
-		order by ${artViewCount} desc
+		select b.${artNo}, b.${memberId}, b.${artName}, b.${artPrice}, 
+			b.${artContent}, b.${artShowDate}, b.${artReplyCount}, 
+			b.${artWishCount}, b.${artViewCount}, b.${artFileName}, b.${memberNickname}
+		from (
+		    select rownum rn, a.*
+		    from(
+		        select * from ${art} order by ${artViewCount} desc
+		    )a
+		)b
+		where rn between #{start} and #{end}
 	</select>
+	
+	<select id="select_total_cnt" resultType="Integer">
+		select count(*) total_cnt from ${art}
+	</select>
+	
+	<select id="select_art_name_cnt" resultType="Integer">
+		select count(*) total_cnt 
+		from ${art}
+		where ${artName} like #{keyword}
+	</select>
+	
+	<select id="select_nickname_cnt" resultType="Integer">
+		select count(*) total_cnt 
+		from ${art}
+		where ${memberNickname} like #{keyword}
+	</select>		
 	
 	<!-- 작품명 검색 -->
 	<select id="select_by_art_name" resultType="ArtVO">
-		select *
-		from ${art}
-		where ${artName} like #{keyword}
-		order by ${artNo} desc
+		select b.${artNo}, b.${memberId}, b.${artName}, b.${artPrice}, 
+			b.${artContent}, b.${artShowDate}, b.${artReplyCount}, 
+			b.${artWishCount}, b.${artViewCount}, b.${artFileName}, b.${memberNickname}
+		from (
+		    select rownum rn, a.*
+		    from(
+		        select * 
+		        from ${art} 
+		        where ${artName} like #{keyword}
+				order by ${artNo} desc
+		    )a
+		)b
+		where rn between #{start} and #{end}	
 	</select>
 	
 	<!-- 작가이름 검색 -->
 	<select id="select_by_member_nickname" resultType="ArtVO">
-		select *
-		from ${art}
-		where ${memberNickname} like #{keyword}
-		order by ${artNo} desc
+		select b.${artNo}, b.${memberId}, b.${artName}, b.${artPrice}, 
+			b.${artContent}, b.${artShowDate}, b.${artReplyCount}, 
+			b.${artWishCount}, b.${artViewCount}, b.${artFileName}, b.${memberNickname}
+		from (
+		    select rownum rn, a.*
+		    from(
+		        select * 
+		        from ${art} 
+		        where ${memberNickname} like #{keyword}
+				order by ${artNo} desc
+		    )a
+		)b
+		where rn between #{start} and #{end}	
 	</select>
 </mapper>

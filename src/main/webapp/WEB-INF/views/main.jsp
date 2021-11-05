@@ -14,87 +14,123 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <!-- css -->
 <style type="text/css">
-	img { max-width: 100%; height: auto; }
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+ul {
+	list-style-type: none;
+}
+
+li {
+	display: inline-block;
+}
 </style>
 <title>메인 페이지</title>
+<script type="text/javascript">
+</script>
 </head>
 <body style="text-align: center;">
 	<!-- header -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	  <div class="container-fluid">
-	    <a class="navbar-brand" href="#">NTF-AUCTION</a>
-	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-	      <span class="navbar-toggler-icon"></span>
-	    </button>
-	    <div class="collapse navbar-collapse" id="navbarColor02">
-	      <ul class="navbar-nav ml-auto">
-	        <li class="nav-item">
-	          <a class="nav-link" href="arts/register">작품등록</a>
-	        </li>
-			<c:if test="${empty sessionScope.memberId }">
-				<li class="nav-item">
-		          <a class="nav-link" href="members/login">로그인</a>
-		        </li>
-		        <li class="nav-item">
-		          <a class="nav-link" href="members/sign-up">회원가입</a>
-		        </li>
-			</c:if>
-			<c:if test="${not empty sessionScope.memberId }">
-				<li class="nav-item">
-		          <a class="nav-link" href="members/logout">로그아웃</a>
-		        </li>
-		        <li class="nav-item">
-		          <a class="nav-link" href="members/my-page/member">마이페이지</a>
-		        </li>
-			</c:if>	
-
-	      </ul>
-	    </div>
-	  </div>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="main">NTF-AUCTION</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarColor02"
+				aria-controls="navbarColor02" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarColor02">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item"><a class="nav-link" href="arts/register">작품등록</a>
+					</li>
+					<c:if test="${empty sessionScope.memberId }">
+						<li class="nav-item"><a class="nav-link" href="members/login">로그인</a>
+						</li>
+						<li class="nav-item"><a class="nav-link"
+							href="members/sign-up">회원가입</a></li>
+					</c:if>
+					<c:if test="${not empty sessionScope.memberId }">
+						<li class="nav-item"><a class="nav-link"
+							href="members/logout">로그아웃</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="members/my-page/member">마이페이지</a></li>
+					</c:if>
+				</ul>
+			</div>
+		</div>
 	</nav>
 	<!-- 검색 -->
 	<br>
-	<div class="search" >
-		<input type="text" id="search_art" placeholder="제목 혹은 작가명 입력">
-		<button type="button" class="btn btn-primary">검색</button>
+	<div class="search">
+		<input type="radio" name="category" value="artName" checked>작품명
+		<input type="radio" name="category" value="memberNickname">작가명
+		<input type="text" id="keyword" placeholder="검색어 입력">
+		<a href="search&"><button type="button" class="btn btn-primary">검색</button></a>
 	</div>
 	<br>
 	<div class="container">
+		<!-- 정렬 기준 -->
 		<div class="row">
 			<div class="col-sm-8"></div>
 			<div class="col-sm-4">
-				<button type="button" id="current_list" class="btn">등록순</button>
-				<button type="button" id="wish_list" class="btn">찜하기순</button>
-				<button type="button" id="view_list" class="btn">조회수순</button>
+				<a href="cur"><button type="button" class="btn">등록순</button></a>
+				<a href="wish"><button type="button" class="btn">찜하기순</button></a>
+				<a href="view"><button type="button" class="btn">조회수순</button></a>
 			</div>
 		</div>
 		<br>
 		<!-- 작품 목록 -->
-		<div class="row" id="list_body">
+		<div class="row">
 			<c:forEach var="vo" items="${list }">
 				<div class="col-sm-4">
 					<div class="card border-primary mb-3" style="max-width: 20rem;">
-						<div class="card-header">by ${vo.memberNickname }</div>
+						<div class="card-header">by ${vo.memberNickname} </div>
 						<div class="card-body">
 							<h4 class="card-title">
-							<img src="/nft-auction/arts/display?fileName=${vo.artFileName }"></h4>
+								<img src="/nft-auction/arts/display?fileName=${vo.artFileName }"></h4>
 							<hr>
 							<p class="card-text">${vo.artName }
-								<button type="button" class="btn float-right">찜수 ${vo.artWishCount }</button>
-							</p>
+							<button type="button" class="btn float-right">찜수 ${vo.artWishCount}</button></p>
 						</div>
 					</div>
-				</div>
+				</div>			
 			</c:forEach>
 		</div>
+	</div>
+	<!-- 페이징처리 -->
+	<div id="paging">
+		<ul class="pagination justify-content-center">
+			<c:if test="${pageMaker.hasPrev }">
+				<li><a href="?page=${pageMaker.startPageNo-1 }">&laquo;</a></li>
+			</c:if>
+			<c:forEach begin="${pageMaker.startPageNo }" end="${pageMaker.endPageNo }" var="num">
+ 				<li class="page-item">
+					<a class="page-link" href="?page=${num }">${num }</a>
+					<input type="hidden" class="page-num" value="${num }">
+				</li>
+			</c:forEach>
+			<c:if test="${pageMaker.hasNext }">
+				<li><a href="?page=${pageMaker.endPageNo+1 }">&raquo;</a></li>
+			</c:if>
+		</ul>
 	</div>
 	<input type="hidden" id="login_result" value="${loginResult }">
 	<input type="hidden" id="logout_result" value="${logoutResult }">
 	<input type="hidden" id="join_result" value="${joinResult }">
 	<input type="hidden" id="register_result" value="${registerResult }">
+	<!-- footer -->
+	<div class="jumbotron text-center mt-5 mb-0">
+		<h4>NFT-AUCTION</h4>
+		<p>이용약관 고객센터..주소..어쩌구</p>
+	</div>
 	<!-- JavaScript -->
-	<script type="text/javascript">
+	<script type="text/javascript">		
 		$(function(){
+			pageAction();
+			/* 동작 수행 완료 alert */
 	  		confirmLoginResult();
 	  		confirmLogoutResult();
 	  		confirmJoinResult();
@@ -128,7 +164,48 @@
 				}
 			}//end confirmRegisterResult()
 			
+			/* 정렬 */
+			$('#current_list').click(function(){
+				$('#wish_list').removeClass('btn-primary');
+				$('#view_list').removeClass('btn-primary');
+				$(this).addClass('btn-primary'); //클릭된 버튼
+				currentAllList();
+			}); //end current_list click()
+
+			$('#wish_list').click(function(){
+				$('#current_list').removeClass('btn-primary');
+				$('#view_list').removeClass('btn-primary');
+				$(this).addClass('btn-primary'); //클릭된 버튼
+				wishAllList();
+			}); //end wish_list click()
+
+			$('#view_list').click(function(){
+				$('#current_list').removeClass('btn-primary');
+				$('#wish_list').removeClass('btn-primary');
+				$(this).addClass('btn-primary'); //클릭된 버튼
+				viewAllList();
+			}); //end view_list click()
+			
 		}); //end document
+		
+		/* 현재 페이지네이션 표시 */
+		function pageAction() {
+			var url = $(location).attr('search'); //쿼리스트링
+			var page_num=url.charAt(url.length-1);
+			console.log(page_num);
+			
+			$('input[class=page-num]').each(function(x){
+				console.log(x);
+				
+				if(!url && (x+1)==1){
+					$(this).parents('.page-item').last().addClass('active');
+				}
+				if(page_num == (x+1)){
+					console.log($(this).parents('.page-item').last());
+					$(this).parents('.page-item').last().addClass('active');
+				}
+			})
+		}
 	</script>
 </body>
 </html>
