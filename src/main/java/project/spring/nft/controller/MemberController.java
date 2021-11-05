@@ -175,6 +175,16 @@ public class MemberController {
 		}
 
 	}
+	
+	@GetMapping("/logout")
+	public String logoutMember(HttpServletRequest request, RedirectAttributes reAttr) {
+		logger.info("logoutMember() 호출");
+		HttpSession session=request.getSession();
+		session.removeAttribute("memberId");
+		reAttr.addFlashAttribute("logoutResult", "success"); 
+		return "redirect:/main";
+	}
+	
 
 	// delete의 GET
 	@GetMapping("/my-page/delete")

@@ -92,7 +92,7 @@
 					<li><a href="#">위시리스트</a></li>
 					<li><a href="#">등록작품내역</a></li>
 					<li><a href="#">구매작품내역</a></li>
-					<li><a href="#">QnA게시판</a></li>
+					<li><a href="../../qnaboard/qnalist">QnA게시판</a></li>
 				</ul>
 			</div>
 			<!-- /사이드바 -->
