@@ -49,9 +49,9 @@ public class QnABoardController {
 	} // end qnalist()
 	
 	@GetMapping("/qnadetail")
-	public void detail(Model model, Integer bno) {
-		logger.info("detail() 호출 : bno = " + bno);
-		QnABoardVO vo = qnaboardservice.read(bno);
+	public void detail(Model model, Integer qnaboardNo) {
+		logger.info("detail() 호출 : qnaboardNo = " + qnaboardNo);
+		QnABoardVO vo = qnaboardservice.read(qnaboardNo);
 		model.addAttribute("vo", vo);
 	} // end qnadetail()
 	
@@ -75,22 +75,29 @@ public class QnABoardController {
 			return "redirect:/qnaboard/qnaregister";
 		}
 	}
+	@GetMapping("/qnaupdate")
+	public void updateGET(Model model, Integer qnaboardNo, Integer page) {
+		logger.info("updateGET() 호출 : qnaboardNo = " + qnaboardNo);
+		QnABoardVO vo = qnaboardservice.read(qnaboardNo);
+		model.addAttribute("vo", vo);
+		model.addAttribute("page", page);
+	}
 	
 	@PostMapping("/qnaupdate")
 	public String updatePUT(QnABoardVO vo, Integer page) {
-		logger.info("updatePUT() 호출 : bno" + vo.getBno());
+		logger.info("updatePUT() 호출 : bno" + vo.getQnaboardNo());
 		int result = qnaboardservice.update(vo);
 		if(result == 1) {
 			return "redirect:/qnaboard/qnalist";
 		} else {
-			return "redirect:/qnaboard/qnaupdate?bno=" + vo.getBno();
+			return "redirect:/qnaboard/qnaupdate?bno=" + vo.getQnaboardNo();
 		}
 	}
 	
 	@GetMapping("/qnadelete")
-	public String delete(Integer bno) {
-		logger.info("delete() 호출 : bno = " + bno);
-		int result = qnaboardservice.delete(bno);
+	public String delete(Integer qnaboardNo) {
+		logger.info("delete() 호출 : bno = " + qnaboardNo);
+		int result = qnaboardservice.delete(qnaboardNo);
 		if(result == 1) {
 			return "redirect:/qnaboard/qnalist";
 		} else {

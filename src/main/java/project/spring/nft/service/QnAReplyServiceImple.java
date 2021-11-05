@@ -31,15 +31,15 @@ public class QnAReplyServiceImple implements QnAReplyService {
 		replyDAO.insert(vo);
 		logger.info("댓글 입력 성공");
 
-		boardDAO.updateReplyCount(1, vo.getReplybno());
+		boardDAO.updateReplyCount(1, vo.getQnaboardNo());
 		logger.info("게시판 댓글 개수 업데이트 성공");
 		return 1;
 	}
 
 	@Override
-	public List<QnAReplyVO> read(int replybno) {
+	public List<QnAReplyVO> read(int qnaboardNo) {
 		logger.info("read() 호출");
-		return replyDAO.select(replybno);
+		return replyDAO.select(qnaboardNo);
 	}
 
 	@Override
@@ -50,12 +50,12 @@ public class QnAReplyServiceImple implements QnAReplyService {
 
 	@Transactional
 	@Override
-	public int delete(int replyNo, int replybno) throws Exception {
+	public int delete(int replyNo, int qnaboardNo) throws Exception {
 		logger.info("delete() 호출");
 		replyDAO.delete(replyNo);
 		logger.info("댓글 삭제 성공");
 
-		boardDAO.updateReplyCount(-1, replybno);
+		boardDAO.updateReplyCount(-1, qnaboardNo);
 		logger.info("게시판 댓글 개수 업데이트 성공");
 		return 1;
 	}

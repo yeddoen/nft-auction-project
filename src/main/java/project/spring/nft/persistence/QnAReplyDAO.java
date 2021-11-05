@@ -6,7 +6,7 @@ import project.spring.nft.domain.QnAReplyVO;
 
 public interface QnAReplyDAO {
 	int insert(QnAReplyVO vo);
-	List<QnAReplyVO> select(int replybno);
+	List<QnAReplyVO> select(int qnaboardNo);
 	int update(QnAReplyVO vo);
 	int delete(int replyNo);
 	

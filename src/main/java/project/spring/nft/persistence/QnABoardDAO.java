@@ -9,10 +9,10 @@ import project.spring.nft.pageutil.PageCriteria;
 public interface QnABoardDAO {
 	int insert(QnABoardVO vo);
 	List<QnABoardVO> select();
-	QnABoardVO select(int bno);
+	QnABoardVO select(int qnaboardNo);
 	int update(QnABoardVO vo);
-	int delete(int bno);
+	int delete(int qnaboardNo);
 	List<QnABoardVO> select(PageCriteria c);
 	int getTotalNumsOfRecords();
-	int updateReplyCount(int amount, int bno);
+	int updateReplyCount(int amount, int qnaboardNo);
 }

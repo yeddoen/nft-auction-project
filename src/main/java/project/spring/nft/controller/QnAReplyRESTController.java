@@ -43,11 +43,11 @@ public class QnAReplyRESTController {
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
 	}
 
-	@GetMapping("/all/{replybno}")
+	@GetMapping("/all/{qnaboardNo}")
 	public ResponseEntity<List<QnAReplyVO>> readReplies(
-			@PathVariable("replybno") int replybno) {
+			@PathVariable("qnaboardNo") int qnaboardNo) {
 		logger.info("readReplies() 호출");
-		List<QnAReplyVO> list = replyService.read(replybno);
+		List<QnAReplyVO> list = replyService.read(qnaboardNo);
 		return new ResponseEntity<List<QnAReplyVO>>(list, HttpStatus.OK);
 	}
 	
@@ -70,7 +70,7 @@ public class QnAReplyRESTController {
 			@PathVariable("replyNo") int replyNo,
 			@RequestBody QnAReplyVO vo) {
 		try {
-			replyService.delete(replyNo, vo.getReplybno());
+			replyService.delete(replyNo, vo.getQnaboardNo());
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("fail", HttpStatus.OK);

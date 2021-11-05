@@ -28,9 +28,9 @@ public class QnABoardServiceImple implements QnABoardService {
 
 
 	@Override
-	public QnABoardVO read(int bno) {
-		logger.info("read() 호출 : bno = " + bno);
-		return dao.select(bno);
+	public QnABoardVO read(int qnaboardNo) {
+		logger.info("read() 호출 : qnaboardNo = " + qnaboardNo);
+		return dao.select(qnaboardNo);
 	}
 
 	@Override
@@ -40,9 +40,9 @@ public class QnABoardServiceImple implements QnABoardService {
 	}
 
 	@Override
-	public int delete(int bno) {
-		logger.info("delete() 호출 : bno = " + bno);
-		return dao.delete(bno);
+	public int delete(int qnaboardNo) {
+		logger.info("delete() 호출 : qnaboardNo = " + qnaboardNo);
+		return dao.delete(qnaboardNo);
 	}
 
 	@Override

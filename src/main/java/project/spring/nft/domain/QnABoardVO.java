@@ -3,67 +3,79 @@ package project.spring.nft.domain;
 import java.util.Date;
 
 public class QnABoardVO {
-	private int bno; // 게시글 번호
-	private String title; // 게시글 제목
-	private String content; // 게시글 내용
-	private String nickname; // 사용자 닉네임
-	private Date cdate; // 등록 날짜
+	private int qnaboardNo; // 게시글 번호
+	private String qnaboardTitle; // 게시글 제목
+	private String qnaboardContent; // 게시글 내용
+	private String memberId; // 사용자 아이디
+	private String memberNickname; // 사용자 닉네임
+	private Date qnaboardDate; // 등록 날짜
 	
 	public QnABoardVO() {}
 
-	public QnABoardVO(int bno, String title, String content, String nickname, Date cdate) {
+	public QnABoardVO(int qnaboardNo, String qnaboardTitle, String qnaboardContent, String memberId,
+			String memberNickname, Date qnaboardDate) {
 		super();
-		this.bno = bno;
-		this.title = title;
-		this.content = content;
-		this.nickname = nickname;
-		this.cdate = cdate;
+		this.qnaboardNo = qnaboardNo;
+		this.qnaboardTitle = qnaboardTitle;
+		this.qnaboardContent = qnaboardContent;
+		this.memberId = memberId;
+		this.memberNickname = memberNickname;
+		this.qnaboardDate = qnaboardDate;
 	}
 
-	public int getBno() {
-		return bno;
+	public int getQnaboardNo() {
+		return qnaboardNo;
 	}
 
-	public void setBno(int bno) {
-		this.bno = bno;
+	public void setQnaboardNo(int qnaboardNo) {
+		this.qnaboardNo = qnaboardNo;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getQnaboardTitle() {
+		return qnaboardTitle;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setQnaboardTitle(String qnaboardTitle) {
+		this.qnaboardTitle = qnaboardTitle;
 	}
 
-	public String getContent() {
-		return content;
+	public String getQnaboardContent() {
+		return qnaboardContent;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setQnaboardContent(String qnaboardContent) {
+		this.qnaboardContent = qnaboardContent;
 	}
 
-	public String getNickname() {
-		return nickname;
+	public String getMemberId() {
+		return memberId;
 	}
 
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
 
-	public Date getCdate() {
-		return cdate;
+	public String getMemberNickname() {
+		return memberNickname;
 	}
 
-	public void setCdate(Date cdate) {
-		this.cdate = cdate;
+	public void setMemberNickname(String memberNickname) {
+		this.memberNickname = memberNickname;
+	}
+
+	public Date getQnaboardDate() {
+		return qnaboardDate;
+	}
+
+	public void setQnaboardDate(Date qnaboardDate) {
+		this.qnaboardDate = qnaboardDate;
 	}
 
 	@Override
 	public String toString() {
-		return "QnABoardVO [bno=" + bno + ", title=" + title + ", content=" + content + ", nickname=" + nickname
-				+ ", cdate=" + cdate + "]";
+		return "QnABoardVO [qnaboardNo=" + qnaboardNo + ", qnaboardTitle=" + qnaboardTitle + ", qnaboardContent="
+				+ qnaboardContent + ", memberId=" + memberId + ", memberNickname=" + memberNickname + ", qnaboardDate="
+				+ qnaboardDate + "]";
 	}
 
 }

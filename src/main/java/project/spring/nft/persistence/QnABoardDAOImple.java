@@ -19,7 +19,7 @@ public class QnABoardDAOImple implements QnABoardDAO {
 	private static final Logger logger =
 			LoggerFactory.getLogger(QnABoardDAOImple.class);
 	private static final String NAMESPACE =
-			"project.nft.ex01.QnABoardMapper";
+			"project.spring.nft.QnABoardMapper";
 	
 	@Autowired
 	private SqlSession sqlSession;
@@ -36,9 +36,9 @@ public class QnABoardDAOImple implements QnABoardDAO {
 		return sqlSession.selectList(NAMESPACE + ".select_all");
 	}
 	@Override
-	public QnABoardVO select(int bno) {
-		logger.info("select() 호출 : bno = " + bno);
-		return sqlSession.selectOne(NAMESPACE + ".select_by_bno", bno);
+	public QnABoardVO select(int qnaboardNo) {
+		logger.info("select() 호출 : bno = " + qnaboardNo);
+		return sqlSession.selectOne(NAMESPACE + ".select_by_qnaboard_no", qnaboardNo);
 	}
 	@Override
 	public int update(QnABoardVO vo) {
@@ -46,9 +46,9 @@ public class QnABoardDAOImple implements QnABoardDAO {
 		return sqlSession.update(NAMESPACE + ".update", vo);
 	}
 	@Override
-	public int delete(int bno) {
-		logger.info("delete() 호출 : bno = " + bno);
-		return sqlSession.delete(NAMESPACE + ".delete", bno);
+	public int delete(int qnaboardNo) {
+		logger.info("delete() 호출 : bno = " + qnaboardNo);
+		return sqlSession.delete(NAMESPACE + ".delete", qnaboardNo);
 	}
 
 	@Override
@@ -62,11 +62,11 @@ public class QnABoardDAOImple implements QnABoardDAO {
 		return sqlSession.selectList(NAMESPACE + ".paging", c);
 	}
 	@Override
-	public int updateReplyCount(int amount, int bno) {
+	public int updateReplyCount(int amount, int qnaboardNo) {
 		logger.info("updateReplyCount 호출");
 		Map<String, Integer> args = new HashMap<String, Integer>();
 		args.put("amount", amount);
-		args.put("bno", bno);
+		args.put("qnaboardNo", qnaboardNo);
 		return sqlSession.update(NAMESPACE + ".update_reply_count", args);
 	}
 

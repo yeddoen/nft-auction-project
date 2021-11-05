@@ -15,7 +15,7 @@ public class QnAReplyDAOImple implements QnAReplyDAO {
 	private static final Logger logger =
 			LoggerFactory.getLogger(QnAReplyDAOImple.class);
 	private static final String NAMESPACE =
-			"project.nft.ex01.QnAReplyMapper";
+			"project.spring.nft.QnAReplyMapper";
 	
 	@Autowired
 	private SqlSession sqlsession;
@@ -27,9 +27,9 @@ public class QnAReplyDAOImple implements QnAReplyDAO {
 	}
 
 	@Override
-	public List<QnAReplyVO> select(int replybno) {
+	public List<QnAReplyVO> select(int qnaboardNo) {
 		logger.info("select() 호출");
-		return sqlsession.selectList(NAMESPACE + ".select_all_by_reply_bno", replybno);
+		return sqlsession.selectList(NAMESPACE + ".select_all_by_qnaboard_no", qnaboardNo);
 	}
 
 	@Override

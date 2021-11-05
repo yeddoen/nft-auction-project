@@ -4,25 +4,27 @@ import java.util.Date;
 
 public class QnAReplyVO {
 	private int replyNo; // 댓글 번호
-	private int replybno; // 댓글이 속한 글 번호
-	private int parentNo; // 대댓글이 속한 댓글 번호
-	private int depth; // 모댓글=0, 대댓글=1
+	private int qnaboardNo; // 댓글이 속한 글 번호
+	private int replyParentNo; // 대댓글이 속한 댓글 번호
+	private int replyDepth; // 모댓글=0, 대댓글=1
 	private String replyContent; // 댓글 내용
-	private String replyNickname; // 댓글 작성자
-	private Date rDate; // 댓글 작성 날짜
+	private String memberId; // 댓글 작성자 아이디
+	private String memberNickname; // 댓글 작성자 닉네임
+	private Date replyDate; // 댓글 작성 날짜
 	
 	public QnAReplyVO() {}
 
-	public QnAReplyVO(int replyNo, int replybno, int parentNo, int depth, String replyContent, String replyNickname,
-			Date rDate) {
+	public QnAReplyVO(int replyNo, int qnaboardNo, int replyParentNo, int replyDepth, String replyContent,
+			String memberId, String memberNickname, Date replyDate) {
 		super();
 		this.replyNo = replyNo;
-		this.replybno = replybno;
-		this.parentNo = parentNo;
-		this.depth = depth;
+		this.qnaboardNo = qnaboardNo;
+		this.replyParentNo = replyParentNo;
+		this.replyDepth = replyDepth;
 		this.replyContent = replyContent;
-		this.replyNickname = replyNickname;
-		this.rDate = rDate;
+		this.memberId = memberId;
+		this.memberNickname = memberNickname;
+		this.replyDate = replyDate;
 	}
 
 	public int getReplyNo() {
@@ -33,28 +35,28 @@ public class QnAReplyVO {
 		this.replyNo = replyNo;
 	}
 
-	public int getReplybno() {
-		return replybno;
+	public int getQnaboardNo() {
+		return qnaboardNo;
 	}
 
-	public void setReplybno(int replybno) {
-		this.replybno = replybno;
+	public void setQnaboardNo(int qnaboardNo) {
+		this.qnaboardNo = qnaboardNo;
 	}
 
-	public int getParentNo() {
-		return parentNo;
+	public int getReplyParentNo() {
+		return replyParentNo;
 	}
 
-	public void setParentNo(int parentNo) {
-		this.parentNo = parentNo;
+	public void setReplyParentNo(int replyParentNo) {
+		this.replyParentNo = replyParentNo;
 	}
 
-	public int getDepth() {
-		return depth;
+	public int getReplyDepth() {
+		return replyDepth;
 	}
 
-	public void setDepth(int depth) {
-		this.depth = depth;
+	public void setReplyDepth(int replyDepth) {
+		this.replyDepth = replyDepth;
 	}
 
 	public String getReplyContent() {
@@ -65,28 +67,35 @@ public class QnAReplyVO {
 		this.replyContent = replyContent;
 	}
 
-	public String getReplyNickname() {
-		return replyNickname;
+	public String getMemberId() {
+		return memberId;
 	}
 
-	public void setReplyNickname(String replyNickname) {
-		this.replyNickname = replyNickname;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
 
-	public Date getRDate() {
-		return rDate;
+	public String getMemberNickname() {
+		return memberNickname;
 	}
 
-	public void setRDate(Date rDate) {
-		this.rDate = rDate;
+	public void setMemberNickname(String memberNickname) {
+		this.memberNickname = memberNickname;
+	}
+
+	public Date getReplyDate() {
+		return replyDate;
+	}
+
+	public void setReplyDate(Date replyDate) {
+		this.replyDate = replyDate;
 	}
 
 	@Override
 	public String toString() {
-		return "QnAReplyVO [replyNo=" + replyNo + ", replybno=" + replybno + ", parentNo=" + parentNo + ", depth="
-				+ depth + ", replyContent=" + replyContent + ", replyNickname=" + replyNickname + ", rDate="
-				+ rDate + "]";
+		return "QnAReplyVO [replyNo=" + replyNo + ", qnaboardNo=" + qnaboardNo + ", replyParentNo=" + replyParentNo
+				+ ", replyDepth=" + replyDepth + ", replyContent=" + replyContent + ", memberId=" + memberId
+				+ ", memberNickname=" + memberNickname + ", replyDate=" + replyDate + "]";
 	}
-
 
 }
