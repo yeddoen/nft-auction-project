@@ -122,10 +122,13 @@ li {
 	<input type="hidden" id="join_result" value="${joinResult }">
 	<input type="hidden" id="register_result" value="${registerResult }">
 	<!-- footer -->
-	<div class="jumbotron text-center mt-5 mb-0">
-		<h4>NFT-AUCTION</h4>
-		<p>이용약관 고객센터..주소..어쩌구</p>
-	</div>
+	<footer>
+		<div class="jumbotron text-center mt-5 mb-0">
+			<h4>NFT-AUCTION</h4>
+			<p>이용약관 고객센터..주소..어쩌구</p>
+		</div>
+	</footer>
+	
 	<!-- JavaScript -->
 	<script type="text/javascript">		
 		$(function(){
