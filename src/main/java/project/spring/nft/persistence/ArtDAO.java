@@ -20,9 +20,9 @@ public interface ArtDAO {
 	//작품 전체 개수
 	int getTotalNumsOfRecords();
 	//작품명 검색 개수
-	int getArtNameNumsOfRecords();
+	int getArtNameNumsOfRecords(String keyword);
 	//작가명 검색 개수
-	int getNicknameNumsOfRecords();		
+	int getNicknameNumsOfRecords(String keyword);		
 	//작품명 검색
 	List<ArtVO> selectArtName(PageCriteria criteria, String keyword);
 	//작가이름 검색

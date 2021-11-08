@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import project.spring.nft.domain.ArtVO;
+import project.spring.nft.pageutil.PageCriteria;
 import project.spring.nft.persistence.ArtDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -26,11 +27,27 @@ public class ArtDAOTest {
 	
 	@Test
 	public void testDAO() {
-		testInsert();
+		//testInsert();
 		//testSearch();
 		//testSearch2();
 		//testSelect();
+//		testSearch();
+		//getNums();
 	}
+
+	private void testSearch() {
+		PageCriteria criteria = new PageCriteria(1,3);
+		
+		List<ArtVO> list=dao.selectArtName(criteria, "작가");
+		for (ArtVO vo : list) {
+			System.out.println(vo.toString());
+		}
+	}
+	
+//	private void getNums() {
+//		int result = dao.getArtNameNumsOfRecords();
+//		logger.info(result + "");
+//	}
 
 //	private void testSelect() {
 //		List<ArtVO> list=dao.selectCurrentArt();

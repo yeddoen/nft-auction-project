@@ -61,24 +61,26 @@ public class ArtDAOImple implements ArtDAO {
 	}
 	
 	@Override
-	public int getArtNameNumsOfRecords() {
+	public int getArtNameNumsOfRecords(String keyword) {
 		logger.info("getArtNameNumsOfRecords() 호출");
-		return sqlSession.selectOne(NAMESPACE+".select_art_name_cnt");
+		return sqlSession.selectOne(NAMESPACE+".select_art_name_cnt", keyword);
 	}
 	
 	@Override
-	public int getNicknameNumsOfRecords() {
+	public int getNicknameNumsOfRecords(String keyword) {
 		logger.info("getNicknameNumsOfRecords() 호출");
-		return sqlSession.selectOne(NAMESPACE+".select_nickname_cnt");
+		return sqlSession.selectOne(NAMESPACE+".select_nickname_cnt", keyword);
 	}
 
 	@Override
 	public List<ArtVO> selectArtName(PageCriteria criteria, String keyword) {
-		logger.info("selectArtName() 호출");
+		logger.info("selectArtName() 호출 : keyword = "+keyword+", criteria = "+ criteria);
 		keyword=keyword+"%";
 		Map<String, Object> searchMap=new HashMap<String, Object>();
-		searchMap.put("criteria", criteria);
+		searchMap.put("start", criteria.getStart());
+		searchMap.put("end", criteria.getEnd());
 		searchMap.put("keyword", keyword);
+		logger.info(criteria.getStart()+"");
 		return sqlSession.selectList(NAMESPACE+".select_by_art_name", searchMap);
 	}
 
@@ -87,7 +89,8 @@ public class ArtDAOImple implements ArtDAO {
 		logger.info("selectMemberNo() 호출");
 		keyword=keyword+"%";
 		Map<String, Object> searchMap=new HashMap<String, Object>();
-		searchMap.put("criteria", criteria);
+		searchMap.put("start", criteria.getStart());
+		searchMap.put("end", criteria.getEnd());
 		searchMap.put("keyword", keyword);
 		return sqlSession.selectList(NAMESPACE+".select_by_member_nickname", searchMap);
 	}

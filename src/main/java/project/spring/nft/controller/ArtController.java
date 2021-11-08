@@ -148,17 +148,17 @@ public class ArtController {
 		
 		if(category.equals("artName")) { //직품명 검색
 			list=artService.readArtName(criteria, keyword);	
-			pageMaker.setTotalCount(artService.getArtNameNumsOfRecords());
+			logger.info("검색 완료");
+			pageMaker.setTotalCount(artService.getArtNameNumsOfRecords(keyword));
 		}else { //작가닉네임 검색
 			list=artService.readMemberNickname(criteria, keyword);		
-			pageMaker.setTotalCount(artService.getNicknameNumsOfRecords());
+			pageMaker.setTotalCount(artService.getNicknameNumsOfRecords(keyword));
 
 		}
 		model.addAttribute("list", list);
 		
 
 		pageMaker.setCriteria(criteria);
-		pageMaker.setTotalCount(artService.getTotalNumsOfRecords());
 		pageMaker.setPageData();
 		model.addAttribute("pageMaker", pageMaker);
 		

@@ -65,10 +65,12 @@ li {
 	<!-- 검색 -->
 	<br>
 	<div class="search">
-		<input type="radio" name="category" value="artName" checked>작품명
-		<input type="radio" name="category" value="memberNickname">작가명
-		<input type="text" id="keyword" placeholder="검색어 입력">
-		<a href="search&"><button type="button" class="btn btn-primary">검색</button></a>
+		<form action="search" method="get">
+			<input type="radio" name="category" value="artName" checked>작품명
+			<input type="radio" name="category" value="memberNickname">작가명
+			<input type="text" id="keyword" name="keyword" placeholder="검색어 입력">
+			<input type="submit" class="btn btn-primary" value="검색">
+		</form>
 	</div>
 	<br>
 	<div class="container">
@@ -93,7 +95,7 @@ li {
 								<img src="/nft-auction/arts/display?fileName=${vo.artFileName }"></h4>
 							<hr>
 							<p class="card-text">${vo.artName }
-							<button type="button" class="btn float-right">찜수 ${vo.artWishCount}</button></p>
+							<span class="float-right">찜수 ${vo.artWishCount}</span></p>
 						</div>
 					</div>
 				</div>			
@@ -102,21 +104,11 @@ li {
 	</div>
 	<!-- 페이징처리 -->
 	<div id="paging">
-		<ul class="pagination justify-content-center">
-			<c:if test="${pageMaker.hasPrev }">
-				<li><a href="?page=${pageMaker.startPageNo-1 }">&laquo;</a></li>
-			</c:if>
-			<c:forEach begin="${pageMaker.startPageNo }" end="${pageMaker.endPageNo }" var="num">
- 				<li class="page-item">
-					<a class="page-link" href="?page=${num }">${num }</a>
-					<input type="hidden" class="page-num" value="${num }">
-				</li>
-			</c:forEach>
-			<c:if test="${pageMaker.hasNext }">
-				<li><a href="?page=${pageMaker.endPageNo+1 }">&raquo;</a></li>
-			</c:if>
-		</ul>
 	</div>
+	<input type="hidden" id="hasPrev" value="${pageMaker.hasPrev }">
+	<input type="hidden" id="startPageNo" value="${pageMaker.startPageNo }">
+	<input type="hidden" id="endPageNo" value="${pageMaker.endPageNo }">
+	<input type="hidden" id="hasNext" value="${pageMaker.hasNext }">
 	<input type="hidden" id="login_result" value="${loginResult }">
 	<input type="hidden" id="logout_result" value="${logoutResult }">
 	<input type="hidden" id="join_result" value="${joinResult }">
@@ -129,7 +121,8 @@ li {
 	<!-- JavaScript -->
 	<script type="text/javascript">		
 		$(function(){
-			pageAction();
+			//pageAction();
+			showPagination();
 			/* 동작 수행 완료 alert */
 	  		confirmLoginResult();
 	  		confirmLogoutResult();
@@ -187,6 +180,68 @@ li {
 			}); //end view_list click()
 			
 		}); //end document
+		
+		/* 페이지네이션 */
+		function showPagination() {
+			var hasPrev=$('#hasPrev').val();
+			var hasNext=$('#hasNext').val();
+			var startPageNo=$('#startPageNo').val();
+			var endPageNo=$('#endPageNo').val();
+			
+			var paging='';
+			var prev='disabled';
+			var next='disabled';
+			var connect='';
+			if(hasPrev == true){
+				prev='';
+			}
+			if(hasNext == true){
+				next='';
+			}
+			
+			var queryString=$(location).attr('search');
+			queryString=queryString.replace('?','');
+			var URLSearch = new URLSearchParams(location.search);
+			var url = '';
+			console.log(URLSearch);
+			
+			if(queryString != null){
+				connect=queryString+'&page=';
+			}else{
+				connect='page=';
+			}
+						
+			paging+='<ul class="pagination justify-content-center">'
+				+'<li class="page-item '+prev+'">'
+				+'<a class="page-link" href="?'+connect+(startPageNo-1)+'">&laquo;</a></li>';
+			
+			for (var i = startPageNo; i <= endPageNo; i++) {
+				if(!queryString){ 
+					url='page='+i;						
+				}else{ //쿼리스트링이 있으면
+					if(URLSearch.get('page') != null){ //page 쿼리스트링이 있으면
+						URLSearch.set('page', i);
+						url=URLSearch.toString();
+					}else{
+						url=queryString+'&page='+i;						
+					}
+				}
+				console.log(url);				
+				
+				paging+='<li class="page-item">'
+					+'<a class="page-link" href="?'+url+'">'+i+'</a>'
+					+'<input type="hidden" class="page-num" value="'+i+'">'
+					+'</li>';
+			}
+			
+			paging+='<li class="page-item '+next+'">'
+				+'<a class="page-link" href="?'+connect+(parseInt(endPageNo)+1)+'">&raquo;</a></li>'
+				+'</ul>';
+			
+			$('#paging').html(paging);
+			pageAction();
+		} //end showPagination()
+		
 		
 		/* 현재 페이지네이션 표시 */
 		function pageAction() {

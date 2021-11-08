@@ -56,20 +56,20 @@ public class ArtServiceImple implements ArtService {
 	}
 	
 	@Override
-	public int getArtNameNumsOfRecords() {
+	public int getArtNameNumsOfRecords(String keyword) {
 		logger.info("getArtNameNumsOfRecords() 호출");
-		return dao.getArtNameNumsOfRecords();
+		return dao.getArtNameNumsOfRecords(keyword);
 	}
 	
 	@Override
-	public int getNicknameNumsOfRecords() {
+	public int getNicknameNumsOfRecords(String keyword) {
 		logger.info("getNicknameNumsOfRecords() 호출");
-		return dao.getNicknameNumsOfRecords();
+		return dao.getNicknameNumsOfRecords(keyword);
 	}
 
 	@Override
 	public List<ArtVO> readArtName(PageCriteria criteria, String keyword) {
-		logger.info("readArtName() 호출 : keyword = "+keyword);
+		logger.info("readArtName() 호출 : keyword = "+keyword+", criteria = "+criteria);
 		return dao.selectArtName(criteria, keyword);
 	}
 

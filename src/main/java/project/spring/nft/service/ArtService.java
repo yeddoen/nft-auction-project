@@ -20,9 +20,9 @@ public interface ArtService {
 	//전체 작품 수
 	int getTotalNumsOfRecords();
 	//작품명 검색 개수
-	int getArtNameNumsOfRecords();
+	int getArtNameNumsOfRecords(String keyword);
 	//작가명 검색 개수
-	int getNicknameNumsOfRecords();		
+	int getNicknameNumsOfRecords(String keyword);		
 	//작품명 검색
 	List<ArtVO> readArtName(PageCriteria criteria, String keyword);
 	//작가이름 검색
