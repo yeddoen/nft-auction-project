@@ -15,7 +15,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		logger.info("===== preHandle 호출");
+		logger.info("===== Interceptor의 preHandle 호출");
 
 		HttpSession session=request.getSession();
 		String memberId=(String)session.getAttribute("memberId");
@@ -26,7 +26,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 		} else {
 			logger.info("로그아웃 상태 -> controller method 실행 안됨");
 			saveDestination(request);
-			response.sendRedirect("/nft/member/login");
+			response.sendRedirect("/nft-auction/members/login");
 			return false;			
 		}
 	} //end preHandle()

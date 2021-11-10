@@ -11,18 +11,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		#{memberNickname}, #{memberPhone}, #{memberEmail}, #{memberUid})
 	</insert>
 	
-	<select id="select_by_member_id" resultType="Integer">
+	<!-- 확인용 -->
+	<select id="select_by_check_id" resultType="Integer">
 		select count(*)
 		from ${member}
 		where ${memberId}=#{memberId}
 	</select>
 	
-	<select id="select_by_member_no" resultType="MemberVO">
-		select * 
+	<!-- memberId로 가져와서 마이페이지에서 보여주는 것 -->
+	<select id="select_by_member_id" resultType="MemberVO">
+		select *
 		from ${member}
-		where ${memberNo}=#{memberNo}
-	</select>
+		where ${memberId}=#{memberId}
 	
+	</select>
+
 	<select id="select_login" resultType="MemberVO">
 		select *
 		from ${member}
@@ -32,17 +35,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<update id="update_pw">
 		update ${member} set ${memberPassword}=#{memberPassword}
-		where ${memberNo}=#{memberNo}
+		where ${memberId}=#{memberId}
 	</update>
 	
 	<update id="update_info">
 		update ${member} set ${memberNickname}=#{memberNickname}, 
 		${memberPhone}=#{memberPhone}, ${memberEmail}=#{memberEmail}
-		where ${memberNo}=#{memberNo}
+		where ${memberId}=#{memberId}
 	</update>
 	
 	<delete id="delete">
 		delete from ${member}
-		where ${memberNo}=#{memberNo}
+		where ${memberId}=#{memberId}
 	</delete>
 </mapper>

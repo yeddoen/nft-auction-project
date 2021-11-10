@@ -4,6 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- MetaMask api -->
+<script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- iamport.payment.js -->
@@ -52,6 +54,7 @@
 		<p><input type="text" name="memberNickname" placeholder="닉네임 입력" required></p>
 		<p><input type="text" name="memberPhone" placeholder="전화번호 입력" required></p>
 		<p><input type="text" name="memberEmail" placeholder="이메일 입력" required></p>
+		<p><button class="enableEthereumButton">메타마스크연동</button></p>
 		<p><input type="submit" value="가입하기">
 	</form>
 	</div>
@@ -177,6 +180,23 @@
 					}
 				}
 			}); //end confirm_pw blur()
+			
+			// TODO : 현재 request로 메타마스크 api만 실행하게 만듬. 
+			// 이제 계좌 account와 지갑 정보를 불러와서 저장시키고 유지시켜야할듯!
+			// 메타마스크연동 버튼 관련 코드 (메타마스크 창 띄우기)
+			if (typeof window.ethereum !== 'undefined') {
+		    	console.log('MetaMask is installed!'); // 메타마스크가 설치된경우
+
+		  		const ethereumButton = document.querySelector('.enableEthereumButton');
+		  		ethereumButton.addEventListener('click', () => {
+		  		  //Will Start the metamask extension
+		  		  ethereum.request({ method: 'eth_requestAccounts' });
+		  		}); // 이더리움버튼 누르면 request 요청 실행.(앱실행)
+		  	} else { // 아니라면 설치할 수 있도록 유도하기.
+		  	    console.log('Please install MetaMask!');
+		  		location.href = "https://metamask.io/";
+		  	}
+			
 		}); //end document
 	</script>
 </body>

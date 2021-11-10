@@ -46,7 +46,7 @@ public class QnABoardController {
 		}
 
 		List<QnABoardVO> list = qnaboardservice.read(criteria);
-		model.addAttribute("qnalist", qnaboardservice.listAll());
+		model.addAttribute("qnalist", list);
 
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCriteria(criteria);
@@ -60,14 +60,16 @@ public class QnABoardController {
 		logger.info("detail() 호출 : qnaboardNo = " + qnaboardNo);
 		QnABoardVO vo = qnaboardservice.read(qnaboardNo);
 		MemberVO mo = memberservice.readByBoardMemberId(memberId);
+		MemberVO mo = memberservice.readByMemberId(memberId);
 		model.addAttribute("vo", vo);
 		model.addAttribute("mo", mo);
 	} // end qnadetail()
 
 	@GetMapping("/qnaregister")
-	public void registerGET() {
+	public void registerGET(Model model,String memberId) {
 		logger.info("registerGET() 호출");
-		
+		MemberVO mo = memberservice.readByMemberId(memberId);
+		model.addAttribute("mo", mo);
 	} // end registerGET()
 
 	@PostMapping("/qnaregister")

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,7 +23,8 @@
   </div>
   <div>
     <p>닉네임 : ${vo.memberNickname }</p> <!-- 게시글 작성자 닉네임 -->
-    <p>작성일 : ${vo.qnaboardDate }</p>
+    <c:set var="qnaboardDate"><fmt:formatDate value="${vo.qnaboardDate }" pattern="YYYY-MM-DD hh:mm"/></c:set>
+    <p>작성일 : ${qnaboardDate }</p>
   </div>
   <div>
     <textarea rows="20" cols="120" readonly>${vo.qnaboardContent }</textarea>
@@ -65,6 +67,7 @@
   <script type="text/javascript">
     $(document).ready(function() {
         var qnaboardNo = $('#qnaboardNo').val();
+        
         
         console.log("test");
         getAllReplies();
@@ -178,8 +181,21 @@
                             // var hidden = 'hidden="hidden"';
                             var disabled = 'disabled';
                             var readonly = 'readonly';
+                            
+                            
+                            function getFormatDate(date){
+                                var year = date.getFullYear();              
+                                var month = (1 + date.getMonth());         
+                                month = month >= 10 ? month : '0' + month;  
+                                var day = date.getDate();                   
+                                day = day >= 10 ? day : '0' + day; 
+                                var hour = date.getHours();
+                                var minutes = date.getMinutes();
+                                return  year + '-' + month + '-' + day + ' ' + hour + ':' + minutes;      
+                            }
                             var replyDate = new Date(this.replyDate);
-                           
+                            replyDate = getFormatDate(replyDate);
+                                                       
                             if(replyWriter == this.memberNickname) {
                                 disabled = '';
                                 readonly = '';
@@ -207,14 +223,14 @@
                         + '&nbsp;&nbsp;' // 공백
                         + '<input type="text" id="replyContent" value="' + this.replyContent + '" '+ readonly +'/>'
                         + '&nbsp;&nbsp;'
-                        + this.replyDate 
+                        + replyDate
                         + '&nbsp;&nbsp;'
                         + '<button class="btn_update" type="button" '+ disabled +'>수정</button>'
                         + '<button class="btn_delete" type="button" '+ disabled +'>삭제</button>'
                         + '<button type="button" class="btn_reply" '+ dis +'>답글</button><br>'                         
                         + '<div id="reply" style="display: none;">'  
                         + '</div>'
-                                + '</pre>'
+                        + '</pre>'
                         + '</div>';
  
                            });
