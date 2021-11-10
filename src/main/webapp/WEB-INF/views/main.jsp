@@ -34,32 +34,28 @@ li {
 <body style="text-align: center;">
 	<!-- header -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="main">NTF-AUCTION</a>
-			<button class="navbar-toggler" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarColor02"
-				aria-controls="navbarColor02" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarColor02">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item"><a class="nav-link" href="arts/register">작품등록</a>
+		<a class="navbar-brand" href="main">NTF-AUCTION</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNavDropdown">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item"><a class="nav-link" href="arts/register">작품등록</a>
+				</li>
+				<c:if test="${empty sessionScope.memberId }">
+					<li class="nav-item"><a class="nav-link" href="members/login">로그인</a>
 					</li>
-					<c:if test="${empty sessionScope.memberId }">
-						<li class="nav-item"><a class="nav-link" href="members/login">로그인</a>
-						</li>
-						<li class="nav-item"><a class="nav-link"
-							href="members/sign-up">회원가입</a></li>
-					</c:if>
-					<c:if test="${not empty sessionScope.memberId }">
-						<li class="nav-item"><a class="nav-link"
-							href="members/logout">로그아웃</a></li>
-						<li class="nav-item"><a class="nav-link"
-							href="members/my-page/member">마이페이지</a></li>
-					</c:if>
-				</ul>
-			</div>
+					<li class="nav-item"><a class="nav-link"
+						href="members/sign-up">회원가입</a></li>
+				</c:if>
+				<c:if test="${not empty sessionScope.memberId }">
+					<li class="nav-item"><a class="nav-link" href="members/logout">로그아웃</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="members/my-page/member">마이페이지</a></li>
+				</c:if>
+			</ul>
 		</div>
 	</nav>
 	<!-- 검색 -->
@@ -91,11 +87,13 @@ li {
 					<div class="card border-primary mb-3" style="max-width: 20rem;">
 						<div class="card-header">by ${vo.memberNickname} </div>
 						<div class="card-body">
-							<h4 class="card-title">
+							<a href="arts/detail?artNo=${vo.artNo}&page=${pageMaker.criteria.page}">
+								<h4 class="card-title">
 								<img src="/nft-auction/arts/display?fileName=${vo.artFileName }"></h4>
-							<hr>
-							<p class="card-text">${vo.artName }
-							<span class="float-right">찜수 ${vo.artWishCount}</span></p>
+								<hr>
+								<p class="card-text">${vo.artName }</p>
+							</a>
+							<span class="float-right">찜수 ${vo.artWishCount}</span>
 						</div>
 					</div>
 				</div>			
@@ -121,7 +119,6 @@ li {
 	<!-- JavaScript -->
 	<script type="text/javascript">		
 		$(function(){
-			//pageAction();
 			showPagination();
 			/* 동작 수행 완료 alert */
 	  		confirmLoginResult();
@@ -187,15 +184,17 @@ li {
 			var hasNext=$('#hasNext').val();
 			var startPageNo=$('#startPageNo').val();
 			var endPageNo=$('#endPageNo').val();
+			console.log(hasPrev+', '+hasNext+', '+startPageNo+', '+endPageNo);
 			
 			var paging='';
 			var prev='disabled';
 			var next='disabled';
-			var connect='';
-			if(hasPrev == true){
+			var start='';
+			var end='';
+			if(hasPrev == "true"){ // hasPrev/Next가 문자열이라
 				prev='';
 			}
-			if(hasNext == true){
+			if(hasNext == "true"){
 				next='';
 			}
 			
@@ -205,15 +204,27 @@ li {
 			var url = '';
 			console.log(URLSearch);
 			
-			if(queryString != null){
-				connect=queryString+'&page=';
+			//url 쿼리스트링연결
+			if(!queryString){
+				start = 'page='+ (startPageNo-1);
+				end = 'page='+ (parseInt(endPageNo)+1);
 			}else{
-				connect='page=';
+				if(URLSearch.get('page') != null){ //page 쿼리스트링이 있으면
+					URLSearch.set('page', (startPageNo-1));
+					start=URLSearch.toString();
+					URLSearch.set('page', (parseInt(endPageNo)+1));
+					end=URLSearch.toString();
+					console.log(start+', '+end);
+				}else{
+					start = queryString+'&page='+(startPageNo-1);	
+					end = queryString+'&page='+(parseInt(endPageNo)+1);	
+					console.log(start+', '+end)
+				}
 			}
 						
 			paging+='<ul class="pagination justify-content-center">'
 				+'<li class="page-item '+prev+'">'
-				+'<a class="page-link" href="?'+connect+(startPageNo-1)+'">&laquo;</a></li>';
+				+'<a class="page-link" href="?'+start+'">&laquo;</a></li>';
 			
 			for (var i = startPageNo; i <= endPageNo; i++) {
 				if(!queryString){ 
@@ -235,7 +246,7 @@ li {
 			}
 			
 			paging+='<li class="page-item '+next+'">'
-				+'<a class="page-link" href="?'+connect+(parseInt(endPageNo)+1)+'">&raquo;</a></li>'
+				+'<a class="page-link" href="?'+end+'">&raquo;</a></li>'
 				+'</ul>';
 			
 			$('#paging').html(paging);
@@ -260,7 +271,7 @@ li {
 					$(this).parents('.page-item').last().addClass('active');
 				}
 			})
-		}
+		}//end pageAction()
 	</script>
 </body>
 </html>

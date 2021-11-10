@@ -1,6 +1,7 @@
 package project.spring.nft.service;
 
 import java.util.List;
+import java.util.Map;
 
 import project.spring.nft.domain.ArtVO;
 import project.spring.nft.pageutil.PageCriteria;
@@ -27,4 +28,6 @@ public interface ArtService {
 	List<ArtVO> readArtName(PageCriteria criteria, String keyword);
 	//작가이름 검색
 	List<ArtVO> readMemberNickname(PageCriteria criteria, String keyword);
+	//상세 작품 조회
+	Map<String, Object> readArtNo(int artNo);
 }

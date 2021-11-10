@@ -18,15 +18,16 @@
 	<h1>작품 등록 페이지</h1>
 	<form method="post">
 		<input type="hidden" name="memberId" value="${sessionScope.memberId }">
-		<input type="text" name="artName" placeholder="작품명 입력"><br>
-		<input type="number" name="artPrice" placeholder="즉시판매가 입력"><br>
-		<input type="text" name="artContent" placeholder="작품설명 입력"><br>
+		<input type="text" name="artName" placeholder="작품명 입력" required><br>
+		<input type="number" name="artPrice" placeholder="즉시판매가 입력" required><br>
+		<input type="text" name="artContent" placeholder="작품설명 입력" required><br>
 		작품 게시기간 설정<br>
-		<input type="datetime-local" name="artShowDate"><br>
+		<input type="datetime-local" name="artShowDate" required><br>
+		<input type="number" name="artBasicFee" placeholder="경매시작금 입력" required><br>
 		이미지 등록<br>
 		<div class="file-drop" style="color:grey;">이미지를 drop해주세요.</div>
 		<div class="upload-list"></div>
-		<input type="hidden" id="file_name" name="artFileName" value="">
+		<input type="hidden" id="file_name" name="artFileName" value="" required>
 		<input type="submit" value="등록하기">
 	</form>
 	<!-- JavaScript -->

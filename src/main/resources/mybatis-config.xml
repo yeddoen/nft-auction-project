@@ -22,11 +22,21 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		 <property name="artPrice" value="art_price"/>
 		 <property name="artContent" value="art_content"/>
 		 <property name="artShowDate" value="art_show_date"/>
+		 <property name="artBasicFee" value="art_basic_fee"/>
 		 <property name="artReplyCount" value="art_reply_count"/>
 		 <property name="artWishCount" value="art_wish_count"/>
 		 <property name="artViewCount" value="art_view_count"/>
 		 <property name="artFileName" value="art_file_name"/>
 		 <property name="memberNickname" value="member_nickname"/>
+		 
+		 <property name="auction" value="auction"/>
+		 <property name="auctionNo" value="auction_no"/>
+		 <property name="artNo" value="art_no"/>
+		 <property name="memberId" value="member_id"/>
+		 <property name="memberNickname" value="member_nickname"/>
+		 <property name="auctionMoney" value="auction_money"/>
+		 <property name="auctionDate" value="auction_date"/>
+		 <property name="auctionResult" value="auction_result"/>
 	</properties>
 	
 	<settings>

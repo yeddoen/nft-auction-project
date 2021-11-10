@@ -70,15 +70,15 @@ public class ArtDAOTest {
 //		}
 //	}
 
-	private void testInsert() {
-		ArtVO vo=new ArtVO(0, "test", "제발요요", 10000, "테스트중", null, 0, 0, 0, "s_ssssss.png", "");
-		int result=dao.insertArt(vo);
-		if(result==1) {
-			logger.info("insert 성공");
-			int update=dao.updateNickName(vo.getMemberId());
-			logger.info(update+"개 nickname 변경. art 등록 최종완료");
-		}else {
-			logger.info("insert 실패");
-		}
-	}
+//	private void testInsert() {
+//		ArtVO vo=new ArtVO(0, "test", "제발요요", 10000, "테스트중", null, 0, 0, 0, "s_ssssss.png", "");
+//		int result=dao.insertArt(vo);
+//		if(result==1) {
+//			logger.info("insert 성공");
+//			int update=dao.updateNickName(vo.getMemberId());
+//			logger.info(update+"개 nickname 변경. art 등록 최종완료");
+//		}else {
+//			logger.info("insert 실패");
+//		}
+//	}
 }

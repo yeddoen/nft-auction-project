@@ -27,6 +27,8 @@ public interface ArtDAO {
 	List<ArtVO> selectArtName(PageCriteria criteria, String keyword);
 	//작가이름 검색
 	List<ArtVO> selectMemberNickname(PageCriteria criteria, String keyword);
+	//작품 상세 조회
+	ArtVO selectArtNo(int artNo);
 	//작품 데이터(작품명, 작품설명) 수정
 	//작품(게시된) 삭제
 	

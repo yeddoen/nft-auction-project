@@ -6,8 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insert">
 		insert into ${art} 
-		(${memberId}, ${artName}, ${artPrice}, ${artContent}, ${artShowDate}, ${artFileName})
-		values(#{memberId}, #{artName}, #{artPrice}, #{artContent}, #{artShowDate}, #{artFileName})
+		(${memberId}, ${artName}, ${artPrice}, ${artContent}, ${artShowDate}, ${artBasicFee},${artFileName})
+		values(#{memberId}, #{artName}, #{artPrice}, #{artContent}, #{artShowDate}, #{artBasicFee}, #{artFileName})
 	</insert>
 	
 	<update id="update_nickname">
@@ -110,5 +110,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    )a
 		)b
 		where rn between #{start} and #{end}	
+	</select>
+	
+	<!-- 작품 당 상세정보 -->
+	<select id="select_by_art_no" resultType="ArtVO">
+		select *
+		from ${art}
+		where ${artNo}=#{artNo}
 	</select>
 </mapper>

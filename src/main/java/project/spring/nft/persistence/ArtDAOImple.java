@@ -94,5 +94,11 @@ public class ArtDAOImple implements ArtDAO {
 		searchMap.put("keyword", keyword);
 		return sqlSession.selectList(NAMESPACE+".select_by_member_nickname", searchMap);
 	}
+	
+	@Override
+	public ArtVO selectArtNo(int artNo) {
+		logger.info("selectArtNo() 호출");
+		return sqlSession.selectOne(NAMESPACE+".select_by_art_no", artNo);
+	}
 
 }

@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -25,9 +26,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import project.spring.nft.domain.ArtVO;
+import project.spring.nft.domain.AuctionVO;
 import project.spring.nft.pageutil.PageCriteria;
 import project.spring.nft.pageutil.PageMaker;
 import project.spring.nft.service.ArtService;
+import project.spring.nft.service.AuctionService;
 import project.spring.nft.util.FileUploadUtil;
 import project.spring.nft.util.MediaUtil;
 
@@ -76,6 +79,8 @@ public class ArtController {
 		pageMaker.setCriteria(criteria);
 		pageMaker.setTotalCount(artService.getTotalNumsOfRecords());
 		pageMaker.setPageData();
+		logger.info("이전 버튼 존재 유무 : "+pageMaker.isHasPrev());
+		logger.info("다음 버튼 존재 유무 : "+pageMaker.isHasNext());
 		model.addAttribute("pageMaker", pageMaker);
 	} //end currentAllList()
 	
@@ -223,10 +228,6 @@ public class ArtController {
 		String filePath=uploadPath+fileName;
 		in=new FileInputStream(filePath); //파일넣기
 		
-		//파일 확장자
-//		String extension=filePath.substring(filePath.lastIndexOf(".")+1);
-//		logger.info(extension);
-		
 		//응답헤더(response header) org.springframework.http에 Content-Type 설정
 		HttpHeaders httpHeaders=new HttpHeaders();
 		httpHeaders.setContentType(MediaUtil.getMediaType(extension));
@@ -239,4 +240,17 @@ public class ArtController {
 		
 		return entity;
 	} //end display()
+	
+	@GetMapping("/arts/detail")
+	public void detail(Model model, Integer artNo, Integer page) {
+		logger.info("detail() 호출 : artNo = "+artNo+", page = "+page);
+		Map<String, Object> readMap=artService.readArtNo(artNo);
+		ArtVO vo=(ArtVO)readMap.get("vo");
+		if(readMap.containsKey("maxMoney")) { //maxMoney가 있으면
+			int maxMoney=(Integer)readMap.get("maxMoney");
+			model.addAttribute("maxMoney", maxMoney);			
+		}
+		model.addAttribute("vo", vo);
+		model.addAttribute("page", page);
+	} //end detail()
 }
