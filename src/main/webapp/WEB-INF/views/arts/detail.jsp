@@ -20,7 +20,27 @@ img {
 	max-width: 100%;
 	height: auto;
 }
+
+tr {
+width: 100%;
+display: inline-table;
+height:60px;
+table-layout: fixed;
+  
+}
+
+table{
+ height:300px; 
+ display: -moz-groupbox;
+}
+tbody{
+  overflow-y: scroll;
+  height: 400px;
+  width: 100%;
+  position: absolute;
+}
 </style>
+
 <title>상세 페이지 - ${vo.artName} </title>
 </head>
 <body style="text-align: center;">
@@ -117,7 +137,7 @@ img {
 				<br>
 				<div class="row">
 					<div class="col">
-						<table class="table table-hover table-fixed">
+						<table class="table table-hover">
 							<thead>
 								<tr>
 									<th scope="col">닉네임</th>
@@ -171,6 +191,7 @@ img {
 	<input type="hidden" id="show_date" value="${vo.artShowDate }">
 	<input type="hidden" id="show_img" value="${vo.artFileName }">
 	<input type="hidden" id="max_money" value="${maxMoney }">
+	<input type="hidden" id="basic_money" value="${vo.artBasicFee }">
 	<!-- JavaScript -->
 	<script type="text/javascript">
 		$(function(){
@@ -201,10 +222,22 @@ img {
 			$('#btn_bid').click(function(){
 				var member_id=$('#member_id').val();
 				var auction_money=$('#auction_money').val();
+				auction_money=parseInt(auction_money);
 				console.log(member_id+", "+auction_money);
 				
 				var max_money=$('#max_money').val();
-				if(auction_money>max_money){ //현재까지 최고금액보다 높은 값인 경우
+				max_money=parseInt(max_money);
+		
+				var basic_money=$('#basic_money').val();
+				basic_money=parseInt(basic_money);
+				
+				var money=basic_money;
+				
+				if(max_money){ //입력값이 존재한다면
+					money=max_money;
+				}
+		
+				if(auction_money>money){ //현재까지 금액보다 높은 값인 경우만 입력
 					var obj={
 							'memberId':member_id,
 							'artNo':art_no,
@@ -303,7 +336,7 @@ img {
 			var regexp = /\B(?=(\d{3})+(?!\d))/g;
 			return num.toString().replace(regexp, ',');
 			} //end AddComma
-		}); //end document	
+		}); //end document
 	</script>
 </body>
 </html>
