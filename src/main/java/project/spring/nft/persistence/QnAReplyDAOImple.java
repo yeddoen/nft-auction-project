@@ -55,14 +55,4 @@ public class QnAReplyDAOImple implements QnAReplyDAO {
 		return sqlsession.delete(NAMESPACE + ".delete", replyNo);
 	}
 
-
-	
-	/*
-	 * @Override public List<QnAReplyVO> selectReply(int qnaboardNo, int
-	 * replyParentNo) { logger.info("selectReply() 호출"); Map<String, Integer> args =
-	 * new HashMap<String, Integer>(); args.put("qnaboardNo", qnaboardNo);
-	 * args.put("replyParentNo", replyParentNo); return
-	 * sqlsession.selectList(NAMESPACE + ".select_reply_by_reply_no", args); }
-	 */
-	 
 }
