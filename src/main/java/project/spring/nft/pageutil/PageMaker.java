@@ -1,10 +1,10 @@
 package project.spring.nft.pageutil;
 
-//페이지 번호들의 링크를 만들기 위한 유틸리티 클래스
+// 페이지 번호들의 링크를 만들기 위한 유틸리티 클래스
 public class PageMaker {
 	private PageCriteria criteria;
 	private int totalCount; // 전체 게시글 개수
-	private int numsOfPageLinks; // 페이지 번호 링크의 개수
+	private int numsOfPageLinks; // 한줄의 페이지 번호 링크 개수
 	private int startPageNo; // 시작 페이지 링크 번호
 	private int endPageNo; // 끝 페이지 링크 번호
 	private boolean hasPrev; // 화면에 보이는 시작 페이지 번호보다 작은 숫자의 페이지가 있는 지
@@ -74,9 +74,6 @@ public class PageMaker {
 		} else {
 			hasNext = true;
 		}
-		// Math.ceil (올림)
-		// Math.floor (버림
-		
 	}
 	
 } // end PageMaker

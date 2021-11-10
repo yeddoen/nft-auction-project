@@ -59,7 +59,6 @@ public class QnABoardController {
 	public void detail(Model model, Integer qnaboardNo, String memberId) {
 		logger.info("detail() 호출 : qnaboardNo = " + qnaboardNo);
 		QnABoardVO vo = qnaboardservice.read(qnaboardNo);
-		MemberVO mo = memberservice.readByBoardMemberId(memberId);
 		MemberVO mo = memberservice.readByMemberId(memberId);
 		model.addAttribute("vo", vo);
 		model.addAttribute("mo", mo);

@@ -25,16 +25,17 @@ import project.spring.nft.service.MemberService;
 @Controller
 @RequestMapping(value = "/members")
 public class MemberController {
-	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
-
+	private static final Logger logger=
+			LoggerFactory.getLogger(MemberController.class);
+	
 	@Autowired
 	private MemberService memberService;
 
 	@GetMapping("/sign-up")
 	public void joinMemberGET() {
 		logger.info("joinMemberGET() 호출");
-	} // end joinMemberGET()
-
+	} //end joinMemberGET()
+	
 	@PostMapping("/sign-up")
 	public String joinMemberPOST(MemberVO vo, RedirectAttributes reAttr) {
 		logger.info("joinMemberPOST() 호출 : vo = " + vo.toString());
@@ -175,6 +176,16 @@ public class MemberController {
 		}
 
 	}
+	
+	@GetMapping("/logout")
+	public String logoutMember(HttpServletRequest request, RedirectAttributes reAttr) {
+		logger.info("logoutMember() 호출");
+		HttpSession session=request.getSession();
+		session.removeAttribute("memberId");
+		reAttr.addFlashAttribute("logoutResult", "success"); 
+		return "redirect:/main";
+	}
+	
 
 	// delete의 GET
 	@GetMapping("/my-page/delete")
