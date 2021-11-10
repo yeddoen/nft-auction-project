@@ -37,7 +37,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		 <property name="auctionMoney" value="auction_money"/>
 		 <property name="auctionDate" value="auction_date"/>
 		 <property name="auctionResult" value="auction_result"/>
-=======
 		 <property name="qnaboard" value="qnaboard"/>
 		 <property name="qnaboardNo" value="qnaboard_no"/>
 		 <property name="qnaboardTitle" value="qnaboard_title"/>
@@ -63,7 +62,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<property name="artName" value="art_name"/>
 		<property name="artPrice" value="art_price"/>
 		<property name="artFileName" value="art_file_name"/>
->>>>>>> 6494f9c5288e30568d35a1b6a11ac3e4afb2597c
 	</properties>
 	
 	<settings>

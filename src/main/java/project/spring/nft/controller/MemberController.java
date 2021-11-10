@@ -25,12 +25,17 @@ import project.spring.nft.service.MemberService;
 @Controller
 @RequestMapping(value = "/members")
 public class MemberController {
+	private static final Logger logger=
+			LoggerFactory.getLogger(MemberController.class);
+	
 	@Autowired
 	private MemberService memberService;
 
 	@GetMapping("/sign-up")
 	public void joinMemberGET() {
 		logger.info("joinMemberGET() 호출");
+	} //end joinMemberGET()
+	
 	@PostMapping("/sign-up")
 	public String joinMemberPOST(MemberVO vo, RedirectAttributes reAttr) {
 		logger.info("joinMemberPOST() 호출 : vo = " + vo.toString());

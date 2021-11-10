@@ -5,8 +5,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 <configuration>
 	<!-- DB 테이블과 컬럼들을 mapper 매핑을 위한 변수 선언 -->
 	<properties>
-		<!-- * property - name : mapper.xml에서 사용될 이름 
-		- value : DB 테이블 및 컬럼 이름 -->
 		 <property name="member" value="member"/>
 		 <property name="memberNo" value="member_no"/>
 		 <property name="memberId" value="member_id"/>
@@ -31,7 +29,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		 <property name="artFileName" value="art_file_name"/>
 		 <property name="memberNickname" value="member_nickname"/>
 		 
-<<<<<<< HEAD
 		 <property name="auction" value="auction"/>
 		 <property name="auctionNo" value="auction_no"/>
 		 <property name="artNo" value="art_no"/>
@@ -40,7 +37,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		 <property name="auctionMoney" value="auction_money"/>
 		 <property name="auctionDate" value="auction_date"/>
 		 <property name="auctionResult" value="auction_result"/>
-=======
 		 <property name="qnaboard" value="qnaboard"/>
 		 <property name="qnaboardNo" value="qnaboard_no"/>
 		 <property name="qnaboardTitle" value="qnaboard_title"/>
@@ -66,7 +62,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<property name="artName" value="art_name"/>
 		<property name="artPrice" value="art_price"/>
 		<property name="artFileName" value="art_file_name"/>
->>>>>>> 6494f9c5288e30568d35a1b6a11ac3e4afb2597c
 	</properties>
 	
 	<settings>

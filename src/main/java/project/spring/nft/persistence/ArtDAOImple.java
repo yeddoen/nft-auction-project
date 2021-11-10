@@ -100,5 +100,11 @@ public class ArtDAOImple implements ArtDAO {
 		logger.info("selectArtNo() 호출");
 		return sqlSession.selectOne(NAMESPACE+".select_by_art_no", artNo);
 	}
+	
+	@Override
+	public int updateView(int artViewCount) {
+		logger.info("updateView() 호출 : artViewCount = "+artViewCount);
+		return sqlSession.selectOne(NAMESPACE+".update_view", artViewCount);
+	} //end updateView()
 
 }

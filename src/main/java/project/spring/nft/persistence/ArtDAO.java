@@ -29,6 +29,8 @@ public interface ArtDAO {
 	List<ArtVO> selectMemberNickname(PageCriteria criteria, String keyword);
 	//작품 상세 조회
 	ArtVO selectArtNo(int artNo);
+	//조회수 카운팅 적용하기
+	int updateView(int artViewCount);
 	//작품 데이터(작품명, 작품설명) 수정
 	//작품(게시된) 삭제
 	

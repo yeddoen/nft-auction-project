@@ -102,5 +102,10 @@ public class ArtServiceImple implements ArtService {
 		}
 		return readMap;
 	}
-
+	
+	@Override
+	public int updateView(int artViewCount) {
+	
+		return 0;
+	}
 }
