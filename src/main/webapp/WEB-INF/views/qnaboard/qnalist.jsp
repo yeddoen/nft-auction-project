@@ -32,7 +32,7 @@
       <c:forEach items="${qnalist }" var="qnalist">
         <tr>
           <td><c:out value="${qnalist.qnaboardNo }" /></td>
-          <td><a href="qnadetail?qnaboardNo=${qnalist.qnaboardNo }"><c:out value="${qnalist.qnaboardTitle }" /></td>
+          <td><a href="qnadetail?qnaboardNo=${qnalist.qnaboardNo }&memberId=<%=session.getAttribute("memberId") %>"><c:out value="${qnalist.qnaboardTitle }" /></td>
           <td><c:out value="${qnalist.memberNickname }" /></td>
           <td><c:out value="${qnalist.qnaboardDate }" /></td>
         </tr>

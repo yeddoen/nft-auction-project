@@ -1,6 +1,8 @@
 package project.spring.nft.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -28,8 +30,17 @@ public class QnAReplyDAOImple implements QnAReplyDAO {
 
 	@Override
 	public List<QnAReplyVO> select(int qnaboardNo) {
-		logger.info("select() 호출");
+		logger.info("select() 호출");	
 		return sqlsession.selectList(NAMESPACE + ".select_all_by_qnaboard_no", qnaboardNo);
+	}
+	
+	@Override
+	public List<QnAReplyVO> selectReply(int qnaboardNo, int replyParentNo) {
+		logger.info("selectReply() 호출");
+		Map<String, Integer> args = new HashMap<String, Integer>();
+		args.put("qnaboardNo", qnaboardNo);
+		args.put("replyParentNo", replyParentNo);
+		return sqlsession.selectList(NAMESPACE + ".select_reply_by_parent_no", args);
 	}
 
 	@Override
@@ -45,6 +56,13 @@ public class QnAReplyDAOImple implements QnAReplyDAO {
 	}
 
 
-
-
+	
+	/*
+	 * @Override public List<QnAReplyVO> selectReply(int qnaboardNo, int
+	 * replyParentNo) { logger.info("selectReply() 호출"); Map<String, Integer> args =
+	 * new HashMap<String, Integer>(); args.put("qnaboardNo", qnaboardNo);
+	 * args.put("replyParentNo", replyParentNo); return
+	 * sqlsession.selectList(NAMESPACE + ".select_reply_by_reply_no", args); }
+	 */
+	 
 }
