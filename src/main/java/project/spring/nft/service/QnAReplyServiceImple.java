@@ -1,5 +1,6 @@
 package project.spring.nft.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -39,7 +40,19 @@ public class QnAReplyServiceImple implements QnAReplyService {
 	@Override
 	public List<QnAReplyVO> read(int qnaboardNo) {
 		logger.info("read() 호출");
-		return replyDAO.select(qnaboardNo);
+		List<QnAReplyVO> list = replyDAO.select(qnaboardNo);
+		List<QnAReplyVO> list2 = new ArrayList<QnAReplyVO>();
+		for(QnAReplyVO vo : list) {
+			logger.info(vo.toString());
+			list2.add(vo);
+			int replyParentNo = vo.getReplyNo();
+			int index = list.indexOf(vo);			
+			List<QnAReplyVO> listReply = replyDAO.selectReply(qnaboardNo, replyParentNo);
+			logger.info(listReply.toString());
+			// list.(index, listReply);
+			list2.addAll(listReply);
+		}		
+		return list2;
 	}
 
 	@Override
