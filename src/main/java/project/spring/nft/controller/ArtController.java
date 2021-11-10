@@ -36,6 +36,7 @@ import project.spring.nft.util.MediaUtil;
 
 @Controller
 public class ArtController {
+	// 로거
 	private static final Logger logger=
 			LoggerFactory.getLogger(ArtController.class);
 	

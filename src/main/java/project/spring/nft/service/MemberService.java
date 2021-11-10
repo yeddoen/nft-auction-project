@@ -10,17 +10,17 @@ public interface MemberService {
 	int readIdCheck(String memberId);
 	
 	//회원정보 조회
-	MemberVO readByMemberNo(int memberNo);
+	MemberVO readByMemberId(String memberId);
 	
 	//로그인 아이디 비밀번호 조회
 	MemberVO readLogin(String memberId, String memberPassword);
 	
 	//비밀번호 수정
-	int updateMemberPassword(int memberNo, String updatePassword);
+	int updateMemberPassword(String memberId, String updatePassword);
 	
 	//회원정보 수정
 	int updateMemberInfo(MemberVO vo);
 	
 	//회원탈퇴
-	int deleteMember(int memberNo, String memberPassword);
+	int deleteMember(String memberId, String memberPassword);
 }
