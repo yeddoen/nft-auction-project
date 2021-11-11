@@ -104,8 +104,8 @@ public class ArtServiceImple implements ArtService {
 	}
 	
 	@Override
-	public int updateView(int artViewCount) {
-	
-		return 0;
+	public int updateView(int artNo, int count) {
+		logger.info("updateView() 호출 : artNo = "+artNo+", count = "+count);
+		return artDAO.updateView(artNo, count);
 	}
 }

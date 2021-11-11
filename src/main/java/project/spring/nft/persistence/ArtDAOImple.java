@@ -102,9 +102,12 @@ public class ArtDAOImple implements ArtDAO {
 	}
 	
 	@Override
-	public int updateView(int artViewCount) {
-		logger.info("updateView() 호출 : artViewCount = "+artViewCount);
-		return sqlSession.selectOne(NAMESPACE+".update_view", artViewCount);
+	public int updateView(int artNo, int count) {
+		logger.info("updateView() 호출 : artNo = "+artNo+", count = "+count);
+		Map<String, Integer> countMap=new HashMap<String, Integer>();
+		countMap.put("artNo", artNo);
+		countMap.put("count", count);
+		return sqlSession.update(NAMESPACE+".update_view", countMap);
 	} //end updateView()
 
 }

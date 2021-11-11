@@ -1,6 +1,7 @@
 package project.spring.nft.persistence;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -71,5 +72,31 @@ public class MemberDAOImple implements MemberDAO {
 		deleteMap.put("memberPassword", memberPassword);
 		return sqlSession.delete(NAMESPACE+".delete", deleteMap);
 	}
-
+	
+	@Override
+	public List<String> findIdasPhone(String memberName, String memberPhone) {
+		logger.info("findIdasPhone() 호출");
+		Map<String, String> findMap=new HashMap<String, String>();
+		findMap.put("memberName", memberName);
+		findMap.put("memberPhone", memberPhone);
+		return sqlSession.selectList(NAMESPACE+".select_id_find_phone", findMap);
+	}
+	
+	@Override
+	public List<String> findIdasEmail(String memberName, String memberEmail) {
+		logger.info("findIdasEmail() 호출");
+		Map<String, String> findMap=new HashMap<String, String>();
+		findMap.put("memberName", memberName);
+		findMap.put("memberEmail", memberEmail);
+		return sqlSession.selectList(NAMESPACE+".select_id_find_email", findMap);
+	}
+	
+	@Override
+	public MemberVO findPasswordasEmail(String memberId, String memberEmail) {
+		logger.info("findPasswordasEmail() 호출");
+		Map<String, String> findMap=new HashMap<String, String>();
+		findMap.put("memberId", memberId);
+		findMap.put("memberEmail", memberEmail);
+		return sqlSession.selectOne(NAMESPACE+".select_pw_find_email", findMap);
+	}
 }

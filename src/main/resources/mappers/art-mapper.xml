@@ -122,7 +122,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 조회수 업데이트 -->
 	<update id="update_view">
 		update ${art}
-		set ${artViewCount}=#{artViewCount}
+		set ${artViewCount}=${artViewCount}+#{count}
 		where ${artNo}=#{artNo}
 	</update>
 </mapper>

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -243,8 +244,16 @@ public class ArtController {
 	} //end display()
 	
 	@GetMapping("/arts/detail")
-	public void detail(Model model, Integer artNo, Integer page) {
+	public void detail(Model model, Integer artNo, Integer page, HttpServletRequest request) {
 		logger.info("detail() 호출 : artNo = "+artNo+", page = "+page);
+		//조회수 카운팅
+		String ip = request.getRemoteAddr();
+		int count=0;
+		logger.info("ip : "+ip);
+		count++;
+		int updateView=artService.updateView(artNo, count);
+		logger.info(updateView+"행 조회수 업데이트");
+		
 		Map<String, Object> readMap=artService.readArtNo(artNo);
 		ArtVO vo=(ArtVO)readMap.get("vo");
 		if(readMap.containsKey("maxMoney")) { //maxMoney가 있으면

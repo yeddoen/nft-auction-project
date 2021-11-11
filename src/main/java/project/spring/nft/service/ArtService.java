@@ -31,5 +31,5 @@ public interface ArtService {
 	//상세 작품 조회
 	Map<String, Object> readArtNo(int artNo);
 	//조회수 카운팅 업데이트
-	int updateView(int artViewCount);
+	int updateView(int artNo, int count);
 }
