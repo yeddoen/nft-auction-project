@@ -118,7 +118,6 @@
 				<p>전화번호</p><p>${vo.memberPhone }</p>
 				<p>이메일</p><p>${vo.memberEmail }</p>
 			</div>
-			
 			<div class="content-btn">
 				<button type="button" onclick="location.href='update'">회원정보수정</button>
 				
