@@ -7,17 +7,19 @@ public class WishlistVO {
 	private String artName;
 	private int artPrice;
 	private String artFileName;
+	private int artNo;
 
 	public WishlistVO() {
 	}
 
-	public WishlistVO(int wishNo, String memberId, String artName, int artPrice, String artFileName) {
+	public WishlistVO(int wishNo, String memberId, String artName, int artPrice, String artFileName, int artNo) {
 		super();
 		this.wishNo = wishNo;
 		this.memberId = memberId;
 		this.artName = artName;
 		this.artPrice = artPrice;
 		this.artFileName = artFileName;
+		this.artNo = artNo;
 	}
 
 	public int getWishNo() {
@@ -59,11 +61,21 @@ public class WishlistVO {
 	public void setArtFileName(String artFileName) {
 		this.artFileName = artFileName;
 	}
+	
+	public int getArtNo() {
+		return artNo;
+	}
+
+	public void setArtNo(int artNo) {
+		this.artNo = artNo;
+	}
+	
+	
 
 	@Override
 	public String toString() {
 		return "WishlistVO [wishNo=" + wishNo + ", memberId=" + memberId + ", artName=" + artName + ", artPrice="
-				+ artPrice + ", artFileName=" + artFileName + "]";
+				+ artPrice + ", artFileName=" + artFileName + ", artNo=" + artNo + "]";
 	}
 
 } // end class

@@ -24,8 +24,8 @@ public class MemberRESTController {
 	@Autowired
 	private MemberService memberService;
 	
-	@GetMapping("/login-check/{member_id}")
-	public ResponseEntity<Integer> loginCheck(@PathVariable("member_id") String memberId) {
+	@GetMapping("/id-check/{member_id}")
+	public ResponseEntity<Integer> idCheck(@PathVariable("member_id") String memberId) {
 		logger.info("loginCheck() 호출");
 		//TODO db연결하고 확인해보기
 		int result=memberService.readIdCheck(memberId);

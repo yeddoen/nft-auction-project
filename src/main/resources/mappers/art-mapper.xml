@@ -6,8 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insert">
 		insert into ${art} 
-		(${memberId}, ${artName}, ${artPrice}, ${artContent}, ${artShowDate}, ${artFileName})
-		values(#{memberId}, #{artName}, #{artPrice}, #{artContent}, #{artShowDate}, #{artFileName})
+		(${memberId}, ${artName}, ${artPrice}, ${artContent}, ${artShowDate}, ${artBasicFee},${artFileName})
+		values(#{memberId}, #{artName}, #{artPrice}, #{artContent}, #{artShowDate}, #{artBasicFee}, #{artFileName})
 	</insert>
 	
 	<update id="update_nickname">
@@ -76,8 +76,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) total_cnt 
 		from ${art}
 		where ${memberNickname} like #{keyword}
-	</select>		
+	</select>
 	
+	<!-- art 테이블에서 member id를 기준으로 select 가져오기 -->
+	<select id="select_by_member_id" resultType="ArtVO">
+		select * 
+		from ${art}
+		where ${memberId} = #{memberId}
+		order by ${artNo} desc
+	</select>
+		
 	<!-- 작품명 검색 -->
 	<select id="select_by_art_name" resultType="ArtVO">
 		select b.${artNo}, b.${memberId}, b.${artName}, b.${artPrice}, 
@@ -92,8 +100,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				order by ${artNo} desc
 		    )a
 		)b
-		where rn between #{start} and #{end}	
+		where rn between #{start} and #{end}		
 	</select>
+	
 	
 	<!-- 작가이름 검색 -->
 	<select id="select_by_member_nickname" resultType="ArtVO">
@@ -111,4 +120,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)b
 		where rn between #{start} and #{end}	
 	</select>
+	
+	<!-- 작품 당 상세정보 -->
+	<select id="select_by_art_no" resultType="ArtVO">
+		select *
+		from ${art}
+		where ${artNo}=#{artNo}
+	</select>
+	
+	<!-- 조회수 업데이트 -->
+	<update id="update_view">
+		update ${art}
+		set ${artViewCount}=${artViewCount}+#{count}
+		where ${artNo}=#{artNo}
+	</update>
+	
+	<!-- 현아추가 -->
+	<!-- 찜수 업데이트 -->
+	<update id="update_wish_count">
+		update ${art}
+		set ${artWishCount}=${artWishCount}+#{count} <!-- 그냥 카운트 써도 되나? -->
+		where ${artNo}=#{artNo}
+	</update>
 </mapper>

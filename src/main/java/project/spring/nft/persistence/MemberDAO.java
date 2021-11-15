@@ -1,5 +1,7 @@
 package project.spring.nft.persistence;
 
+import java.util.List;
+
 import project.spring.nft.domain.MemberVO;
 
 //회원정보 관련
@@ -24,4 +26,13 @@ public interface MemberDAO {
 	
 	//회원탈퇴
 	int deleteMember(String memberId, String memberPassword); // memberId로 바꿈
+	
+	//전화번호로 아이디찾기(정보 중복이 있을 수 있어 list)
+	List<String> findIdasPhone(String memberName, String memberPhone);
+	
+	//이메일로 아이디찾기
+	List<String> findIdasEmail(String memberName, String memberEmail);
+	
+	//비밀번호 찾기
+	MemberVO findPasswordasEmail(String memberId, String memberEmail);
 }

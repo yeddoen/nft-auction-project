@@ -2,9 +2,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css">
+table, th, td {
+  border-style: solid;
+  border-width: 1px;
+  text-align: center;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  display: inline-block;
+}
+</style>
+
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <title>QnA 목록 페이지</title>
@@ -19,7 +36,7 @@
   <c:if test="${not empty sessionScope.memberId }">
     <button type="button" id="btn_logout">로그아웃</button>
   </c:if>
-  <a href="qnaregister">문의하기</a>
+  <a href="qnaregister?memberId=<%=session.getAttribute("memberId") %>">문의하기</a>
   
   <div align="center">
     <table>
@@ -32,9 +49,11 @@
       <c:forEach items="${qnalist }" var="qnalist">
         <tr>
           <td><c:out value="${qnalist.qnaboardNo }" /></td>
-          <td><a href="qnadetail?qnaboardNo=${qnalist.qnaboardNo }"><c:out value="${qnalist.qnaboardTitle }" /></td>
+          <td><a href="qnadetail?qnaboardNo=${qnalist.qnaboardNo }&memberId=<%=session.getAttribute("memberId") %>"><c:out value="${qnalist.qnaboardTitle }" /></td>
           <td><c:out value="${qnalist.memberNickname }" /></td>
-          <td><c:out value="${qnalist.qnaboardDate }" /></td>
+          <c:set var="qnaboardDate"><fmt:formatDate value="${qnalist.qnaboardDate }" pattern="YYYY-MM-DD hh:mm"/></c:set>
+          <td><c:out value="${qnaboardDate }"/></td>
+          
         </tr>
       </c:forEach>
       
@@ -60,13 +79,12 @@
     $(document).ready(function() {
         // 로그인 버튼 클릭
         $('#btn_login').click(function() {
-            var targetURL = encodeURI('/nft-auction-project/member/login');
-            location = targetURL;
+            location = '../members/login';
         }); // end btn_login.click()
         
         // 로그아웃 버튼 클릭
         $('#btn_logout').click(function() {
-            location = '../member/login';
+            location = '../members/login';
         }); // end btn_logout.click()
     }); // end document()
   </script>

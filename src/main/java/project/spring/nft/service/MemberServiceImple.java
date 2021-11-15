@@ -1,5 +1,7 @@
 package project.spring.nft.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +58,24 @@ public class MemberServiceImple implements MemberService {
 	public int deleteMember(String memberId, String memberPassword) {
 		logger.info("deleteMember() 호출 : memberNo = "+memberId);
 		return dao.deleteMember(memberId, memberPassword);
+	}
+	
+	@Override
+	public List<String> findIdasPhone(String memberName, String memberPhone) {
+		logger.info("findIdasPhone() 호출");
+		return dao.findIdasPhone(memberName, memberPhone);
+	}
+	
+	@Override
+	public List<String> findIdasEmail(String memberName, String memberEmail) {
+		logger.info("findIdasEmail() 호출");
+		return dao.findIdasEmail(memberName, memberEmail);
+	}
+	
+	@Override
+	public MemberVO findPasswordasEmail(String memberId, String memberEmail) {
+		logger.info("findPasswordasEmail() 호출");
+		return dao.findPasswordasEmail(memberId, memberEmail);
 	}
 
 } // end class

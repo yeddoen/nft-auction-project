@@ -37,6 +37,7 @@ ul {
 li {
 	display: inline-block;
 }
+
 /* 사이드바 래퍼 스타일 */
 .aside {
 	width: 30%;
@@ -101,6 +102,38 @@ li {
 </style>
 </head>
 <body>
+	<header class="header">
+		<!-- header -->
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+			<a class="navbar-brand" href="../../main">NTF-AUCTION</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNavDropdown">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item"><a class="nav-link"
+						href="../../arts/register">작품등록</a></li>
+					<c:if test="${empty sessionScope.memberId }">
+						<li class="nav-item"><a class="nav-link"
+							href="../members/login">로그인</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="../members/sign-up">회원가입</a></li>
+					</c:if>
+					<c:if test="${not empty sessionScope.memberId }">
+						<li class="nav-item"><a class="nav-link"
+							href="../members/logout">로그아웃</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="../members/my-page/member">마이페이지</a></li>
+					</c:if>
+				</ul>
+			</div>
+		</nav>
+
+	</header>
+
+
 	<aside class="aside">
 		<div id="page-wrapper">
 			<!-- 사이드바 -->
@@ -123,23 +156,43 @@ li {
 			<!-- 본문 헤더 -->
 			<div id="page-content-wrapper">
 				<div class="container-fluid">
-					<h1>정말 회원을 탈퇴하시겠습니까?</h1>
+					<h1>등록 작품 내역</h1>
 				</div>
 			</div>
 
 			<div class="content">
-				<p>비밀번호를 입력해주세요.</p>
-				<p>
-					아이디<span>&nbsp;${vo.memberId }</span>
-				</p>
-					<form action="delete" method="post">
-					비밀번호 <input type="password" id="member_pw" name="memberPassword" placeholder="비밀번호 입력" required> 
-						<input type="submit" value="탈퇴하기" id="btn-delete">
-					</form>
+				<!-- 등록한 작품 내역 리스트 보여주기!!! -->
+				<c:forEach var="vo" items="${list }">
+					<div class="col-sm-4">
+						<div class="card border-primary mb-3" style="max-width: 20rem;">
+							<div class="card-header">by ${vo.memberId}</div>
+							<div class="card-body">
+								<a
+									href="../../arts/detail?artNo=${vo.artNo}&page=${pageMaker.criteria.page}">
+									<h4 class="card-title">
+										<img
+											src="/nft-auction/arts/display?fileName=${vo.artFileName }">
+									</h4>
+									<hr>
+									<p class="card-text">${vo.artName }</p>
+									
+								</a>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+
+
 			</div>
+
+			<div class="content-btn"></div>
 
 		</div>
 	</section>
+
+	<script type="text/javascript">
+        
+    </script>
 
 </body>
 </html>

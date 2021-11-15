@@ -2,7 +2,9 @@ package project.spring.nft.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -10,6 +12,8 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,22 +23,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import project.spring.nft.domain.ArtVO;
 import project.spring.nft.domain.MemberVO;
+import project.spring.nft.domain.WishlistVO;
+import project.spring.nft.pageutil.PageCriteria;
+import project.spring.nft.pageutil.PageMaker;
+import project.spring.nft.service.ArtService;
 import project.spring.nft.service.MemberService;
 
 @Controller
 @RequestMapping(value = "/members")
 public class MemberController {
-	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
-
+	private static final Logger logger=
+			LoggerFactory.getLogger(MemberController.class);
+	
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private JavaMailSender mailSender;
+	@Autowired
+	private ArtService artService;
 
 	@GetMapping("/sign-up")
 	public void joinMemberGET() {
 		logger.info("joinMemberGET() 호출");
-	} // end joinMemberGET()
-
+	} //end joinMemberGET()
+	
 	@PostMapping("/sign-up")
 	public String joinMemberPOST(MemberVO vo, RedirectAttributes reAttr) {
 		logger.info("joinMemberPOST() 호출 : vo = " + vo.toString());
@@ -232,5 +246,138 @@ public class MemberController {
 		}
 
 	} // end deletePOST()
+	
+	@GetMapping("/find-id")
+	public void findId() {
+		logger.info("findId() 호출");
+	} //end findId()
+	
+	@PostMapping("/find-id/phone")
+	public String findIdasPhone(Model model, String memberName, String memberPhone) {
+		logger.info("findIdasPhone() 호출");
+		List<String> list=memberService.findIdasPhone(memberName, memberPhone);
+		logger.info(list.size()+"개 정보 일치");
+		model.addAttribute("list", list);
+		return "members/find-result";
+	} //end findIdasPhone()
+	
+	@PostMapping("/find-id/email")
+	public String findIdasEmail(Model model, String memberName, String memberEmail) {
+		logger.info("findIdasEmail() 호출");
+		List<String> list=memberService.findIdasEmail(memberName, memberEmail);
+		logger.info(list.size()+"개 정보 일치");
+		model.addAttribute("list", list);
+		return "members/find-result";
+	} //end findIdasEmail()
+	
+	@GetMapping("/find-password")
+	public void findPasswordGET() {
+		logger.info("findPasswordGET() 호출");
+	} //end findPasswordGET()
+	
+	@PostMapping("/find-password")
+	public String findPasswordPOST(RedirectAttributes reAttr, String memberId, String memberEmail) throws Exception {
+		logger.info("findPasswordPOST() 호출");
+		MemberVO vo=memberService.findPasswordasEmail(memberId, memberEmail);
+		if(vo != null) { //일치하는 회원정보가 있으면
+			String randomPassword=getRamdomPassword(7);
+			logger.info("randomPassword = "+randomPassword);
+			int update=memberService.updateMemberPassword(memberId, randomPassword);
+			logger.info(update+"개 임시비밀번호 변경");
+			//TODO 메일로 임시비번 보내기
+			int result=sendMailTest(memberEmail, randomPassword);
+			logger.info(result+"개 메일 발송 완료");
+			reAttr.addFlashAttribute("emailResult", "success");
+			return "redirect:login";
+		}else {
+			reAttr.addFlashAttribute("emailResult", "fail");
+			return "redirect:find-password";
+		}
+	} //end findPasswordPOST();
+	
+	public static String getRamdomPassword(int len) { 
+		char[] charSet = new char[] { 
+				'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
+				'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 
+				'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 
+				'U', 'V', 'W', 'X', 'Y', 'Z' 
+				}; 
+		int idx = 0; 
+		StringBuffer sb = new StringBuffer(); 
+		logger.info("charSet.length : "+charSet.length); 
+		
+		for (int i = 0; i < len; i++) { 
+			idx = (int) (charSet.length * Math.random()); 
+			// 36 * 생성된 난수를 Int로 추출 (소숫점제거) 
+			logger.info("idx : "+idx); 
+			sb.append(charSet[idx]); 
+		} 
+		return sb.toString(); 
+	} //end getRamdomPassword()
+	
 
+    public int sendMailTest(String memberEmail, String randomPassword) throws Exception{
+        int result=0;
+        String subject = "[NFT-AUCTION] 임시 비밀번호가 발급되었습니다.";
+        String content = 
+        	"<p>안녕하세요 고객님!<br>발급된 임시 비밀번호는"
+        	+randomPassword
+        	+"입니다.<br>로그인하고 비밀번호를 변경해주세요.</p>";
+        String from = "qrqrqrqrt@gmail.com";
+        String to = memberEmail;
+        
+        try {
+            MimeMessage mail = mailSender.createMimeMessage();
+            MimeMessageHelper mailHelper = new MimeMessageHelper(mail,"UTF-8");
+            // true는 멀티파트 메세지를 사용하겠다는 의미
+            
+            mailHelper.setFrom(from);
+            // 빈에 아이디 설정한 것은 단순히 smtp 인증을 받기 위해 사용 따라서 보내는이(setFrom())반드시 필요
+            mailHelper.setTo(to);
+            mailHelper.setSubject(subject);
+            mailHelper.setText(content, true);
+            // true는 html을 사용하겠다는 의미입니다.            
+            mailSender.send(mail);
+            result=1;
+            return result; //전송 정상적으로 처리됨
+        } catch(Exception e) {
+            e.printStackTrace();
+            return result;
+        }
+        
+    } //end sendMailTest()
+    
+    
+    // 현아 추가. 등록작품페이지!
+    @GetMapping("/my-page/artlist")
+    public void artlistGET(Model model, HttpServletRequest request, Integer page, Integer numsPerPage) {
+		logger.info("artlistGET() 호출");
+		logger.info("page = "+page+", numsPerPage = "+numsPerPage);
+
+		// TODO : 작품 등록이 안되어있는 상황도 봐야함!
+		
+		PageCriteria criteria = new PageCriteria();
+		if(page !=null) {
+			criteria.setPage(page);
+		}
+		if(numsPerPage!=null) {
+			criteria.setNumsPerPage(numsPerPage);
+		}
+
+		HttpSession session = request.getSession();
+		String memberId = (String) session.getAttribute("memberId");
+
+		List<ArtVO> list = artService.readByMemberId(memberId);
+		model.addAttribute("list", list);
+		
+		
+		PageMaker pageMaker=new PageMaker();
+		pageMaker.setCriteria(criteria);
+		pageMaker.setPageData();
+		model.addAttribute("pageMaker", pageMaker);
+
+	} // end artlistGET()
+    
+
+	
 } // end class

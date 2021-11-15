@@ -11,6 +11,7 @@ public class ArtVO {
 	private int artPrice;
 	private String artContent;
 	private String artShowDate;
+	private String artBasicFee;
 	private int artReplyCount, artWishCount, artViewCount;
 	private String artFileName;
 	private String memberNickname;
@@ -18,7 +19,8 @@ public class ArtVO {
 	public ArtVO() {}
 
 	public ArtVO(int artNo, String memberId, String artName, int artPrice, String artContent, String artShowDate,
-			int artReplyCount, int artWishCount, int artViewCount, String artFileName, String memberNickname) {
+			String artBasicFee, int artReplyCount, int artWishCount, int artViewCount, String artFileName,
+			String memberNickname) {
 		super();
 		this.artNo = artNo;
 		this.memberId = memberId;
@@ -26,6 +28,7 @@ public class ArtVO {
 		this.artPrice = artPrice;
 		this.artContent = artContent;
 		this.artShowDate = artShowDate;
+		this.artBasicFee = artBasicFee;
 		this.artReplyCount = artReplyCount;
 		this.artWishCount = artWishCount;
 		this.artViewCount = artViewCount;
@@ -81,6 +84,14 @@ public class ArtVO {
 		this.artShowDate = artShowDate;
 	}
 
+	public String getArtBasicFee() {
+		return artBasicFee;
+	}
+
+	public void setArtBasicFee(String artBasicFee) {
+		this.artBasicFee = artBasicFee;
+	}
+
 	public int getArtReplyCount() {
 		return artReplyCount;
 	}
@@ -124,10 +135,9 @@ public class ArtVO {
 	@Override
 	public String toString() {
 		return "ArtVO [artNo=" + artNo + ", memberId=" + memberId + ", artName=" + artName + ", artPrice=" + artPrice
-				+ ", artContent=" + artContent + ", artShowDate=" + artShowDate + ", artReplyCount=" + artReplyCount
-				+ ", artWishCount=" + artWishCount + ", artViewCount=" + artViewCount + ", artFileName=" + artFileName
-				+ ", memberNickname=" + memberNickname + "]";
+				+ ", artContent=" + artContent + ", artShowDate=" + artShowDate + ", artBasicFee=" + artBasicFee
+				+ ", artReplyCount=" + artReplyCount + ", artWishCount=" + artWishCount + ", artViewCount="
+				+ artViewCount + ", artFileName=" + artFileName + ", memberNickname=" + memberNickname + "]";
 	}
-	
 	
 }

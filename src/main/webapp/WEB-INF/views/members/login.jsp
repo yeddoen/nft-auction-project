@@ -14,22 +14,37 @@
 		<form action="login" method="post">
 			<input type="text" name="memberId" required placeholder="아이디 입력"><br>
 			<input type="password" name="memberPassword" required placeholder="비밀번호 입력"><br>
+			
 			<input type="submit" value="로그인">
 		</form>	
-		<input type="hidden" id="login_result" value="${loginResult }">
-		<a href="sign-up"><button>회원가입</button></a>
+		<a href="sign-up"><button type="button">회원가입</button></a>
+		<a href="find-id"><button>아이디 찾기</button></a>
+		<a href="find-password"><button>비밀번호 찾기</button></a>
 	</div>
+	<!-- hidden -->
+	<input type="hidden" id="login_result" value="${loginResult }">
+	<input type="hidden" id="email_result" value="${emailResult }">
 	<!-- JavaScript -->
 	<script type="text/javascript">
 		$(function() {
 			confirmLoginReslut();
+			confirmEmailResult();
 			
 			function confirmLoginReslut() {
 				var result=$('#login_result').val();
+				console.log(result);
 				if(result=='fail'){
 					alert('일치하는 회원정보가 없습니다.');
 				}
-			}
+			}//end confirmLoginReslut()
+			
+			function confirmEmailResult() {
+				var result = $('#email_result').val();
+				console.log(result);
+				if(result=='success'){
+					alert('입력한 이메일주소로 임시 비밀번호가 발급되었습니다.');
+				}
+			}//end confirmEmailResult()
 		});//end document
 	</script>
 </body>

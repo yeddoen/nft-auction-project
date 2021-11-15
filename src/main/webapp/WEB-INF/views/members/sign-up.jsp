@@ -11,11 +11,7 @@
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <!-- JavaScript : submitAble() -->
-<script type="text/javascript">
-	var id_check=false; //아이디 중복체크용
-	var member_check=false; //본인인증 확인용
-	var pw_check=false; //비밀번호 확인용
-		
+<script type="text/javascript">		
 	var id_check=false; //아이디 중복체크
 	var member_check=false; //본인인증 확인
 	var pw_check=false; //비밀번호 확인
@@ -27,7 +23,7 @@
 		//전화번호 정규표현식 적용
 		var phone_check=
 			/^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
-		phone=phone.replace(/(.{3,4})/g,'-');
+		//phone=phone.replace(/(.{3,4})/g,'-');
 		//이메일 정규표현식 적용
 		var email_check=
 			/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
@@ -102,14 +98,14 @@
 				}else{
 					$.ajax({
 						type:'get',
-		                url:'rest/login-check/'+member_id,
+		                url:'rest/id-check/'+member_id,
 		                success:function(result, status){
 		                	console.log(result + " : "+ status);
 		                	if(result==0){
 		                		id_check=true;
 		                		$('#check_id_result').css('color', 'green');
 			                	$('#check_id_result').html("사용가능한 아이디입니다.");
-		                	}else{
+		                	}else{ // 1인 경우
 		                		id_check=false;
 		                		$('#check_id_result').css('color', 'red');
 			                	$('#check_id_result').html("중복된 아이디입니다.");

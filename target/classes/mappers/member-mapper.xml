@@ -48,4 +48,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from ${member}
 		where ${memberId}=#{memberId}
 	</delete>
+	
+	<!-- 전화번호로 아이디 찾기 -->
+	<select id="select_id_find_phone" resultType="String">
+		select ${memberId}
+		from ${member}
+		where ${memberName}=#{memberName}
+		and ${memberPhone}=#{memberPhone}
+	</select>
+	
+	<!-- 이메일로 아이디 찾기 -->
+	<select id="select_id_find_email" resultType="String">
+		select ${memberId}
+		from ${member}
+		where ${memberName}=#{memberName}
+		and ${memberEmail}=#{memberEmail}
+	</select>
+	
+	<!-- 비밀번호 찾기 -->
+	<select id="select_pw_find_email" resultType="MemberVO">
+		select *
+		from ${member}
+		where ${memberId}=#{memberId}
+		and ${memberEmail}=#{memberEmail}
+	</select>
 </mapper>

@@ -59,5 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  	set ${qnareplyCount} = ${qnareplyCount} + #{amount}
 	  	where ${qnaboardNo} = #{qnaboardNo}
 	  </update>
+	  
+	  
 
 </mapper>

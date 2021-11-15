@@ -7,7 +7,8 @@ import project.spring.nft.domain.WishlistVO;
 public interface WishlistService {
 	int create(WishlistVO vo);
 	List<WishlistVO> readByMemberId(String memberId);
-	int delete(int wishNo);
+	int delete(String memberId, String artName);
+	int readCount(String memberId, String artName);
 	
 	
 	

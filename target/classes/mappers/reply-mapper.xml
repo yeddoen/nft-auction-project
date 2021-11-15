@@ -12,8 +12,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
   <select id="select_all_by_qnaboard_no" resultType="QnAReplyVO">
     select * from ${qnareply}
-    where ${qnaboardNo} = #{qnaboardNo}
-    order by ${replyParentNo} desc, ${replyNo} asc
+    where ${qnaboardNo} = #{qnaboardNo} and ${replyParentNo} = 0
+  </select>
+  
+  <select id="select_reply_by_parent_no" resultType="QnAReplyVO">
+  	select * from ${qnareply}
+    where ${qnaboardNo} = #{qnaboardNo} and ${replyParentNo} = #{replyParentNo}
   </select>
   
   <update id="update">
@@ -23,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   </update>
   
   <delete id="delete">
-    delete from ${qnareply} where ${replyNo} = #{replyNo}
+    delete from ${qnareply} where ${replyNo} = #{replyNo} or ${replyParentNo} = #{replyNo}
   </delete>
   
 </mapper>

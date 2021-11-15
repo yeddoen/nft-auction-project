@@ -4,8 +4,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -25,9 +28,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import project.spring.nft.domain.ArtVO;
+import project.spring.nft.domain.AuctionVO;
+import project.spring.nft.domain.MemberVO;
+import project.spring.nft.domain.WishlistVO;
 import project.spring.nft.pageutil.PageCriteria;
 import project.spring.nft.pageutil.PageMaker;
 import project.spring.nft.service.ArtService;
+import project.spring.nft.service.AuctionService;
+import project.spring.nft.service.WishlistService;
 import project.spring.nft.util.FileUploadUtil;
 import project.spring.nft.util.MediaUtil;
 
@@ -77,6 +85,8 @@ public class ArtController {
 		pageMaker.setCriteria(criteria);
 		pageMaker.setTotalCount(artService.getTotalNumsOfRecords());
 		pageMaker.setPageData();
+		logger.info("이전 버튼 존재 유무 : "+pageMaker.isHasPrev());
+		logger.info("다음 버튼 존재 유무 : "+pageMaker.isHasNext());
 		model.addAttribute("pageMaker", pageMaker);
 	} //end currentAllList()
 	
@@ -149,17 +159,17 @@ public class ArtController {
 		
 		if(category.equals("artName")) { //직품명 검색
 			list=artService.readArtName(criteria, keyword);	
-			pageMaker.setTotalCount(artService.getArtNameNumsOfRecords());
+			logger.info("검색 완료");
+			pageMaker.setTotalCount(artService.getArtNameNumsOfRecords(keyword));
 		}else { //작가닉네임 검색
 			list=artService.readMemberNickname(criteria, keyword);		
-			pageMaker.setTotalCount(artService.getNicknameNumsOfRecords());
+			pageMaker.setTotalCount(artService.getNicknameNumsOfRecords(keyword));
 
 		}
 		model.addAttribute("list", list);
 		
 
 		pageMaker.setCriteria(criteria);
-		pageMaker.setTotalCount(artService.getTotalNumsOfRecords());
 		pageMaker.setPageData();
 		model.addAttribute("pageMaker", pageMaker);
 		
@@ -224,10 +234,6 @@ public class ArtController {
 		String filePath=uploadPath+fileName;
 		in=new FileInputStream(filePath); //파일넣기
 		
-		//파일 확장자
-//		String extension=filePath.substring(filePath.lastIndexOf(".")+1);
-//		logger.info(extension);
-		
 		//응답헤더(response header) org.springframework.http에 Content-Type 설정
 		HttpHeaders httpHeaders=new HttpHeaders();
 		httpHeaders.setContentType(MediaUtil.getMediaType(extension));
@@ -240,4 +246,36 @@ public class ArtController {
 		
 		return entity;
 	} //end display()
+	
+	@GetMapping("/arts/detail")
+	public void detail(Model model, Integer artNo, Integer page, HttpServletRequest request) {
+		logger.info("detail() 호출 : artNo = "+artNo+", page = "+page);
+		
+		//조회수 카운팅
+		String ip = request.getRemoteAddr();
+		int count=0;
+		logger.info("ip : "+ip);
+		count++;
+		
+		int updateView=artService.updateView(artNo, count);
+		logger.info(updateView+"행 조회수 업데이트");
+	
+		Map<String, Object> readMap=artService.readArtNo(artNo);
+		ArtVO vo=(ArtVO)readMap.get("vo");
+		
+		HttpSession session = request.getSession();
+		String memberId = (String) session.getAttribute("memberId");
+		System.out.println(memberId);
+		
+//		List<WishlistVO> wishlist = wishlistservice.readByMemberId(memberId);
+//		System.out.println("detail 호출 wishlist 로그 : " + wishlist.toString());
+
+		
+		if(readMap.containsKey("maxMoney")) { //maxMoney가 있으면
+			int maxMoney=(Integer)readMap.get("maxMoney");
+			model.addAttribute("maxMoney", maxMoney);			
+		}
+		model.addAttribute("vo", vo);
+		model.addAttribute("page", page);
+	} //end detail()
 }
