@@ -185,6 +185,7 @@ tbody {
 								data-toggle="tab" href="#content">작품설명</a></li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
 								href="#reply">댓글 (${vo.artReplyCount })</a></li>
+								href="#art_reply">댓글 (${vo.artReplyCount })</a></li>
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane fade show active" id="content">
@@ -198,6 +199,30 @@ tbody {
 									class="btn btn-outline-primary">입력</button>
 								<hr>
 								<div id="">댓글목록..~</div>
+								<c:if test="${not empty sessionScope.memberId }">
+									<div style="text-align: right;">
+										<a href="update?artNo=${vo.artNo }"><button type="button" class="btn btn-primary">수정</button></a>
+										<a href="delete?artNo=${vo.artNo }"><button type="button" class="btn btn-primary">삭제</button></a>
+									</div>
+								</c:if>
+							</div>
+							<div class="tab-pane fade" id="art_reply">
+								<br>
+								<div class="input-group mb-3">
+									<c:if test="${empty sessionScope.memberId }">
+										<p>로그인한 회원만 댓글 작성이 가능합니다. <a href="../members/login">로그인하기</a></p>
+									</c:if>
+							    	<c:if test="${not empty sessionScope.memberId }">
+							     		<input type="hidden" id="memberReplyNo" readonly>
+							     		<input type="text" id="memberReplyId" value="${vo.memberId }">
+									    <input type="text" id="memberReplyNickname" value="${vo.memberNickname }" readonly>
+							     		<input type="text" id="artReplyContent" class="form-control" placeholder="댓글 내용을 입력하세요">
+							     		<button type="button" id="btn_add" class="btn btn-outline-primary">등록</button>
+							     	</c:if>
+								</div>
+								<hr>								
+								<div id="replies">
+								</div>
 							</div>
 						</div>
 					</div>
@@ -220,6 +245,8 @@ tbody {
 	<%-- <input type="hidden" id="art_wish_count" value="${vo.artWishCount}"> --%>
 	<input type="hidden" id="art_no" value="${vo.artNo}">
 	
+	<input type="hidden" id="max_money" value="${maxMoney }">
+	<input type="hidden" id="basic_money" value="${vo.artBasicFee }">
 	<!-- JavaScript -->
 	<script type="text/javascript">
 		$(function(){
@@ -228,6 +255,7 @@ tbody {
 			console.log(art_no);
 			imgShow();
 			getAllBidsList();
+			getAllReplies();
 			setInterval(auctionTimer, 1000); //1초마다 timer 반복하기
 			
 			/* 원본이미지 출력 */
@@ -412,6 +440,225 @@ tbody {
 					}  
 			}); // end btn_wish click
 			
+			/* 댓글 입력 */
+	        $('#btn_add').click(function() {
+	           
+	           var artReplyContent = $('#artReplyContent').val();
+	           var artReplyParentNo = "0";
+	           var memberReplyNickname = $('#memberReplyNickname').val();
+	           var memberReplyId = $('#memberReplyId').val();
+	           var obj = {
+	                   'artNo' : art_no,
+	                   'artReplyParentNo' : artReplyParentNo,
+	                   'artReplyContent' : artReplyContent,
+	                   'memberNickname' : memberReplyNickname,
+	                   'memberId' : memberReplyId
+	           };
+	           
+	           var JSONObj = JSON.stringify(obj);
+	           
+	           $.ajax({
+	             type : 'POST',
+	             url : 'replies/rest',
+	             headers : { 
+	                 'Content-Type' : 'application/json',
+	               'X-HTTP-Method-Override' : 'POST'
+	             },
+	             data : JSONObj,
+	             success : function(result, status) {
+	                if(result == 1) {
+	                    alert('댓글 입력 성공');
+	                    getAllReplies();
+	                }
+	            }
+	           });
+	           
+	        }); // end btn_add()	
+	        
+	        /* 답글 입력창 생성 */
+         	$('#replies').on('click', 'div .btn_reply', function() {
+            console.log("btn_reply click()");
+            var replyAddNo = $(this).closest('.reply_item').find('#artReplyNo').val();
+            var memberReplyAddNickname = $('#memberReplyNickname').val();
+            // var qnaboardNo2 = $(this).closest('.reply_item').find('#artReplyNo').val();
+            // console.log(artReplyNo2);
+             
+            var inputAddReply = $('<input type="hidden" id="replyAddNo" value="'+parseInt(replyAddNo)+'">'
+                    + '<input type="text" id="memberAddId" value=" ${vo.memberId} " + readonly>'
+                    + '<input type="text" id="memberReplyAddNickname" value="${vo.memberNickname }" readonly>'
+                    + '<input type="text" id="replyAddContent" placeholder="댓글 내용을 입력하세요">'
+                    + '<button type="button" class="btn_add_reply">작성</button>');
+            $(this).closest('.reply_item').find('#reply').html(inputAddReply).toggle();   
+
+            }); // end btn_reply()	        
+	        
+	        /* 답글 입력 */
+	        $('#replies').on('click', '.btn_add_reply', function() {
+	        // $('.btn_add_reply').click(function() {          
+	          console.log("대댓글 작성 클릭");
+	            var replyAddContent = $('#replyAddContent').val();
+	            var artReplyParentNo = $('#replyAddNo').val();
+	            var memberNickname = $('#memberReplyAddNickname').val();
+	            var memberAddId = $('#memberAddId').val();
+	            var obj = {
+	                    'artNo' : art_no,
+	                    'artReplyParentNo' : artReplyParentNo,
+	                    'artReplyContent' : replyAddContent,
+	                    'memberNickname' : memberNickname,
+	                    'memberId' : memberAddId
+	            };
+	            
+	            var JSONObj = JSON.stringify(obj);
+	            
+	            $.ajax({
+	              type : 'POST',
+	              url : 'replies/rest',
+	              headers : { 
+	                  'Content-Type' : 'application/json',
+	                 'X-HTTP-Method-Override' : 'POST'
+	              },
+	              data : JSONObj,
+	              success : function(result, status) {
+	                 if(result == 1) {
+	                     alert('답글 입력 성공');
+	                     getAllReplies();
+	                }
+	            }
+	           });
+	            
+	        }); // end btn_add_reply()
+				         
+	        /* 댓글 목록 */ 
+	        function getAllReplies() {
+	            var url = 'replies/rest/all/' + art_no;
+	            $.getJSON(
+	                    url,
+	                  function(jsonData) {
+	                  	console.log(jsonData);
+	                    var replyWriter = $('#memberReplyNickname').val(); // 로그인 한 사용자 닉네임
+	                    var list = '';
+						console.log(replyWriter);
+	                        
+						$(jsonData).each(function() {
+							console.log(this);
+	
+							// var hidden = 'hidden="hidden"';
+							var disabled = 'disabled';
+							var readonly = 'readonly';
+	                            
+							function getFormatDate(date){
+								var year = date.getFullYear();              
+								var month = (1 + date.getMonth());         
+								month = month >= 10 ? month : '0' + month;  
+								var day = date.getDate();                   
+								day = day >= 10 ? day : '0' + day; 
+								var hour = date.getHours();
+								var minutes = date.getMinutes();
+								return  year + '-' + month + '-' + day + ' ' + hour + ':' + minutes;      
+							} //end getFormatDate()
+							
+							var artReplyDate = new Date(this.artReplyDate);
+							artReplyDate = getFormatDate(artReplyDate);
+	                                                       
+							if(replyWriter == this.memberNickname) {
+								disabled = '';
+								readonly = '';
+							} 
+							if(replyWriter == this.memberReplyAddNickname) {
+								hidden = '';
+								readonly = '';
+							}
+	                            
+							if(this.artReplyParentNo == 0) {
+								var dis='';
+								var rep='';
+							} else {
+								var dis='disabled';
+								var rep='└RE: ';
+							}
+							
+							list += '<div class="reply_item">'
+								+ '<pre>'
+		                        + rep
+		                        + '<input type="hidden" id="artReplyNo" value="' + this.artReplyNo + '"/>'
+		                        + '<input type="hidden" id="memberId" value="'+ this.memberId + '"/>'
+		                        + '&nbsp;&nbsp;'
+		                        + '<input type="hidden" id="memberReplyNickname" value="' + this.memberNickname + '"/>'
+		                        + this.memberNickname
+		                        + '&nbsp;&nbsp;' // 공백
+		                        + '<input type="text" id="artReplyContent" value="' + this.artReplyContent + '" '+ readonly +'/>'
+		                        + '&nbsp;&nbsp;'
+		                        + artReplyDate
+		                        + '&nbsp;&nbsp;'
+		                        + '<button class="btn_update" type="button" '+ disabled +'>수정</button>'
+		                        + '<button class="btn_delete" type="button" '+ disabled +'>삭제</button>'
+		                        + '<button type="button" class="btn_reply" '+ dis +'>답글</button><br>'                         
+		                        + '<div id="reply" style="display: none;">'  
+		                        + '</div>'
+		                        + '</pre>'
+		                        + '</div>';
+	 
+							});
+						$('#replies').html(list);
+					}    
+	            );
+	        } // end getAllReplies()
+	        
+			/* 댓글 수정 */
+	        $('#replies').on('click', '.reply_item .btn_update', function() {
+	            console.log(this);
+	            
+	            var artReplyNo = $(this).prevAll('#artReplyNo').val();
+	            var artReplyContent = $(this).prevAll('#artReplyContent').val();
+	            console.log("선택된 댓글 번호 : " + artReplyNo + ", 댓글 내용 : " + artReplyContent);
+	            
+	            $.ajax({
+	               type : 'PUT',
+	               url : 'replies/rest/' + artReplyNo,              
+	               data : JSON.stringify({
+	                   'artReplyContent' : artReplyContent
+	               }),
+	               headers : {
+	                  'Content-Type' : 'application/json',
+	                  'X-HTTP-Method-Override' : 'PUT'
+	                 },
+	               success : function(result) {
+	                   if(result == 'success') {
+	                       alert('댓글 수정 성공!');
+	                       getAllReplies();
+	                   }
+	               }
+	            });
+	        }); // end btn_update()
+			
+			/* 댓글 삭제 */
+	        $('#replies').on('click', '.reply_item .btn_delete', function() {
+	            console.log(this);
+	            console.log("btn_delete() 클릭");
+	            var artReplyNo = $(this).prevAll('#artReplyNo').val();
+	            console.log("선택된 댓글 번호 : " + artReplyNo);
+	            
+	            $.ajax({
+	                type : 'delete',
+	                url : 'replies/rest/' + artReplyNo,
+	                data : JSON.stringify({
+	                    'artReplyNo' : artReplyNo,  
+	                    'artNo' : art_no
+	                }),
+	                headers : {
+	                  'Content-Type' : 'application/json',
+	                  'X-HTTP-Method-Override' : 'DELETE'
+	                },
+	                success : function(result) {
+	                    if(result == 'success') {
+	                        alert('댓글 삭제 성공!');
+	                        getAllReplies();
+	                    }
+	                }
+	            }); // end ajax
+	        }); // end btn_delete()
+			
+			/* 위시리스트 찜하기 */
 			
 			/* date format */
 			const formatDate = (current_datetime)=>{

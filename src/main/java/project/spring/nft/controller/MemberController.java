@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -332,6 +333,7 @@ public class MemberController {
             // true는 멀티파트 메세지를 사용하겠다는 의미
             
             mailHelper.setFrom(from);
+            mailHelper.setFrom(new InternetAddress(from,"NFT-AUCTION","UTF-8"));
             // 빈에 아이디 설정한 것은 단순히 smtp 인증을 받기 위해 사용 따라서 보내는이(setFrom())반드시 필요
             mailHelper.setTo(to);
             mailHelper.setSubject(subject);

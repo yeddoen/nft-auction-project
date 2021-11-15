@@ -271,6 +271,11 @@ public class ArtController {
 //		System.out.println("detail 호출 wishlist 로그 : " + wishlist.toString());
 
 		
+		int updateView=artService.updateView(artNo, count);
+		logger.info(updateView+"행 조회수 업데이트");
+		
+		Map<String, Object> readMap=artService.readArtNo(artNo);
+		ArtVO vo=(ArtVO)readMap.get("vo");
 		if(readMap.containsKey("maxMoney")) { //maxMoney가 있으면
 			int maxMoney=(Integer)readMap.get("maxMoney");
 			model.addAttribute("maxMoney", maxMoney);			
@@ -278,4 +283,39 @@ public class ArtController {
 		model.addAttribute("vo", vo);
 		model.addAttribute("page", page);
 	} //end detail()
+	@GetMapping("/arts/update")
+	public void updateGET(Model model, Integer artNo) {
+		logger.info("updateGET() 호출 : artNo = "+artNo);
+		Map<String, Object> readMap=artService.readArtNo(artNo);
+		ArtVO vo=(ArtVO)readMap.get("vo");
+		model.addAttribute("vo", vo);
+	} //end updateGET()
+	
+	@PostMapping("arts/update")
+	public String updatePOST(ArtVO vo, RedirectAttributes reAttr) {
+		logger.info("updatePOST() 호출 : vo = "+vo.toString());
+		int result=artService.updateArt(vo);
+		
+		if(result==1) {
+			reAttr.addFlashAttribute("updateResult", "success"); 
+			return "redirect:/arts/detail?artNo="+vo.getArtNo(); 
+		}else {
+			reAttr.addFlashAttribute("updateResult", "fail"); 
+			return "redirect:/arts/update?artNo="+vo.getArtNo();
+		}
+	} //end updatePOST()
+
+	@GetMapping("arts/delete")
+	public String deletePOST(int artNo, RedirectAttributes reAttr) throws Exception {
+		logger.info("deletePOST() 호출");
+		int result=artService.deleteArt(artNo);
+		
+		if(result==1) {
+			reAttr.addFlashAttribute("deleteResult", "success"); 
+			return "redirect:/main"; 
+		}else {
+			reAttr.addFlashAttribute("deleteResult", "fail"); 
+			return "redirect:/arts/detail?artNo="+artNo;
+		}
+	} //end deletePOST()
 }

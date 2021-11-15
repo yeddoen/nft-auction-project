@@ -8,10 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import project.spring.nft.domain.ArtVO;
 import project.spring.nft.pageutil.PageCriteria;
 import project.spring.nft.persistence.ArtDAO;
+import project.spring.nft.persistence.ArtReplyDAO;
 import project.spring.nft.persistence.AuctionDAO;
 
 @Service
@@ -23,6 +25,8 @@ public class ArtServiceImple implements ArtService {
 	private ArtDAO artDAO;
 	@Autowired
 	private AuctionDAO auctionDAO;
+	@Autowired
+	private ArtReplyDAO artReplyDAO;
 	
 	@Override
 	public int createArt(ArtVO vo) {
@@ -121,3 +125,28 @@ public class ArtServiceImple implements ArtService {
 		return artDAO.updateWishCount(artNo, count);
 	}
 } // end class
+	@Override
+	public int updateArt(ArtVO vo) {
+		logger.info("updateArt() 호출");
+		return artDAO.updateArt(vo);
+	}
+	
+	//작품 삭제 시 작품에 달린 댓글, 경매기록, 찜도 전부 지워져야함
+	//TODO 만약 누군가 구매했다면 작품삭제 불가능(구매기능 만들고 업데이트)
+	@Transactional
+	@Override
+	public int deleteArt(int artNo) throws Exception{
+		logger.info("deleteArt() 호출");
+		int result=artDAO.deleteArt(artNo);
+		logger.info("작품 삭제 성공");
+		
+		artReplyDAO.deleteArtNo(artNo); //작품의 댓글들 삭제
+		logger.info("작품의 댓글 삭제 성공");
+		//작품의 경매내역 삭제
+		auctionDAO.deleteArtNo(artNo);
+		logger.info("작품의 경매내역 삭제 성공");
+		//TODO 작품의 위시리스트 삭제
+		
+		return result;
+	}
+}

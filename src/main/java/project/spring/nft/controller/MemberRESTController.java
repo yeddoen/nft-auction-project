@@ -35,7 +35,7 @@ public class MemberRESTController {
 			logger.info("중복된 아이디 있음");
 		}	
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
-	} //end loginCheck()
+	} //end idCheck()
 	
 	@PostMapping("/confirm")
 	public ResponseEntity<String> confirmMemberPOST(String memberUid) {

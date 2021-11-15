@@ -32,7 +32,12 @@ public interface ArtDAO {
 	//조회수 카운팅 적용하기
 	int updateView(int artNo, int count);
 	//작품 데이터(작품명, 작품설명) 수정
+	//댓글수 업데이트
+	int updateReplyCount(int amount, int artNo);
+	//작품 데이터 수정
+	int updateArt(ArtVO vo);
 	//작품(게시된) 삭제
+	int deleteArt(int artNo);
 	
 	/*현아 추가*/
 	// 작품 멤버 아이디로 검색, 등록 내역에서 쓸거임

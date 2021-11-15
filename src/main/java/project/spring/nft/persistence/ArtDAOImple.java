@@ -125,4 +125,25 @@ public class ArtDAOImple implements ArtDAO {
 		return sqlSession.update(NAMESPACE+".update_wish_count", countMap);
 	}
 
+	
+	@Override
+	public int updateReplyCount(int amount, int artNo) {
+		logger.info("updateReplyCount 호출 : amount = "+amount+", artNo = "+artNo);
+		Map<String, Integer> args = new HashMap<String, Integer>();
+		args.put("amount", amount);
+		args.put("artNo", artNo);
+		return sqlSession.update(NAMESPACE + ".update_reply_count", args);
+	}
+	
+	@Override
+	public int updateArt(ArtVO vo) {
+		logger.info("updateArt() 호출 : vo = "+vo.toString());
+		return sqlSession.update(NAMESPACE+".update_art", vo);
+	}
+	
+	@Override
+	public int deleteArt(int artNo) {
+		logger.info("deleteArt() 호출 : artNo = "+artNo);
+		return sqlSession.delete(NAMESPACE+".delete_art", artNo);
+	}
 }

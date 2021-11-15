@@ -44,4 +44,10 @@ public class AuctionDAOImple implements AuctionDAO {
 		return sqlSession.selectOne(NAMESPACE+".select_max_money", artNo);
 	}
 
+	
+	@Override
+	public int deleteArtNo(int artNo) {
+		logger.info("deleteArtNo() 호출 : artNo = "+artNo);
+		return sqlSession.delete(NAMESPACE+".delete_art_no", artNo);
+	}
 }
