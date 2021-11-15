@@ -141,7 +141,7 @@ li {
 				<ul class="sidebar-nav">
 					<li class="sidebar-brand"><a href="../members/my-page/member">마이페이지</a></li>
 					<li><a href="../members/my-page/member">회원정보</a></li>
-					<li><a href="wishlist">위시리스트</a></li>
+					<li><a href="wishpage">위시리스트</a></li>
 					<li><a href="../members/my-page/artlist">등록작품내역</a></li>
 					<li><a href="#">구매작품내역</a></li>
 					<li><a href="../qnaboard/qnalist">QnA게시판</a></li>

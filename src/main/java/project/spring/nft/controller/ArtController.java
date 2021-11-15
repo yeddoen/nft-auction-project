@@ -267,15 +267,6 @@ public class ArtController {
 		String memberId = (String) session.getAttribute("memberId");
 		System.out.println(memberId);
 		
-//		List<WishlistVO> wishlist = wishlistservice.readByMemberId(memberId);
-//		System.out.println("detail 호출 wishlist 로그 : " + wishlist.toString());
-
-		
-		int updateView=artService.updateView(artNo, count);
-		logger.info(updateView+"행 조회수 업데이트");
-		
-		Map<String, Object> readMap=artService.readArtNo(artNo);
-		ArtVO vo=(ArtVO)readMap.get("vo");
 		if(readMap.containsKey("maxMoney")) { //maxMoney가 있으면
 			int maxMoney=(Integer)readMap.get("maxMoney");
 			model.addAttribute("maxMoney", maxMoney);			

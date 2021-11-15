@@ -124,7 +124,6 @@ public class ArtServiceImple implements ArtService {
 		logger.info("updateWishCount() 호출 : artNo = "+artNo+", count = "+count);
 		return artDAO.updateWishCount(artNo, count);
 	}
-} // end class
 	@Override
 	public int updateArt(ArtVO vo) {
 		logger.info("updateArt() 호출");
@@ -149,4 +148,4 @@ public class ArtServiceImple implements ArtService {
 		
 		return result;
 	}
-}
+} // end class

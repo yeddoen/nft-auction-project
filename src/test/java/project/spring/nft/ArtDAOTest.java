@@ -54,7 +54,7 @@ public class ArtDAOTest {
 //			System.out.println(vo.toString());
 //		}
 //	}
-	}
+	
 
 	private void testSearch() {
 		PageCriteria criteria = new PageCriteria(1,3);

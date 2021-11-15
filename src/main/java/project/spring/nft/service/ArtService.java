@@ -36,11 +36,10 @@ public interface ArtService {
 	List<ArtVO> readByMemberId(String memberId);
 	// 찜수 업데이트
 	int updateWishCount(int artNo, int count);
-} // end class
 	//작품 수정
 	int updateArt(ArtVO vo);
 	//작품 삭제
 	int deleteArt(int artNo) throws Exception;
 	
 	
-}
+} // end class
