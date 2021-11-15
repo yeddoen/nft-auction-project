@@ -125,4 +125,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		set ${artViewCount}=${artViewCount}+#{count}
 		where ${artNo}=#{artNo}
 	</update>
+	
+	<!-- 댓글수 업데이트 -->
+	<update id="update_reply_count">
+		update ${art}
+		set ${artReplyCount} = ${artReplyCount} + #{amount}
+		where ${artNo} = #{artNo}
+	</update>
+	
+	<!-- 작품 수정 -->
+	<update id="update_art">
+		update ${art}
+		set ${artName}=#{artName}, ${artPrice}=#{artPrice},
+		${artContent}=#{artContent}, ${artShowDate}=#{artShowDate},
+		${artBasicFee}=#{artBasicFee}
+		where ${artNo}=#{artNo}
+	</update>
+	
+	<!-- 작품 삭제 -->
+	<delete id="delete_art">
+		delete from ${art}
+		where ${artNo}=#{artNo}
+	</delete>
 </mapper>

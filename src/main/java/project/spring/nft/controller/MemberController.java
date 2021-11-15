@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -313,7 +314,7 @@ public class MemberController {
         int result=0;
         String subject = "[NFT-AUCTION] 임시 비밀번호가 발급되었습니다.";
         String content = 
-        	"<p>안녕하세요 고객님!<br>발급된 임시 비밀번호는"
+        	"<p>안녕하세요 회원님!<br>발급된 임시 비밀번호는 "
         	+randomPassword
         	+"입니다.<br>로그인하고 비밀번호를 변경해주세요.</p>";
         String from = "qrqrqrqrt@gmail.com";
@@ -324,7 +325,7 @@ public class MemberController {
             MimeMessageHelper mailHelper = new MimeMessageHelper(mail,"UTF-8");
             // true는 멀티파트 메세지를 사용하겠다는 의미
             
-            mailHelper.setFrom(from);
+            mailHelper.setFrom(new InternetAddress(from,"NFT-AUCTION","UTF-8"));
             // 빈에 아이디 설정한 것은 단순히 smtp 인증을 받기 위해 사용 따라서 보내는이(setFrom())반드시 필요
             mailHelper.setTo(to);
             mailHelper.setSubject(subject);

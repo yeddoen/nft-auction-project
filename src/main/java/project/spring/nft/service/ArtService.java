@@ -32,4 +32,10 @@ public interface ArtService {
 	Map<String, Object> readArtNo(int artNo);
 	//조회수 카운팅 업데이트
 	int updateView(int artNo, int count);
+	//작품 수정
+	int updateArt(ArtVO vo);
+	//작품 삭제
+	int deleteArt(int artNo) throws Exception;
+	
+	
 }

@@ -32,4 +32,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from ${auction}
 		where ${artNo}=#{artNo}
 	</select>
+	
+	<delete id="delete_art_no">
+		delete from ${auction}
+		where ${artNo}=#{artNo}
+	</delete>
 </mapper>
