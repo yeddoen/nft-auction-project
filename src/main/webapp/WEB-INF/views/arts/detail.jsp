@@ -106,8 +106,8 @@ tbody {
 									class="btn btn-outline-danger btn-sm">
 									<span id="art_wish_choice">🤍</span>
 									<!-- 시간 남으면 c태그로 찜수 등록되어있을시 하트 그림 변환 -->
-									<span id="art_wish_count" >${vo.artWishCount }</span>
-									</button>
+									<span id="art_wish_count">${vo.artWishCount }</span>
+								</button>
 								<!-- 찜하기를 누를떄 실행되는 메소드 만들기 -->
 							</div>
 						</div>
@@ -184,7 +184,6 @@ tbody {
 							<li class="nav-item"><a class="nav-link active"
 								data-toggle="tab" href="#content">작품설명</a></li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#reply">댓글 (${vo.artReplyCount })</a></li>
 								href="#art_reply">댓글 (${vo.artReplyCount })</a></li>
 						</ul>
 						<div class="tab-content">
@@ -192,37 +191,39 @@ tbody {
 								<br>
 								<p>${vo.artContent }</p>
 							</div>
-							<div class="tab-pane fade" id="reply">
-								<br> <input type="text" id="art_reply" class="form-control"
-									placeholder="댓글 입력">
-								<button type="button" id="btn_reply"
-									class="btn btn-outline-primary">입력</button>
-								<hr>
-								<div id="">댓글목록..~</div>
-								<c:if test="${not empty sessionScope.memberId }">
-									<div style="text-align: right;">
-										<a href="update?artNo=${vo.artNo }"><button type="button" class="btn btn-primary">수정</button></a>
-										<a href="delete?artNo=${vo.artNo }"><button type="button" class="btn btn-primary">삭제</button></a>
-									</div>
-								</c:if>
-							</div>
+
+
+							<c:if test="${not empty sessionScope.memberId }">
+								<div style="text-align: right;">
+									<a href="update?artNo=${vo.artNo }"><button type="button"
+											class="btn btn-primary">수정</button></a> <a
+										href="delete?artNo=${vo.artNo }"><button type="button"
+											class="btn btn-primary">삭제</button></a>
+								</div>
+							</c:if>
+
+
 							<div class="tab-pane fade" id="art_reply">
 								<br>
 								<div class="input-group mb-3">
 									<c:if test="${empty sessionScope.memberId }">
-										<p>로그인한 회원만 댓글 작성이 가능합니다. <a href="../members/login">로그인하기</a></p>
+										<p>
+											로그인한 회원만 댓글 작성이 가능합니다. <a href="../members/login">로그인하기</a>
+										</p>
 									</c:if>
-							    	<c:if test="${not empty sessionScope.memberId }">
-							     		<input type="hidden" id="memberReplyNo" readonly>
-							     		<input type="text" id="memberReplyId" value="${vo.memberId }">
-									    <input type="text" id="memberReplyNickname" value="${vo.memberNickname }" readonly>
-							     		<input type="text" id="artReplyContent" class="form-control" placeholder="댓글 내용을 입력하세요">
-							     		<button type="button" id="btn_add" class="btn btn-outline-primary">등록</button>
-							     	</c:if>
+									<c:if test="${not empty sessionScope.memberId }">
+										<input type="hidden" id="memberReplyNo" readonly>
+										<input type="text" id="memberReplyId" value="${vo.memberId }">
+										<input type="text" id="memberReplyNickname"
+											value="${vo.memberNickname }" readonly>
+										<input type="text" id="artReplyContent" class="form-control"
+											placeholder="댓글 내용을 입력하세요">
+										<button type="button" id="btn_add"
+											class="btn btn-outline-primary">등록</button>
+									</c:if>
 								</div>
-								<hr>								
-								<div id="replies">
-								</div>
+								<hr>
+								<div id="replies"></div>
 							</div>
 						</div>
 					</div>
@@ -244,7 +245,7 @@ tbody {
 	<input type="hidden" id="art_price" value="${vo.artPrice }">
 	<%-- <input type="hidden" id="art_wish_count" value="${vo.artWishCount}"> --%>
 	<input type="hidden" id="art_no" value="${vo.artNo}">
-	
+
 	<input type="hidden" id="max_money" value="${maxMoney }">
 	<input type="hidden" id="basic_money" value="${vo.artBasicFee }">
 	<!-- JavaScript -->

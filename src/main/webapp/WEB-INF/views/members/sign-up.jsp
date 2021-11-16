@@ -1,15 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <!-- MetaMask api -->
-<script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
+<script
+	src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- iamport.payment.js -->
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<script type="text/javascript"
+	src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <!-- JavaScript : submitAble() -->
 <script type="text/javascript">		
 	var id_check=false; //아이디 중복체크
@@ -55,34 +57,60 @@
 <title>회원가입 페이지</title>
 </head>
 <body>
-	<div class="header">
-	</div>
+	<div class="header"></div>
 	<div class="body" style="text-align: center;">
-	<h1>회원가입</h1>
-	<form action="sign-up" method="post" onsubmit="return submitAble();">
-		<p><input type="text" id="member_id" name="memberId" placeholder="아이디 입력" required>
-		<button type="button" id="check_id">아이디 중복체크</button></p>
-		<span id="check_id_result"></span>
-		<p><input type="text" id="member_name" name="memberName" placeholder="실명 입력" required>
-		<button type="button" id="check_confirm">본인인증</button></p>
-		<input type="hidden" id="member_uid" name="memberUid" value="">
-		<p><input type="password" id="member_pw" name="memberPassword" placeholder="비밀번호 입력" required></p>
-		<p><input type="password" id="confirm_pw" placeholder="비밀번호 확인" required></p>
-		<span id="confirm_pw_result"></span>
-		<p><input type="text" name="memberNickname" placeholder="닉네임 입력" required></p>
+		<h1>회원가입</h1>
+		<form action="sign-up" method="post" onsubmit="return submitAble();">
+			<p>
+				<input type="text" id="member_id" name="memberId"
+					placeholder="아이디 입력" required>
+				<button type="button" id="check_id">아이디 중복체크</button>
+			</p>
+			<span id="check_id_result"></span>
+			<p>
+				<input type="text" id="member_name" name="memberName"
+					placeholder="실명 입력" required>
+				<button type="button" id="check_confirm">본인인증</button>
+			</p>
+			<input type="hidden" id="member_uid" name="memberUid" value="">
+			<p>
+				<input type="password" id="member_pw" name="memberPassword"
+					placeholder="비밀번호 입력" required>
+			</p>
+			<p>
+				<input type="password" id="confirm_pw" placeholder="비밀번호 확인"
+					required>
+			</p>
+			<span id="confirm_pw_result"></span>
+			<p>
+				<input type="text" name="memberNickname" placeholder="닉네임 입력"
+					required>
+			</p>
 
-		<p><input type="text" name="memberPhone" placeholder="전화번호 입력" required></p>
-		<p><input type="text" name="memberEmail" placeholder="이메일 입력" required></p>
-		<p><button class="enableEthereumButton">메타마스크연동</button></p>
+			<p>
+				<input type="text" name="memberPhone" placeholder="전화번호 입력" required>
+			</p>
+			<p>
+				<input type="text" name="memberEmail" placeholder="이메일 입력" required>
+			</p>
+			<p>
+				<button class="enableEthereumButton">메타마스크연동</button>
+			</p>
 
-		<p><input type="text" id="member_phone" name="memberPhone" placeholder="전화번호 ('-'없이) 입력" required></p>
-		<p><input type="email" id="member_email" name="memberEmail" placeholder="이메일 입력" required></p>
+			<p>
+				<input type="text" id="member_phone" name="memberPhone"
+					placeholder="전화번호 ('-'없이) 입력" required>
+			</p>
+			<p>
+				<input type="email" id="member_email" name="memberEmail"
+					placeholder="이메일 입력" required>
+			</p>
 
-		<p><input type="submit" value="가입하기">
-	</form>
+			<p>
+				<input type="submit" value="가입하기">
+		</form>
 	</div>
-	<div class="foot">
-	</div>
+	<div class="foot"></div>
 	<!-- JavaScript -->
 	<script type="text/javascript">
 		$(function() {
@@ -208,21 +236,19 @@
 			// TODO : 현재 request로 메타마스크 api만 실행하게 만듬. 
 			// 이제 계좌 account와 지갑 정보를 불러와서 저장시키고 유지시켜야할듯!
 			// 메타마스크연동 버튼 관련 코드 (메타마스크 창 띄우기)
-			/* if (typeof window.ethereum !== 'undefined') {
-		    	console.log('MetaMask is installed!'); // 메타마스크가 설치된경우
+		  	const ethereumButton = document.querySelector('.enableEthereumButton');
+		  	// 메타마스크연동버튼을 클릭하면
+			ethereumButton.addEventListener('click', () => {
+		  		if (typeof window.ethereum !== 'undefined') {
+		  			console.log('MetaMask is installed!'); // 메타마스크가 설치된경우
+		  			//Will Start the metamask extension
+		  			ethereum.request({ method: 'eth_requestAccounts' });
+		  		} else { // 아니라면 설치할 수 있도록 유도하기.
+		  		    console.log('Please install MetaMask!');
+		  			location.href = "https://metamask.io/";
+		  		}  
+		  	}); // end metamask api
 
-		  		const ethereumButton = document.querySelector('.enableEthereumButton');
-		  		ethereumButton.addEventListener('click', () => {
-		  		  //Will Start the metamask extension
-		  		  ethereum.request({ method: 'eth_requestAccounts' });
-		  		}); // 이더리움버튼 누르면 request 요청 실행.(앱실행)
-		  	} else { // 아니라면 설치할 수 있도록 유도하기.
-		  	    console.log('Please install MetaMask!');
-		  		location.href = "https://metamask.io/";
-		  	} */
-
-
-			
 			/* 전화번호 형식적용 */
 			$('#member_phone').keyup(function(){
 				var member_phone=$('#member_phone').val();
