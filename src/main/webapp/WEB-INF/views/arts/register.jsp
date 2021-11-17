@@ -60,8 +60,13 @@
 					contentType:false,
 					success:function(fileName){
 						console.log(fileName); //서버에 업로드된 파일이름을 가지고옴
-						$('.upload-list').html("<img src='/nft-auction/arts/display?fileName="+fileName+"'>");
-						$('#file_name').attr('value', fileName);
+						//11.17
+						if(fileName=='fail'){
+							alert('jpg, png, gif 파일만 등록할 수 있습니다.');
+						}else{
+							$('.upload-list').html("<img src='/nft-auction/arts/display?fileName="+fileName+"'>");
+							$('#file_name').attr('value', fileName);							
+						}
 					}//success
 				}); //end ajax
 			}); //end drop
