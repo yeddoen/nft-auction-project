@@ -37,4 +37,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from ${auction}
 		where ${artNo}=#{artNo}
 	</delete>
+	
+	<!-- 경매 종료 낙찰자 등록 -->
+	<update id="update_winner">
+		update ${auction}
+		set ${auctionResult}='T'
+		where ${artNo}=#{artNo}
+		and ${auctionMoney}=#{maxMoney}
+	</update>
+	
+	<!-- 낙찰자 아이디 조회 -->
+	<select id="select_winner" resultType="String">
+		select ${memberId}
+		from ${auction}
+		where ${auctionResult}='T'
+		and ${artNo}=#{artNo}
+	</select>
 </mapper>

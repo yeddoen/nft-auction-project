@@ -1,6 +1,7 @@
 package project.spring.nft.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,5 +47,22 @@ public class AuctionRESTController {
 		logger.info("allAuctionList() 호출");
 		List<AuctionVO> list=auctionService.readAll(artNo);
 		return new ResponseEntity<List<AuctionVO>>(list, HttpStatus.OK);	
-	}
+	} //end allAuctionList()
+	
+	@PutMapping("{artNo}")
+	public ResponseEntity<String> updateAuctionResult(
+			@PathVariable("artNo") int artNo, 
+			@RequestBody Map<String, Integer> map){
+		logger.info("updateAuctionResult() 호출 : maxMoney = "+map.get("maxMoney"));
+		int result=auctionService.updateWinner(artNo, map.get("maxMoney"));
+		if(result == 1) {
+			logger.info(artNo+"번 작품 낙찰자 업데이트");
+			String memberId=auctionService.selectWinner(artNo);
+			logger.info("낙찰자 아이디 조회");
+			return new ResponseEntity<String>(memberId, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<String>("fail", HttpStatus.OK);
+		}
+	} //end updateAuctionResult()
+	
 }

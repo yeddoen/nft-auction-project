@@ -154,6 +154,7 @@ tbody{
 				</div>
 			</div>
 		</div>
+		<!-- 작품설명 & 댓글 -->
 		<div class="row">
 			<div class="col-sm-7">
 				<div class="card bg-light mb-3">
@@ -209,6 +210,7 @@ tbody{
 	<input type="hidden" id="show_img" value="${vo.artFileName }">
 	<input type="hidden" id="max_money" value="${maxMoney }">
 	<input type="hidden" id="basic_money" value="${vo.artBasicFee }">
+	<input type="hidden" id="creator" value="${vo.memberId }">
 	<!-- JavaScript -->
 	<script type="text/javascript">
 		$(function(){
@@ -218,7 +220,8 @@ tbody{
 			imgShow();
 			getAllBidsList();
 			getAllReplies();
-			setInterval(auctionTimer, 1000); //1초마다 timer 반복하기
+			
+			var timer=setInterval(auctionTimer, 1000); //1초마다 timer 반복하기							
 			
 			/* 원본이미지 출력 */
 			function imgShow() {
@@ -330,15 +333,63 @@ tbody{
 					difference = parseInt(difference / 24); 
 					var days = difference //일	
 					$('#show').html(days+'일 '+hours+'시 '+minutes+'분 '+secs+'초 남았습니다.');
+					
 				}else{ //타이머 종료
-					clearInterval(auctionTimer);
+ 					clearInterval(timer);
 					$('#btn_auction').attr('disabled', 'disabled');
 					$('#btn_auction').text('경매 종료');
 					$('#auction_money').attr('disabled', 'disabled');
-					$('#btn_bid').attr('disabled', 'disabled');
+					$('#btn_bid').attr('disabled', 'disabled'); 
+					
+					//21.11.15
+					/*경매 종료되면 maxmoney를 입력한 사람의 result T로 수정 */
+					auctionEndWinner();	
 				}
 				
 			} //end auctionTimer()
+			
+			//21.11.17
+			/* 경매 종료 낙찰자 채택 */
+			function auctionEndWinner() {
+				
+				var max_money=$('#max_money').val();
+				var member_id=$('#member_id').val();
+				var creator=$('#creator').val();
+				console.log(max_money+', '+member_id+', '+creator);
+				
+				if(!max_money){ 
+					//입찰자가 한명도 없는 경우 게시기간 갱신 필요
+					if(member_id==creator){
+						alert('작품 게시기간을 갱신해주세요!');
+						location.href='update?artNo='+art_no;
+						return;
+					}
+				}else{
+					$.ajax({
+						type:'PUT',
+						url:'auction/'+art_no, 
+						headers : {
+			                  'Content-Type' : 'application/json',
+			                  'X-HTTP-Method-Override' : 'PUT'
+			            },
+			            data:JSON.stringify({
+			            	'maxMoney':max_money
+			            }),
+			            success:function(result, status){
+			            	console.log(result);
+			            	if(result==member_id){
+			            		//낙찰자에게 결제하라는 모달띄우기
+			            		//낙찰자 아이디를 반환
+			            		var pay=confirm(result+'님, 낙찰되었습니다. 지금 결제하시겠습니까?');
+			            		if(pay){
+			            			location.href='purchase'; //결제페이지
+			            		}
+			            	}
+			            } //end success
+						
+					}); //end ajax
+				}
+			} //end auctionEndWinner()
 			
 			/* 댓글 입력 */
 	        $('#btn_add').click(function() {

@@ -136,5 +136,5 @@ public class ArtServiceImple implements ArtService {
 		//TODO 작품의 위시리스트 삭제
 		
 		return result;
-	}
+	}	
 }

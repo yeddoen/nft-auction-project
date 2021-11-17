@@ -15,4 +15,8 @@ public interface AuctionDAO {
 	int selectMaxBid(int artNo);
 	//작품 삭제 시 경매기록 삭제
 	int deleteArtNo(int artNo);
+	//낙찰자 등록
+	int updateWinner(int artNo, int maxMoney);
+	//낙찰자 조회
+	String selectWinner(int artNo);
 }

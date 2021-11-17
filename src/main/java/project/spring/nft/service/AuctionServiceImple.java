@@ -35,5 +35,16 @@ public class AuctionServiceImple implements AuctionService {
 		logger.info("readAll() 호출");
 		return dao.selectAll(artNo);
 	}
-
+	
+	@Override
+	public int updateWinner(int artNo, int maxMoney) {
+		logger.info("updateWinner() 호출");
+		return dao.updateWinner(artNo, maxMoney);
+	}
+	
+	@Override
+	public String selectWinner(int artNo) {
+		logger.info("selectWinner() 호출");
+		return dao.selectWinner(artNo);
+	}
 }
