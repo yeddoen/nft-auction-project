@@ -48,7 +48,7 @@ tbody{
 <body style="text-align: center;">
 	<!-- header -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-		<a class="navbar-brand" href="../main">NTF-AUCTION</a>
+		<a class="navbar-brand" href="../main">NFT-AUCTION</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
 			aria-expanded="false" aria-label="Toggle navigation">
@@ -242,6 +242,15 @@ tbody{
 			/* 입찰하기 버튼 클릭 */
 			$('#btn_bid').click(function(){
 				var member_id=$('#member_id').val();
+				var creator=$('#creator').val();
+				
+				//입찰자와 작품게시자가 같은 경우 입찰불가능 11.18
+				if(member_id==creator){
+					$('#money_check').css('color','red');
+					$('#money_check').html('Creator는 참여할 수 없습니다.');
+					return;
+				}
+				
 				var auction_money=$('#auction_money').val();
 				auction_money=parseInt(auction_money);
 				console.log(member_id+", "+auction_money);
@@ -285,6 +294,7 @@ tbody{
 				}else{
 					$('#money_check').css('color','red');
 					$('#money_check').html('최고 입찰액보다 적은 금액은 신청할 수 없습니다.');
+					return;
 				}
 				
 			}); //end btn_bid click

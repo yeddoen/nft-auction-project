@@ -37,5 +37,6 @@ public interface ArtDAO {
 	int updateArt(ArtVO vo);
 	//작품(게시된) 삭제
 	int deleteArt(int artNo);
-	
+	//회원 낙찰내역
+	List<ArtVO> selectWinBid(String memberId);
 }

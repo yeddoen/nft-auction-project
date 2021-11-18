@@ -130,4 +130,10 @@ public class ArtDAOImple implements ArtDAO {
 		logger.info("deleteArt() 호출 : artNo = "+artNo);
 		return sqlSession.delete(NAMESPACE+".delete_art", artNo);
 	}
+	
+	@Override
+	public List<ArtVO> selectWinBid(String memberId) {
+		logger.info("selectWinBid() 호출 : memberId = "+memberId);
+		return sqlSession.selectList(NAMESPACE+".select_win_list", memberId);
+	}
 }

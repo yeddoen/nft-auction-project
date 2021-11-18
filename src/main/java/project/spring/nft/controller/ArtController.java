@@ -203,7 +203,6 @@ public class ArtController {
 	@ResponseBody
 	public ResponseEntity<String> uploadAjaxPOST(MultipartFile[] files) throws IOException {
 		logger.info("uploadAjaxPOST() 호출");
-		
 		//파일 하나만 저장
 		String result=null; //파일 경로 및 썸네일 이미지 이름
 		result=FileUploadUtil.saveUploadedFile(
@@ -304,4 +303,19 @@ public class ArtController {
 			return "redirect:/arts/detail?artNo="+artNo;
 		}
 	} //end deletePOST()
+	
+	@PostMapping("arts/winning")
+	@ResponseBody
+	public List<ArtVO> winningBid(String memberId) {
+		logger.info("winningBid() 호출 : memberId = "+memberId);
+		if(memberId==null) {
+			return null; 
+		}else {
+			List<ArtVO> bidList=artService.readWinBid(memberId);
+			for (ArtVO vo : bidList) {
+				System.out.println(vo.toString());
+			}
+			return bidList;			
+		}
+	} //end winningBid()
 }

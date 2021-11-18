@@ -147,4 +147,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from ${art}
 		where ${artNo}=#{artNo}
 	</delete>
+	
+	<!-- 회원 낙찰내역 -->
+	<select id="select_win_list" resultType="ArtVO">
+		select *
+		from ${art}
+		where ${artNo} IN (
+			select ${artNo}
+			from ${auction}
+			where ${memberId}=#{memberId}
+			and ${auctionResult}='T'
+		)
+	</select>
 </mapper>
