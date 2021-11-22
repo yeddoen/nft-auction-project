@@ -126,7 +126,7 @@ tbody{
 								data-toggle="collapse" data-target="#collapseAuction" style="margin: 3px;"
 								aria-expanded="false" aria-controls="collapseAuction">
 								경매 참여하기</button>
-							<button id="btn_buy" class="btn btn-primary" style="margin: 3px;" type="button">
+							<button id="btn_buy" onclick="window.open('pay?artNo=${vo.artNo}', 'PopupWin','width=900, height=800, resizable=no')" class="btn btn-primary" style="margin: 3px;" type="button">
 								즉시 구매하기</button>	
 						</div>
 						<div class="collapse" id="collapseAuction">
