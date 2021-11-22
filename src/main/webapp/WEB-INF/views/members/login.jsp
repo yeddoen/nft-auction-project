@@ -96,7 +96,9 @@
 				var result=$('#login_result').val();
 				console.log(result);
 				if(result=='fail'){
-					alert('일치하는 회원정보가 없습니다.');
+					alert('존재하지않는 회원정보입니다.');
+				}else if(result=='nomatch'){
+					alert('비밀번호가 틀렸습니다.');
 				}
 			}//end confirmLoginReslut()
 			

@@ -115,8 +115,8 @@
 							<p><input type="password" class="form-control" id="confirm_pw" placeholder="비밀번호 확인" required></p>
 							<div id="confirm_pw_result" class="mb-3"></div>
 							<p><input type="text" class="form-control" name="memberNickname" placeholder="닉네임 입력" required></p>
-							<p><input type="text" class="form-control" name="memberPhone" placeholder="전화번호 입력" required></p>
-							<p><input type="text" class="form-control" name="memberEmail" placeholder="이메일 입력" required></p>
+							<p><input type="text" class="form-control" id="member_phone" name="memberPhone" placeholder="전화번호 입력" required></p>
+							<p><input type="text" class="form-control" id="member_email" name="memberEmail" placeholder="이메일 입력" required></p>
 							<p><button class="enableEthereumButton btn btn-primary">메타마스크연동</button>
 							<input type="submit" class="btn btn-primary" value="가입하기"></p>
 						</form>
@@ -205,8 +205,12 @@
 						} else {
 							// 인증취소 또는 인증실패
 							member_check = false;
-							var msg = '인증에 실패하였습니다.';
-							msg += '에러내용 : ' + rsp.error_msg;
+							/* var msg = '인증에 실패하였습니다.<br>';
+							msg += '에러내용 : ' + rsp.error_msg; */
+							//본인인증 오류로 인해 임시처리
+							var msg='진행하세여';
+							$('#member_uid').val('member_'+member_id); 
+							member_check = true;
 							alert(msg);
 						}
 					}); //end IMP.certification

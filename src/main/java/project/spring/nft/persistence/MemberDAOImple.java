@@ -41,12 +41,9 @@ public class MemberDAOImple implements MemberDAO {
 	}
 	
 	@Override
-	public MemberVO selectLogin(String memberId, String memberPassword) {
-		logger.info("selectLogin() 호출 : memberId = "+memberId+", memberPassword = "+memberPassword);
-		Map<String, String> loginMap=new HashMap<String, String>();
-		loginMap.put("memberId", memberId);
-		loginMap.put("memberPassword", memberPassword);
-		return sqlSession.selectOne(NAMESPACE+".select_login", loginMap);
+	public MemberVO selectLogin(String memberId) {
+		logger.info("selectLogin() 호출 : memberId = "+memberId);
+		return sqlSession.selectOne(NAMESPACE+".select_by_member_id", memberId);
 	}  
 
 	@Override

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
@@ -13,8 +14,10 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +40,13 @@ public class MemberController {
 	private MemberService memberService;
 	@Autowired
 	private JavaMailSender mailSender;
+	@Inject
+	BCryptPasswordEncoder passEncoder;
+	
+	@Bean //xml에서 bean 생성 오류로 설정함
+	BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 	@GetMapping("/sign-up")
 	public void joinMemberGET() {
@@ -44,14 +54,16 @@ public class MemberController {
 	} //end joinMemberGET()
 	
 	@PostMapping("/sign-up")
-	public String joinMemberPOST(MemberVO vo, RedirectAttributes reAttr) {
+	public String joinMemberPOST(MemberVO vo, RedirectAttributes reAttr) {		
 		logger.info("joinMemberPOST() 호출 : vo = " + vo.toString());
+		//비밀번호 암호화
+		vo.setMemberPassword(passEncoder.encode(vo.getMemberPassword()));
 		int result = memberService.createMember(vo);
 		logger.info(result + "행 삽입");
 
 		if (result == 1) {
 			reAttr.addFlashAttribute("joinResult", "success");
-			// TODO : main에서 회원가입 성공 alert 띄우기
+			//main에서 회원가입 성공 alert 띄우기
 			return "redirect:/main";
 		} else {
 			return "redirect:/members/sign-up";
@@ -67,24 +79,30 @@ public class MemberController {
 	public String loginMemberPOST(String memberId, String memberPassword, HttpServletRequest request,
 			RedirectAttributes reAttr) {
 		logger.info("loginMemberPOST() 호출 : memberId = " + memberId + ", memberPassword = " + memberPassword);
-		// TODO 아이디와 비밀번호가 일치하는 회원이 있으면 회원 아이디로 세션생성하고 타겟url 생성하고 redirect
-		MemberVO vo = memberService.readLogin(memberId, memberPassword);
+		//회원 아이디로 세션생성하고 타겟url 생성하고 redirect
+		MemberVO vo = memberService.readLogin(memberId);
 
-		if (vo != null) { // 아이디, 비밀번호가 일치하는 정보가 존재할 경우
-			logger.info("로그인 성공 : memberNo = " + vo.getMemberNo());
-			HttpSession session = request.getSession();
-			session.setAttribute("memberId", memberId); // id세션 생성
-
-			String targetURL = (String) session.getAttribute("targetURL");
-			logger.info("targetURL : " + targetURL);
-			if (targetURL != null) {
-				session.removeAttribute("targetURL");
-				return "redirect:" + targetURL;
-			} else {
-				return "redirect:/main";
+		if (vo != null) { // 아이디가 일치하는 정보가 존재할 경우
+			//입력된 비밀번호가 복호화된 비밀번호와 일치한지 확인
+			if(passEncoder.matches(memberPassword, vo.getMemberPassword())) {
+				logger.info("로그인 성공 : memberNo = " + vo.getMemberNo());
+				HttpSession session = request.getSession();
+				session.setAttribute("memberId", memberId); // id세션 생성
+				reAttr.addFlashAttribute("loginResult", "success");
+				
+				String targetURL = (String) session.getAttribute("targetURL");
+				logger.info("targetURL : " + targetURL);
+				if (targetURL != null) {
+					session.removeAttribute("targetURL");
+					return "redirect:" + targetURL;
+				} else {
+					return "redirect:/main";
+				}				
+			}else {
+				reAttr.addFlashAttribute("loginResult", "nomatch");
+				return "redirect:/members/login";
 			}
 		} else {
-			logger.info("로그인 실패");
 			reAttr.addFlashAttribute("loginResult", "fail");
 			return "redirect:/members/login";
 		}

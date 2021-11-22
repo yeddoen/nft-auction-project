@@ -14,8 +14,8 @@ public interface MemberService {
 	//회원정보 조회
 	MemberVO readByMemberId(String memberId);
 	
-	//로그인 아이디 비밀번호 조회
-	MemberVO readLogin(String memberId, String memberPassword);
+	//로그인 아이디 조회
+	MemberVO readLogin(String memberId);
 	
 	//비밀번호 수정
 	int updateMemberPassword(String memberId, String updatePassword);

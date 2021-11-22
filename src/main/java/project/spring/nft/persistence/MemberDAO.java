@@ -15,8 +15,8 @@ public interface MemberDAO {
 	//회원 정보 조회
 	MemberVO selectByMemberId(String memberId); // memberId로 바꿈
 	
-	//로그인 아이디 비밀번호 조회
-	MemberVO selectLogin(String memberId, String memberPassword);
+	//로그인 아이디 조회
+	MemberVO selectLogin(String memberId);
 	
 	//비밀번호 수정
 	int updateMemberPassword(String memberId, String updatePassword); // memberId로 바꿈

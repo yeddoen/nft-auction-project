@@ -37,9 +37,9 @@ public class MemberServiceImple implements MemberService {
 	}
 	
 	@Override
-	public MemberVO readLogin(String memberId, String memberPassword) {
+	public MemberVO readLogin(String memberId) {
 		logger.info("readLogin() 호출");
-		return dao.selectLogin(memberId, memberPassword);
+		return dao.selectLogin(memberId);
 	}
 
 	@Override
