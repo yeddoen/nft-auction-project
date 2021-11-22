@@ -32,4 +32,7 @@ public interface ArtService {
 	Map<String, Object> readArtNo(int artNo);
 	//조회수 카운팅 업데이트
 	int updateView(int artViewCount);
+	
+	ArtVO readArtno(int artNo);
+
 }

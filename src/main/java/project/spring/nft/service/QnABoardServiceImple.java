@@ -64,4 +64,18 @@ public class QnABoardServiceImple implements QnABoardService {
 	}
 
 
+	@Override
+	public int selectByMemberId(String memberId) {
+		logger.info("selectByMemberId() 호출");
+		return dao.selectByMemberId(memberId);
+	}
+
+
+	@Override
+	public List<QnABoardVO> selectListByMemberId(String memberId) {
+		logger.info("selectListByMemberId() 호출");
+		return dao.selectListByMemberId(memberId);
+	}
+
+
 }

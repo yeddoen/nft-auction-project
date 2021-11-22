@@ -44,4 +44,10 @@ public class AuctionDAOImple implements AuctionDAO {
 		return sqlSession.selectOne(NAMESPACE+".select_max_money", artNo);
 	}
 
+	@Override
+	public List<AuctionVO> select() {
+		logger.info("select() 호출");
+		return sqlSession.selectList(NAMESPACE + ".select_all");
+	}
+
 }

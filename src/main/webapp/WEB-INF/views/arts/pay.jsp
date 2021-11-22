@@ -1,0 +1,148 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+ <!-- jQuery -->
+  <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script> -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <!-- iamport.payment.js -->
+  <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
+<title>즉시 결제</title>
+</head>
+<body>
+<div align="center">
+  <br>
+  <h4>확인 후 결제하기를 눌러주세요</h4><br>
+  <div class="card" style="width: 18rem;">
+    <div id="image"></div>
+  <div class="card-body" align="center">
+    <p class="card-text">${avo.artName }</p>
+    <p class="card-text">by ${avo.memberNickname }</p>
+  </div>
+</div>
+<br>
+<div>
+<ul class="list-group list-group-horizontal justify-content-center" >
+  <li class="list-group-item list-group-item-primary" style="width: 10rem">아이디</li>
+  <li class="list-group-item" style="width: 30rem">${vo.memberId }</li>
+</ul>
+<ul class="list-group list-group-horizontal justify-content-center">
+  <li class="list-group-item list-group-item-primary" style="width: 10rem">이름</li>
+  <li class="list-group-item" style="width: 30rem">${vo.memberName }</li>
+</ul>
+<ul class="list-group list-group-horizontal justify-content-center">
+  <li class="list-group-item list-group-item-primary" style="width: 10rem">연락처</li>
+  <li class="list-group-item" style="width: 30rem">${vo.memberPhone }</li>
+</ul>
+<ul class="list-group list-group-horizontal justify-content-center">
+  <li class="list-group-item list-group-item-primary" style="width: 10rem">이메일</li>
+  <li class="list-group-item" style="width: 30rem">${vo.memberEmail }</li>
+</ul>
+<ul class="list-group list-group-horizontal justify-content-center">
+  <li class="list-group-item list-group-item-primary" style="width: 10rem">작품 가격</li>
+  <li class="list-group-item" style="width: 30rem">${avo.artPrice }</li>
+</ul>
+<ul class="list-group list-group-horizontal justify-content-center">
+  <li class="list-group-item list-group-item-primary" style="width: 10rem">작품 번호</li>
+  <li class="list-group-item" style="width: 30rem">${avo.artNo }</li>
+</ul>
+</div>
+
+<br>
+<button type="button" class="btn btn-primary" onclick= "requestPay()">결제하기</button>
+<button type="button" class="btn btn-primary" onclick="window.close()">창닫기</button>
+</div>
+
+<input type="hidden" id="show_img" value="${avo.artFileName }">
+<input type="hidden" id="memberName" value="${vo.memberName }">
+<input type="hidden" id="memberPhone" value="${vo.memberPhone }"> 
+<input type="hidden" id="memberEmail" value="${vo.memberEmail }">
+<input type="hidden" id="artNo" value="${avo.artNo }">
+<input type="hidden" id="artName" value="${avo.artName }">
+<input type="hidden" id="artPrice" value="${avo.artPrice }">
+<input type="hidden" id="memberId" value="${vo.memberId }"> 
+  
+  <script> 
+
+  imgShow(); 
+      
+  function requestPay() {
+  	var IMP = window.IMP; 
+  	var date = new Date().getTime();
+  	var artno = $('#artNo').val();
+    var goodsname = $('#artName').val(); // 주문명
+    var amount = $('#artPrice').val(); // 결제 금액
+    var buyer_name = $('#memberName').val(); // 주문자명
+    var buyer_tel = $('#memberPhone').val(); // 주문자 연락처 - 필수
+    var buyer_email = $('#memberEmail').val(); // 주문자 이메일
+    var memberId = $('#memberId').val();
+  	var merchant_uid = $('#artName').val() + date + $('#memberId').val();
+    IMP.init('imp84678220'); // 가맹점 식별 코드
+      // IMP.request_pay(param, callback) 결제창 호출
+      IMP.request_pay({ // param
+          pg: 'html_inicis', // pg사 코드값
+          pay_method: 'card', // 결제 수단
+          merchant_uid: merchant_uid, // 주문번호
+          artno: artno,
+          goodsname: goodsname, // 주문명
+          amount: amount, // 결제 금액
+          buyer_name: buyer_name, // 주문자명
+          buyer_tel: buyer_tel, // 주문자 연락처 - 필수
+          buyer_email: buyer_email // 주문자 이메일
+      }, function (rsp) { // callback
+          if (rsp.success) {// 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
+              // jQuery로 HTTP 요청
+              var obj = {
+                  'memberId' : memberId,
+                  'artNo' : artno,
+                  'artName' : goodsname,
+                  'artPrice' : amount,
+                  'merchantUid' : merchant_uid
+              }
+      			  console.log(date);
+      			  console.log(merchant_uid);
+
+              jQuery.ajax({
+
+                  url: 'result', // 예: https://www.myservice.com/payments/complete
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  data: JSON.stringify(obj)                      
+                      // 기타 필요한 데이터 더 있으면 추가                 
+              }).done(function (data) {
+                // 가맹점 서버 결제 API 성공시 로직
+                  var msg = '결제가 완료되었습니다.';
+                  msg += '고유ID : ' + rsp.imp_uid;
+                  msg += '주문 번호 : ' + rsp.merchant_uid;
+                  msg += '결제 금액 : ' + rsp.paid_amount;
+                  msg += '카드 승인번호 : ' + rsp.apply_num;
+                  alert(msg);
+                  location.href = 'result';
+   
+              })
+          } else { // 결제 실패시
+              alert("결제에 실패하였습니다. 에러 내용: " +  rsp.error_msg);
+          	  
+          }
+      });
+    }
+      /* 원본이미지 출력 */
+		function imgShow() {
+			var show_img=$('#show_img').val();
+			show_img=show_img.replace('/s_','/');
+			$('#image').html('<img src="/nft-auction/arts/pay/display?fileName='+show_img+'">');
+		} //end imgShow()
+
+    
+ 
+  </script>
+</body>
+</html>

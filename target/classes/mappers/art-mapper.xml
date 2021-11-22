@@ -125,4 +125,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		set ${artViewCount}=#{artViewCount}
 		where ${artNo}=#{artNo}
 	</update>
+
 </mapper>

@@ -32,4 +32,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from ${auction}
 		where ${artNo}=#{artNo}
 	</select>
+	
+	<!-- 실시간 조회 -->
+	<select id="select_all" resultType="AuctionVO">
+		select * from ${auction}
+		order by ${auctionNo} desc
+	</select>
 </mapper>

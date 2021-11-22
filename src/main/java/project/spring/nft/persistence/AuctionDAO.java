@@ -13,4 +13,7 @@ public interface AuctionDAO {
 	List<AuctionVO> selectAll(int artNo);
 	//최고 입찰가 조회
 	int selectMaxBid(int artNo);
+	
+	// 실시간 작품 거래 조회 경매 번호순
+	List<AuctionVO> select();
 }

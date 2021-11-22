@@ -107,4 +107,5 @@ public class ArtDAOImple implements ArtDAO {
 		return sqlSession.selectOne(NAMESPACE+".update_view", artViewCount);
 	} //end updateView()
 
+
 }

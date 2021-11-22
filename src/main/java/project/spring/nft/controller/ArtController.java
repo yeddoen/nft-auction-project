@@ -207,7 +207,7 @@ public class ArtController {
 		String result=null; //파일 경로 및 썸네일 이미지 이름
 		result=FileUploadUtil.saveUploadedFile(
 				uploadPath, files[0].getOriginalFilename(), files[0].getBytes()); 
-		
+		logger.info(result);
 		return new ResponseEntity<String>(result, HttpStatus.OK);
 	} //end uploadAjaxPOST()
 	
