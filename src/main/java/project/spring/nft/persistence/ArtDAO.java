@@ -39,4 +39,9 @@ public interface ArtDAO {
 	int deleteArt(int artNo);
 	//회원 낙찰내역
 	List<ArtVO> selectWinBid(String memberId);
+	// 작품 멤버 아이디로 검색, 등록 내역에서 쓸거임
+	List<ArtVO> selectMemberId(String memberId);
+	// 작품 WISH_COUNT 올라가기, 내려가기(업데이트)
+	int updateWishCount(int artNo, int count);
+	
 }

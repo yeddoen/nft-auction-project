@@ -31,9 +31,15 @@ public class WishlistServiceImple implements WishlistService {
 	}
 
 	@Override
-	public int delete(int wishNo) {
-		logger.info("delete() 호출 : wishNo = " + wishNo);
-		return dao.deleteWishlist(wishNo);
+	public int delete(String memberId, String artName) {
+		logger.info("delete() 호출 : memberId = " + memberId);
+		return dao.deleteWishlist(memberId, artName);
+	}
+
+	@Override
+	public int readCount(String memberId, String artName) {
+		logger.info("readWishlist() 호출 : memberId = " + memberId + " artName = " + artName);
+		return dao.selectCount(memberId, artName);
 	}
 
 } // end WishlistServiceImple class

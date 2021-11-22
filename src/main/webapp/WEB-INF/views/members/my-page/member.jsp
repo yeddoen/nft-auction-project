@@ -87,10 +87,10 @@
 			<!-- 사이드바 -->
 			<div id="sidebar-wrapper">
 				<ul class="sidebar-nav">
-					<li class="sidebar-brand"><a href="#">마이페이지</a></li>
+					<li class="sidebar-brand"><a href="member">마이페이지</a></li>
 					<li><a href="member">회원정보</a></li>
 					<li><a href="../../wishlist/wishpage">위시리스트</a></li>
-					<li><a href="#">등록작품내역</a></li>
+					<li><a href="artlist">등록작품내역</a></li>
 					<li><a href="#">구매작품내역</a></li>
 					<li><a href="../../qnaboard/qnalist">QnA게시판</a></li>
 				</ul>

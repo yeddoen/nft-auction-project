@@ -16,10 +16,11 @@ public interface WishlistDAO {
 	// 전체 작품들을 조회
 	List<WishlistVO> selectWishlist(String memberId);
 	
-	// 위시리스트 페이지에서 클릭을 선택해서 인덱스번호를 주고 삭제
-	int deleteWishlist(int wishNo);
+	// 위시리스트 페이지에서 클릭을 선택해서 이름, 작품명으로 삭제
+	int deleteWishlist(String memberId, String artName);
 	
-	// 업데이트는 없음!!
+	// 작품이 등록이 되어있는지 아닌지 카운트로 조회
+	int selectCount(String memberId, String artName);
 	
 	
 } // end WishlistDAO

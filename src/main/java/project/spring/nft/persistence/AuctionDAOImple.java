@@ -45,6 +45,7 @@ public class AuctionDAOImple implements AuctionDAO {
 		logger.info("selectMaxBid() 호출");
 		return sqlSession.selectOne(NAMESPACE+".select_max_money", artNo);
 	}
+
 	
 	@Override
 	public int deleteArtNo(int artNo) {

@@ -63,6 +63,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<property name="artName" value="art_name"/>
 		<property name="artPrice" value="art_price"/>
 		<property name="artFileName" value="art_file_name"/>
+		<property name="artNo" value="art_no"/>
 		
 		<property name="artReply" value="art_reply"/>
 		<property name="artReplyNo" value="art_reply_no"/>

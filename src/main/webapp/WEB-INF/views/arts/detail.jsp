@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,11 +22,10 @@ img {
 }
 
 tr {
-width: 100%;
-display: inline-table;
-height:60px;
-table-layout: fixed;
-  
+	width: 100%;
+	display: inline-table;
+	height: 60px;
+	table-layout: fixed;
 }
 
 table{
@@ -43,7 +42,7 @@ tbody{
 }
 </style>
 
-<title>상세 페이지 - ${vo.artName} </title>
+<title>상세 페이지 - ${vo.artName}</title>
 </head>
 <body style="text-align: center;">
 	<!-- header -->
@@ -94,9 +93,14 @@ tbody{
 						</div>
 						<div class="row">
 							<div class="col" style="text-align: right;">
-								<i class="bi bi-eye"></i> 조회수 ${vo.artViewCount }&nbsp;						
-								<button type="button" id="btn_wish" class="btn btn-outline-danger btn-sm">
-								찜하기 ${vo.artWishCount }</button>
+								<i class="bi bi-eye"></i> 조회수 ${vo.artViewCount }&nbsp;
+								<button type="button" id="btn_wish"
+									class="btn btn-outline-danger btn-sm">
+									<span id="art_wish_choice">🤍</span>
+									<!-- 시간 남으면 c태그로 찜수 등록되어있을시 하트 그림 변환 -->
+									<span id="art_wish_count">${vo.artWishCount }</span>
+								</button>
+								<!-- 찜하기를 누를떄 실행되는 메소드 만들기 -->
 							</div>
 						</div>
 						<hr>
@@ -108,7 +112,13 @@ tbody{
 						</div>
 						<div class="row">
 							<div class="col">
-								<h4 style="text-align: right;"><fmt:formatNumber value="${vo.artPrice }" type="currency" currencySymbol=""/>원</h4><br>
+								<!-- artPrice 가져와야함. -->
+								<h4 style="text-align: right;">
+									<fmt:formatNumber value="${vo.artPrice }" type="currency"
+										currencySymbol="" />
+									원
+								</h4>
+								<br>
 							</div>
 						</div>
 						<div style="margin: 10px;">
@@ -208,6 +218,10 @@ tbody{
 	<!-- hidden -->
 	<input type="hidden" id="show_date" value="${vo.artShowDate }">
 	<input type="hidden" id="show_img" value="${vo.artFileName }">
+	<input type="hidden" id="art_name" value="${vo.artName }">
+	<input type="hidden" id="art_price" value="${vo.artPrice }">
+	<%-- <input type="hidden" id="art_wish_count" value="${vo.artWishCount}"> --%>
+	<input type="hidden" id="art_no" value="${vo.artNo}">
 	<input type="hidden" id="max_money" value="${maxMoney }">
 	<input type="hidden" id="basic_money" value="${vo.artBasicFee }">
 	<input type="hidden" id="creator" value="${vo.memberId }">
@@ -400,6 +414,67 @@ tbody{
 					}); //end ajax
 				}
 			} //end auctionEndWinner()
+			
+			
+			/* 위시리스트 찜하기 등록 - 현아 수정. */
+			$('#btn_wish').click(function(){
+			    var session=$('#member_id').val();
+					if(!session) { // 세션 없으면
+					    console.log('로그인 세션 없음');
+						alert('로그인 해주세요!');
+						window.location.reload();
+						// $('#btn_wish').attr('disabled', 'disabled');
+					}
+					
+				// 위시리스트 찜하기 중복 등록 제거, 
+				// 찜하기 누르면 숫자가 1올라가고 한번 더 누르면 찜하기 취소(삭제)
+					else { // 세션 있을때
+					    /* if() { // 만약 이미 등록이 되어있다면 -> 즉 찜하기 버튼 누르면 삭제
+					        
+					    } else { // 등록이 안되어있으면 -> 짐하기 버튼 누르면 등록
+					        
+					    } */
+	
+					    var member_id = $('#member_id').val();
+						var art_name = $('#art_name').val();
+						var art_price =  $('#art_price').val();
+						var file_name = $('#show_img').val();
+						var art_no = $('#art_no').val();
+						
+				
+						var obj = {
+								        'memberId' : member_id,
+								        'artName' : art_name,
+								        'artPrice' : art_price,
+								        'artFileName' : file_name,
+								        'artNo' : art_no
+						};
+						console.log(obj);
+						$.ajax({
+							type : 'post',
+							url : '../wishlist/wishpage',
+							data : obj,
+							success : function(result) { // 성공이되면 받음.
+								if (result == 1) { // 찜하기 등록 성공일 경우.
+									alert('찜하기 등록 성공');
+									// art_wish_count가 +1이 됨!
+									var wishcount = $('#art_wish_count').text();
+									wishcount = parseInt(wishcount) + 1;
+									$('#art_wish_choice').text('🖤');
+									$('#art_wish_count').text(wishcount);
+									
+								 } else if(result == 2) { // 찜하기 삭제일 경우
+								    alert('찜하기 삭제 성공');
+								    var wishcount = $('#art_wish_count').text();
+									wishcount = parseInt(wishcount) - 1;
+									$('#art_wish_choice').text('🤍');
+									$('#art_wish_count').text(wishcount);
+								 }
+							}	
+						}); // end ajax()
+					    
+					}  
+			}); // end btn_wish click
 			
 			/* 댓글 입력 */
 	        $('#btn_add').click(function() {

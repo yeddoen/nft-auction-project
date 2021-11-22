@@ -154,7 +154,7 @@
 		                		id_check=true;
 		                		$('#check_id_result').css('color', 'green');
 			                	$('#check_id_result').html("사용가능한 아이디입니다.");
-		                	}else{
+		                	}else{ // 1인 경우
 		                		id_check=false;
 		                		$('#check_id_result').css('color', 'red');
 			                	$('#check_id_result').html("중복된 아이디입니다.");
@@ -261,21 +261,19 @@
 			// TODO : 현재 request로 메타마스크 api만 실행하게 만듬. 
 			// 이제 계좌 account와 지갑 정보를 불러와서 저장시키고 유지시켜야할듯!
 			// 메타마스크연동 버튼 관련 코드 (메타마스크 창 띄우기)
-			/* if (typeof window.ethereum !== 'undefined') {
-		    	console.log('MetaMask is installed!'); // 메타마스크가 설치된경우
+		  	const ethereumButton = document.querySelector('.enableEthereumButton');
+		  	// 메타마스크연동버튼을 클릭하면
+			ethereumButton.addEventListener('click', () => {
+		  		if (typeof window.ethereum !== 'undefined') {
+		  			console.log('MetaMask is installed!'); // 메타마스크가 설치된경우
+		  			//Will Start the metamask extension
+		  			ethereum.request({ method: 'eth_requestAccounts' });
+		  		} else { // 아니라면 설치할 수 있도록 유도하기.
+		  		    console.log('Please install MetaMask!');
+		  			location.href = "https://metamask.io/";
+		  		}  
+		  	}); // end metamask api
 
-		  		const ethereumButton = document.querySelector('.enableEthereumButton');
-		  		ethereumButton.addEventListener('click', () => {
-		  		  //Will Start the metamask extension
-		  		  ethereum.request({ method: 'eth_requestAccounts' });
-		  		}); // 이더리움버튼 누르면 request 요청 실행.(앱실행)
-		  	} else { // 아니라면 설치할 수 있도록 유도하기.
-		  	    console.log('Please install MetaMask!');
-		  		location.href = "https://metamask.io/";
-		  	} */
-
-
-			
 			/* 전화번호 형식적용 */
 			$('#member_phone').keyup(function(){
 				var member_phone=$('#member_phone').val();

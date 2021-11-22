@@ -15,7 +15,6 @@
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script
 	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
-<title>위시리스트페이지</title>
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
@@ -101,13 +100,12 @@ li {
 	align: right;
 }
 </style>
-<title>위시리스트페이지</title>
 </head>
 <body>
 	<header class="header">
 		<!-- header -->
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-			<a class="navbar-brand" href="../main">NTF-AUCTION</a>
+			<a class="navbar-brand" href="../../main">NTF-AUCTION</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
 				aria-expanded="false" aria-label="Toggle navigation">
@@ -115,11 +113,11 @@ li {
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNavDropdown">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item"><a class="nav-link" href="../arts/register">작품등록</a>
-					</li>
+					<li class="nav-item"><a class="nav-link"
+						href="../../arts/register">작품등록</a></li>
 					<c:if test="${empty sessionScope.memberId }">
-						<li class="nav-item"><a class="nav-link" href="../members/login">로그인</a>
-						</li>
+						<li class="nav-item"><a class="nav-link"
+							href="../members/login">로그인</a></li>
 						<li class="nav-item"><a class="nav-link"
 							href="../members/sign-up">회원가입</a></li>
 					</c:if>
@@ -135,17 +133,18 @@ li {
 
 	</header>
 
+
 	<aside class="aside">
 		<div id="page-wrapper">
 			<!-- 사이드바 -->
 			<div id="sidebar-wrapper">
 				<ul class="sidebar-nav">
-					<li class="sidebar-brand"><a href="../members/my-page/member">마이페이지</a></li>
-					<li><a href="../members/my-page/member">회원정보</a></li>
-					<li><a href="wishpage">위시리스트</a></li>
-					<li><a href="../members/my-page/artlist">등록작품내역</a></li>
+					<li class="sidebar-brand"><a href="member">마이페이지</a></li>
+					<li><a href="member">회원정보</a></li>
+					<li><a href="../../wishlist/wishpage">위시리스트</a></li>
+					<li><a href="artlist">등록작품내역</a></li>
 					<li><a href="#">구매작품내역</a></li>
-					<li><a href="../qnaboard/qnalist">QnA게시판</a></li>
+					<li><a href="../../qnaboard/qnalist">QnA게시판</a></li>
 				</ul>
 			</div>
 			<!-- /사이드바 -->
@@ -157,25 +156,26 @@ li {
 			<!-- 본문 헤더 -->
 			<div id="page-content-wrapper">
 				<div class="container-fluid">
-					<h1>위시리스트</h1>
+					<h1>등록 작품 내역</h1>
 				</div>
 			</div>
 
 			<div class="content">
-				<!-- 위시리스트 리스트 보여주기!!! -->
+				<!-- 등록한 작품 내역 리스트 보여주기!!! -->
 				<c:forEach var="vo" items="${list }">
 					<div class="col-sm-4">
 						<div class="card border-primary mb-3" style="max-width: 20rem;">
-							<div class="card-header">by ${sessionScope.memberId }</div>
+							<div class="card-header">by ${vo.memberId}</div>
 							<div class="card-body">
 								<a
-									href="../arts/detail?artNo=${vo.artNo}&page=${pageMaker.criteria.page}">
+									href="../../arts/detail?artNo=${vo.artNo}&page=${pageMaker.criteria.page}">
 									<h4 class="card-title">
 										<img
 											src="/nft-auction/arts/display?fileName=${vo.artFileName }">
 									</h4>
 									<hr>
 									<p class="card-text">${vo.artName }</p>
+									
 								</a>
 							</div>
 						</div>
@@ -193,5 +193,6 @@ li {
 	<script type="text/javascript">
         
     </script>
+
 </body>
 </html>

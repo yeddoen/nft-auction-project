@@ -112,7 +112,18 @@ public class ArtServiceImple implements ArtService {
 		logger.info("updateView() 호출 : artNo = "+artNo+", count = "+count);
 		return artDAO.updateView(artNo, count);
 	}
-	
+
+	@Override
+	public List<ArtVO> readByMemberId(String memberId) {
+		logger.info("readByMemberId() 호출 : memberId = " + memberId);
+		return artDAO.selectMemberId(memberId);
+	}
+
+	@Override
+	public int updateWishCount(int artNo, int count) {
+		logger.info("updateWishCount() 호출 : artNo = "+artNo+", count = "+count);
+		return artDAO.updateWishCount(artNo, count);
+	}
 	@Override
 	public int updateArt(ArtVO vo) {
 		logger.info("updateArt() 호출");

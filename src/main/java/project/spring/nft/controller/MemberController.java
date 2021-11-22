@@ -27,7 +27,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import project.spring.nft.domain.ArtVO;
 import project.spring.nft.domain.MemberVO;
+import project.spring.nft.domain.WishlistVO;
+import project.spring.nft.pageutil.PageCriteria;
+import project.spring.nft.pageutil.PageMaker;
+import project.spring.nft.service.ArtService;
 import project.spring.nft.service.MemberService;
 
 @Controller
@@ -47,6 +52,8 @@ public class MemberController {
 	BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	@Autowired
+	private ArtService artService;
 
 	@GetMapping("/sign-up")
 	public void joinMemberGET() {
@@ -358,6 +365,38 @@ public class MemberController {
         }
         
     } //end sendMailTest()
+    
+    
+    // 현아 추가. 등록작품페이지!
+    @GetMapping("/my-page/artlist")
+    public void artlistGET(Model model, HttpServletRequest request, Integer page, Integer numsPerPage) {
+		logger.info("artlistGET() 호출");
+		logger.info("page = "+page+", numsPerPage = "+numsPerPage);
+
+		// TODO : 작품 등록이 안되어있는 상황도 봐야함!
+		
+		PageCriteria criteria = new PageCriteria();
+		if(page !=null) {
+			criteria.setPage(page);
+		}
+		if(numsPerPage!=null) {
+			criteria.setNumsPerPage(numsPerPage);
+		}
+
+		HttpSession session = request.getSession();
+		String memberId = (String) session.getAttribute("memberId");
+
+		List<ArtVO> list = artService.readByMemberId(memberId);
+		model.addAttribute("list", list);
+		
+		
+		PageMaker pageMaker=new PageMaker();
+		pageMaker.setCriteria(criteria);
+		pageMaker.setPageData();
+		model.addAttribute("pageMaker", pageMaker);
+
+	} // end artlistGET()
+    
 
 	
 } // end class

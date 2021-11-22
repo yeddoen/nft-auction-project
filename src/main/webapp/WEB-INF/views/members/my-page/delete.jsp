@@ -8,7 +8,7 @@
 <!-- 모바일 디바이스에서 터치/줌 등을 지원하기 위한 meta 태그 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- 제이쿼리 -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <!-- 부트스트랩 -->
 <link rel="stylesheet"
 	href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
@@ -17,7 +17,28 @@
 	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 
 <title>회원탈퇴</title>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+<!-- Popper JS -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<!-- css -->
 <style type="text/css">
+/* 헤더 스타일 */
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+ul {
+	list-style-type: none;
+}
+
+li {
+	display: inline-block;
+}
 /* 사이드바 래퍼 스타일 */
 .aside {
 	width: 30%;
@@ -87,10 +108,10 @@
 			<!-- 사이드바 -->
 			<div id="sidebar-wrapper">
 				<ul class="sidebar-nav">
-					<li class="sidebar-brand"><a href="#">마이페이지</a></li>
+					<li class="sidebar-brand"><a href="member">마이페이지</a></li>
 					<li><a href="member">회원정보</a></li>
-					<li><a href="#">위시리스트</a></li>
-					<li><a href="#">등록작품내역</a></li>
+					<li><a href="../../wishlist/wishpage">위시리스트</a></li>
+					<li><a href="artlist">등록작품내역</a></li>
 					<li><a href="#">구매작품내역</a></li>
 					<li><a href="../../qnaboard/qnalist">QnA게시판</a></li>
 				</ul>
