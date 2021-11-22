@@ -37,7 +37,9 @@ import project.spring.nft.service.ArtService;
 import project.spring.nft.service.AuctionService;
 import project.spring.nft.service.WishlistService;
 import project.spring.nft.util.FileUploadUtil;
+import project.spring.nft.util.KAS;
 import project.spring.nft.util.MediaUtil;
+import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.ApiException;
 
 @Controller
 public class ArtController {
@@ -181,8 +183,9 @@ public class ArtController {
 		logger.info("registerGET() 호출");
 	} //end registerGET()
 	
+	// 11.22 현아 추가 : DB에 작품 등록, NFT 관련 기능 넣을 것임!
 	@PostMapping("/arts/register")
-	public String registerPOST(ArtVO vo, RedirectAttributes reAttr) {
+	public String registerPOST(ArtVO vo, RedirectAttributes reAttr) throws IOException, ApiException {
 		logger.info("registerPOST() 호출 : vo = "+vo.toString());
 		int result=artService.createArt(vo);
 		logger.info(result+"행 삽입");
@@ -192,6 +195,13 @@ public class ArtController {
 			logger.info(nicknameUpdate+"개 nickname 등록. art 등록 최종완료");
 			reAttr.addFlashAttribute("registerResult", "success"); 
 			//TODO : main에서 등록 성공 alert 띄우기
+			
+			// 현아 : 최신 블록 넘버 호출 성공, KAS계정생성하기
+			KAS kastest = new KAS();
+			kastest.getNFTContractList(); // 밥먹고 실행하기
+			
+			
+			
 			return "redirect:/main"; 
 		}else {
 			return "redirect:/arts/register";

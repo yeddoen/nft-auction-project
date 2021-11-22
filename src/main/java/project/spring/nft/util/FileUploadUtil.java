@@ -105,4 +105,4 @@ public class FileUploadUtil {
 		return thumbnailName.substring(uploadPath.length())
 				.replace(File.separatorChar, '/');
 	}	
-}
+} // end class

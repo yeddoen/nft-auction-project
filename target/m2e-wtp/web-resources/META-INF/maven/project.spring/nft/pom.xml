@@ -24,11 +24,25 @@
 	</repositories>
 
 	<dependencies>
-		<!-- KAS SDK -->
+		<!-- KAS SDK 1.9.0 버전으로함~! -->
 		<dependency>
 			<groupId>xyz.groundx.caver</groupId>
 			<artifactId>caver-java-ext-kas</artifactId>
 			<version>1.9.0</version>
+		</dependency>
+
+		<!-- KAS 메이븐 라이브러리 -->
+		<dependency>
+			<groupId>com.klaytn.caver</groupId>
+			<artifactId>core</artifactId>
+			<version>1.6.3</version>
+		</dependency>
+	
+		<!-- okhttp3.. -->
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+			<version>4.9.0</version>
 		</dependency>
 
 		<!-- Spring -->
@@ -207,8 +221,10 @@
 			<artifactId>spring-context-support</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+
+
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -247,5 +263,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 </project>
