@@ -107,5 +107,11 @@ public class ArtDAOImple implements ArtDAO {
 		return sqlSession.selectOne(NAMESPACE+".update_view", artViewCount);
 	} //end updateView()
 
+	@Override
+	public List<ArtVO> selectNotAuction() {
+		logger.info("selectNotAuction() 호출");
+		return sqlSession.selectList(NAMESPACE + ".select_not_auction");
+	} // end selectNotAuction()
+
 
 }

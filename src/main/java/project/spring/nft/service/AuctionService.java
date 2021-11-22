@@ -2,6 +2,7 @@ package project.spring.nft.service;
 
 import java.util.List;
 
+import project.spring.nft.domain.ArtAuctionVO;
 import project.spring.nft.domain.AuctionVO;
 
 public interface AuctionService {
@@ -13,5 +14,5 @@ public interface AuctionService {
 	List<AuctionVO> readAll(int artNo);
 	
 	// 실시간 목록 조회
-	List<AuctionVO> read();
+	List<ArtAuctionVO> read();
 }

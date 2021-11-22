@@ -34,5 +34,7 @@ public interface ArtService {
 	int updateView(int artViewCount);
 	
 	ArtVO readArtno(int artNo);
+	
+	List<ArtVO> readNotAuction();
 
 }

@@ -204,7 +204,29 @@
             }); // end btn_reply()       
             
        // 수정 버튼 눌렀을 때 수정 내용 입력창
-            
+            $('#qnareplies').on('click', 'div .btn_update', function() {
+            console.log("btn_update click()");
+            var replyNo = $(this).closest('.reply_item').find('#replyNo').val();
+            var replyContent = $(this).closest('.reply_item').find('#replyContent').val();
+            var memberReplyAddNickname = $('#memberReplyNickname').val();
+            // var qnaboardNo2 = $(this).closest('.reply_item').find('#replyNo').val();
+            // console.log(replyNo2);
+             
+            var inputUpdateReply = $(
+                    '<div class="row offset-sm-1">'
+                    + '<input type="text" id="replyNo" value="'+replyNo+'">'
+                    + '<input type="hidden" id="memberAddId" value=" ${mo.memberId} " + readonly>'
+                    + '<span class="input-group-text " style="width: 7% ">닉네임</span>'
+                    + '<input type="text" id="memberReplyAddNickname" value="${mo.memberNickname }" readonly><br>'                    
+                    + '</div>'
+                    + '<div class="row offset-sm-1">'
+                    + '<textarea rows="3" cols="100" id="replyAddContent">'+replyContent+'</textarea>'
+                   // + '<input type="text" id="replyAddContent" placeholder="댓글 내용을 입력하세요">'                    
+                    + '<button type="button" class="btn_update_reply btn btn-primary mt-3-sm">댓글 수정</button>'
+                    + '</div>');
+                    // + '<button type="button" class="btn_add_reply btn btn-link" type="button">o</button>');    
+            $(this).closest('.reply_item').find('#reply').html(inputUpdateReply).toggle();  
+            }); // end btn_reply()       
         
    
         // 전체 댓글 목록 출력
@@ -274,16 +296,13 @@
                         + replyDate
                         + '&nbsp;&nbsp;'
                         + '<button class="btn_update btn btn-link btn-sm" type="button" '+ disabled +'>수정</button>'
-                        + '<button class="btn_delete btn btn-link btn-sm" type="button" type="button" '+ disabled +'>삭제</button>'
-                        + '<button type="button" class="btn_reply btn btn-link btn-sm" type="button" '+ dis +'>답글</button><br>'
-                        // + '<input type="text" id="replyContent" value="' + this.replyContent + '" '+ readonly +'/>'          
-                        + '<textarea id="replyContent" rows="3" cols="100"'+ readonly +'>'+ this.replyContent +'</textarea>'
-                        + '<div>'
-                        // + replyContent
-                        + '</div>'
-                        + '</div>'
+                        + '<button class="btn_delete btn btn-link btn-sm" type="button"'+ disabled +'>삭제</button>'
+                        + '<button class="btn_reply btn btn-link btn-sm" type="button" '+ dis +'>답글</button><br>'
+                         + '<input type="hidden" id="replyContent" value="' + this.replyContent + '" '+ readonly +'/>'
+                        + replyContent
+                        //+ '<textarea id="replyContent" rows="3" cols="100"'+ readonly +'>'+ this.replyContent +'</textarea>'                       
                         + '<div id="reply" style="display: none;">'  
-                        //+ '</div>'
+                        + '</div>'
                         + '</pre>'
                         + '</div>';
  
@@ -294,16 +313,16 @@
         } // end getAllReplies()    
     
         // 댓글 수정 버튼 클릭시
-        $('#qnareplies').on('click', '.reply_item .btn_update', function() {
+        $('#qnareplies').on('click', '.reply_item .btn_update_reply', function() {
             console.log(this);
             
-            var replyNo = $(this).prevAll('#replyNo').val();
-            var replyContent = $(this).prevAll('#replyContent').val();
+            var replyNo = $('#replyNo').val();  
+            var replyContent = $(this).prevAll('#replyAddContent').val();
             console.log("선택된 댓글 번호 : " + replyNo + ", 댓글 내용 : " + replyContent);
             
             $.ajax({
                type : 'PUT',
-               url : 'qnareplies/rest/' + replyNo,              
+               url : 'qnareplies/rest/' + replyNo,
                data : JSON.stringify({
                    'replyContent' : replyContent
                }),

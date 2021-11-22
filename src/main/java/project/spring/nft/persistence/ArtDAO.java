@@ -34,4 +34,6 @@ public interface ArtDAO {
 	//작품 데이터(작품명, 작품설명) 수정
 	//작품(게시된) 삭제
 	
+	// 경매에 등록되지 않은 작품 정보 조회
+	List<ArtVO> selectNotAuction();
 }
