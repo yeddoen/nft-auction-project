@@ -32,7 +32,7 @@ public class MemberDAOTest {
 	}
 
 	private void login() {
-		MemberVO vo = dao.selectLogin("admin", "admin1234");
+		MemberVO vo = dao.selectLogin("admin");
 		// MemberVO vo=dao.selectByMemberNo(1);
 		logger.info("login test : " + vo.toString());
 	} // 성공
