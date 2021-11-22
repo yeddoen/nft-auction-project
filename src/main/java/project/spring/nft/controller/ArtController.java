@@ -213,7 +213,6 @@ public class ArtController {
 		}else {
 			return new ResponseEntity<String>(result, HttpStatus.OK);						
 		}
-		
 	} //end uploadAjaxPOST()
 	
 	@GetMapping("/arts/display")

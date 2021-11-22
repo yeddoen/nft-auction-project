@@ -39,4 +39,5 @@ public interface ArtService {
 	//회원 낙찰 내역
 	List<ArtVO> readWinBid(String memberId);
 	
+	ArtVO readArtno(int artNo);
 }

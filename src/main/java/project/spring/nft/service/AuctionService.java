@@ -15,4 +15,6 @@ public interface AuctionService {
 	int updateWinner(int artNo, int maxMoney);
 	//낙찰자 조회
 	String selectWinner(int artNo);
+	// 실시간 목록 조회
+	List<AuctionVO> read();
 }

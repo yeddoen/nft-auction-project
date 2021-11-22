@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  	select * from ${qnaboard}
 	  	order by ${qnaboardNo} desc
 	  </select>
-	  
+
 	  <select id="select_by_qnaboard_no" resultType="QnABoardVO">
 	  	select * from ${qnaboard} where ${qnaboardNo} = #{qnaboardNo}
 	  </select>
@@ -43,15 +43,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  	select count(*) total_cnt from ${qnaboard}
 	  </select>
 
-	  <select id="select_by_member_id" resultType="QnABoardVO">
+<!-- 	  <select id="select_by_member_id" resultType="QnABoardVO">
 	  	select * from ${qnaboard}
 	  	where ${memberNickname} like #{memberNickname} 
 	  </select>
-	  
+	   -->
 	  <select id="select_by_title_content" resultType="QnABoardVO">
 	  	select * from ${qnaboard}
 	  	where ${qnaboardTitle} like #{keyword} or ${qnaboardContent} like #{keyword}
 	  	order by ${qnaboardNo} desc
+	  </select>
+	  
+	  <select id="select_list_by_member_id" resultType="QnABoardVO">
+	  	select * from ${qnaboard}
+	  	where ${memberId} = #{memberId}
+	  </select>
+	  
+	  <select id="select_by_member_id" resultType="Integer">
+	  	select count(*) total_cnt from ${qnaboard}
+	  	where ${memberId} = #{memberId}
 	  </select>
 	  
 	  <update id="update_reply_count">

@@ -66,4 +66,10 @@ public class AuctionDAOImple implements AuctionDAO {
 		logger.info("selectWinner() 호출");
 		return sqlSession.selectOne(NAMESPACE+".select_winner", artNo);
 	}
+
+	@Override
+	public List<AuctionVO> select() {
+		logger.info("select() 호출");
+		return sqlSession.selectList(NAMESPACE + ".select_all");
+	}
 }

@@ -143,4 +143,12 @@ public class ArtServiceImple implements ArtService {
 		logger.info("readWinBid() 호출");
 		return artDAO.selectWinBid(memberId);
 	}
+
+	@Override
+	public ArtVO readArtno(int artNo) {
+		logger.info("readArtNo() 호출");
+		return artDAO.selectArtNo(artNo);
+	}
+	
+	
 }

@@ -7,7 +7,25 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style type="text/css">
+.div1 {
+            text-align : left;
+            width: 400px;
+            height: auto;
+            margin: 20px;
+            border-style: solid;
+            border-color: gray;
+            border-width: 1px;
+        }
+</style>
 <title>QnA 상세보기</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </head>
 <body>
   <h1>QnA 게시글 상세보기</h1>
@@ -15,39 +33,51 @@
        게시글 작성자 아이디 : memberBoardId, memberBoardNickname
        댓글 작성자 아이디 : memberReplyId, memberReplyNickname 
        대댓글 작성자 아이디 : memberAddReplyId, memberAddReplyNickname -->
-  <div>
-    <p>글 번호 : ${vo.qnaboardNo }</p>
+  <!-- 로그인한 아이디가 작성한 게시글만 볼 수 있도록 수정
+       관리자는 전체 게시글 확인할 수 있도록 수정 해야됨 -->
+  <div class="input-group mb-3">
+    <span class="input-group-text " style="width: 7% ">글 번호</span>
+    <input type="text" value="${vo.qnaboardNo }" readonly>
   </div>
-  <div>
-    <p>제목 <input type="text" value="${vo.qnaboardTitle }" readonly>
+  <div class="input-group mb-3">
+    <span class="input-group-text " style="width: 7% ">제목</span>
+    <input type="text" value="${vo.qnaboardTitle }" readonly>
   </div>
-  <div>
-    <p>닉네임 : ${vo.memberNickname }</p> <!-- 게시글 작성자 닉네임 -->
-    <c:set var="qnaboardDate"><fmt:formatDate value="${vo.qnaboardDate }" pattern="YYYY-MM-DD hh:mm"/></c:set>
-    <p>작성일 : ${qnaboardDate }</p>
+  <div class="input-group mb-3">
+    <span class="input-group-text " style="width: 7% ">닉네임</span>
+    <input type="text" value="${vo.memberNickname }" readonly>
+  </div>
+  <div class="input-group mb-3">
+    <c:set var="qnaboardDate"><fmt:formatDate value="${vo.qnaboardDate }" pattern="YYYY-MM-dd hh:mm"/></c:set>
+    <span class="input-group-text " style="width: 7% ">작성일</span>
+    <input type="text" value="${qnaboardDate }" readonly>    
   </div>
   <div>
     <textarea rows="20" cols="120" readonly>${vo.qnaboardContent }</textarea>
   </div>
   <div>
-  <a href="qnalist"><input type="button" value="글 목록"></a>
+  <a href="qnalist"><input type="button" class="btn btn-primary" value="글 목록"></a>
    <c:if test="${vo.memberId eq sessionScope.memberId}"> 
    <!-- 게시글 작성자와 로그인한 아이디가 같으면 글 수정, 삭제 가능 -->
-    <a href="qnaupdate?qnaboardNo=${vo.qnaboardNo }"><input type="button" value="글 수정"></a>
-    <a href="qnadelete?qnaboardNo=${vo.qnaboardNo }"><input type="button" value="글 삭제"></a>
+    <a href="qnaupdate?qnaboardNo=${vo.qnaboardNo }"><button class="btn btn-primary">글 수정</button></a>
+    <a href="qnadelete?qnaboardNo=${vo.qnaboardNo }"><input type="button" value="글 삭제" class="btn btn-primary"></a>
    </c:if>
+   <hr>
  </div>
- <div style="text-align: center">
-  <div>
+ <div style="text-align: left">
     <input type="hidden" id="qnaboardNo" value="${vo.qnaboardNo }">
-     <c:if test="${not empty sessionScope.memberId }">
+    <c:if test="${not empty sessionScope.memberId }">
       <input type="hidden" id="memberReplyNo" readonly>
-      <input type="text" id="memberReplyId" value="${mo.memberId }">
+      <input type="hidden" id="memberReplyId" value="${mo.memberId }">
+    <div class="input-group mb-3">
+      <span class="input-group-text " style="width: 7% ">닉네임</span>
       <input type="text" id="memberReplyNickname" value="${mo.memberNickname }" readonly>
-      <input type="text" id="replyContent" placeholder="댓글 내용을 입력하세요">
-      <button type="button" id="btn_add">등록</button>
-     </c:if>
-  </div>
+    </div>
+    <div>
+      <textarea rows="5" cols="100" id="replyContent" placeholder="댓글 내용을 입력하세요"></textarea>
+    </div>
+      <button type="button" id="btn_add" class="btn btn-primary mt-3">댓글 등록</button>
+    </c:if>
  </div>
  <hr>
  <div style="text-align: left;">
@@ -76,14 +106,15 @@
         $('#btn_add').click(function() {
            
            var replyContent = $('#replyContent').val();
+           replyContent = replyContent.replace('/r/n', '<br/>');
            var replyParentNo = "0";
            var memberReplyNickname = $('#memberReplyNickname').val();
            var memberReplyId = $('#memberReplyId').val();
-           var replyDepth = "0";
+           //var replyDepth = "0";
            var obj = {
                    'qnaboardNo' : qnaboardNo,
                    'replyParentNo' : replyParentNo,
-                   'replyDepth' : replyDepth,
+                   //'replyDepth' : replyDepth,
                    'replyContent' : replyContent,
                    'memberNickname' : memberReplyNickname,
                    'memberId' : memberReplyId
@@ -103,6 +134,7 @@
                 if(result == 1) {
                     alert('댓글 입력 성공');
                     getAllReplies();
+                    
                 }
             }
            });
@@ -117,11 +149,11 @@
             var replyParentNo = $('#replyAddNo').val();
             var memberNickname = $('#memberReplyAddNickname').val();
             var memberAddId = $('#memberAddId').val();
-            var replyDepth = "1";
+           // var replyDepth = "1";
             var obj = {
                     'qnaboardNo' : qnaboardNo,
                     'replyParentNo' : replyParentNo,
-                    'replyDepth' : replyDepth,
+                    //'replyDepth' : replyDepth,
                     'replyContent' : replyAddContent,
                     'memberNickname' : memberNickname,
                     'memberId' : memberAddId
@@ -155,14 +187,25 @@
             // var qnaboardNo2 = $(this).closest('.reply_item').find('#replyNo').val();
             // console.log(replyNo2);
              
-            var inputAddReply = $('<input type="hidden" id="replyAddNo" value="'+parseInt(replyAddNo)+'">'
-                    + '<input type="text" id="memberAddId" value=" ${mo.memberId} " + readonly>'
-                    + '<input type="text" id="memberReplyAddNickname" value="${mo.memberNickname }" readonly>'
-                    + '<input type="text" id="replyAddContent" placeholder="댓글 내용을 입력하세요">'
-                    + '<button type="button" class="btn_add_reply">작성</button>');
-            $(this).closest('.reply_item').find('#reply').html(inputAddReply).toggle();   
-
-            }); // end btn_reply()
+            var inputAddReply = $(
+                    '<div class="row offset-sm-1">'
+                    + '<input type="hidden" id="replyAddNo" value="'+parseInt(replyAddNo)+'">'
+                    + '<input type="hidden" id="memberAddId" value=" ${mo.memberId} " + readonly>'
+                    + '<span class="input-group-text " style="width: 7% ">닉네임</span>'
+                    + '<input type="text" id="memberReplyAddNickname" value="${mo.memberNickname }" readonly><br>'                    
+                    + '</div>'
+                    + '<div class="row offset-sm-1">'
+                    + '<textarea rows="3" cols="100" id="replyAddContent" placeholder="댓글 내용을 입력하세요"></textarea>'
+                   // + '<input type="text" id="replyAddContent" placeholder="댓글 내용을 입력하세요">'                    
+                    + '<button type="button" class="btn_add_reply btn btn-primary mt-3-sm">댓글 등록</button>'
+                    + '</div>');
+                    // + '<button type="button" class="btn_add_reply btn btn-link" type="button">o</button>');    
+            $(this).closest('.reply_item').find('#reply').html(inputAddReply).toggle();  
+            }); // end btn_reply()       
+            
+       // 수정 버튼 눌렀을 때 수정 내용 입력창
+            
+        
    
         // 전체 댓글 목록 출력
         function getAllReplies() {
@@ -181,6 +224,9 @@
                             // var hidden = 'hidden="hidden"';
                             var disabled = 'disabled';
                             var readonly = 'readonly';
+                            var offset = 'offset-sm-1';
+                            var replyContent = this.replyContent;
+                            replyContent = replyContent.split('<br/>').join("\r\n");
                             
                             
                             function getFormatDate(date){
@@ -195,7 +241,7 @@
                             }
                             var replyDate = new Date(this.replyDate);
                             replyDate = getFormatDate(replyDate);
-                                                       
+           
                             if(replyWriter == this.memberNickname) {
                                 disabled = '';
                                 readonly = '';
@@ -204,15 +250,18 @@
                                  readonly = '';
                              }
                             
-                            if(this.replyDepth == 0) {
+                            if(this.replyParentNo == 0) {
                                 var dis='';
                                 var rep='';
+                                var offset = '';
                                 
                             } else {
                                 var dis='disabled';
                                 var rep='└RE: ';
+                                ''
                             }
-                            list += '<div class="reply_item">'
+                            list += '<div class="reply_item ' + offset + '">'
+                        //+ '<div class="div1">'
                         + '<pre>'
                         + rep
                         + '<input type="hidden" id="replyNo" value="' + this.replyNo + '"/>'
@@ -221,15 +270,20 @@
                         + '<input type="hidden" id="memberReplyNickname" value="' + this.memberNickname + '"/>'
                         + this.memberNickname
                         + '&nbsp;&nbsp;' // 공백
-                        + '<input type="text" id="replyContent" value="' + this.replyContent + '" '+ readonly +'/>'
                         + '&nbsp;&nbsp;'
                         + replyDate
                         + '&nbsp;&nbsp;'
-                        + '<button class="btn_update" type="button" '+ disabled +'>수정</button>'
-                        + '<button class="btn_delete" type="button" '+ disabled +'>삭제</button>'
-                        + '<button type="button" class="btn_reply" '+ dis +'>답글</button><br>'                         
-                        + '<div id="reply" style="display: none;">'  
+                        + '<button class="btn_update btn btn-link btn-sm" type="button" '+ disabled +'>수정</button>'
+                        + '<button class="btn_delete btn btn-link btn-sm" type="button" type="button" '+ disabled +'>삭제</button>'
+                        + '<button type="button" class="btn_reply btn btn-link btn-sm" type="button" '+ dis +'>답글</button><br>'
+                        // + '<input type="text" id="replyContent" value="' + this.replyContent + '" '+ readonly +'/>'          
+                        + '<textarea id="replyContent" rows="3" cols="100"'+ readonly +'>'+ this.replyContent +'</textarea>'
+                        + '<div>'
+                        // + replyContent
                         + '</div>'
+                        + '</div>'
+                        + '<div id="reply" style="display: none;">'  
+                        //+ '</div>'
                         + '</pre>'
                         + '</div>';
  
@@ -237,10 +291,8 @@
                         $('#qnareplies').html(list);
                     }    
             );
-        } // end getAllReplies()
-        
-
-        
+        } // end getAllReplies()    
+    
         // 댓글 수정 버튼 클릭시
         $('#qnareplies').on('click', '.reply_item .btn_update', function() {
             console.log(this);
