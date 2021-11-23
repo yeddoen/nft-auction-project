@@ -7,7 +7,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import project.spring.nft.domain.AuctionVO;
 import project.spring.nft.domain.PaymentVO;
+import project.spring.nft.persistence.AuctionDAO;
 import project.spring.nft.persistence.PaymentDAO;
 
 @Service
@@ -17,24 +19,31 @@ public class PaymentServiceImple implements PaymentService {
 			LoggerFactory.getLogger(PaymentServiceImple.class);
 	
 	@Autowired
-	private PaymentDAO dao;
+	private PaymentDAO paymentDAO;
+	@Autowired
+	private AuctionDAO auctionDAO;
 	
 	@Override
 	public int insertPayment(PaymentVO vo) {
 		logger.info("insertPayment() 호출");
-		return dao.insertPayment(vo);
+		return paymentDAO.insertPayment(vo);
 	}
 
 	@Override
 	public PaymentVO selectByMemberId(String memberId) {
 		logger.info("selectByMemberId() 호출");
-		return dao.selectByMemberId(memberId);
+		return paymentDAO.selectByMemberId(memberId);
 	}
 
 	@Override
 	public PaymentVO selectByArtNo(int artNo) {
 		logger.info("selectByArtNi() 호출");
-		return dao.selectByArtNo(artNo);
+		return paymentDAO.selectByArtNo(artNo);
 	}
-
+	
+	@Override
+	public AuctionVO readArtNo(int artNo) {
+		logger.info("readArtNo() 호출");
+		return auctionDAO.selectWinner(artNo);
+	}
 }

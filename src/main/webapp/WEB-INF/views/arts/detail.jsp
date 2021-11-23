@@ -126,7 +126,7 @@ tbody{
 								data-toggle="collapse" data-target="#collapseAuction" style="margin: 3px;"
 								aria-expanded="false" aria-controls="collapseAuction">
 								경매 참여하기</button>
-							<button id="btn_buy" onclick="window.open('pay?artNo=${vo.artNo}', 'PopupWin','width=900, height=800, resizable=no')" class="btn btn-primary" style="margin: 3px;" type="button">
+							<button id="btn_buy" onclick="window.open('pay?artNo=${vo.artNo}&type=D', 'PopupWin','width=900, height=800, resizable=no')" class="btn btn-primary" style="margin: 3px;" type="button">
 								즉시 구매하기</button>	
 						</div>
 						<div class="collapse" id="collapseAuction">
@@ -406,7 +406,8 @@ tbody{
 			            		//낙찰자 아이디를 반환
 			            		var pay=confirm(result+'님, 낙찰되었습니다. 지금 결제하시겠습니까?');
 			            		if(pay){
-			            			location.href='purchase'; //결제페이지
+			            			var link='pay?artNo='+art_no+'&type=A';
+			            			window.open(link, 'PopupWin','width=900, height=800, resizable=no'); //결제페이지
 			            		}
 			            	}
 			            } //end success

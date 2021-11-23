@@ -57,7 +57,8 @@ public class AuctionRESTController {
 		int result=auctionService.updateWinner(artNo, map.get("maxMoney"));
 		if(result == 1) {
 			logger.info(artNo+"번 작품 낙찰자 업데이트");
-			String memberId=auctionService.selectWinner(artNo);
+			AuctionVO vo=auctionService.selectWinner(artNo);
+			String memberId=vo.getMemberId();
 			logger.info("낙찰자 아이디 조회");
 			return new ResponseEntity<String>(memberId, HttpStatus.OK);
 		} else {

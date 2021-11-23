@@ -63,7 +63,7 @@ public class AuctionDAOImple implements AuctionDAO {
 	}
 	
 	@Override
-	public String selectWinner(int artNo) {
+	public AuctionVO selectWinner(int artNo) {
 		logger.info("selectWinner() 호출");
 		return sqlSession.selectOne(NAMESPACE+".select_winner", artNo);
 	}

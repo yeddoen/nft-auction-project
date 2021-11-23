@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,7 +49,12 @@
 </ul>
 <ul class="list-group list-group-horizontal justify-content-center">
   <li class="list-group-item list-group-item-primary" style="width: 10rem">작품 가격</li>
-  <li class="list-group-item" style="width: 30rem">${avo.artPrice }</li>
+  <c:if test="${empty auvo }">
+	  <li class="list-group-item" style="width: 30rem">${avo.artPrice }</li>
+  </c:if>
+  <c:if test="${not empty auvo }">
+  	  <li class="list-group-item" style="width: 30rem">${auvo.auctionMoney }</li>
+  </c:if>
 </ul>
 <ul class="list-group list-group-horizontal justify-content-center">
   <li class="list-group-item list-group-item-primary" style="width: 10rem">작품 번호</li>
@@ -69,7 +75,10 @@
 <input type="hidden" id="artName" value="${avo.artName }">
 <input type="hidden" id="artPrice" value="${avo.artPrice }">
 <input type="hidden" id="memberId" value="${vo.memberId }"> 
-  
+<input type="hidden" id="paymentType" value="${typeResult }">  
+<c:if test="${not empty auvo }">
+	<input type="hidden" id="auctionMoney" value="${auvo.auctionMoney }">
+</c:if>
   <script> 
 
   imgShow(); 
@@ -79,7 +88,15 @@
   	var date = new Date().getTime();
   	var artno = $('#artNo').val();
     var goodsname = $('#artName').val(); // 주문명
-    var amount = $('#artPrice').val(); // 결제 금액
+    var payment_type = $('#paymentType').val();//결제 종류(경매인지 즉시인지)
+    console.log(payment_type);
+    var amount = 0;
+    if(payment_type=='D'){ //즉시구매
+	    amount = $('#artPrice').val();
+    }else if(payment_type=='A'){ //경매 낙찰
+    	amount = $('#auctionMoney').val(); /* 값아직 안받아옴!!!@@ */
+    }
+    console.log(amount);
     var buyer_name = $('#memberName').val(); // 주문자명
     var buyer_tel = $('#memberPhone').val(); // 주문자 연락처 - 필수
     var buyer_email = $('#memberEmail').val(); // 주문자 이메일
@@ -105,7 +122,8 @@
                   'artNo' : artno,
                   'artName' : goodsname,
                   'artPrice' : amount,
-                  'merchantUid' : merchant_uid
+                  'merchantUid' : merchant_uid,
+                  'paymentType' : payment_type
               }
       			  console.log(date);
       			  console.log(merchant_uid);
