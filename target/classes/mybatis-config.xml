@@ -79,6 +79,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</settings>
 	
 	<typeAliases>
-		<package name="project.spring.nft.domain"/>
+		<package name="project.spring.nft-auction.domain"/>
 	</typeAliases>
 </configuration>
