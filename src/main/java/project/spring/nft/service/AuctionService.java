@@ -12,7 +12,10 @@ public interface AuctionService {
 	int updateNickname(String memberNickname);
 	//작품의 입찰내역 조회
 	List<AuctionVO> readAll(int artNo);
-	
+	//경매 낙찰자 등록
+	int updateWinner(int artNo, int maxMoney);
+	//낙찰자 조회
+	String selectWinner(int artNo);
 	// 실시간 목록 조회
 	List<ArtAuctionVO> read();
 }

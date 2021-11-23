@@ -102,16 +102,60 @@ public class ArtDAOImple implements ArtDAO {
 	}
 	
 	@Override
-	public int updateView(int artViewCount) {
-		logger.info("updateView() 호출 : artViewCount = "+artViewCount);
-		return sqlSession.selectOne(NAMESPACE+".update_view", artViewCount);
+	public int updateView(int artNo, int count) {
+		logger.info("updateView() 호출 : artNo = "+artNo+", count = "+count);
+		Map<String, Integer> countMap=new HashMap<String, Integer>();
+		countMap.put("artNo", artNo);
+		countMap.put("count", count);
+		return sqlSession.update(NAMESPACE+".update_view", countMap);
 	} //end updateView()
 
 	@Override
+	public List<ArtVO> selectMemberId(String memberId) {
+		logger.info("select() 호출");
+		return sqlSession.selectList(NAMESPACE + ".select_by_member_id", memberId);
+	}
+
+	@Override
+	public int updateWishCount(int artNo, int count) {
+		logger.info("updateWishCount() 호출 : artNo = "+artNo+", count = "+count);
+		Map<String, Integer> countMap=new HashMap<String, Integer>();
+		countMap.put("artNo", artNo);
+		countMap.put("count", count);
+		return sqlSession.update(NAMESPACE+".update_wish_count", countMap);
+	}
+
+	
+	@Override
+	public int updateReplyCount(int amount, int artNo) {
+		logger.info("updateReplyCount 호출 : amount = "+amount+", artNo = "+artNo);
+		Map<String, Integer> args = new HashMap<String, Integer>();
+		args.put("amount", amount);
+		args.put("artNo", artNo);
+		return sqlSession.update(NAMESPACE + ".update_reply_count", args);
+	}
+	
+	@Override
+	public int updateArt(ArtVO vo) {
+		logger.info("updateArt() 호출 : vo = "+vo.toString());
+		return sqlSession.update(NAMESPACE+".update_art", vo);
+	}
+	
+	@Override
+	public int deleteArt(int artNo) {
+		logger.info("deleteArt() 호출 : artNo = "+artNo);
+		return sqlSession.delete(NAMESPACE+".delete_art", artNo);
+	}
+	
+	@Override
+	public List<ArtVO> selectWinBid(String memberId) {
+		logger.info("selectWinBid() 호출 : memberId = "+memberId);
+		return sqlSession.selectList(NAMESPACE+".select_win_list", memberId);
+	}
+
+	@Override
 	public List<ArtVO> selectNotAuction() {
-		logger.info("selectNotAuction() 호출");
-		return sqlSession.selectList(NAMESPACE + ".select_not_auction");
-	} // end selectNotAuction()
-
-
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +16,32 @@
 
 </head>
 <body>
+<!-- header -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <a class="navbar-brand" href="/main">NFT-AUCTION</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+      data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="arts/register">작품등록</a>
+        </li>
+        <c:if test="${empty sessionScope.memberId }">
+          <li class="nav-item"><a class="nav-link" href="members/login">로그인</a>
+          </li>
+          <li class="nav-item"><a class="nav-link"
+            href="members/sign-up">회원가입</a></li>
+        </c:if>
+        <c:if test="${not empty sessionScope.memberId }">
+          <li class="nav-item"><a class="nav-link" href="members/logout">로그아웃</a></li>
+          <li class="nav-item"><a class="nav-link"
+            href="members/my-page/member">마이페이지</a></li>
+        </c:if>
+      </ul>
+    </div>
+  </nav>
   <h1>문의하기</h1>
   <form action="qnaregister" method="POST" enctype="multipart/form-data">  
     <div class="input-group mb-3">

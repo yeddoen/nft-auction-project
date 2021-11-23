@@ -28,6 +28,32 @@
 
 </head>
 <body>
+<!-- header -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <a class="navbar-brand" href="main">NFT-AUCTION</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+      data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="arts/register">작품등록</a>
+        </li>
+        <c:if test="${empty sessionScope.memberId }">
+          <li class="nav-item"><a class="nav-link" href="members/login">로그인</a>
+          </li>
+          <li class="nav-item"><a class="nav-link"
+            href="members/sign-up">회원가입</a></li>
+        </c:if>
+        <c:if test="${not empty sessionScope.memberId }">
+          <li class="nav-item"><a class="nav-link" href="members/logout">로그아웃</a></li>
+          <li class="nav-item"><a class="nav-link"
+            href="members/my-page/member">마이페이지</a></li>
+        </c:if>
+      </ul>
+    </div>
+  </nav>
   <h1>QnA 게시글 상세보기</h1>
   <!-- 로그인 아이디 : memberId, memberNickname
        게시글 작성자 아이디 : memberBoardId, memberBoardNickname
@@ -206,15 +232,14 @@
        // 수정 버튼 눌렀을 때 수정 내용 입력창
             $('#qnareplies').on('click', 'div .btn_update', function() {
             console.log("btn_update click()");
-            var replyNo = $(this).closest('.reply_item').find('#replyNo').val();
+            var replyUpdateNo = $(this).closest('.reply_item').find('#replyNo').val();
             var replyContent = $(this).closest('.reply_item').find('#replyContent').val();
             var memberReplyAddNickname = $('#memberReplyNickname').val();
-            // var qnaboardNo2 = $(this).closest('.reply_item').find('#replyNo').val();
-            // console.log(replyNo2);
+            console.log(replyUpdateNo);
              
             var inputUpdateReply = $(
                     '<div class="row offset-sm-1">'
-                    + '<input type="text" id="replyNo" value="'+replyNo+'">'
+                    + '<input type="text" id="replyUpdateNo" value="'+replyUpdateNo+'">'
                     + '<input type="hidden" id="memberAddId" value=" ${mo.memberId} " + readonly>'
                     + '<span class="input-group-text " style="width: 7% ">닉네임</span>'
                     + '<input type="text" id="memberReplyAddNickname" value="${mo.memberNickname }" readonly><br>'                    
@@ -316,13 +341,13 @@
         $('#qnareplies').on('click', '.reply_item .btn_update_reply', function() {
             console.log(this);
             
-            var replyNo = $('#replyNo').val();  
+            var replyUpdateNo = $('#replyUpdateNo').val();  
             var replyContent = $(this).prevAll('#replyAddContent').val();
             console.log("선택된 댓글 번호 : " + replyNo + ", 댓글 내용 : " + replyContent);
             
             $.ajax({
                type : 'PUT',
-               url : 'qnareplies/rest/' + replyNo,
+               url : 'qnareplies/rest/' + replyUpdateNo,
                data : JSON.stringify({
                    'replyContent' : replyContent
                }),

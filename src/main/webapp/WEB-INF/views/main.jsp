@@ -7,7 +7,9 @@
 <meta charset="UTF-8">
 <!-- 모바일 디바이스에서 터치/줌 등을 지원하기 위한 meta 태그 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 제이쿼리 -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <!-- Popper JS -->
@@ -26,6 +28,57 @@ ul {
 li {
 	display: inline-block;
 }
+
+.carousel-indicators {
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  left: 0;
+  z-index: 15;
+  display: flex;
+  justify-content: center;
+  padding-left: 0; // override <ol> default
+  // Use the .carousel-control's width as margin so we don't overlay those
+  margin-right: $carousel-control-width;
+  margin-left: $carousel-control-width;
+  list-style: none;
+
+  li {
+    position: relative;
+    flex: 0 1 auto;
+    width: $carousel-indicator-width;
+    height: $carousel-indicator-height;
+    margin-right: $carousel-indicator-spacer;
+    margin-left: $carousel-indicator-spacer;
+    text-indent: -999px;
+    cursor: pointer;
+    background-color: rgba($carousel-indicator-active-bg, .5);
+
+    // Use pseudo classes to increase the hit area by 10px on top and bottom.
+    &::before {
+      position: absolute;
+      top: -10px;
+      left: 0;
+      display: inline-block;
+      width: 100%;
+      height: 10px;
+      content: "";
+    }
+    &::after {
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      display: inline-block;
+      width: 100%;
+      height: 10px;
+      content: "";
+    }
+  }
+
+  .active {
+    background-color: $carousel-indicator-active-bg;
+  }
+}
 </style>
 <title>메인 페이지</title>
 <script type="text/javascript">
@@ -34,7 +87,7 @@ li {
 <body style="text-align: center;">
 	<!-- header -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-		<a class="navbar-brand" href="main">NTF-AUCTION</a>
+		<a class="navbar-brand" href="main">NFT-AUCTION</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
 			aria-expanded="false" aria-label="Toggle navigation">
@@ -58,6 +111,11 @@ li {
 			</ul>
 		</div>
 	</nav>
+	<!-- 낙찰 alert -->
+	<c:if test="${not empty sessionScope.memberId }">
+		<div id="bid_alert">
+		</div>
+	</c:if>
 	<!-- 검색 -->
 	<br>
 	<div class="search">
@@ -69,6 +127,8 @@ li {
 		</form>
 	</div>
 	<br>
+
+	<!-- 전체 작품 리스트 -->
 	<div class="container">
 		<!-- 정렬 기준 -->
 		<div class="row">
@@ -111,18 +171,19 @@ li {
 	<input type="hidden" id="logout_result" value="${logoutResult }">
 	<input type="hidden" id="join_result" value="${joinResult }">
 	<input type="hidden" id="register_result" value="${registerResult }">
+	<input type="hidden" id="member_id" value="${sessionScope.memberId }">
 	<!-- footer -->
-	<footer>
-		<div class="jumbotron text-center mt-5 mb-0">
+	<footer class="bd-footer py-5 mt-5 bg-secondary sticky-bottom">
+		<div class="container py-5">
 			<h4>NFT-AUCTION</h4>
 			<p>이용약관 고객센터..주소..어쩌구</p>
 		</div>
 	</footer>
-	
 	<!-- JavaScript -->
 	<script type="text/javascript">		
 		$(function(){
 			showPagination();
+			winningBid();
 			/* 동작 수행 완료 alert */
 	  		confirmLoginResult();
 	  		confirmLogoutResult();
@@ -256,17 +317,17 @@ li {
 			pageAction();
 		} //end showPagination()
 		
-		
 		/* 현재 페이지네이션 표시 */
 		function pageAction() {
 			var url = $(location).attr('search'); //쿼리스트링
+			var URLSearch = new URLSearchParams(location.search);
 			var page_num=url.charAt(url.length-1);
 			console.log(page_num);
 			
 			$('input[class=page-num]').each(function(x){
 				console.log(x);
 				
-				if(!url && (x+1)==1){
+				if(!URLSearch.get('page') && (x+1)==1){
 					$(this).parents('.page-item').last().addClass('active');
 				}
 				if(page_num == (x+1)){
@@ -275,6 +336,35 @@ li {
 				}
 			})
 		}//end pageAction()
+		
+		/* 회원 낙찰 소식 알림 */
+		function winningBid() {
+			var member_id=$('#member_id').val();
+			console.log(member_id);
+			$.ajax({
+				type:'post',
+				url:'arts/winning',
+				data:{
+					memberId:member_id
+				},
+				success:function(resultData){
+					console.log(resultData);
+					var list='';
+					$(resultData).each(function(){
+						list+='<div class="alert alert-warning m-0 alert-dismissible fade show" role="alert">'
+							+'<strong>'+member_id+'님</strong> ['
+							+this.artName+']작품이 낙찰됐습니다. 결제를 진행하세요. '
+							+'<a href="arts/detail?artNo='+this.artNo+'">'
+							+'<button class="btn btn-outline-primary btn-sm">작품으로 이동</button></a>'
+							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close">'
+							+'<span aria-hidden="true">&times;</span>'
+							+'</button>'
+							+'</div>';
+					}); //end each
+					$('#bid_alert').html(list);
+				}
+			})
+		} //end winningBid()
 	</script>
 </body>
 </html>

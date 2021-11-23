@@ -68,6 +68,7 @@
 <input type="hidden" id="artNo" value="${avo.artNo }">
 <input type="hidden" id="artName" value="${avo.artName }">
 <input type="hidden" id="artPrice" value="${avo.artPrice }">
+<input type="hidden" id="artFileName" value="${avo.artFileName }">
 <input type="hidden" id="memberId" value="${vo.memberId }"> 
   
   <script> 
@@ -84,6 +85,8 @@
     var buyer_tel = $('#memberPhone').val(); // 주문자 연락처 - 필수
     var buyer_email = $('#memberEmail').val(); // 주문자 이메일
     var memberId = $('#memberId').val();
+    var artFileName = $('#artFileName').val();
+    var paymentType = "D"; // 즉시결제
   	var merchant_uid = $('#artName').val() + date + $('#memberId').val();
     IMP.init('imp84678220'); // 가맹점 식별 코드
       // IMP.request_pay(param, callback) 결제창 호출
@@ -105,7 +108,9 @@
                   'artNo' : artno,
                   'artName' : goodsname,
                   'artPrice' : amount,
-                  'merchantUid' : merchant_uid
+                  'merchantUid' : merchant_uid,
+                  'artFileName' : artFileName,
+                  'paymentType' : paymentType
               }
       			  console.log(date);
       			  console.log(merchant_uid);

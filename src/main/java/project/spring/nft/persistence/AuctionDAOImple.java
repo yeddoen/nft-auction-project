@@ -1,6 +1,8 @@
 package project.spring.nft.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -45,10 +47,31 @@ public class AuctionDAOImple implements AuctionDAO {
 		return sqlSession.selectOne(NAMESPACE+".select_max_money", artNo);
 	}
 
+	
+	@Override
+	public int deleteArtNo(int artNo) {
+		logger.info("deleteArtNo() 호출 : artNo = "+artNo);
+		return sqlSession.delete(NAMESPACE+".delete_art_no", artNo);
+	}
+	
+	@Override
+	public int updateWinner(int artNo, int maxMoney) {
+		logger.info("updateWinner() 호출 : maxMoney = "+maxMoney);
+		Map<String, Integer> bidMap=new HashMap<String, Integer>();
+		bidMap.put("artNo", artNo);
+		bidMap.put("maxMoney", maxMoney);		
+		return sqlSession.update(NAMESPACE+".update_winner", bidMap);
+	}
+	
+	@Override
+	public String selectWinner(int artNo) {
+		logger.info("selectWinner() 호출");
+		return sqlSession.selectOne(NAMESPACE+".select_winner", artNo);
+	}
+
 	@Override
 	public List<ArtAuctionVO> select() {
 		logger.info("select() 호출");
 		return sqlSession.selectList(NAMESPACE + ".select_all");
 	}
-
 }

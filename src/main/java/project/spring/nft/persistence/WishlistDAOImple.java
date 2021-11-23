@@ -1,6 +1,8 @@
 package project.spring.nft.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -34,9 +36,21 @@ public class WishlistDAOImple implements WishlistDAO {
 	}
 
 	@Override
-	public int deleteWishlist(int wishNo) {
-		logger.info("delete() 호출 : bno = " + wishNo);
-		return sqlSession.delete(NAMESPACE + ".delete", wishNo);
+	public int deleteWishlist(String memberId, String artName) {
+		logger.info("delete() 호출 : memberId : " + memberId);
+		Map<String, String> countMap=new HashMap<String, String>();
+		countMap.put("memberId", memberId);
+		countMap.put("artName", artName);
+		return sqlSession.delete(NAMESPACE + ".delete", countMap);
+	}
+
+	@Override
+	public int selectCount(String memberId, String artName) {
+		logger.info("selectCount() 호출 : memberid = " + memberId);
+		Map<String, String> countMap=new HashMap<String, String>();
+		countMap.put("memberId", memberId);
+		countMap.put("artName", artName);
+		return sqlSession.selectOne(NAMESPACE + ".select_count", countMap);
 	}
 
 

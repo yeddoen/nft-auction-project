@@ -6,8 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <insert id="insert">
 	insert into ${artPayment}
-	(${memberId}, ${artNo}, ${artName}, ${artPrice}, ${merchantUid})
-	values (#{memberId}, #{artNo}, #{artName}, #{artPrice}, #{merchantUid})
+	(${memberId}, ${artNo}, ${artName}, ${artPrice}, ${merchantUid}, ${artFileName})
+	values (#{memberId}, #{artNo}, #{artName}, #{artPrice}, #{merchantUid}, #{artFileName})
 </insert>
 
 <select id="select_by_member_id" resultType="PaymentVO">

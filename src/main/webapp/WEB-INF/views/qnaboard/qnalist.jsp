@@ -35,6 +35,32 @@ li {
        관리자는 전체 게시글 확인할 수 있도록 수정 해야됨 -->
 </head>
 <body>
+<!-- header -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <a class="navbar-brand" href="../main">NFT-AUCTION</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+      data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="arts/register">작품등록</a>
+        </li>
+        <c:if test="${empty sessionScope.memberId }">
+          <li class="nav-item"><a class="nav-link" href="members/login">로그인</a>
+          </li>
+          <li class="nav-item"><a class="nav-link"
+            href="members/sign-up">회원가입</a></li>
+        </c:if>
+        <c:if test="${not empty sessionScope.memberId }">
+          <li class="nav-item"><a class="nav-link" href="members/logout">로그아웃</a></li>
+          <li class="nav-item"><a class="nav-link"
+            href="members/my-page/member">마이페이지</a></li>
+        </c:if>
+      </ul>
+    </div>
+  </nav>
   <h1>QnA List</h1>
   <hr>
   <c:if test="${empty sessionScope.memberId }">
@@ -43,7 +69,7 @@ li {
   <c:if test="${not empty sessionScope.memberId }">
     <button type="button" id="btn_logout" class="btn btn-primary">로그아웃</button>
   </c:if>
-  <a href="qnaregister?memberId=<%=session.getAttribute("memberId") %>">문의하기</a>
+  <a href="qnaregister">문의하기</a>
   <!-- <button class="btn btn-primary"></button> -->
   <div align="center">
     <table class="table table-bordered" style="width: 50%">
@@ -57,9 +83,9 @@ li {
             <c:forEach items="${qnalist }" var="qnalist">
         <tr>
           <td><c:out value="${qnalist.qnaboardNo }" /></td>
-          <td><a href="qnadetail?qnaboardNo=${qnalist.qnaboardNo }&memberId=<%=session.getAttribute("memberId") %>"><c:out value="${qnalist.qnaboardTitle }" /></td>
+          <td><a href="qnadetail?qnaboardNo=${qnalist.qnaboardNo }" ><c:out value="${qnalist.qnaboardTitle }" /></a></td>
           <td><c:out value="${qnalist.memberNickname }" /></td>
-          <c:set var="qnaboardDate"><fmt:formatDate value="${qnalist.qnaboardDate }" pattern="YYYY-MM-DD hh:mm"/></c:set>
+          <c:set var="qnaboardDate"><fmt:formatDate value="${qnalist.qnaboardDate }" pattern="YYYY-MM-dd hh:mm"/></c:set>
           <td><c:out value="${qnaboardDate }"/></td>          
         </tr>
       </c:forEach>

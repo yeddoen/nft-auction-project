@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -202,13 +203,16 @@ public class ArtController {
 	@ResponseBody
 	public ResponseEntity<String> uploadAjaxPOST(MultipartFile[] files) throws IOException {
 		logger.info("uploadAjaxPOST() 호출");
-		
 		//파일 하나만 저장
 		String result=null; //파일 경로 및 썸네일 이미지 이름
 		result=FileUploadUtil.saveUploadedFile(
 				uploadPath, files[0].getOriginalFilename(), files[0].getBytes()); 
-		logger.info(result);
-		return new ResponseEntity<String>(result, HttpStatus.OK);
+		logger.info(result); //11.17 수정
+		if(result==null) { 
+			return new ResponseEntity<String>("fail", HttpStatus.OK);
+		}else {
+			return new ResponseEntity<String>(result, HttpStatus.OK);						
+		}
 	} //end uploadAjaxPOST()
 	
 	@GetMapping("/arts/display")
@@ -243,8 +247,16 @@ public class ArtController {
 	} //end display()
 	
 	@GetMapping("/arts/detail")
-	public void detail(Model model, Integer artNo, Integer page) {
+	public void detail(Model model, Integer artNo, Integer page, HttpServletRequest request) {
 		logger.info("detail() 호출 : artNo = "+artNo+", page = "+page);
+		//조회수 카운팅
+		String ip = request.getRemoteAddr();
+		int count=0;
+		logger.info("ip : "+ip);
+		count++;
+		int updateView=artService.updateView(artNo, count);
+		logger.info(updateView+"행 조회수 업데이트");
+		
 		Map<String, Object> readMap=artService.readArtNo(artNo);
 		ArtVO vo=(ArtVO)readMap.get("vo");
 		if(readMap.containsKey("maxMoney")) { //maxMoney가 있으면
@@ -254,4 +266,55 @@ public class ArtController {
 		model.addAttribute("vo", vo);
 		model.addAttribute("page", page);
 	} //end detail()
+	
+	@GetMapping("/arts/update")
+	public void updateGET(Model model, Integer artNo) {
+		logger.info("updateGET() 호출 : artNo = "+artNo);
+		Map<String, Object> readMap=artService.readArtNo(artNo);
+		ArtVO vo=(ArtVO)readMap.get("vo");
+		model.addAttribute("vo", vo);
+	} //end updateGET()
+	
+	@PostMapping("arts/update")
+	public String updatePOST(ArtVO vo, RedirectAttributes reAttr) {
+		logger.info("updatePOST() 호출 : vo = "+vo.toString());
+		int result=artService.updateArt(vo);
+		
+		if(result==1) {
+			reAttr.addFlashAttribute("updateResult", "success"); 
+			return "redirect:/arts/detail?artNo="+vo.getArtNo(); 
+		}else {
+			reAttr.addFlashAttribute("updateResult", "fail"); 
+			return "redirect:/arts/update?artNo="+vo.getArtNo();
+		}
+	} //end updatePOST()
+
+	@GetMapping("arts/delete")
+	public String deletePOST(int artNo, RedirectAttributes reAttr) throws Exception {
+		logger.info("deletePOST() 호출");
+		int result=artService.deleteArt(artNo);
+		
+		if(result==1) {
+			reAttr.addFlashAttribute("deleteResult", "success"); 
+			return "redirect:/main"; 
+		}else {
+			reAttr.addFlashAttribute("deleteResult", "fail"); 
+			return "redirect:/arts/detail?artNo="+artNo;
+		}
+	} //end deletePOST()
+	
+	@PostMapping("arts/winning")
+	@ResponseBody
+	public List<ArtVO> winningBid(String memberId) {
+		logger.info("winningBid() 호출 : memberId = "+memberId);
+		if(memberId==null) {
+			return null; 
+		}else {
+			List<ArtVO> bidList=artService.readWinBid(memberId);
+			for (ArtVO vo : bidList) {
+				System.out.println(vo.toString());
+			}
+			return bidList;			
+		}
+	} //end winningBid()
 }

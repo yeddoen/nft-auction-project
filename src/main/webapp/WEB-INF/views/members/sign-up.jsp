@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>       
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,14 +9,20 @@
 <script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<!-- 모바일 디바이스에서 터치/줌 등을 지원하기 위한 meta 태그 -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Bootstrap -->
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<!-- CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/minty/bootstrap.min.css" integrity="sha384-H4X+4tKc7b8s4GoMrylmy2ssQYpDHoqzPa9aKXbDwPoPUA3Ra8PA5dGzijN+ePnH" crossorigin="anonymous">
 <!-- JavaScript : submitAble() -->
-<script type="text/javascript">
-	var id_check=false; //아이디 중복체크용
-	var member_check=false; //본인인증 확인용
-	var pw_check=false; //비밀번호 확인용
-		
+<script type="text/javascript">		
 	var id_check=false; //아이디 중복체크
 	var member_check=false; //본인인증 확인
 	var pw_check=false; //비밀번호 확인
@@ -27,7 +34,7 @@
 		//전화번호 정규표현식 적용
 		var phone_check=
 			/^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
-		phone=phone.replace(/(.{3,4})/g,'-');
+		//phone=phone.replace(/(.{3,4})/g,'-');
 		//이메일 정규표현식 적용
 		var email_check=
 			/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
@@ -58,35 +65,73 @@
 </script>
 <title>회원가입 페이지</title>
 </head>
-<body>
-	<div class="header">
+<body style="text-align: center;">
+	<!-- header -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
+		<a class="navbar-brand" href="../main">NFT-AUCTION</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNavDropdown">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item"><a class="nav-link" href="../arts/register">작품등록</a>
+				</li>
+				<c:if test="${empty sessionScope.memberId }">
+					<li class="nav-item"><a class="nav-link" href="login">로그인</a>
+					</li>
+					<li class="nav-item"><a class="nav-link"
+						href="sign-up">회원가입</a></li>
+				</c:if>
+				<c:if test="${not empty sessionScope.memberId }">
+					<li class="nav-item"><a class="nav-link" href="logout">로그아웃</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="my-page/member">마이페이지</a></li>
+				</c:if>
+			</ul>
+		</div>
+	</nav>
+	<br>
+	<!-- body -->
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-sm-6">
+				<div class="card">
+					<div class="card-body">
+						<h1>회원가입</h1>
+						<form action="sign-up" method="post" onsubmit="return submitAble();">
+							<div class="input-group mb-3">
+								<input type="text" class="form-control" id="member_id" name="memberId" placeholder="아이디 입력" required aria-label="아이디 입력" aria-describedby="check_id">
+								<button class="btn btn-outline-secondary" type="button" id="check_id">아이디 중복체크</button>
+							</div>
+							<div id="check_id_result" class="mb-3"></div>
+							<div class="input-group mb-3">
+							  <input type="text" class="form-control" id="member_name" name="memberName" placeholder="실명 입력" required aria-label="실명 입력" aria-describedby="check_confirm">
+							  <button class="btn btn-outline-secondary" type="button" id="check_confirm">본인인증</button>
+							</div>
+							<input type="hidden" id="member_uid" name="memberUid" value="">
+							<p><input type="password" class="form-control" id="member_pw" name="memberPassword" placeholder="비밀번호 입력" required></p>
+							<p><input type="password" class="form-control" id="confirm_pw" placeholder="비밀번호 확인" required></p>
+							<div id="confirm_pw_result" class="mb-3"></div>
+							<p><input type="text" class="form-control" name="memberNickname" placeholder="닉네임 입력" required></p>
+							<p><input type="text" class="form-control" id="member_phone" name="memberPhone" placeholder="전화번호 입력" required></p>
+							<p><input type="text" class="form-control" id="member_email" name="memberEmail" placeholder="이메일 입력" required></p>
+							<p><button class="enableEthereumButton btn btn-primary">메타마스크연동</button>
+							<input type="submit" class="btn btn-primary" value="가입하기"></p>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div class="body" style="text-align: center;">
-	<h1>회원가입</h1>
-	<form action="sign-up" method="post" onsubmit="return submitAble();">
-		<p><input type="text" id="member_id" name="memberId" placeholder="아이디 입력" required>
-		<button type="button" id="check_id">아이디 중복체크</button></p>
-		<span id="check_id_result"></span>
-		<p><input type="text" id="member_name" name="memberName" placeholder="실명 입력" required>
-		<button type="button" id="check_confirm">본인인증</button></p>
-		<input type="hidden" id="member_uid" name="memberUid" value="">
-		<p><input type="password" id="member_pw" name="memberPassword" placeholder="비밀번호 입력" required></p>
-		<p><input type="password" id="confirm_pw" placeholder="비밀번호 확인" required></p>
-		<span id="confirm_pw_result"></span>
-		<p><input type="text" name="memberNickname" placeholder="닉네임 입력" required></p>
-
-		<p><input type="text" name="memberPhone" placeholder="전화번호 입력" required></p>
-		<p><input type="text" name="memberEmail" placeholder="이메일 입력" required></p>
-		<p><button class="enableEthereumButton">메타마스크연동</button></p>
-
-		<p><input type="text" id="member_phone" name="memberPhone" placeholder="전화번호 ('-'없이) 입력" required></p>
-		<p><input type="email" id="member_email" name="memberEmail" placeholder="이메일 입력" required></p>
-
-		<p><input type="submit" value="가입하기">
-	</form>
-	</div>
-	<div class="foot">
-	</div>
+	<!-- footer -->
+	<footer class="bd-footer py-5 mt-5 bg-warning sticky-bottom">
+		<div class="container py-5">
+			<h4>NFT-AUCTION</h4>
+			<p>이용약관 고객센터..주소..어쩌구</p>
+		</div>
+	</footer>
 	<!-- JavaScript -->
 	<script type="text/javascript">
 		$(function() {
@@ -102,14 +147,14 @@
 				}else{
 					$.ajax({
 						type:'get',
-		                url:'rest/login-check/'+member_id,
+		                url:'rest/id-check/'+member_id,
 		                success:function(result, status){
 		                	console.log(result + " : "+ status);
 		                	if(result==0){
 		                		id_check=true;
 		                		$('#check_id_result').css('color', 'green');
 			                	$('#check_id_result').html("사용가능한 아이디입니다.");
-		                	}else{
+		                	}else{ // 1인 경우
 		                		id_check=false;
 		                		$('#check_id_result').css('color', 'red');
 			                	$('#check_id_result').html("중복된 아이디입니다.");
@@ -160,8 +205,12 @@
 						} else {
 							// 인증취소 또는 인증실패
 							member_check = false;
-							var msg = '인증에 실패하였습니다.';
-							msg += '에러내용 : ' + rsp.error_msg;
+							/* var msg = '인증에 실패하였습니다.<br>';
+							msg += '에러내용 : ' + rsp.error_msg; */
+							//본인인증 오류로 인해 임시처리
+							var msg='진행하세여';
+							$('#member_uid').val('member_'+member_id); 
+							member_check = true;
 							alert(msg);
 						}
 					}); //end IMP.certification
@@ -212,21 +261,19 @@
 			// TODO : 현재 request로 메타마스크 api만 실행하게 만듬. 
 			// 이제 계좌 account와 지갑 정보를 불러와서 저장시키고 유지시켜야할듯!
 			// 메타마스크연동 버튼 관련 코드 (메타마스크 창 띄우기)
-			if (typeof window.ethereum !== 'undefined') {
-		    	console.log('MetaMask is installed!'); // 메타마스크가 설치된경우
+		  	const ethereumButton = document.querySelector('.enableEthereumButton');
+		  	// 메타마스크연동버튼을 클릭하면
+			ethereumButton.addEventListener('click', () => {
+		  		if (typeof window.ethereum !== 'undefined') {
+		  			console.log('MetaMask is installed!'); // 메타마스크가 설치된경우
+		  			//Will Start the metamask extension
+		  			ethereum.request({ method: 'eth_requestAccounts' });
+		  		} else { // 아니라면 설치할 수 있도록 유도하기.
+		  		    console.log('Please install MetaMask!');
+		  			location.href = "https://metamask.io/";
+		  		}  
+		  	}); // end metamask api
 
-		  		const ethereumButton = document.querySelector('.enableEthereumButton');
-		  		ethereumButton.addEventListener('click', () => {
-		  		  //Will Start the metamask extension
-		  		  ethereum.request({ method: 'eth_requestAccounts' });
-		  		}); // 이더리움버튼 누르면 request 요청 실행.(앱실행)
-		  	} else { // 아니라면 설치할 수 있도록 유도하기.
-		  	    console.log('Please install MetaMask!');
-		  		location.href = "https://metamask.io/";
-		  	}
-
-
-			
 			/* 전화번호 형식적용 */
 			$('#member_phone').keyup(function(){
 				var member_phone=$('#member_phone').val();

@@ -10,25 +10,29 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import project.spring.nft.domain.QnABoardVO;
+import project.spring.nft.domain.MemberVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/*.xml"})
+@ContextConfiguration(locations={"file:src/main/webapp/WEB-INF/spring/**/*.xml"}) 
 @WebAppConfiguration
 public class SqlSessionTest {
-	private static final Logger LOGGER = 
-	         LoggerFactory.getLogger(SqlSessionTest.class);
-	private static final String NAMESPACE = 
-			"project.spring.nft.QnABoardMapper";
+	private static final Logger logger=
+			LoggerFactory.getLogger(SqlSessionTest.class);
+	
+	private static final String NAMESPACE="project.spring.nft.MemberMapper";
 	
 	@Autowired
 	private SqlSession sqlSession;
+	//DAOImple에서 사용하던 db쿼리 메소드를 축약해서 함수로 가지고있음.
 	
 	@Test
 	public void testInsert() {
-		QnABoardVO vo = new QnABoardVO(0, "hello", "hello", "choi", "choi", null);
-		int result = sqlSession.insert(NAMESPACE + ".insert", vo);
-		// .insert : mapper.xml의 id값
-		LOGGER.info(result + "행 삽입");
+		MemberVO vo=new MemberVO(0, "idid", "1234", "테스터", "텟", "010-1111-2222", "test@test.ete", "ididiuid");
+		//가고싶은 쿼리 태그를 namespace 뒤에 넣어 매칭해준다
+		int result=sqlSession.insert(NAMESPACE+".insert", vo);
+		//insert(key, value)
+		//.insert : board-mapper.xml의 id값
+		logger.info(result+"행 삽입");
 	}
+	
 }

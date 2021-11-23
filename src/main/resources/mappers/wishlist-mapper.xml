@@ -7,8 +7,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 삽입 -->
 	<insert id="insert">
 		insert into ${wishlist}
-		(${memberId}, ${artName}, ${artPrice}, ${artFileName})
-		values (#{memberId}, #{artName}, #{artPrice}, #{artFileName})
+		(${memberId}, ${artName}, ${artPrice}, ${artFileName}, ${artNo})
+		values (#{memberId}, #{artName}, #{artPrice}, #{artFileName}, #{artNo})
 	</insert>
 
 
@@ -20,10 +20,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		order by ${wishNo} desc
 	</select>
 	
-	<!-- 삭제 -->
+	<!-- 삭제, memberId랑 artName으로 받아서 삭제하기 -->
 	<delete id="delete">
-		delete from ${wishlist} where ${wishNo} = #{wishNo}
+		delete from ${wishlist} 
+		where ${artName} = #{artName} and ${memberId} = #{memberId}
 	</delete>
 	
-	
+	<!-- 위시리스트에 등록이 되어있느지 아닌지 카운트로 확인하기 -->
+	<select id="select_count" resultType="Integer">
+		select count(*)
+		from ${wishlist}
+		where ${artName} = #{artName} and ${memberId} = #{memberId}
+	</select>
 </mapper>

@@ -31,10 +31,17 @@ public interface ArtService {
 	//상세 작품 조회
 	Map<String, Object> readArtNo(int artNo);
 	//조회수 카운팅 업데이트
-	int updateView(int artViewCount);
-	
-	ArtVO readArtno(int artNo);
-	
+	int updateView(int artNo, int count);
+	// 등록작품내역에서 사용할 조회
+	List<ArtVO> readByMemberId(String memberId);
+	// 찜수 업데이트
+	int updateWishCount(int artNo, int count);
+	//작품 수정
+	int updateArt(ArtVO vo);
+	//작품 삭제
+	int deleteArt(int artNo) throws Exception;
+	//회원 낙찰 내역
+	List<ArtVO> readWinBid(String memberId);
 	List<ArtVO> readNotAuction();
-
-}
+	ArtVO readArtno(int artNo);	
+} // end class

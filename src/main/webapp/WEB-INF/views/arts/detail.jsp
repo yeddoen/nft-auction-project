@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,31 +22,32 @@ img {
 }
 
 tr {
-width: 100%;
-display: inline-table;
-height:60px;
-table-layout: fixed;
-  
+	width: 100%;
+	display: inline-table;
+	height: 60px;
+	table-layout: fixed;
 }
 
 table{
- height:300px; 
+  max-width: 100%;
+  height: auto;
+  table-layout: fixed;
  display: -moz-groupbox;
 }
 tbody{
   overflow-y: scroll;
-  height: 400px;
+  height: 300px;
   width: 100%;
   position: absolute;
 }
 </style>
 
-<title>상세 페이지 - ${vo.artName} </title>
+<title>상세 페이지 - ${vo.artName}</title>
 </head>
 <body style="text-align: center;">
 	<!-- header -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-		<a class="navbar-brand" href="../main">NTF-AUCTION</a>
+		<a class="navbar-brand" href="../main">NFT-AUCTION</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
 			aria-expanded="false" aria-label="Toggle navigation">
@@ -92,9 +93,14 @@ tbody{
 						</div>
 						<div class="row">
 							<div class="col" style="text-align: right;">
-								<i class="bi bi-eye"></i> 조회수 ${vo.artViewCount }&nbsp;						
-								<button type="button" id="btn_wish" class="btn btn-outline-danger btn-sm">
-								찜하기 ${vo.artWishCount }</button>
+								<i class="bi bi-eye"></i> 조회수 ${vo.artViewCount }&nbsp;
+								<button type="button" id="btn_wish"
+									class="btn btn-outline-danger btn-sm">
+									<span id="art_wish_choice">🤍</span>
+									<!-- 시간 남으면 c태그로 찜수 등록되어있을시 하트 그림 변환 -->
+									<span id="art_wish_count">${vo.artWishCount }</span>
+								</button>
+								<!-- 찜하기를 누를떄 실행되는 메소드 만들기 -->
 							</div>
 						</div>
 						<hr>
@@ -106,16 +112,22 @@ tbody{
 						</div>
 						<div class="row">
 							<div class="col">
-								<h4 style="text-align: right;"><fmt:formatNumber value="${vo.artPrice }" type="currency" currencySymbol=""/>원</h4><br>
+								<!-- artPrice 가져와야함. -->
+								<h4 style="text-align: right;">
+									<fmt:formatNumber value="${vo.artPrice }" type="currency"
+										currencySymbol="" />
+									원
+								</h4>
+								<br>
 							</div>
 						</div>
 						<div style="margin: 10px;">
 							<button class="btn btn-primary" type="button" id="btn_auction"
 								data-toggle="collapse" data-target="#collapseAuction" style="margin: 3px;"
 								aria-expanded="false" aria-controls="collapseAuction">
-								경매 참여하기</button>							
-                            <button id="btn_buy" onclick="window.open('pay?artNo=${vo.artNo}', 'PopupWin','width=900, height=800, resizable=no')" class="btn btn-primary" style="margin: 3px;" type="button">
-                                즉시 구매하기</button>
+								경매 참여하기</button>
+							<button id="btn_buy" onclick="window.open('pay?artNo=${vo.artNo}', 'PopupWin','width=900, height=800, resizable=no')" class="btn btn-primary" style="margin: 3px;" type="button">
+								즉시 구매하기</button>	
 						</div>
 						<div class="collapse" id="collapseAuction">
 							<div class="card card-body">
@@ -137,7 +149,7 @@ tbody{
 				<br>
 				<div class="row">
 					<div class="col">
-						<table class="table table-hover">
+						<table class="table table-hover w-auto">
 							<thead>
 								<tr>
 									<th scope="col">닉네임</th>
@@ -152,6 +164,7 @@ tbody{
 				</div>
 			</div>
 		</div>
+		<!-- 작품설명 & 댓글 -->
 		<div class="row">
 			<div class="col-sm-7">
 				<div class="card bg-light mb-3">
@@ -166,10 +179,19 @@ tbody{
 							<div class="tab-pane fade show active" id="content">
 								<br>
 								<p>${vo.artContent }</p>
+								<c:if test="${not empty sessionScope.memberId }">
+									<div style="text-align: right;">
+										<a href="update?artNo=${vo.artNo }"><button type="button" class="btn btn-primary">수정</button></a>
+										<a href="delete?artNo=${vo.artNo }"><button type="button" class="btn btn-primary">삭제</button></a>
+									</div>
+								</c:if>
 							</div>
 							<div class="tab-pane fade" id="art_reply">
 								<br>
 								<div class="input-group mb-3">
+									<c:if test="${empty sessionScope.memberId }">
+										<p>로그인한 회원만 댓글 작성이 가능합니다. <a href="../members/login">로그인하기</a></p>
+									</c:if>
 							    	<c:if test="${not empty sessionScope.memberId }">
 							     		<input type="hidden" id="memberReplyNo" readonly>
 							     		<input type="text" id="memberReplyId" value="${vo.memberId }">
@@ -196,8 +218,13 @@ tbody{
 	<!-- hidden -->
 	<input type="hidden" id="show_date" value="${vo.artShowDate }">
 	<input type="hidden" id="show_img" value="${vo.artFileName }">
+	<input type="hidden" id="art_name" value="${vo.artName }">
+	<input type="hidden" id="art_price" value="${vo.artPrice }">
+	<%-- <input type="hidden" id="art_wish_count" value="${vo.artWishCount}"> --%>
+	<input type="hidden" id="art_no" value="${vo.artNo}">
 	<input type="hidden" id="max_money" value="${maxMoney }">
 	<input type="hidden" id="basic_money" value="${vo.artBasicFee }">
+	<input type="hidden" id="creator" value="${vo.memberId }">
 	<!-- JavaScript -->
 	<script type="text/javascript">
 		$(function(){
@@ -207,7 +234,8 @@ tbody{
 			imgShow();
 			getAllBidsList();
 			getAllReplies();
-			setInterval(auctionTimer, 1000); //1초마다 timer 반복하기
+			
+			var timer=setInterval(auctionTimer, 1000); //1초마다 timer 반복하기							
 			
 			/* 원본이미지 출력 */
 			function imgShow() {
@@ -228,6 +256,15 @@ tbody{
 			/* 입찰하기 버튼 클릭 */
 			$('#btn_bid').click(function(){
 				var member_id=$('#member_id').val();
+				var creator=$('#creator').val();
+				
+				//입찰자와 작품게시자가 같은 경우 입찰불가능 11.18
+				if(member_id==creator){
+					$('#money_check').css('color','red');
+					$('#money_check').html('Creator는 참여할 수 없습니다.');
+					return;
+				}
+				
 				var auction_money=$('#auction_money').val();
 				auction_money=parseInt(auction_money);
 				console.log(member_id+", "+auction_money);
@@ -271,6 +308,7 @@ tbody{
 				}else{
 					$('#money_check').css('color','red');
 					$('#money_check').html('최고 입찰액보다 적은 금액은 신청할 수 없습니다.');
+					return;
 				}
 				
 			}); //end btn_bid click
@@ -319,15 +357,124 @@ tbody{
 					difference = parseInt(difference / 24); 
 					var days = difference //일	
 					$('#show').html(days+'일 '+hours+'시 '+minutes+'분 '+secs+'초 남았습니다.');
+					
 				}else{ //타이머 종료
-					clearInterval(auctionTimer);
+ 					clearInterval(timer);
 					$('#btn_auction').attr('disabled', 'disabled');
 					$('#btn_auction').text('경매 종료');
 					$('#auction_money').attr('disabled', 'disabled');
-					$('#btn_bid').attr('disabled', 'disabled');
+					$('#btn_bid').attr('disabled', 'disabled'); 
+					
+					//21.11.15
+					/*경매 종료되면 maxmoney를 입력한 사람의 result T로 수정 */
+					auctionEndWinner();	
 				}
 				
 			} //end auctionTimer()
+			
+			//21.11.17
+			/* 경매 종료 낙찰자 채택 */
+			function auctionEndWinner() {
+				
+				var max_money=$('#max_money').val();
+				var member_id=$('#member_id').val();
+				var creator=$('#creator').val();
+				console.log(max_money+', '+member_id+', '+creator);
+				
+				if(!max_money){ 
+					//입찰자가 한명도 없는 경우 게시기간 갱신 필요
+					if(member_id==creator){
+						alert('작품 게시기간을 갱신해주세요!');
+						location.href='update?artNo='+art_no;
+						return;
+					}
+				}else{
+					$.ajax({
+						type:'PUT',
+						url:'auction/'+art_no, 
+						headers : {
+			                  'Content-Type' : 'application/json',
+			                  'X-HTTP-Method-Override' : 'PUT'
+			            },
+			            data:JSON.stringify({
+			            	'maxMoney':max_money
+			            }),
+			            success:function(result, status){
+			            	console.log(result);
+			            	if(result==member_id){
+			            		//낙찰자에게 결제하라는 모달띄우기
+			            		//낙찰자 아이디를 반환
+			            		var pay=confirm(result+'님, 낙찰되었습니다. 지금 결제하시겠습니까?');
+			            		if(pay){
+			            			location.href='purchase'; //결제페이지
+			            		}
+			            	}
+			            } //end success
+						
+					}); //end ajax
+				}
+			} //end auctionEndWinner()
+			
+			
+			/* 위시리스트 찜하기 등록 - 현아 수정. */
+			$('#btn_wish').click(function(){
+			    var session=$('#member_id').val();
+					if(!session) { // 세션 없으면
+					    console.log('로그인 세션 없음');
+						alert('로그인 해주세요!');
+						window.location.reload();
+						// $('#btn_wish').attr('disabled', 'disabled');
+					}
+					
+				// 위시리스트 찜하기 중복 등록 제거, 
+				// 찜하기 누르면 숫자가 1올라가고 한번 더 누르면 찜하기 취소(삭제)
+					else { // 세션 있을때
+					    /* if() { // 만약 이미 등록이 되어있다면 -> 즉 찜하기 버튼 누르면 삭제
+					        
+					    } else { // 등록이 안되어있으면 -> 짐하기 버튼 누르면 등록
+					        
+					    } */
+	
+					    var member_id = $('#member_id').val();
+						var art_name = $('#art_name').val();
+						var art_price =  $('#art_price').val();
+						var file_name = $('#show_img').val();
+						var art_no = $('#art_no').val();
+						
+				
+						var obj = {
+								        'memberId' : member_id,
+								        'artName' : art_name,
+								        'artPrice' : art_price,
+								        'artFileName' : file_name,
+								        'artNo' : art_no
+						};
+						console.log(obj);
+						$.ajax({
+							type : 'post',
+							url : '../wishlist/wishpage',
+							data : obj,
+							success : function(result) { // 성공이되면 받음.
+								if (result == 1) { // 찜하기 등록 성공일 경우.
+									alert('찜하기 등록 성공');
+									// art_wish_count가 +1이 됨!
+									var wishcount = $('#art_wish_count').text();
+									wishcount = parseInt(wishcount) + 1;
+									$('#art_wish_choice').text('🖤');
+									$('#art_wish_count').text(wishcount);
+									
+								 } else if(result == 2) { // 찜하기 삭제일 경우
+								    alert('찜하기 삭제 성공');
+								    var wishcount = $('#art_wish_count').text();
+									wishcount = parseInt(wishcount) - 1;
+									$('#art_wish_choice').text('🤍');
+									$('#art_wish_count').text(wishcount);
+								 }
+							}	
+						}); // end ajax()
+					    
+					}  
+			}); // end btn_wish click
 			
 			/* 댓글 입력 */
 	        $('#btn_add').click(function() {
@@ -561,9 +708,6 @@ tbody{
 			var regexp = /\B(?=(\d{3})+(?!\d))/g;
 			return num.toString().replace(regexp, ',');
 			} //end AddComma
-			
-			
-			
 		}); //end document
 	</script>
 </body>

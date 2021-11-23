@@ -28,11 +28,13 @@ public class WishlistDAOTest {
 		// testInsert(); // 성공
 		// testSelectAll(); // 성공
 		// testDelete(); // 성공
+		testSelectCount();
 		
 	}
 
+
 	private void testInsert() {
-		WishlistVO vo = new WishlistVO(0, "test3", "test3작품", 500, "testfile3");
+		WishlistVO vo = new WishlistVO(0, "test", "testartName", 10000, "testfileName", 1);
 		int result = dao.insertWishlist(vo);
 		if (result == 1) {
 			LOGGER.info("insert 성공");
@@ -53,13 +55,26 @@ public class WishlistDAOTest {
 	private void testDelete() {
 		WishlistVO vo = new WishlistVO();
 		int wishNo = 1;
-		int result = dao.deleteWishlist(wishNo);
+		int result = dao.deleteWishlist("test", "고양이");
 		if (result == 1) {
 			LOGGER.info("delete 성공");
 		} else {
 			LOGGER.info("delete 실패");
 		}
 		
+	} // 성공
+	
+
+	private void testSelectCount() {
+		String memberId = "test";
+		String artName = "끼욧";
+		
+		int result = dao.selectCount(memberId, artName);
+		if (result == 1) {
+			LOGGER.info("SelectCount 성공");
+		} else {
+			LOGGER.info("SelectCount 실패");
+		}
 	} // 성공
 	
 	

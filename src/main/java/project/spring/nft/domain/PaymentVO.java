@@ -10,10 +10,12 @@ public class PaymentVO {
 	private int artPrice;
 	private Date paymentDate;
 	private String merchantUid;
+	private String artFileName;
 	
 	public PaymentVO() {}
 
-	public PaymentVO(int paymentNo, String artName, int artNo, String memberId, int artPrice, Date paymentDate, String merchantUid) {
+	public PaymentVO(int paymentNo, String artName, int artNo, String memberId, int artPrice, Date paymentDate,
+			String merchantUid, String artFileName) {
 		super();
 		this.paymentNo = paymentNo;
 		this.artName = artName;
@@ -22,6 +24,7 @@ public class PaymentVO {
 		this.artPrice = artPrice;
 		this.paymentDate = paymentDate;
 		this.merchantUid = merchantUid;
+		this.artFileName = artFileName;
 	}
 
 	public int getPaymentNo() {
@@ -71,20 +74,30 @@ public class PaymentVO {
 	public void setPaymentDate(Date paymentDate) {
 		this.paymentDate = paymentDate;
 	}
-	
+
 	public String getMerchantUid() {
 		return merchantUid;
 	}
-	
+
 	public void setMerchantUid(String merchantUid) {
 		this.merchantUid = merchantUid;
 	}
-	
+
+	public String getArtFileName() {
+		return artFileName;
+	}
+
+	public void setArtFileName(String artFileName) {
+		this.artFileName = artFileName;
+	}
 
 	@Override
 	public String toString() {
 		return "PaymentVO [paymentNo=" + paymentNo + ", artName=" + artName + ", artNo=" + artNo + ", memberId="
-				+ memberId + ", artPrice=" + artPrice + ", paymentDate=" + paymentDate + ", merchantUid=" + merchantUid + "]";
-	}	
+				+ memberId + ", artPrice=" + artPrice + ", paymentDate=" + paymentDate + ", merchantUid=" + merchantUid
+				+ ", artFileName=" + artFileName + "]";
+	}
+
 	
+
 }

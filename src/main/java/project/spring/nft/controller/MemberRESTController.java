@@ -24,9 +24,9 @@ public class MemberRESTController {
 	@Autowired
 	private MemberService memberService;
 	
-	@GetMapping("/login-check/{member_id}")
-	public ResponseEntity<Integer> loginCheck(@PathVariable("member_id") String memberId) {
-		logger.info("loginCheck() 호출");
+	@GetMapping("/id-check/{member_id}")
+	public ResponseEntity<Integer> idCheck(@PathVariable("member_id") String memberId) {
+		logger.info("idCheck() 호출");
 		//TODO db연결하고 확인해보기
 		int result=memberService.readIdCheck(memberId);
 		if(result==0) {
@@ -35,7 +35,7 @@ public class MemberRESTController {
 			logger.info("중복된 아이디 있음");
 		}	
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
-	} //end loginCheck()
+	} //end idCheck()
 	
 	@PostMapping("/confirm")
 	public ResponseEntity<String> confirmMemberPOST(String memberUid) {

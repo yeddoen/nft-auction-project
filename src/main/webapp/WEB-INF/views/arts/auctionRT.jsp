@@ -74,13 +74,11 @@
 </div>
   
   <script type="text/javascript">
-  	/* setTimeout(function() {
-        location.reload();
-    }, 60000); */
-  	function reloadTime() {
+
+  	/* function reloadTime() {
   	$('#list').load(location.href + ' #list');
   	    setInterval('reloadTime()', 120000);
-  	};
+  	}; */
   </script>
 
 </body>

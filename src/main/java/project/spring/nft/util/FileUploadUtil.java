@@ -35,12 +35,10 @@ public class FileUploadUtil {
 		
 		String extension = fileName.substring(fileName.lastIndexOf(".") + 1); //확장자
 		
-		String result = null;
+		String result = null; 
 		if (MediaUtil.getMediaType(extension) != null) { 
 			result = createThumbnail(uploadPath, savePath, saveName);
-		} else { //미디어확장자가 아니면
-			result = "미디어 파일만 등록할 수 있습니다.";
-		}
+		} //11.17
 		
 		return result; //생성된 썸네일 경로 반환
 	}//end saveUploadedFile()
