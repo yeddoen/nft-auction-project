@@ -31,10 +31,6 @@ img {
 }
 
 /* 사이드바 래퍼 스타일 */
-.aside {
-	width: 30%;
-}
-
 #page-wrapper {
 	padding-left: 250px;
 }
@@ -86,46 +82,32 @@ img {
 	width: 30%;
 	align: left;
 }
-
-.section {
-	width: 70%;
-	align: right;
-}
 </style>
 </head>
 <body>
-	<header class="header">
-		<!-- header -->
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-			<a class="navbar-brand" href="../../main">NTF-AUCTION</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
-				aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNavDropdown">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item"><a class="nav-link"
-						href="../../arts/register">작품등록</a></li>
-					<c:if test="${empty sessionScope.memberId }">
-						<li class="nav-item"><a class="nav-link"
-							href="../login">로그인</a></li>
-						<li class="nav-item"><a class="nav-link"
-							href="../sign-up">회원가입</a></li>
-					</c:if>
-					<c:if test="${not empty sessionScope.memberId }">
-						<li class="nav-item"><a class="nav-link"
-							href="../logout">로그아웃</a></li>
-						<li class="nav-item"><a class="nav-link"
-							href="member">마이페이지</a></li>
-					</c:if>
-				</ul>
-			</div>
-		</nav>
-
-	</header>
-
-
+	<!-- header -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+		<a class="navbar-brand" href="../../main">NTF-AUCTION</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNavDropdown">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item"><a class="nav-link"
+					href="../../arts/register">작품등록</a></li>
+				<c:if test="${empty sessionScope.memberId }">
+					<li class="nav-item"><a class="nav-link" href="../login">로그인</a></li>
+					<li class="nav-item"><a class="nav-link" href="../sign-up">회원가입</a></li>
+				</c:if>
+				<c:if test="${not empty sessionScope.memberId }">
+					<li class="nav-item"><a class="nav-link" href="../logout">로그아웃</a></li>
+					<li class="nav-item"><a class="nav-link" href="member">마이페이지</a></li>
+				</c:if>
+			</ul>
+		</div>
+	</nav>
 	<aside class="aside">
 		<div id="page-wrapper">
 			<!-- 사이드바 -->
@@ -142,7 +124,6 @@ img {
 			<!-- /사이드바 -->
 		</div>
 	</aside>
-
 	<section class="section">
 		<div id="page-wrapper">
 			<!-- 본문 헤더 -->
@@ -151,34 +132,31 @@ img {
 					<h1>등록 작품 내역</h1>
 				</div>
 			</div>
-
-			<div class="content">
+			<div class="content m-3">
 				<!-- 등록한 작품 내역 리스트 보여주기!!! -->
-				<c:forEach var="vo" items="${list }">
-					<div class="col-sm-4">
-						<div class="card border-primary mb-3" style="max-width: 20rem;">
-							<div class="card-header">by ${vo.memberId}</div>
-							<div class="card-body">
-								<a
-									href="../../arts/detail?artNo=${vo.artNo}&page=${pageMaker.criteria.page}">
-									<h4 class="card-title">
-										<img
-											src="/nft-auction/arts/display?fileName=${vo.artFileName }">
-									</h4>
-									<hr>
-									<p class="card-text">${vo.artName }</p>
-									
-								</a>
+				<div class="row">
+					<c:forEach var="vo" items="${list }">
+						<div class="col-sm-4">
+							<div class="card border-primary mb-3" style="max-width: 20rem;">
+								<div class="card-header">by ${vo.memberId}</div>
+								<div class="card-body">
+									<a
+										href="../../arts/detail?artNo=${vo.artNo}&page=${pageMaker.criteria.page}">
+										<h4 class="card-title">
+											<img
+												src="/nft-auction/arts/display?fileName=${vo.artFileName }">
+										</h4>
+										<hr>
+										<p class="card-text">${vo.artName }</p>
+										
+									</a>
+								</div>
 							</div>
 						</div>
-					</div>
-				</c:forEach>
-
-
+					</c:forEach>
+				</div>
 			</div>
-
 			<div class="content-btn"></div>
-
 		</div>
 	</section>
 

@@ -2,6 +2,7 @@ package project.spring.nft.persistence;
 
 import java.util.List;
 
+import project.spring.nft.domain.ArtVO;
 import project.spring.nft.domain.WishlistVO;
 
 public interface WishlistDAO {
@@ -22,5 +23,7 @@ public interface WishlistDAO {
 	// 작품이 등록이 되어있는지 아닌지 카운트로 조회
 	int selectCount(String memberId, String artName);
 	
+	//작품정보 수정 시 위시리스트도 수정
+	int updateArt(ArtVO vo);
 	
 } // end WishlistDAO

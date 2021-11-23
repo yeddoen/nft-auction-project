@@ -127,13 +127,18 @@ public class ArtServiceImple implements ArtService {
 		logger.info("updateWishCount() 호출 : artNo = "+artNo+", count = "+count);
 		return artDAO.updateWishCount(artNo, count);
 	}
+	
+	@Transactional
 	@Override
 	public int updateArt(ArtVO vo) {
 		logger.info("updateArt() 호출 : vo = "+vo.toString());
 		//TODO art수정하면 다른 테이블에 있는 art정보도 업데이트해야함
 		//art정보를 저장하고있는 테이블 : wishlist
-		
-		return artDAO.updateArt(vo);
+		int result=artDAO.updateArt(vo);
+		logger.info("작품 수정 성공");
+		wishlistDAO.updateArt(vo);
+		logger.info("위시리스트 작품 정보 수정 성공");
+		return result;
 	}
 	
 	//작품 삭제 시 작품에 달린 댓글, 경매기록, 찜도 전부 지워져야함

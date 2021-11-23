@@ -19,10 +19,6 @@
 <!-- CSS -->
 <style type="text/css">
 /* 사이드바 래퍼 스타일 */
-.aside {
-	width: 30%;
-}
-
 #page-wrapper {
 	padding-left: 250px;
 }
@@ -74,11 +70,6 @@
 	width: 30%;
 	align: left;
 }
-/* 
-.section {
-	width: 70%;
-	align : right;
-} */
 </style>
 </head>
 <body>

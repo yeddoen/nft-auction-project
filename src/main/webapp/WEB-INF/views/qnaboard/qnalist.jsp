@@ -18,10 +18,6 @@ ul {
 }
 
 /* 사이드바 래퍼 스타일 */
-.aside {
-	width: 30%;
-}
-
 #page-wrapper {
 	padding-left: 250px;
 }
@@ -36,10 +32,10 @@ ul {
 	overflow-y: auto;
 }
 
-/* #page-content-wrapper {
+#page-content-wrapper {
 	width: 100%;
 	padding: 20px;
-} */
+}
 /* 사이드바 스타일 */
 .sidebar-nav {
 	width: 250px;
@@ -73,11 +69,6 @@ ul {
 	width: 30%;
 	align: left;
 }
-
-/* .section {
-	width: 70%;
-	align : right;
-} */
 </style>
 
 <meta charset="UTF-8">
@@ -161,7 +152,7 @@ ul {
 			          <td><c:out value="${qnalist.qnaboardNo }" /></td>
 			          <td><a href="qnadetail?qnaboardNo=${qnalist.qnaboardNo }&memberId=<%=session.getAttribute("memberId") %>"><c:out value="${qnalist.qnaboardTitle }" /></td>
 			          <td><c:out value="${qnalist.memberNickname }" /></td>
-			          <c:set var="qnaboardDate"><fmt:formatDate value="${qnalist.qnaboardDate }" pattern="YYYY-MM-DD hh:mm"/></c:set>
+			          <c:set var="qnaboardDate"><fmt:formatDate value="${qnalist.qnaboardDate }" pattern="YYYY-MM-dd hh:mm"/></c:set>
 			          <td><c:out value="${qnaboardDate }"/></td>          
 			        </tr>
 			      </c:forEach>
