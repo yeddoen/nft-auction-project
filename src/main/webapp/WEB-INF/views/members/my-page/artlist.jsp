@@ -30,14 +30,6 @@ img {
 	height: auto;
 }
 
-ul {
-	list-style-type: none;
-}
-
-li {
-	display: inline-block;
-}
-
 /* 사이드바 래퍼 스타일 */
 .aside {
 	width: 30%;
@@ -117,15 +109,15 @@ li {
 						href="../../arts/register">작품등록</a></li>
 					<c:if test="${empty sessionScope.memberId }">
 						<li class="nav-item"><a class="nav-link"
-							href="../members/login">로그인</a></li>
+							href="../login">로그인</a></li>
 						<li class="nav-item"><a class="nav-link"
-							href="../members/sign-up">회원가입</a></li>
+							href="../sign-up">회원가입</a></li>
 					</c:if>
 					<c:if test="${not empty sessionScope.memberId }">
 						<li class="nav-item"><a class="nav-link"
-							href="../members/logout">로그아웃</a></li>
+							href="../logout">로그아웃</a></li>
 						<li class="nav-item"><a class="nav-link"
-							href="../members/my-page/member">마이페이지</a></li>
+							href="member">마이페이지</a></li>
 					</c:if>
 				</ul>
 			</div>
@@ -143,7 +135,7 @@ li {
 					<li><a href="member">회원정보</a></li>
 					<li><a href="../../wishlist/wishpage">위시리스트</a></li>
 					<li><a href="artlist">등록작품내역</a></li>
-					<li><a href="#">구매작품내역</a></li>
+					<li><a href="shopping-list">구매작품내역</a></li>
 					<li><a href="../../qnaboard/qnalist">QnA게시판</a></li>
 				</ul>
 			</div>

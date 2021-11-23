@@ -1,5 +1,7 @@
 package project.spring.nft.service;
 
+import java.util.List;
+
 import project.spring.nft.domain.PaymentVO;
 
 public interface PaymentService {

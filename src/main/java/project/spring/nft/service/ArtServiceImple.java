@@ -15,6 +15,7 @@ import project.spring.nft.pageutil.PageCriteria;
 import project.spring.nft.persistence.ArtDAO;
 import project.spring.nft.persistence.ArtReplyDAO;
 import project.spring.nft.persistence.AuctionDAO;
+import project.spring.nft.persistence.WishlistDAO;
 
 @Service
 public class ArtServiceImple implements ArtService {
@@ -27,6 +28,8 @@ public class ArtServiceImple implements ArtService {
 	private AuctionDAO auctionDAO;
 	@Autowired
 	private ArtReplyDAO artReplyDAO;
+	@Autowired
+	private WishlistDAO wishlistDAO;
 	
 	@Override
 	public int createArt(ArtVO vo) {
@@ -126,7 +129,10 @@ public class ArtServiceImple implements ArtService {
 	}
 	@Override
 	public int updateArt(ArtVO vo) {
-		logger.info("updateArt() 호출");
+		logger.info("updateArt() 호출 : vo = "+vo.toString());
+		//TODO art수정하면 다른 테이블에 있는 art정보도 업데이트해야함
+		//art정보를 저장하고있는 테이블 : wishlist
+		
 		return artDAO.updateArt(vo);
 	}
 	

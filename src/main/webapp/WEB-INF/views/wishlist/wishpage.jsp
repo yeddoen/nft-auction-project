@@ -30,15 +30,6 @@ img {
 	max-width: 100%;
 	height: auto;
 }
-
-ul {
-	list-style-type: none;
-}
-
-li {
-	display: inline-block;
-}
-
 /* 사이드바 래퍼 스타일 */
 .aside {
 	width: 30%;
@@ -98,7 +89,7 @@ li {
 
 .section {
 	width: 70%;
-	align: right;
+	align : right;
 }
 </style>
 <title>위시리스트페이지</title>
@@ -144,7 +135,7 @@ li {
 					<li><a href="../members/my-page/member">회원정보</a></li>
 					<li><a href="wishpage">위시리스트</a></li>
 					<li><a href="../members/my-page/artlist">등록작품내역</a></li>
-					<li><a href="#">구매작품내역</a></li>
+					<li><a href="../members/my-page/shopping-list">구매작품내역</a></li>
 					<li><a href="../qnaboard/qnalist">QnA게시판</a></li>
 				</ul>
 			</div>

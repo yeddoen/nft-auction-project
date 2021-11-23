@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -15,8 +15,8 @@
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script
 	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
-
-<title>마이 페이지(일단헤더없이사이드바만추가함!)</title>
+<title>구매목록 페이지</title>
+<!-- CSS -->
 <style type="text/css">
 /* 사이드바 래퍼 스타일 */
 .aside {
@@ -74,11 +74,11 @@
 	width: 30%;
 	align: left;
 }
-
+/* 
 .section {
 	width: 70%;
 	align : right;
-}
+} */
 </style>
 </head>
 <body>
@@ -124,38 +124,31 @@
 			<!-- /사이드바 -->
 		</div>
 	</aside>
-
+	<!-- 구매목록 -->
 	<section class="section">
 		<div id="page-wrapper">
 			<!-- 본문 헤더 -->
 			<div id="page-content-wrapper">
 				<div class="container-fluid">
-					<h1>회원 정보</h1>
+					<h1>구매 작품 내역</h1>
 				</div>
 			</div>
-			
-			<div class="content">
-				<!-- 회원 정보 기본적으로 보여주기 -->
-				<!-- 아이디, 비밀번호(수정페이지로) 이름, 닉네임, 전화번호, 이메일 -->
-				<p>아이디</p><p>${vo.memberId }</p>
-				<p>비밀번호<button type="button" id="btn-password" onclick="location.href='password-change'">비밀번호 변경</button></p>
-				<p>이름</p><p>${vo.memberName}</p>
-				<p>닉네임</p><p>${vo.memberNickname }</p>
-				<p>전화번호</p><p>${vo.memberPhone }</p>
-				<p>이메일</p><p>${vo.memberEmail }</p>
+			<div class="content m-3">
+				<div class="row">
+					<c:forEach var="vo" items="${ list}">
+						<div class="col-sm-4">
+							<div class="card border-primary mb-3">
+								<div class="card-header">작품명 : ${vo.artName }</div>
+								<div class="card-body">
+									구매일자 : ${vo.paymentDate }<br>
+									구매가격 : ${vo.artPrice }							
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
 			</div>
-			
-			<div class="content-btn">
-				<button type="button" onclick="location.href='update'">회원정보수정</button>
-				
-			</div>
-			
 		</div>
 	</section>
-	
-	<script type="text/javascript">
-	
-	</script>
-
 </body>
 </html>
