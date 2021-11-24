@@ -28,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import project.spring.nft.domain.ArtVO;
 import project.spring.nft.domain.AuctionVO;
+import project.spring.nft.domain.PaymentVO;
 import project.spring.nft.pageutil.PageCriteria;
 import project.spring.nft.pageutil.PageMaker;
 import project.spring.nft.service.ArtService;
@@ -263,6 +264,16 @@ public class ArtController {
 			int maxMoney=(Integer)readMap.get("maxMoney");
 			model.addAttribute("maxMoney", maxMoney);			
 		}
+		
+		PaymentVO pvo=artService.readPayResult(artNo);
+		String payResult="";
+		if(pvo != null) { //결제된 작품이다
+			payResult="fail";
+		}else {
+			payResult="success";
+		}
+		
+		model.addAttribute("payResult", payResult);
 		model.addAttribute("vo", vo);
 		model.addAttribute("page", page);
 	} //end detail()

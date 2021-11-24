@@ -1,6 +1,8 @@
 package project.spring.nft.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -11,10 +13,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import project.spring.nft.domain.ArtVO;
+import project.spring.nft.domain.PaymentVO;
 import project.spring.nft.pageutil.PageCriteria;
 import project.spring.nft.persistence.ArtDAO;
 import project.spring.nft.persistence.ArtReplyDAO;
 import project.spring.nft.persistence.AuctionDAO;
+import project.spring.nft.persistence.PaymentDAO;
 import project.spring.nft.persistence.WishlistDAO;
 
 @Service
@@ -30,6 +34,8 @@ public class ArtServiceImple implements ArtService {
 	private ArtReplyDAO artReplyDAO;
 	@Autowired
 	private WishlistDAO wishlistDAO;
+	@Autowired
+	private PaymentDAO paymentDAO;
 	
 	@Override
 	public int createArt(ArtVO vo) {
@@ -147,23 +153,46 @@ public class ArtServiceImple implements ArtService {
 	@Override
 	public int deleteArt(int artNo) throws Exception{
 		logger.info("deleteArt() 호출");
-		int result=artDAO.deleteArt(artNo);
-		logger.info("작품 삭제 성공");
-		
-		artReplyDAO.deleteArtNo(artNo); //작품의 댓글들 삭제
-		logger.info("작품의 댓글 삭제 성공");
-		//작품의 경매내역 삭제
-		auctionDAO.deleteArtNo(artNo);
-		logger.info("작품의 경매내역 삭제 성공");
-		//TODO 작품의 위시리스트 삭제
-		
+		int result=0;
+		if(paymentDAO.selectByArtNo(artNo) == null) {
+			result=artDAO.deleteArt(artNo);
+			logger.info("작품 삭제 성공");
+			
+			artReplyDAO.deleteArtNo(artNo); //작품의 댓글들 삭제
+			logger.info("작품의 댓글 삭제 성공");
+			//작품의 경매내역 삭제
+			auctionDAO.deleteArtNo(artNo);
+			logger.info("작품의 경매내역 삭제 성공");
+			//작품의 위시리스트 삭제
+			wishlistDAO.deleteArt(artNo);
+			logger.info("작품의 찜내역 삭제 성공");
+		}else { //해당 작품의 결제내역이 존재함
+			logger.info("결제된 작품은 삭제 불가능");
+		}
 		return result;
 	}	
 	
 	@Override
 	public List<ArtVO> readWinBid(String memberId) {
 		logger.info("readWinBid() 호출");
-		return artDAO.selectWinBid(memberId);
+		List<ArtVO> alist=artDAO.selectWinBid(memberId);
+		List<PaymentVO> plist=paymentDAO.selectAll(memberId);
+		
+		//낙찰된 작품번호랑 일치하는 구매된 작품번호가 있으면 해당 vo는 빼고 list에 넣기
+		for(int i=0;i<plist.size();i++) { //3, 4
+			for(int j=0;j<alist.size();j++) { //2, 3, 5, 7
+				if(plist.get(i).getArtNo() == alist.get(j).getArtNo()) {
+					//일치하는 artNo가 없음
+					alist.remove(alist.get(j));
+				}
+			}
+		}
+		
+		for (ArtVO vo : alist) {
+			System.out.println("alist = "+vo.toString());
+		}
+		
+		return alist;
 	}
 
 	@Override
@@ -172,5 +201,10 @@ public class ArtServiceImple implements ArtService {
 		return artDAO.selectArtNo(artNo);
 	}
 	
+	@Override
+	public PaymentVO readPayResult(int artNo) {
+		logger.info("readPayResult() 호출");
+		return paymentDAO.selectByArtNo(artNo);
+	}
 	
 }

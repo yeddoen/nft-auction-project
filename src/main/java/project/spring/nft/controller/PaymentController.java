@@ -78,11 +78,9 @@ public class PaymentController {
 	
 	
 	@GetMapping("/result")
-	public void resultGET(HttpServletRequest request, Model model) {
+	public void resultGET(int artNo, Model model) {
 		logger.info("resultGET() 호출");
-		HttpSession session = request.getSession();
-		String memberId = (String) session.getAttribute("memberId");
-		PaymentVO vo = paymentservice.selectByMemberId(memberId);
+		PaymentVO vo = paymentservice.selectByArtNo(artNo);
 		logger.info("결제 정보 : " + vo.toString()); 
 		model.addAttribute("vo", vo);
 	}

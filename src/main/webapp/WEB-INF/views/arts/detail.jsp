@@ -126,7 +126,7 @@ tbody{
 								data-toggle="collapse" data-target="#collapseAuction" style="margin: 3px;"
 								aria-expanded="false" aria-controls="collapseAuction">
 								경매 참여하기</button>
-							<button id="btn_buy" onclick="window.open('pay?artNo=${vo.artNo}&type=D', 'PopupWin','width=900, height=800, resizable=no')" class="btn btn-primary" style="margin: 3px;" type="button">
+							<button id="btn_buy" class="btn btn-primary" style="margin: 3px;" type="button">
 								즉시 구매하기</button>	
 						</div>
 						<div class="collapse" id="collapseAuction">
@@ -225,6 +225,7 @@ tbody{
 	<input type="hidden" id="max_money" value="${maxMoney }">
 	<input type="hidden" id="basic_money" value="${vo.artBasicFee }">
 	<input type="hidden" id="creator" value="${vo.memberId }">
+	<input type="hidden" id="pay_result" value="${payResult }">
 	<!-- JavaScript -->
 	<script type="text/javascript">
 		$(function(){
@@ -236,6 +237,7 @@ tbody{
 			getAllReplies();
 			
 			var timer=setInterval(auctionTimer, 1000); //1초마다 timer 반복하기							
+			paymentResult();
 			
 			/* 원본이미지 출력 */
 			function imgShow() {
@@ -695,7 +697,35 @@ tbody{
 	            }); // end ajax
 	        }); // end btn_delete()
 			
-			/* 위시리스트 찜하기 */
+	        /* 결제한 작품은 구매 불가능 */
+			function paymentResult() {
+				var pay_result=$('#pay_result').val();
+				if(pay_result=='fail'){ //구매자 존재
+					//경매 종료
+					clearInterval(timer);
+					$('#btn_auction').attr('disabled', 'disabled');
+					$('#btn_auction').text('경매 종료');
+					$('#auction_money').attr('disabled', 'disabled');
+					$('#btn_bid').attr('disabled', 'disabled'); 
+					//구매 종료
+					$('#btn_buy').attr('disabled', 'disabled');
+				}
+			} //end paymentResult()
+			
+			/* 즉시 구매 버튼을 눌렀을 때 */
+			$('#btn_buy').click(function(){
+				var member_id=$('#member_id').val();
+				var creator=$('#creator').val();
+				
+				//창작자가 구매불가능
+				if(member_id==creator){
+					alert('Creator는 구매할 수 없습니다.');
+					return;
+				}else{
+					window.open('pay?artNo=${vo.artNo}&type=D', 'PopupWin','width=900, height=800, resizable=no');
+				}
+			}); //end btn_buy click
+			
 			
 			/* date format */
 			const formatDate = (current_datetime)=>{

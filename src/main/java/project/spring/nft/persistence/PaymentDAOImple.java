@@ -27,7 +27,7 @@ public class PaymentDAOImple implements PaymentDAO {
 	}
 
 	@Override
-	public PaymentVO selectByMemberId(String memberId) {
+	public List<PaymentVO> selectByMemberId(String memberId) {
 		logger.info("selectByMemberId() 호출");
 		return sqlsession.selectOne(NAMESPACE + ".select_by_member_id", memberId);
 	}

@@ -163,6 +163,7 @@ li {
 	<!-- 페이징처리 -->
 	<div id="paging">
 	</div>
+	<!-- hidden -->
 	<input type="hidden" id="hasPrev" value="${pageMaker.hasPrev }">
 	<input type="hidden" id="startPageNo" value="${pageMaker.startPageNo }">
 	<input type="hidden" id="endPageNo" value="${pageMaker.endPageNo }">
@@ -172,6 +173,7 @@ li {
 	<input type="hidden" id="join_result" value="${joinResult }">
 	<input type="hidden" id="register_result" value="${registerResult }">
 	<input type="hidden" id="member_id" value="${sessionScope.memberId }">
+	<input type="hidden" id="">
 	<!-- footer -->
 	<footer class="bd-footer py-5 mt-5 bg-secondary sticky-bottom">
 		<div class="container py-5">

@@ -16,7 +16,13 @@
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <!-- iamport.payment.js -->
   <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
-<title>즉시 결제</title>
+<title>결제 팝업창</title>
+<style type="text/css">
+img {
+	max-width: 100%;
+	height: auto;
+}
+</style>
 </head>
 <body>
 <div align="center">
@@ -143,7 +149,7 @@
                   msg += '결제 금액 : ' + rsp.paid_amount;
                   msg += '카드 승인번호 : ' + rsp.apply_num;
                   alert(msg);
-                  location.href = 'result';
+                  location.href = 'result?artNo='+artno;
    
               })
           } else { // 결제 실패시

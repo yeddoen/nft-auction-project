@@ -9,7 +9,7 @@ public interface PaymentDAO {
  
 	int insertPayment(PaymentVO vo);
 	
-	PaymentVO selectByMemberId(String memberId);
+	List<PaymentVO> selectByMemberId(String memberId);
 	
 	PaymentVO selectByArtNo(int artNo);
 	
