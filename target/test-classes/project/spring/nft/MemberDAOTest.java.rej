@@ -1,0 +1,10 @@
+diff a/src/test/java/project/spring/nft/MemberDAOTest.java b/src/test/java/project/spring/nft/MemberDAOTest.java	(rejected hunks)
+@@ -32,7 +32,7 @@
+ 	}
+ 
+ 	private void login() {
+-		MemberVO vo = dao.selectLogin("admin", "admin1234");
++		MemberVO vo = dao.selectLogin("admin");
+ 		// MemberVO vo=dao.selectByMemberNo(1);
+ 		logger.info("login test : " + vo.toString());
+ 	} // 성공

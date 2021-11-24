@@ -17,8 +17,57 @@ ul {
   list-style-type: none;
 }
 
-li {
-  display: inline-block;
+/* 사이드바 래퍼 스타일 */
+#page-wrapper {
+	padding-left: 250px;
+}
+
+#sidebar-wrapper {
+	position: fixed;
+	width: 250px;
+	height: 100%;
+	margin-left: -250px;
+	background: #000;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+#page-content-wrapper {
+	width: 100%;
+	padding: 20px;
+}
+/* 사이드바 스타일 */
+.sidebar-nav {
+	width: 250px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.sidebar-nav li {
+	text-indent: 1.5em;
+	line-height: 2.8em;
+}
+
+.sidebar-nav li a {
+	display: block;
+	text-decoration: none;
+	color: #999;
+}
+
+.sidebar-nav li a:hover {
+	color: #fff;
+	background: rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-nav>.sidebar-brand {
+	font-size: 1.3em;
+	line-height: 3em;
+}
+
+.aside {
+	width: 30%;
+	align: left;
 }
 </style>
 
@@ -35,6 +84,7 @@ li {
        관리자는 전체 게시글 확인할 수 있도록 수정 해야됨 -->
 </head>
 <body>
+<<<<<<< HEAD
 <!-- header -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <a class="navbar-brand" href="../main">NFT-AUCTION</a>
@@ -108,6 +158,102 @@ li {
     </c:if>
   </ul>
   </div>
+=======
+	<!-- header -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+		<a class="navbar-brand" href="../main">NFT-AUCTION</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNavDropdown">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item"><a class="nav-link" href="../arts/register">작품등록</a>
+				</li>
+				<c:if test="${empty sessionScope.memberId }">
+					<li class="nav-item"><a class="nav-link" href="../members/login">로그인</a>
+					</li>
+					<li class="nav-item"><a class="nav-link"
+						href="../members/sign-up">회원가입</a></li>
+				</c:if>
+				<c:if test="${not empty sessionScope.memberId }">
+					<li class="nav-item"><a class="nav-link" href="../members/logout">로그아웃</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="../members/my-page/member">마이페이지</a></li>
+				</c:if>
+			</ul>
+		</div>
+	</nav>
+	<aside class="aside">
+		<div id="page-wrapper">
+			<!-- 사이드바 -->
+			<div id="sidebar-wrapper">
+				<ul class="sidebar-nav">
+					<li class="sidebar-brand"><a href="../members/my-page/member">마이페이지</a></li>
+					<li><a href="../members/my-page/member">회원정보</a></li>
+					<li><a href="../../wishlist/wishpage">위시리스트</a></li>
+					<li><a href="../members/my-page/artlist">등록작품내역</a></li>
+					<li><a href="../members/my-page/shopping-list">구매작품내역</a></li>
+					<li><a href="qnalist">QnA게시판</a></li>
+				</ul>
+			</div>
+			<!-- /사이드바 -->
+		</div>
+	</aside>
+	<section class="section">
+		<div id="page-wrapper">
+			<!-- 본문 헤더 -->
+			<div id="page-content-wrapper">
+				<div class="container-fluid">
+					<h1>QnA List</h1>
+					<hr>
+				</div>
+			</div>
+			<div class="content m-3">
+			  <a href="qnaregister?memberId=<%=session.getAttribute("memberId") %>">문의하기</a>
+			  <!-- <button class="btn btn-primary"></button> -->
+			  <div align="center">
+			    <table class="table table-bordered">
+			      <tr>
+			        <th scope="col" style="width: 10%">번호</th>
+			        <th scope="col">제목</th>
+			        <th scope="col" style="width: 20%">작성자</th>
+			        <th scope="col" style="width: 20%">등록일</th>
+			      </tr>
+			      
+			            <c:forEach items="${qnalist }" var="qnalist">
+			        <tr>
+			          <td><c:out value="${qnalist.qnaboardNo }" /></td>
+			          <td><a href="qnadetail?qnaboardNo=${qnalist.qnaboardNo }&memberId=<%=session.getAttribute("memberId") %>"><c:out value="${qnalist.qnaboardTitle }" /></td>
+			          <td><c:out value="${qnalist.memberNickname }" /></td>
+			          <c:set var="qnaboardDate"><fmt:formatDate value="${qnalist.qnaboardDate }" pattern="YYYY-MM-dd hh:mm"/></c:set>
+			          <td><c:out value="${qnaboardDate }"/></td>          
+			        </tr>
+			      </c:forEach>
+			
+			    </table>  
+			  </div>
+			  
+			   <hr>
+			  <div align="center">
+			  <ul>
+			    <c:if test="${pageMaker.hasPrev }">
+			      <li><a href="qnalist?page=${pageMaker.startPageNo - 1 }">이전</a></li>
+			    </c:if>
+			    <c:forEach begin="${pageMaker.startPageNo }" 
+			    end="${pageMaker.endPageNo }" var="num">
+			      <li><a href="qnalist?page=${num }">${num }</a></li>   
+			    </c:forEach>
+			    <c:if test="${pageMaker.hasNext }">
+			      <li><a href="qnalist?page=${pageMaker.endPageNo + 1 }">다음</a></li>
+			    </c:if>
+			  </ul>
+			  </div>
+			</div>
+		</div>
+	</section>
+>>>>>>> refs/remotes/origin/develop-yed
   
   <script type="text/javascript">
     $(document).ready(function() {

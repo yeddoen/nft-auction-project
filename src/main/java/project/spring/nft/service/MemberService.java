@@ -3,6 +3,7 @@ package project.spring.nft.service;
 import java.util.List;
 
 import project.spring.nft.domain.MemberVO;
+import project.spring.nft.domain.PaymentVO;
 
 public interface MemberService {
 	//회원정보 등록
@@ -34,4 +35,7 @@ public interface MemberService {
 	
 	//비밀번호 찾기
 	MemberVO findPasswordasEmail(String memberId, String memberEmail);
+
+	//구매내역
+	List<PaymentVO> readPaymentAll(String memberId);
 }

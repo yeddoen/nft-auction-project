@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import project.spring.nft.domain.ArtVO;
+import project.spring.nft.domain.AuctionVO;
 import project.spring.nft.domain.MemberVO;
 import project.spring.nft.domain.PaymentVO;
 import project.spring.nft.service.ArtService;
@@ -52,7 +53,7 @@ public class PaymentController {
 	private String uploadPath;
 	
 	@GetMapping("/pay")
-	public void  payGET(Model model, int artNo, HttpServletRequest request) {
+	public void  payGET(Model model, int artNo, String type, HttpServletRequest request) {
 		logger.info("payGET() 호출");
 		
 		HttpSession session = request.getSession();
@@ -62,6 +63,15 @@ public class PaymentController {
 		logger.info("구매자 정보 : " + vo.toString());
 		
 		ArtVO avo = artservice.readArtno(artNo);
+		logger.info("구매작품 정보 : "+avo.toString());
+		
+		if(type.equals("A")) {
+			AuctionVO auvo=paymentservice.readArtNo(artNo);			
+			logger.info("경매 낙찰 정보 : "+auvo.toString());
+			model.addAttribute("auvo", auvo);
+		}
+		logger.info("결제 유형 : "+type);
+		model.addAttribute("typeResult", type);
 		model.addAttribute("avo", avo);
 		model.addAttribute("vo", vo);
 	}
@@ -123,4 +133,5 @@ public class PaymentController {
 		
 		return entity;
 	} //end display()
+	
 }

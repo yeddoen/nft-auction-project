@@ -29,6 +29,7 @@
 img {
 	max-width: 100%;
 	height: auto;
+<<<<<<< HEAD
 }
 
 ul {
@@ -42,8 +43,10 @@ li {
 /* 사이드바 래퍼 스타일 */
 .aside {
 	width: 30%;
+=======
+>>>>>>> refs/remotes/origin/develop-yed
 }
-
+/* 사이드바 래퍼 스타일 */
 #page-wrapper {
 	padding-left: 250px;
 }
@@ -95,11 +98,14 @@ li {
 	width: 30%;
 	align: left;
 }
+<<<<<<< HEAD
 
 .section {
 	width: 70%;
 	align: right;
 }
+=======
+>>>>>>> refs/remotes/origin/develop-yed
 </style>
 <title>위시리스트페이지</title>
 </head>
@@ -144,7 +150,11 @@ li {
 					<li><a href="../members/my-page/member">회원정보</a></li>
 					<li><a href="wishpage">위시리스트</a></li>
 					<li><a href="../members/my-page/artlist">등록작품내역</a></li>
+<<<<<<< HEAD
 					<li><a href="#">구매작품내역</a></li>
+=======
+					<li><a href="../members/my-page/shopping-list">구매작품내역</a></li>
+>>>>>>> refs/remotes/origin/develop-yed
 					<li><a href="../qnaboard/qnalist">QnA게시판</a></li>
 				</ul>
 			</div>
@@ -161,6 +171,7 @@ li {
 				</div>
 			</div>
 
+<<<<<<< HEAD
 			<div class="content">
 				<!-- 위시리스트 리스트 보여주기!!! -->
 				<c:forEach var="vo" items="${list }">
@@ -183,10 +194,38 @@ li {
 				</c:forEach>
 
 
+=======
+			<div class="content m-3">
+				<!-- 위시리스트 리스트 보여주기!!! -->
+				<div class="row">
+					<c:forEach var="vo" items="${list }">
+						<div class="col-sm-4">
+							<div class="card border-primary mb-3" style="max-width: 20rem;">
+								<div class="card-header">by ${sessionScope.memberId }</div>
+								<div class="card-body">
+									<a
+										href="../arts/detail?artNo=${vo.artNo}&page=${pageMaker.criteria.page}">
+										<h4 class="card-title">
+											<img
+												src="/nft-auction/arts/display?fileName=${vo.artFileName }">
+										</h4>
+										<hr>
+										<p class="card-text">${vo.artName }</p>
+									</a>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+>>>>>>> refs/remotes/origin/develop-yed
 			</div>
+<<<<<<< HEAD
 
 			<div class="content-btn"></div>
 
+=======
+			<div class="content-btn"></div>
+>>>>>>> refs/remotes/origin/develop-yed
 		</div>
 	</section>
 

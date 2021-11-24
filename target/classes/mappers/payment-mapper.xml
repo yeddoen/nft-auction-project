@@ -6,8 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <insert id="insert">
 	insert into ${artPayment}
-	(${memberId}, ${artNo}, ${artName}, ${artPrice}, ${merchantUid}, ${artFileName})
-	values (#{memberId}, #{artNo}, #{artName}, #{artPrice}, #{merchantUid}, #{artFileName})
+	(${memberId}, ${artNo}, ${artName}, ${artPrice}, ${merchantUid}, ${artFileName}, ${paymentType})
+	values (#{memberId}, #{artNo}, #{artName}, #{artPrice}, #{merchantUid}, #{artFileName}, #{paymentType})
 </insert>
 
 <select id="select_by_member_id" resultType="PaymentVO">
@@ -28,4 +28,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 </delete>
 
+<!-- 구매내역 -->
+<select id="select_all_by_id" resultType="PaymentVO">
+	select *
+	from ${artPayment}
+	where ${memberId}=#{memberId}
+	order by ${paymentDate} desc
+</select>
 </mapper>

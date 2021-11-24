@@ -158,4 +158,5 @@ public class ArtDAOImple implements ArtDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

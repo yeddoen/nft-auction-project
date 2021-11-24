@@ -126,7 +126,11 @@
 		</div>
 	</div>
 	<!-- footer -->
+<<<<<<< HEAD
 	<footer class="bd-footer py-5 mt-5 bg-warning sticky-bottom">
+=======
+	<footer class="bd-footer py-5 mt-5 bg-warning fixed-bottom">
+>>>>>>> refs/remotes/origin/develop-yed
 		<div class="container py-5">
 			<h4>NFT-AUCTION</h4>
 			<p>이용약관 고객센터..주소..어쩌구</p>

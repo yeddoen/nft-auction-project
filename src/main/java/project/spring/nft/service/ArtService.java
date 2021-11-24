@@ -42,6 +42,8 @@ public interface ArtService {
 	int deleteArt(int artNo) throws Exception;
 	//회원 낙찰 내역
 	List<ArtVO> readWinBid(String memberId);
+
 	List<ArtVO> readNotAuction();
+
 	ArtVO readArtno(int artNo);	
 } // end class

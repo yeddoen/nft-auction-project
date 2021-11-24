@@ -134,7 +134,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		set ${artViewCount}=${artViewCount}+#{count}
 		where ${artNo}=#{artNo}
 	</update>
-	
+
 	<!-- 경매에 등록되지 않은 작품 정보 조회 -->
 	<select id="select_not_auction" resultType="ArtVO">
 		select * from ${art}
