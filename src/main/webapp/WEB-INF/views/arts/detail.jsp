@@ -179,7 +179,7 @@ tbody{
 							<div class="tab-pane fade show active" id="content">
 								<br>
 								<p>${vo.artContent }</p>
-								<c:if test="${not empty sessionScope.memberId }">
+								<c:if test="${vo.memberId eq sessionScope.memberId}">
 									<div style="text-align: right;">
 										<a href="update?artNo=${vo.artNo }"><button type="button" class="btn btn-primary">수정</button></a>
 										<a href="delete?artNo=${vo.artNo }"><button type="button" class="btn btn-primary">삭제</button></a>

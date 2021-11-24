@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -279,11 +280,20 @@ public class ArtController {
 	} //end detail()
 	
 	@GetMapping("/arts/update")
-	public void updateGET(Model model, Integer artNo) {
+	public void updateGET(Model model, Integer artNo, HttpServletRequest request) {
 		logger.info("updateGET() 호출 : artNo = "+artNo);
+		
+		HttpSession session = request.getSession();
+		String memberId = (String) session.getAttribute("memberId");
+		
 		Map<String, Object> readMap=artService.readArtNo(artNo);
 		ArtVO vo=(ArtVO)readMap.get("vo");
-		model.addAttribute("vo", vo);
+		if(memberId.equals(vo.getMemberId())) {
+			model.addAttribute("vo", vo);
+			model.addAttribute("access", "success");
+		}else {
+			model.addAttribute("access", "fail");
+		}
 	} //end updateGET()
 	
 	@PostMapping("arts/update")
@@ -301,16 +311,26 @@ public class ArtController {
 	} //end updatePOST()
 
 	@GetMapping("arts/delete")
-	public String deletePOST(int artNo, RedirectAttributes reAttr) throws Exception {
+	public String deletePOST(int artNo, RedirectAttributes reAttr,
+			HttpServletRequest request) throws Exception {
 		logger.info("deletePOST() 호출");
-		int result=artService.deleteArt(artNo);
+		HttpSession session = request.getSession();
+		String memberId = (String) session.getAttribute("memberId");
 		
-		if(result==1) {
-			reAttr.addFlashAttribute("deleteResult", "success"); 
-			return "redirect:/main"; 
-		}else {
+		ArtVO vo=artService.readArtno(artNo);
+		if(memberId.equals(vo.getMemberId())) {
+			int result=artService.deleteArt(artNo);
+			
+			if(result==1) {
+				reAttr.addFlashAttribute("deleteResult", "success"); 
+				return "redirect:/main"; 
+			}else {
+				reAttr.addFlashAttribute("deleteResult", "fail"); 
+				return "redirect:/arts/detail?artNo="+artNo;
+			}			
+		}else { //작성자가 아닌 경우
 			reAttr.addFlashAttribute("deleteResult", "fail"); 
-			return "redirect:/arts/detail?artNo="+artNo;
+			return "redirect:/main";
 		}
 	} //end deletePOST()
 	
