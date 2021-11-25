@@ -15,34 +15,36 @@
 <!-- Popper JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <!-- CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/minty/bootstrap.min.css" integrity="sha384-H4X+4tKc7b8s4GoMrylmy2ssQYpDHoqzPa9aKXbDwPoPUA3Ra8PA5dGzijN+ePnH" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/zephyr/bootstrap.min.css">
 <title>로그인 페이지</title>
 </head>
 <body style="text-align: center;">
 	<!-- header -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-warning sticky-top">
-		<a class="navbar-brand" href="../main">NFT-AUCTION</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
-			aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNavDropdown">
-			<ul class="navbar-nav ml-auto">
-				<li class="nav-item"><a class="nav-link" href="../arts/register">작품등록</a>
-				</li>
-				<c:if test="${empty sessionScope.memberId }">
-					<li class="nav-item"><a class="nav-link" href="login">로그인</a>
+		<div class="container-fluid">
+			<a class="navbar-brand" href="../main">NFT-AUCTION</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNavDropdown">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item"><a class="nav-link" href="../arts/register">작품등록</a>
 					</li>
-					<li class="nav-item"><a class="nav-link"
-						href="sign-up">회원가입</a></li>
-				</c:if>
-				<c:if test="${not empty sessionScope.memberId }">
-					<li class="nav-item"><a class="nav-link" href="logout">로그아웃</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="my-page/member">마이페이지</a></li>
-				</c:if>
-			</ul>
+					<c:if test="${empty sessionScope.memberId }">
+						<li class="nav-item"><a class="nav-link" href="login">로그인</a>
+						</li>
+						<li class="nav-item"><a class="nav-link"
+							href="sign-up">회원가입</a></li>
+					</c:if>
+					<c:if test="${not empty sessionScope.memberId }">
+						<li class="nav-item"><a class="nav-link" href="logout">로그아웃</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="my-page/member">마이페이지</a></li>
+					</c:if>
+				</ul>
+			</div>
 		</div>
 	</nav>
 	<!-- body -->
