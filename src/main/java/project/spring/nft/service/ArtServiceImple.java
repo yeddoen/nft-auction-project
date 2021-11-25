@@ -148,4 +148,17 @@ public class ArtServiceImple implements ArtService {
 		
 		return result;
 	}
-} // end class
+
+	@Override
+	public ArtVO readArtno(int artNo) {
+		logger.info("readArtNo() 호출");
+		return artDAO.selectArtNo(artNo);
+	}
+
+	@Override
+	public List<ArtVO> readNotAuction() {
+		logger.info("readNotAuction() 호출");
+		return artDAO.selectNotAuction();
+	}
+
+}

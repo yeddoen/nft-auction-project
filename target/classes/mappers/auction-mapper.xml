@@ -37,4 +37,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from ${auction}
 		where ${artNo}=#{artNo}
 	</delete>
+	<!-- 실시간 조회 -->
+	<select id="select_all" resultType="ArtAuctionVO">
+		select * from ${auction}
+		inner join ${art}
+		on ${auction}.${artNo} = ${art}.${artNo}
+		order by ${auctionDate} desc
+	</select>
+
 </mapper>

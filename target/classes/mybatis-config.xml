@@ -72,6 +72,15 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<property name="artReplyDate" value="art_reply_date"/>
 		<property name="memberId" value="member_id"/>
 		<property name="memberNickname" value="member_nickname"/>
+		
+		<property name="artPayment" value="art_payment"/>
+		<property name="paymentNo" value="payment_no"/>
+		<property name="memberId" value="member_id"/>
+		<property name="artNo" value="art_no"/>
+		<property name="artName" value="art_name"/>
+		<property name="artPrice" value="art_price"/>
+		<property name="merchantUid" value="merchant_uid"/>
+		<property name="paymentDate" value="payment_date"/>
 	</properties>
 	
 	<settings>

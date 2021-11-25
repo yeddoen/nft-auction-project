@@ -13,5 +13,6 @@ public interface QnABoardService {
 		public abstract int delete(int qnaboardNo);
 		public abstract int getTotalNumsOfRecords();
 		public abstract List<QnABoardVO> listAll();
-
+		public abstract int selectByMemberId(String memberId);
+		public abstract List<QnABoardVO> selectListByMemberId(String memberId);
 }

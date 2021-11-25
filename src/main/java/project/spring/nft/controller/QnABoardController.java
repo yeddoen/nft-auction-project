@@ -33,7 +33,7 @@ public class QnABoardController {
 	MemberService memberservice;
 
 	@GetMapping("/qnalist")
-	public void list(Model model, Integer page, Integer numsPerPage) {
+	public void list(Model model, Integer page, Integer numsPerPage, HttpServletRequest request) {
 		logger.info("list() 호출");
 		logger.info("page = " + page + ", numsPerPage = " + numsPerPage);
 
@@ -45,14 +45,28 @@ public class QnABoardController {
 			criteria.setNumsPerPage(numsPerPage);
 		}
 
-		List<QnABoardVO> list = qnaboardservice.read(criteria);
-		model.addAttribute("qnalist", list);
-
+		HttpSession session = request.getSession();
+		String memberId = (String) session.getAttribute("memberId");
+		session.getAttribute("memberId");
+		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCriteria(criteria);
-		pageMaker.setTotalCount(qnaboardservice.getTotalNumsOfRecords());
+
+		if(memberId.equals("admin")) {	
+			List<QnABoardVO> list = qnaboardservice.read(criteria);
+			model.addAttribute("qnalist", list);
+			logger.info(list.toString());			
+			pageMaker.setTotalCount(qnaboardservice.getTotalNumsOfRecords());
+		} else {
+			List<QnABoardVO> list = qnaboardservice.selectListByMemberId(memberId);
+			model.addAttribute("qnalist", list);
+			logger.info(list.toString());
+			pageMaker.setTotalCount(qnaboardservice.selectByMemberId(memberId));
+		}
+		 
 		pageMaker.setPageData();
 		model.addAttribute("pageMaker", pageMaker);
+		
 	} // end qnalist()
 
 	@GetMapping("/qnadetail")

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import project.spring.nft.domain.ArtAuctionVO;
 import project.spring.nft.domain.AuctionVO;
 
 @Repository
@@ -50,4 +51,10 @@ public class AuctionDAOImple implements AuctionDAO {
 		logger.info("deleteArtNo() 호출 : artNo = "+artNo);
 		return sqlSession.delete(NAMESPACE+".delete_art_no", artNo);
 	}
+	@Override
+	public List<ArtAuctionVO> select() {
+		logger.info("select() 호출");
+		return sqlSession.selectList(NAMESPACE + ".select_all");
+	}
+
 }

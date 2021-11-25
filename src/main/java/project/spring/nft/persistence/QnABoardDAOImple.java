@@ -69,5 +69,15 @@ public class QnABoardDAOImple implements QnABoardDAO {
 		args.put("qnaboardNo", qnaboardNo);
 		return sqlSession.update(NAMESPACE + ".update_reply_count", args);
 	}
-
+	@Override
+	public int selectByMemberId(String memberId) {
+		logger.info("selectByMemberId() 호출");
+		return sqlSession.selectOne(NAMESPACE + ".select_by_member_id", memberId);
+	}
+	@Override
+	public List<QnABoardVO> selectListByMemberId(String memberId) {
+		logger.info("selectListByMemberId() 호출");
+		return sqlSession.selectList(NAMESPACE + ".select_list_by_member_id", memberId);
+	}
+	
 }

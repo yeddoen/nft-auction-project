@@ -46,4 +46,5 @@ public class AuctionRESTController {
 		List<AuctionVO> list=auctionService.readAll(artNo);
 		return new ResponseEntity<List<AuctionVO>>(list, HttpStatus.OK);	
 	}
+
 }

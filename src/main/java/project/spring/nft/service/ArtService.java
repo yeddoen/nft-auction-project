@@ -42,4 +42,10 @@ public interface ArtService {
 	int deleteArt(int artNo) throws Exception;
 	
 	
-} // end class
+	int updateView(int artViewCount);
+	
+	ArtVO readArtno(int artNo);
+	
+	List<ArtVO> readNotAuction();
+
+}

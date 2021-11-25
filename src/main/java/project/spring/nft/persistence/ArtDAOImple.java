@@ -146,4 +146,10 @@ public class ArtDAOImple implements ArtDAO {
 		logger.info("deleteArt() 호출 : artNo = "+artNo);
 		return sqlSession.delete(NAMESPACE+".delete_art", artNo);
 	}
+	public List<ArtVO> selectNotAuction() {
+		logger.info("selectNotAuction() 호출");
+		return sqlSession.selectList(NAMESPACE + ".select_not_auction");
+	} // end selectNotAuction()
+
+
 }

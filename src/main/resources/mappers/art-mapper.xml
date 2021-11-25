@@ -163,4 +163,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from ${art}
 		where ${artNo}=#{artNo}
 	</delete>
+	
+	<!-- 경매에 등록되지 않은 작품 정보 조회 -->
+	<select id="select_not_auction" resultType="ArtVO">
+		select * from ${art}
+		left outer join ${auction}
+		on ${art}.${artNo} = ${auction}.${artNo}
+		where ${auction}.${artNo} is null
+		order by ${artShowDate} desc
+	</select>
+
 </mapper>
