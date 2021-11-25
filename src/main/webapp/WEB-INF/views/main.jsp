@@ -71,7 +71,7 @@ li {
 	</c:if>
 	<!-- 검색 -->
 	<br>
-	<div class="search">
+	<div class="search m-3">
 		<form action="search" method="get">
 			<input type="radio" name="category" value="artName" checked>작품명
 			<input type="radio" name="category" value="memberNickname">작가명
@@ -83,17 +83,17 @@ li {
 	<!-- 전체 작품 리스트 -->
 	<div class="container justify-content-center">
 		<!-- 정렬 기준 -->
-		<div class="row justify-content-center">
+		<div class="row justify-content-center mb-3">
 			<div class="col-sm-8"></div>
 			<div class="col-sm-4">
-				<a href="cur"><button type="button" class="btn">등록순</button></a>
-				<a href="wish"><button type="button" class="btn">찜하기순</button></a>
-				<a href="view"><button type="button" class="btn">조회수순</button></a>
+				<a href="cur"><button type="button" class="btn btn-outline-primary">등록순</button></a>
+				<a href="wish"><button type="button" class="btn btn-outline-primary">찜하기순</button></a>
+				<a href="view"><button type="button" class="btn btn-outline-primary">조회수순</button></a>
 			</div>
 		</div>
 		<br>
 		<!-- 작품 목록 -->
-		<div class="row justify-content-center">
+		<div class="row justify-content-center m-3">
 			<c:forEach var="vo" items="${list }">
 				<div class="col-sm-4 justify-content-center">
 					<div class="card border-primary mb-3">
@@ -112,7 +112,7 @@ li {
 			</c:forEach>
 		</div>
 		<!-- 페이징처리 -->
-		<div id="paging" class="mt-3">
+		<div id="paging" class="m-5">
 		</div>
 	</div>
 	<!-- footer -->

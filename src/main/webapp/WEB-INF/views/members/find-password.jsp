@@ -19,7 +19,7 @@
 </head>
 <body style="text-align: center;">
 	<!-- header -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-warning sticky-top">
+	<nav class="navbar navbar-expand-lg navbar-light bg-warning sticky-top">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="../main">NFT-AUCTION</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"

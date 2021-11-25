@@ -5,8 +5,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<!-- MetaMask api -->
-<script src="https://unpkg.com/@metamask/detect-provider/dist/detect-provider.min.js"></script>
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- 모바일 디바이스에서 터치/줌 등을 지원하기 위한 meta 태그 -->
@@ -66,7 +64,7 @@
 </head>
 <body style="text-align: center;">
 	<!-- header -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-warning sticky-top">
+	<nav class="navbar navbar-expand-lg navbar-light bg-warning sticky-top">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="../main">NFT-AUCTION</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -98,8 +96,8 @@
 	<div class="container" style="padding-bottom: 200px">
 		<div class="row justify-content-center">
 			<div class="col-sm-6">
-				<div class="card mt-5">
-					<div class="card-body">
+				<div class="card border-primary mt-5">
+					<div class="card-body p-5">
 						<h2>회원가입</h2>
 						<form action="sign-up" method="post" onsubmit="return submitAble();">
 							<div class="input-group mb-3">
@@ -118,7 +116,7 @@
 							<p><input type="text" class="form-control" name="memberNickname" placeholder="닉네임 입력" required></p>
 							<p><input type="text" class="form-control" id="member_phone" name="memberPhone" placeholder="전화번호 입력" required></p>
 							<p><input type="text" class="form-control" id="member_email" name="memberEmail" placeholder="이메일 입력" required></p>
-							<p><button class="enableEthereumButton btn btn-primary">메타마스크연동</button>
+							<p><button class="enableEthereumButton btn btn-primary" id="btn-kaikas">klaytn 연동</button>
 							<input type="submit" class="btn btn-primary" value="가입하기"></p>
 						</form>
 					</div>
@@ -264,21 +262,21 @@
 
 			}); //end confirm_pw blur()
 			
-			// TODO : 현재 request로 메타마스크 api만 실행하게 만듬. 
-			// 이제 계좌 account와 지갑 정보를 불러와서 저장시키고 유지시켜야할듯!
-			// 메타마스크연동 버튼 관련 코드 (메타마스크 창 띄우기)
-		  	const ethereumButton = document.querySelector('.enableEthereumButton');
-		  	// 메타마스크연동버튼을 클릭하면
-			ethereumButton.addEventListener('click', () => {
-		  		if (typeof window.ethereum !== 'undefined') {
-		  			console.log('MetaMask is installed!'); // 메타마스크가 설치된경우
-		  			//Will Start the metamask extension
-		  			ethereum.request({ method: 'eth_requestAccounts' });
-		  		} else { // 아니라면 설치할 수 있도록 유도하기.
-		  		    console.log('Please install MetaMask!');
-		  			location.href = "https://metamask.io/";
-		  		}  
-		  	}); // end metamask api
+			/* klaytn 적용 */
+			$('#btn-kaikas').click(function() {
+	               if (typeof window.klaytn !== 'undefined') {
+	                   console.log('kaikas installed!') // 카이카스가 설치된 경우
+	                   console.log('현재 네트워크 : ' + klaytn.networkVersion);
+	                   console.log('현재 지갑의 주소 : ' + klaytn.selectedAddress);
+	                   
+	                   klaytn.enable(); // 열기!
+	                   // Kaikas user detected. You can now use the provider.
+	                   const provider = window['klaytn'] // provider에 주입하기.
+	               } else { // 설치되지 않은 경우, 설치할 수 있도록 유도하기.
+	                   location.href = 'https://chrome.google.com/webstore/detail/kaikas/jblndlipeogpafnldhgmapagcccfchpi?hl=ko';
+	                          
+	               }
+            }); // end btn-kaikas.click()
 
 			/* 전화번호 형식적용 */
 			$('#member_phone').keyup(function(){
