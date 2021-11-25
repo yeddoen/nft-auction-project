@@ -146,6 +146,16 @@
 
 		</div>
 	</section>
-
+	<!-- footer -->
+	<div class="mt-5 p-3 bg-light" style="bottom: 0;">
+		<h4>NFT-AUCTION</h4>
+		<hr>
+		<div class="p-3">
+		<a href="#">이용약관</a> &nbsp;
+		<a href="#">사이트안내</a>
+		<br><br>
+		<small>문의 nftauction_admin@gmail.com</small>
+		</div>
+	</div>
 </body>
 </html>

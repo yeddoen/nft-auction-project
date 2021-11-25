@@ -265,8 +265,16 @@ public class MemberController {
 	} // end deletePOST()
 	
 	@GetMapping("/find-id")
-	public void findId() {
+	public void findId(HttpServletRequest request, Model model) {
 		logger.info("findId() 호출");
+		HttpSession session = request.getSession();
+		String memberId = (String) session.getAttribute("memberId");
+		
+		if(memberId == null) {
+			model.addAttribute("accessResult", "success");
+		}else {
+			model.addAttribute("accessResult", "fail");
+		}
 	} //end findId()
 	
 	@PostMapping("/find-id/phone")
@@ -288,8 +296,16 @@ public class MemberController {
 	} //end findIdasEmail()
 	
 	@GetMapping("/find-password")
-	public void findPasswordGET() {
+	public void findPasswordGET(HttpServletRequest request, Model model) {
 		logger.info("findPasswordGET() 호출");
+		HttpSession session = request.getSession();
+		String memberId = (String) session.getAttribute("memberId");
+		
+		if(memberId == null) {
+			model.addAttribute("accessResult", "success");
+		}else {
+			model.addAttribute("accessResult", "fail");
+		}
 	} //end findPasswordGET()
 	
 	@PostMapping("/find-password")
@@ -299,7 +315,9 @@ public class MemberController {
 		if(vo != null) { //일치하는 회원정보가 있으면
 			String randomPassword=getRamdomPassword(7);
 			logger.info("randomPassword = "+randomPassword);
-			int update=memberService.updateMemberPassword(memberId, randomPassword);
+			//임시번호도 암호화 필요함
+			String encodeRandom=passEncoder.encode(randomPassword);
+			int update=memberService.updateMemberPassword(memberId, encodeRandom);
 			logger.info(update+"개 임시비밀번호 변경");
 			//TODO 메일로 임시비번 보내기
 			int result=sendMailTest(memberEmail, randomPassword);
@@ -367,7 +385,8 @@ public class MemberController {
     
     // 현아 추가. 등록작품페이지!
     @GetMapping("/my-page/artlist")
-    public void artlistGET(Model model, HttpServletRequest request, Integer page, Integer numsPerPage) {
+    public void artlistGET(Model model, HttpServletRequest request, 
+    		Integer page, Integer numsPerPage) {
 		logger.info("artlistGET() 호출");
 		logger.info("page = "+page+", numsPerPage = "+numsPerPage);
 
@@ -384,13 +403,15 @@ public class MemberController {
 		HttpSession session = request.getSession();
 		String memberId = (String) session.getAttribute("memberId");
 
-		List<ArtVO> list = artService.readByMemberId(memberId);
+		List<ArtVO> list = artService.readByMemberId(criteria, memberId);
 		model.addAttribute("list", list);
-		
 		
 		PageMaker pageMaker=new PageMaker();
 		pageMaker.setCriteria(criteria);
+		pageMaker.setTotalCount(artService.getTotalMyArt(memberId));
 		pageMaker.setPageData();
+		logger.info("이전 버튼 존재 유무 : "+pageMaker.isHasPrev());
+		logger.info("다음 버튼 존재 유무 : "+pageMaker.isHasNext());
 		model.addAttribute("pageMaker", pageMaker);
 
 	} // end artlistGET()

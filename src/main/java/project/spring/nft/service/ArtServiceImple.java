@@ -123,9 +123,9 @@ public class ArtServiceImple implements ArtService {
 	}
 
 	@Override
-	public List<ArtVO> readByMemberId(String memberId) {
+	public List<ArtVO> readByMemberId(PageCriteria criteria, String memberId) {
 		logger.info("readByMemberId() 호출 : memberId = " + memberId);
-		return artDAO.selectMemberId(memberId);
+		return artDAO.selectMemberId(criteria, memberId);
 	}
 
 	@Override
@@ -205,6 +205,12 @@ public class ArtServiceImple implements ArtService {
 	public PaymentVO readPayResult(int artNo) {
 		logger.info("readPayResult() 호출");
 		return paymentDAO.selectByArtNo(artNo);
+	}
+	
+	@Override
+	public int getTotalMyArt(String memberId) {
+		logger.info("getTotalMyArt() 호출");
+		return artDAO.getTotalMyArt(memberId);
 	}
 	
 }

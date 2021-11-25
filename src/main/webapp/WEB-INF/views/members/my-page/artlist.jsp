@@ -124,15 +124,16 @@ img {
 			<!-- /사이드바 -->
 		</div>
 	</aside>
-	<section class="section">
+	<section class="section" style="text-align: center;">
 		<div id="page-wrapper">
 			<!-- 본문 헤더 -->
-			<div id="page-content-wrapper">
-				<div class="container-fluid">
+			<div id="page-content-wrapper" style="text-align: left;">
+				<div class="container-fluid mt-3">
 					<h1>등록 작품 내역</h1>
+					<hr>
 				</div>
 			</div>
-			<div class="content m-3">
+			<div class="content m-3" style="padding-bottom: 200px">
 				<!-- 등록한 작품 내역 리스트 보여주기!!! -->
 				<div class="row">
 					<c:forEach var="vo" items="${list }">
@@ -155,13 +156,128 @@ img {
 						</div>
 					</c:forEach>
 				</div>
+				<!-- 페이징처리 -->
+				<div id="paging" class="mt-3">
+				</div>
 			</div>
-			<div class="content-btn"></div>
+			<!-- footer -->
+			<div class="mt-5 p-3 bg-light">
+				<div style="bottom: 0; height: 200px;">
+					<h4>NFT-AUCTION</h4>
+					<hr>
+					<br>
+					<a href="#">이용약관</a> &nbsp;
+					<a href="#">사이트안내</a>
+					<br><br>
+					<small>문의 nftauction_admin@gmail.com</small>
+				</div>
+			</div>
 		</div>
 	</section>
-
+	
+	<!-- hidden -->
+	<input type="hidden" id="hasPrev" value="${pageMaker.hasPrev }">
+	<input type="hidden" id="startPageNo" value="${pageMaker.startPageNo }">
+	<input type="hidden" id="endPageNo" value="${pageMaker.endPageNo }">
+	<input type="hidden" id="hasNext" value="${pageMaker.hasNext }">
+	<!-- JavaScript -->
 	<script type="text/javascript">
-        
+		showPagination();
+		
+		/* 페이지네이션 */
+		function showPagination() {
+			var hasPrev=$('#hasPrev').val();
+			var hasNext=$('#hasNext').val();
+			var startPageNo=$('#startPageNo').val();
+			var endPageNo=$('#endPageNo').val();
+			console.log(hasPrev+', '+hasNext+', '+startPageNo+', '+endPageNo);
+			
+			var paging='';
+			var prev='disabled';
+			var next='disabled';
+			var start='';
+			var end='';
+			if(hasPrev == "true"){ // hasPrev/Next가 문자열이라
+				prev='';
+			}
+			if(hasNext == "true"){
+				next='';
+			}
+			
+			var queryString=$(location).attr('search');
+			queryString=queryString.replace('?','');
+			var URLSearch = new URLSearchParams(location.search);
+			var url = '';
+			console.log(URLSearch);
+			
+			//url 쿼리스트링연결
+			if(!queryString){
+				start = 'page='+ (startPageNo-1);
+				end = 'page='+ (parseInt(endPageNo)+1);
+			}else{
+				if(URLSearch.get('page') != null){ //page 쿼리스트링이 있으면
+					URLSearch.set('page', (startPageNo-1));
+					start=URLSearch.toString();
+					URLSearch.set('page', (parseInt(endPageNo)+1));
+					end=URLSearch.toString();
+					console.log(start+', '+end);
+				}else{
+					start = queryString+'&page='+(startPageNo-1);	
+					end = queryString+'&page='+(parseInt(endPageNo)+1);	
+					console.log(start+', '+end)
+				}
+			}
+						
+			paging+='<ul class="pagination justify-content-center">'
+				+'<li class="page-item '+prev+'">'
+				+'<a class="page-link" href="?'+start+'">&laquo;</a></li>';
+			
+			for (var i = startPageNo; i <= endPageNo; i++) {
+				if(!queryString){ 
+					url='page='+i;						
+				}else{ //쿼리스트링이 있으면
+					if(URLSearch.get('page') != null){ //page 쿼리스트링이 있으면
+						URLSearch.set('page', i);
+						url=URLSearch.toString();
+					}else{
+						url=queryString+'&page='+i;						
+					}
+				}
+				console.log(url);				
+				
+				paging+='<li class="page-item">'
+					+'<a class="page-link" href="?'+url+'">'+i+'</a>'
+					+'<input type="hidden" class="page-num" value="'+i+'">'
+					+'</li>';
+			}
+			
+			paging+='<li class="page-item '+next+'">'
+				+'<a class="page-link" href="?'+end+'">&raquo;</a></li>'
+				+'</ul>';
+			
+			$('#paging').html(paging);
+			pageAction();
+		} //end showPagination()
+		
+		/* 현재 페이지네이션 표시 */
+		function pageAction() {
+			var url = $(location).attr('search'); //쿼리스트링
+			var URLSearch = new URLSearchParams(location.search);
+			var page_num=url.charAt(url.length-1);
+			console.log(page_num);
+			
+			$('input[class=page-num]').each(function(x){
+				console.log(x);
+				
+				if(!URLSearch.get('page') && (x+1)==1){
+					$(this).parents('.page-item').last().addClass('active');
+				}
+				if(page_num == (x+1)){
+					console.log($(this).parents('.page-item').last());
+					$(this).parents('.page-item').last().addClass('active');
+				}
+			})
+		}//end pageAction()
     </script>
 
 </body>

@@ -94,10 +94,10 @@
 	</nav>
 	<br>
 	<!-- body -->
-	<div class="container">
+	<div class="container" style="padding-bottom: 200px">
 		<div class="row justify-content-center">
 			<div class="col-sm-6">
-				<div class="card">
+				<div class="card mt-5">
 					<div class="card-body">
 						<h1>회원가입</h1>
 						<form action="sign-up" method="post" onsubmit="return submitAble();">
@@ -126,12 +126,17 @@
 		</div>
 	</div>
 	<!-- footer -->
-	<footer class="bd-footer py-5 mt-5 bg-warning fixed-bottom">
-		<div class="container py-5">
+	<div class="mt-5 p-3 bg-light">
+		<div style="bottom: 0; height: 200px;">
 			<h4>NFT-AUCTION</h4>
-			<p>이용약관 고객센터..주소..어쩌구</p>
+			<hr>
+			<br>
+			<a href="#">이용약관</a> &nbsp;
+			<a href="#">사이트안내</a>
+			<br><br>
+			<small>문의 nftauction_admin@gmail.com</small>
 		</div>
-	</footer>
+	</div>
 	<!-- JavaScript -->
 	<script type="text/javascript">
 		$(function() {

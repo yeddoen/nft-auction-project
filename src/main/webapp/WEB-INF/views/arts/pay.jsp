@@ -103,6 +103,7 @@ img {
     	amount = $('#auctionMoney').val(); /* 값아직 안받아옴!!!@@ */
     }
     console.log(amount);
+    var show_img = $('#show_img').val(); //이미지 파일명
     var buyer_name = $('#memberName').val(); // 주문자명
     var buyer_tel = $('#memberPhone').val(); // 주문자 연락처 - 필수
     var buyer_email = $('#memberEmail').val(); // 주문자 이메일
@@ -129,7 +130,8 @@ img {
                   'artName' : goodsname,
                   'artPrice' : amount,
                   'merchantUid' : merchant_uid,
-                  'paymentType' : payment_type
+                  'paymentType' : payment_type,
+                  'artFileName' : show_img
               }
       			  console.log(date);
       			  console.log(merchant_uid);

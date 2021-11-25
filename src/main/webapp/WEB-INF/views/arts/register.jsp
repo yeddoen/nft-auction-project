@@ -57,37 +57,40 @@
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-sm-8">
-				<div class="card border-primary">
-					<h2 class="pt-3">작품 등록 페이지</h2>
-					<hr>
-					<div class="card-body p-5">
-						<form method="post">
-							<input type="hidden" name="memberId" value="${sessionScope.memberId }">
-							<input type="text" class="form-control" name="artName" placeholder="작품명 입력" required><br>
-							<input type="number" class="form-control" name="artPrice" placeholder="즉시판매가 입력" required><br>
-							<input type="text" class="form-control" name="artContent" placeholder="작품설명 입력" required><br>
-							작품 게시기간 설정<br>
-							<input type="datetime-local" class="form-control" name="artShowDate" required><br>
-							<input type="number" class="form-control" name="artBasicFee" placeholder="경매시작금 입력" required><br>
-							<div class="file-drop" style="color:grey;">첨부할 이미지를 drop해주세요.</div>
-							<div class="upload-list m-5"></div>
-							<input type="hidden" id="file_name" name="artFileName" value="" required>
-							<div class="d-grid gap-2 mt-4">
-								<input type="submit" class="btn btn-primary rounded-pill" value="등록하기">
-							</div>
-						</form>
-					</div>
+				<h2 class="pt-3">작품 등록</h2>
+				<hr>
+				<div class="p-5">
+					<form method="post">
+						<input type="hidden" name="memberId" value="${sessionScope.memberId }">
+						<input type="text" class="form-control" name="artName" placeholder="작품명 입력" required><br>
+						<input type="number" class="form-control" name="artPrice" placeholder="즉시판매가 입력" required><br>
+						<input type="text" class="form-control" name="artContent" placeholder="작품설명 입력" required><br>
+						작품 게시기간 설정<br>
+						<input type="datetime-local" class="form-control" name="artShowDate" required><br>
+						<input type="number" class="form-control" name="artBasicFee" placeholder="경매시작금 입력" required><br>
+						<div class="file-drop" style="color:grey;">첨부할 이미지를 drop해주세요.</div>
+						<div class="upload-list m-5"></div>
+						<input type="hidden" id="file_name" name="artFileName" value="" required>
+						<div class="d-grid gap-2 mt-4">
+							<input type="submit" class="btn btn-primary rounded-pill" value="등록하기">
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- footer -->
-	<footer class="bd-footer py-5 mt-5 bg-light sticky-bottom">
-		<div class="container py-5">
+	<div class="mt-5 p-3 bg-light">
+		<div style="bottom: 0; height: 200px;">
 			<h4>NFT-AUCTION</h4>
-			<p>이용약관 고객센터..주소..어쩌구</p>
+			<hr>
+			<br>
+			<a href="#">이용약관</a> &nbsp;
+			<a href="#">사이트안내</a>
+			<br><br>
+			<small>문의 nftauction_admin@gmail.com</small>
 		</div>
-	</footer>
+	</div>
 	<!-- JavaScript -->
 	<script type="text/javascript">
 		$(function(){

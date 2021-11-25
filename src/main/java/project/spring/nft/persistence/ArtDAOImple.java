@@ -111,9 +111,13 @@ public class ArtDAOImple implements ArtDAO {
 	} //end updateView()
 
 	@Override
-	public List<ArtVO> selectMemberId(String memberId) {
+	public List<ArtVO> selectMemberId(PageCriteria criteria, String memberId) {
 		logger.info("select() 호출");
-		return sqlSession.selectList(NAMESPACE + ".select_by_member_id", memberId);
+		Map<String, Object> artMap=new HashMap<String, Object>();
+		artMap.put("start", criteria.getStart());
+		artMap.put("end", criteria.getEnd());
+		artMap.put("memberId", memberId);
+		return sqlSession.selectList(NAMESPACE + ".select_my_art", artMap);
 	}
 
 	@Override
@@ -152,4 +156,10 @@ public class ArtDAOImple implements ArtDAO {
 		logger.info("selectWinBid() 호출 : memberId = "+memberId);
 		return sqlSession.selectList(NAMESPACE+".select_win_list", memberId);
 	}
+	
+	@Override
+	public int getTotalMyArt(String memberId) {
+		logger.info("getTotalMyArt() 호출");
+		return sqlSession.selectOne(NAMESPACE+".select_my_art_count", memberId); 
+	} 
 }

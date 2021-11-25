@@ -11,11 +11,12 @@ public class PaymentVO {
 	private Date paymentDate;
 	private String merchantUid;
 	private String paymentType;
+	private String artFileName;
 	
 	public PaymentVO() {}
 
 	public PaymentVO(int paymentNo, String artName, int artNo, String memberId, int artPrice, Date paymentDate,
-			String merchantUid, String paymentType) {
+			String merchantUid, String paymentType, String artFileName) {
 		super();
 		this.paymentNo = paymentNo;
 		this.artName = artName;
@@ -25,6 +26,7 @@ public class PaymentVO {
 		this.paymentDate = paymentDate;
 		this.merchantUid = merchantUid;
 		this.paymentType = paymentType;
+		this.artFileName = artFileName;
 	}
 
 	public int getPaymentNo() {
@@ -91,11 +93,19 @@ public class PaymentVO {
 		this.paymentType = paymentType;
 	}
 
+	public String getArtFileName() {
+		return artFileName;
+	}
+
+	public void setArtFileName(String artFileName) {
+		this.artFileName = artFileName;
+	}
+
 	@Override
 	public String toString() {
 		return "PaymentVO [paymentNo=" + paymentNo + ", artName=" + artName + ", artNo=" + artNo + ", memberId="
 				+ memberId + ", artPrice=" + artPrice + ", paymentDate=" + paymentDate + ", merchantUid=" + merchantUid
-				+ ", paymentType=" + paymentType + "]";
+				+ ", paymentType=" + paymentType + ", artFileName=" + artFileName + "]";
 	}
 
 }

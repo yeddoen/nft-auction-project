@@ -18,6 +18,10 @@
 <title>구매목록 페이지</title>
 <!-- CSS -->
 <style type="text/css">
+img {
+	max-width: 100%;
+	height: auto;
+}
 /* 사이드바 래퍼 스타일 */
 #page-wrapper {
 	padding-left: 250px;
@@ -131,6 +135,7 @@
 							<div class="card border-primary mb-3">
 								<div class="card-header">작품명 : ${vo.artName }</div>
 								<div class="card-body">
+									<img src="/nft-auction/arts/display?fileName=${vo.artFileName }"><br>
 									구매일자 : ${vo.paymentDate }<br>
 									구매가격 : ${vo.artPrice }							
 								</div>

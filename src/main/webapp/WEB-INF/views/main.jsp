@@ -5,16 +5,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- 모바일 디바이스에서 터치/줌 등을 지원하기 위한 meta 태그 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- 제이쿼리 -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<!-- 부트스트랩 -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <!-- Popper JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<!-- css -->
+<!-- CSS -->
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/sandstone/bootstrap.min.css" integrity="sha384-zEpdAL7W11eTKeoBJK1g79kgl9qjP7g84KfK3AZsuonx38n8ad+f5ZgXtoSDxPOh" crossorigin="anonymous"> -->
 <style type="text/css">
 img {
 	max-width: 100%;
@@ -36,7 +37,7 @@ li {
 </head>
 <body style="text-align: center;">
 	<!-- header -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-warning sticky-top">
 		<a class="navbar-brand" href="main">NFT-AUCTION</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
@@ -77,7 +78,6 @@ li {
 		</form>
 	</div>
 	<br>
-
 	<!-- 전체 작품 리스트 -->
 	<div class="container">
 		<!-- 정렬 기준 -->
@@ -111,7 +111,19 @@ li {
 		</div>
 	</div>
 	<!-- 페이징처리 -->
-	<div id="paging">
+	<div id="paging" class="mt-3">
+	</div>
+	<!-- footer -->
+	<div class="mt-5 p-3 bg-light">
+		<div style="bottom: 0; height: 200px;">
+			<h4>NFT-AUCTION</h4>
+			<hr>
+			<br>
+			<a href="#">이용약관</a> &nbsp;
+			<a href="#">사이트안내</a>
+			<br><br>
+			<small>문의 nftauction_admin@gmail.com</small>
+		</div>
 	</div>
 	<!-- hidden -->
 	<input type="hidden" id="hasPrev" value="${pageMaker.hasPrev }">
@@ -124,13 +136,6 @@ li {
 	<input type="hidden" id="register_result" value="${registerResult }">
 	<input type="hidden" id="member_id" value="${sessionScope.memberId }">
 	<input type="hidden" id="delete_result" value="${deleteResult }">
-	<!-- footer -->
-	<footer class="bd-footer py-5 mt-5 bg-secondary sticky-bottom">
-		<div class="container py-5">
-			<h4>NFT-AUCTION</h4>
-			<p>이용약관 고객센터..주소..어쩌구</p>
-		</div>
-	</footer>
 	<!-- JavaScript -->
 	<script type="text/javascript">		
 		$(function(){
@@ -313,7 +318,7 @@ li {
 					console.log(resultData);
 					var list='';
 					$(resultData).each(function(){
-						list+='<div class="alert alert-warning m-0 alert-dismissible fade show" role="alert">'
+						list+='<div class="alert alert-light m-0 alert-dismissible fade show" role="alert">'
 							+'<strong>'+member_id+'님</strong> ['
 							+this.artName+']작품이 낙찰됐습니다. 결제를 진행하세요. '
 							+'<a href="arts/detail?artNo='+this.artNo+'">'

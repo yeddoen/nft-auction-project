@@ -47,10 +47,10 @@
 	</nav>
 	<!-- body -->
 	<br>
-	<div class="container">
+	<div class="container" style="padding-bottom: 200px">
 		<div class="row justify-content-center">
 			<div class="col-sm-6">
-				<div class="card border-primary mb-3">
+				<div class="card border-primary mb-3 mt-5">
 					<div class="card-body p-5">
 						<h2>로그인</h2>
 						<form action="login" method="post">
@@ -77,12 +77,17 @@
 		</div>
 	</div>
 	<!-- footer -->
-	<footer class="bd-footer py-5 mt-5 bg-light fixed-bottom">
-		<div class="container py-5">
+	<div class="mt-5 p-3 bg-light">
+		<div style="bottom: 0; height: 200px;">
 			<h4>NFT-AUCTION</h4>
-			<p>이용약관 고객센터..주소..어쩌구</p>
+			<hr>
+			<br>
+			<a href="#">이용약관</a> &nbsp;
+			<a href="#">사이트안내</a>
+			<br><br>
+			<small>문의 nftauction_admin@gmail.com</small>
 		</div>
-	</footer>
+	</div>
 	<!-- hidden -->
 	<input type="hidden" id="login_result" value="${loginResult }">
 	<input type="hidden" id="email_result" value="${emailResult }">

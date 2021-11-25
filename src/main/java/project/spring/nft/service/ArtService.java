@@ -34,7 +34,7 @@ public interface ArtService {
 	//조회수 카운팅 업데이트
 	int updateView(int artNo, int count);
 	// 등록작품내역에서 사용할 조회
-	List<ArtVO> readByMemberId(String memberId);
+	List<ArtVO> readByMemberId(PageCriteria criteria, String memberId);
 	// 찜수 업데이트
 	int updateWishCount(int artNo, int count);
 	//작품 수정
@@ -47,5 +47,7 @@ public interface ArtService {
 	ArtVO readArtno(int artNo);	
 	//작품의 결제유무 조회
 	PaymentVO readPayResult(int artNo);
-	
+	//등록내역 개수
+	int getTotalMyArt(String memberId);
+		
 } // end class
