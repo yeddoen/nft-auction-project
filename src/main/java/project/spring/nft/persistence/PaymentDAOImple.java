@@ -1,7 +1,5 @@
 package project.spring.nft.persistence;
 
-import java.util.List;
-
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +25,7 @@ public class PaymentDAOImple implements PaymentDAO {
 	}
 
 	@Override
-	public List<PaymentVO> selectByMemberId(String memberId) {
+	public PaymentVO selectByMemberId(String memberId) {
 		logger.info("selectByMemberId() 호출");
 		return sqlsession.selectOne(NAMESPACE + ".select_by_member_id", memberId);
 	}
@@ -37,10 +35,5 @@ public class PaymentDAOImple implements PaymentDAO {
 		logger.info("selectByArtNo() 호출");
 		return sqlsession.selectOne(NAMESPACE + ".select_by_art_no", artNo);
 	}
-	
-	@Override
-	public List<PaymentVO> selectAll(String memberId) {
-		logger.info("selectAll() 호출 : memberId = "+memberId);
-		return sqlsession.selectList(NAMESPACE+".select_all_by_id", memberId);
-	}
+
 }

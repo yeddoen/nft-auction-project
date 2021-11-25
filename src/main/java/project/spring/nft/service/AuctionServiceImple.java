@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import project.spring.nft.domain.ArtAuctionVO;
 import project.spring.nft.domain.AuctionVO;
 import project.spring.nft.persistence.AuctionDAO;
 
@@ -43,13 +44,13 @@ public class AuctionServiceImple implements AuctionService {
 	}
 	
 	@Override
-	public AuctionVO selectWinner(int artNo) {
+	public String selectWinner(int artNo) {
 		logger.info("selectWinner() 호출");
 		return dao.selectWinner(artNo);
 	}
 
 	@Override
-	public List<AuctionVO> read() {
+	public List<ArtAuctionVO> read() {
 		logger.info("read() 호출");
 		return dao.select();
 	}

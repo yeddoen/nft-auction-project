@@ -32,17 +32,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from ${wishlist}
 		where ${artName} = #{artName} and ${memberId} = #{memberId}
 	</select>
-	
-	<!-- 작품정보 수정 시 wishlist 속 작품정보도 수정 -->
-	<update id="update_art">
-		update ${wishlist}
-		set ${artName}=#{artName}, ${artPrice}=#{artPrice}
-		where ${artNo}=#{artNo}
-	</update>
-	
-	<!-- 작품삭제 시 위시리스트 삭제 -->
-	<delete id="delete_art">
-		delete from ${wishlist}
-		where ${artNo}=#{artNo}
-	</delete>
 </mapper>

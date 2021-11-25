@@ -44,4 +44,6 @@ public interface ArtDAO {
 	// 작품 WISH_COUNT 올라가기, 내려가기(업데이트)
 	int updateWishCount(int artNo, int count);
 	
+	// 경매에 등록되지 않은 작품 정보 조회
+	List<ArtVO> selectNotAuction();
 }

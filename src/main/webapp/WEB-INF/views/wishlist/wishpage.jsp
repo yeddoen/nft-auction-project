@@ -30,7 +30,20 @@ img {
 	max-width: 100%;
 	height: auto;
 }
+
+ul {
+	list-style-type: none;
+}
+
+li {
+	display: inline-block;
+}
+
 /* 사이드바 래퍼 스타일 */
+.aside {
+	width: 30%;
+}
+
 #page-wrapper {
 	padding-left: 250px;
 }
@@ -82,6 +95,11 @@ img {
 	width: 30%;
 	align: left;
 }
+
+.section {
+	width: 70%;
+	align: right;
+}
 </style>
 <title>위시리스트페이지</title>
 </head>
@@ -126,7 +144,7 @@ img {
 					<li><a href="../members/my-page/member">회원정보</a></li>
 					<li><a href="wishpage">위시리스트</a></li>
 					<li><a href="../members/my-page/artlist">등록작품내역</a></li>
-					<li><a href="../members/my-page/shopping-list">구매작품내역</a></li>
+					<li><a href="#">구매작품내역</a></li>
 					<li><a href="../qnaboard/qnalist">QnA게시판</a></li>
 				</ul>
 			</div>
@@ -143,30 +161,32 @@ img {
 				</div>
 			</div>
 
-			<div class="content m-3">
+			<div class="content">
 				<!-- 위시리스트 리스트 보여주기!!! -->
-				<div class="row">
-					<c:forEach var="vo" items="${list }">
-						<div class="col-sm-4">
-							<div class="card border-primary mb-3" style="max-width: 20rem;">
-								<div class="card-header">by ${sessionScope.memberId }</div>
-								<div class="card-body">
-									<a
-										href="../arts/detail?artNo=${vo.artNo}&page=${pageMaker.criteria.page}">
-										<h4 class="card-title">
-											<img
-												src="/nft-auction/arts/display?fileName=${vo.artFileName }">
-										</h4>
-										<hr>
-										<p class="card-text">${vo.artName }</p>
-									</a>
-								</div>
+				<c:forEach var="vo" items="${list }">
+					<div class="col-sm-4">
+						<div class="card border-primary mb-3" style="max-width: 20rem;">
+							<div class="card-header">by ${sessionScope.memberId }</div>
+							<div class="card-body">
+								<a
+									href="../arts/detail?artNo=${vo.artNo}&page=${pageMaker.criteria.page}">
+									<h4 class="card-title">
+										<img
+											src="/nft-auction/arts/display?fileName=${vo.artFileName }">
+									</h4>
+									<hr>
+									<p class="card-text">${vo.artName }</p>
+								</a>
 							</div>
 						</div>
-					</c:forEach>
-				</div>
+					</div>
+				</c:forEach>
+
+
 			</div>
+
 			<div class="content-btn"></div>
+
 		</div>
 	</section>
 

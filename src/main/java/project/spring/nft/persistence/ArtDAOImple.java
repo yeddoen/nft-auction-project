@@ -152,4 +152,10 @@ public class ArtDAOImple implements ArtDAO {
 		logger.info("selectWinBid() 호출 : memberId = "+memberId);
 		return sqlSession.selectList(NAMESPACE+".select_win_list", memberId);
 	}
+
+	@Override
+	public List<ArtVO> selectNotAuction() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

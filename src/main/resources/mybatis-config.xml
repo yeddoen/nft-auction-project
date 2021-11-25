@@ -82,7 +82,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<property name="artPrice" value="art_price"/>
 		<property name="merchantUid" value="merchant_uid"/>
 		<property name="paymentDate" value="payment_date"/>
-		<property name="paymentType" value="payment_type"/>
 	</properties>
 	
 	<settings>

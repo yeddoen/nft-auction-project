@@ -2,6 +2,7 @@ package project.spring.nft.persistence;
 
 import java.util.List;
 
+import project.spring.nft.domain.ArtAuctionVO;
 import project.spring.nft.domain.AuctionVO;
 
 public interface AuctionDAO {
@@ -18,7 +19,7 @@ public interface AuctionDAO {
 	//낙찰자 등록
 	int updateWinner(int artNo, int maxMoney);
 	//낙찰자 조회
-	AuctionVO selectWinner(int artNo);
+	String selectWinner(int artNo);
 	// 실시간 작품 거래 조회 경매 번호순
-	List<AuctionVO> select();
+	List<ArtAuctionVO> select();
 }

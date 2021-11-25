@@ -47,16 +47,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<!-- 낙찰자 아이디 조회 -->
-	<select id="select_winner" resultType="AuctionVO">
-		select *
+	<select id="select_winner" resultType="String">
+		select ${memberId}
 		from ${auction}
 		where ${auctionResult}='T'
 		and ${artNo}=#{artNo}
 	</select>
 	
 	<!-- 실시간 조회 -->
-	<select id="select_all" resultType="AuctionVO">
+	<select id="select_all" resultType="ArtAuctionVO">
 		select * from ${auction}
-		order by ${auctionNo} desc
+		inner join ${art}
+		on ${auction}.${artNo} = ${art}.${artNo}
+		order by ${auctionDate} desc
 	</select>
+
 </mapper>

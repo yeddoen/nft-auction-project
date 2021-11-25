@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import project.spring.nft.domain.ArtVO;
 import project.spring.nft.domain.WishlistVO;
 
 @Repository
@@ -54,15 +53,5 @@ public class WishlistDAOImple implements WishlistDAO {
 		return sqlSession.selectOne(NAMESPACE + ".select_count", countMap);
 	}
 
-	@Override
-	public int updateArt(ArtVO vo) {
-		logger.info("updateArt() 호출");
-		return sqlSession.update(NAMESPACE+".update_art", vo);
-	}
-	
-	@Override
-	public int deleteArt(int artNo) {
-		logger.info("deleteArt() 호출");
-		return sqlSession.delete(NAMESPACE+".delete_art", artNo);
-	}
+
 } // end WishlistDAOImple class

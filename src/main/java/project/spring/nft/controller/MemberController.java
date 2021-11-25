@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -30,7 +29,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import project.spring.nft.domain.ArtVO;
 import project.spring.nft.domain.MemberVO;
-import project.spring.nft.domain.PaymentVO;
 import project.spring.nft.domain.WishlistVO;
 import project.spring.nft.pageutil.PageCriteria;
 import project.spring.nft.pageutil.PageMaker;
@@ -47,8 +45,13 @@ public class MemberController {
 	private MemberService memberService;
 	@Autowired
 	private JavaMailSender mailSender;
-	@Resource(name = "bcryptPasswordEncoder")
+	@Inject
 	BCryptPasswordEncoder passEncoder;
+	
+	@Bean //xml에서 bean 생성 오류로 설정함
+	BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 	@Autowired
 	private ArtService artService;
 
@@ -146,7 +149,7 @@ public class MemberController {
 		model.addAttribute("vo", vo);
 	}
 
-	// 비밀번호 변경 후 DB에 저장하기 암호화 적용.
+	// 비밀번호 변경 후 DB에 저장하기
 	@PostMapping("my-page/password-change")
 	public String passwordChangePOST(Model model, HttpServletRequest request) {
 		logger.info("passwordChangePOST() 호출");
@@ -154,7 +157,6 @@ public class MemberController {
 		HttpSession session = request.getSession();
 		String memberId = (String) session.getAttribute("memberId");
 		String updatePassword = request.getParameter("updatePassword");
-		updatePassword=passEncoder.encode(updatePassword); //암호화
 		int result = memberService.updateMemberPassword(memberId, updatePassword);
 		
 		if (result == 1) {
@@ -395,35 +397,6 @@ public class MemberController {
 
 	} // end artlistGET()
     
-    @GetMapping("/my-page/shopping-list")
-    public void shoppingList(Model model, HttpServletRequest request, Integer page, Integer numsPerPage) {
-    	logger.info("shoppingList() 호출");
-    	
-    	PageCriteria criteria = new PageCriteria();
-		if(page !=null) {
-			criteria.setPage(page);
-		}
-		if(numsPerPage!=null) {
-			criteria.setNumsPerPage(numsPerPage);
-		}
-
-		HttpSession session = request.getSession();
-		String memberId = (String) session.getAttribute("memberId");
-		
-		List<PaymentVO> list=memberService.readPaymentAll(memberId);
-		for (PaymentVO vo : list) {
-			System.out.println(vo.toString());
-		}
-		if(list != null) {
-			model.addAttribute("list", list);			
-		}
-		
-		PageMaker pageMaker=new PageMaker();
-		pageMaker.setCriteria(criteria);
-		pageMaker.setPageData();
-		model.addAttribute("pageMaker", pageMaker);
-		
-    } //end shoppingList()
 
 	
 } // end class

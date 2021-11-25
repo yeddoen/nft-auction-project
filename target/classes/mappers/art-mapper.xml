@@ -135,6 +135,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where ${artNo}=#{artNo}
 	</update>
 	
+	<!-- 경매에 등록되지 않은 작품 정보 조회 -->
+	<select id="select_not_auction" resultType="ArtVO">
+		select * from ${art}
+		left outer join ${auction}
+		on ${art}.${artNo} = ${auction}.${artNo}
+		where ${auction}.${artNo} is null
+		order by ${artShowDate} desc
+	</select>
+
 	<!-- 현아추가 -->
 	<!-- 찜수 업데이트 -->
 	<update id="update_wish_count">

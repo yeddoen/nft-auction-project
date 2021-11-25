@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,13 +15,7 @@
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <!-- iamport.payment.js -->
   <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
-<title>결제 팝업창</title>
-<style type="text/css">
-img {
-	max-width: 100%;
-	height: auto;
-}
-</style>
+<title>즉시 결제</title>
 </head>
 <body>
 <div align="center">
@@ -55,12 +48,7 @@ img {
 </ul>
 <ul class="list-group list-group-horizontal justify-content-center">
   <li class="list-group-item list-group-item-primary" style="width: 10rem">작품 가격</li>
-  <c:if test="${empty auvo }">
-	  <li class="list-group-item" style="width: 30rem">${avo.artPrice }</li>
-  </c:if>
-  <c:if test="${not empty auvo }">
-  	  <li class="list-group-item" style="width: 30rem">${auvo.auctionMoney }</li>
-  </c:if>
+  <li class="list-group-item" style="width: 30rem">${avo.artPrice }</li>
 </ul>
 <ul class="list-group list-group-horizontal justify-content-center">
   <li class="list-group-item list-group-item-primary" style="width: 10rem">작품 번호</li>
@@ -80,11 +68,9 @@ img {
 <input type="hidden" id="artNo" value="${avo.artNo }">
 <input type="hidden" id="artName" value="${avo.artName }">
 <input type="hidden" id="artPrice" value="${avo.artPrice }">
+<input type="hidden" id="artFileName" value="${avo.artFileName }">
 <input type="hidden" id="memberId" value="${vo.memberId }"> 
-<input type="hidden" id="paymentType" value="${typeResult }">  
-<c:if test="${not empty auvo }">
-	<input type="hidden" id="auctionMoney" value="${auvo.auctionMoney }">
-</c:if>
+  
   <script> 
 
   imgShow(); 
@@ -94,19 +80,13 @@ img {
   	var date = new Date().getTime();
   	var artno = $('#artNo').val();
     var goodsname = $('#artName').val(); // 주문명
-    var payment_type = $('#paymentType').val();//결제 종류(경매인지 즉시인지)
-    console.log(payment_type);
-    var amount = 0;
-    if(payment_type=='D'){ //즉시구매
-	    amount = $('#artPrice').val();
-    }else if(payment_type=='A'){ //경매 낙찰
-    	amount = $('#auctionMoney').val(); /* 값아직 안받아옴!!!@@ */
-    }
-    console.log(amount);
+    var amount = $('#artPrice').val(); // 결제 금액
     var buyer_name = $('#memberName').val(); // 주문자명
     var buyer_tel = $('#memberPhone').val(); // 주문자 연락처 - 필수
     var buyer_email = $('#memberEmail').val(); // 주문자 이메일
     var memberId = $('#memberId').val();
+    var artFileName = $('#artFileName').val();
+    var paymentType = "D"; // 즉시결제
   	var merchant_uid = $('#artName').val() + date + $('#memberId').val();
     IMP.init('imp84678220'); // 가맹점 식별 코드
       // IMP.request_pay(param, callback) 결제창 호출
@@ -129,7 +109,8 @@ img {
                   'artName' : goodsname,
                   'artPrice' : amount,
                   'merchantUid' : merchant_uid,
-                  'paymentType' : payment_type
+                  'artFileName' : artFileName,
+                  'paymentType' : paymentType
               }
       			  console.log(date);
       			  console.log(merchant_uid);
@@ -149,7 +130,7 @@ img {
                   msg += '결제 금액 : ' + rsp.paid_amount;
                   msg += '카드 승인번호 : ' + rsp.apply_num;
                   alert(msg);
-                  location.href = 'result?artNo='+artno;
+                  location.href = 'result';
    
               })
           } else { // 결제 실패시

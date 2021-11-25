@@ -82,32 +82,6 @@
 </style>
 </head>
 <body>
-	<!-- header -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-		<a class="navbar-brand" href="../../main">NFT-AUCTION</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
-			aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNavDropdown">
-			<ul class="navbar-nav ml-auto">
-				<li class="nav-item"><a class="nav-link" href="../../arts/register">작품등록</a>
-				</li>
-				<c:if test="${empty sessionScope.memberId }">
-					<li class="nav-item"><a class="nav-link" href="../login">로그인</a>
-					</li>
-					<li class="nav-item"><a class="nav-link"
-						href="../sign-up">회원가입</a></li>
-				</c:if>
-				<c:if test="${not empty sessionScope.memberId }">
-					<li class="nav-item"><a class="nav-link" href="../logout">로그아웃</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="member">마이페이지</a></li>
-				</c:if>
-			</ul>
-		</div>
-	</nav>
 	<aside class="aside">
 		<div id="page-wrapper">
 			<!-- 사이드바 -->
@@ -117,7 +91,7 @@
 					<li><a href="member">회원정보</a></li>
 					<li><a href="../../wishlist/wishpage">위시리스트</a></li>
 					<li><a href="artlist">등록작품내역</a></li>
-					<li><a href="shopping-list">구매작품내역</a></li>
+					<li><a href="#">구매작품내역</a></li>
 					<li><a href="../../qnaboard/qnalist">QnA게시판</a></li>
 				</ul>
 			</div>

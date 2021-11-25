@@ -126,7 +126,7 @@ tbody{
 								data-toggle="collapse" data-target="#collapseAuction" style="margin: 3px;"
 								aria-expanded="false" aria-controls="collapseAuction">
 								경매 참여하기</button>
-							<button id="btn_buy" class="btn btn-primary" style="margin: 3px;" type="button">
+							<button id="btn_buy" onclick="window.open('pay?artNo=${vo.artNo}', 'PopupWin','width=900, height=800, resizable=no')" class="btn btn-primary" style="margin: 3px;" type="button">
 								즉시 구매하기</button>	
 						</div>
 						<div class="collapse" id="collapseAuction">
@@ -179,7 +179,7 @@ tbody{
 							<div class="tab-pane fade show active" id="content">
 								<br>
 								<p>${vo.artContent }</p>
-								<c:if test="${vo.memberId eq sessionScope.memberId}">
+								<c:if test="${not empty sessionScope.memberId }">
 									<div style="text-align: right;">
 										<a href="update?artNo=${vo.artNo }"><button type="button" class="btn btn-primary">수정</button></a>
 										<a href="delete?artNo=${vo.artNo }"><button type="button" class="btn btn-primary">삭제</button></a>
@@ -225,7 +225,6 @@ tbody{
 	<input type="hidden" id="max_money" value="${maxMoney }">
 	<input type="hidden" id="basic_money" value="${vo.artBasicFee }">
 	<input type="hidden" id="creator" value="${vo.memberId }">
-	<input type="hidden" id="pay_result" value="${payResult }">
 	<!-- JavaScript -->
 	<script type="text/javascript">
 		$(function(){
@@ -237,7 +236,6 @@ tbody{
 			getAllReplies();
 			
 			var timer=setInterval(auctionTimer, 1000); //1초마다 timer 반복하기							
-			paymentResult();
 			
 			/* 원본이미지 출력 */
 			function imgShow() {
@@ -408,8 +406,7 @@ tbody{
 			            		//낙찰자 아이디를 반환
 			            		var pay=confirm(result+'님, 낙찰되었습니다. 지금 결제하시겠습니까?');
 			            		if(pay){
-			            			var link='pay?artNo='+art_no+'&type=A';
-			            			window.open(link, 'PopupWin','width=900, height=800, resizable=no'); //결제페이지
+			            			location.href='purchase'; //결제페이지
 			            		}
 			            	}
 			            } //end success
@@ -697,35 +694,7 @@ tbody{
 	            }); // end ajax
 	        }); // end btn_delete()
 			
-	        /* 결제한 작품은 구매 불가능 */
-			function paymentResult() {
-				var pay_result=$('#pay_result').val();
-				if(pay_result=='fail'){ //구매자 존재
-					//경매 종료
-					clearInterval(timer);
-					$('#btn_auction').attr('disabled', 'disabled');
-					$('#btn_auction').text('경매 종료');
-					$('#auction_money').attr('disabled', 'disabled');
-					$('#btn_bid').attr('disabled', 'disabled'); 
-					//구매 종료
-					$('#btn_buy').attr('disabled', 'disabled');
-				}
-			} //end paymentResult()
-			
-			/* 즉시 구매 버튼을 눌렀을 때 */
-			$('#btn_buy').click(function(){
-				var member_id=$('#member_id').val();
-				var creator=$('#creator').val();
-				
-				//창작자가 구매불가능
-				if(member_id==creator){
-					alert('Creator는 구매할 수 없습니다.');
-					return;
-				}else{
-					window.open('pay?artNo=${vo.artNo}&type=D', 'PopupWin','width=900, height=800, resizable=no');
-				}
-			}); //end btn_buy click
-			
+			/* 위시리스트 찜하기 */
 			
 			/* date format */
 			const formatDate = (current_datetime)=>{

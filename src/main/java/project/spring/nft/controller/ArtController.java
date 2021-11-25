@@ -8,7 +8,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -29,7 +28,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import project.spring.nft.domain.ArtVO;
 import project.spring.nft.domain.AuctionVO;
-import project.spring.nft.domain.PaymentVO;
 import project.spring.nft.pageutil.PageCriteria;
 import project.spring.nft.pageutil.PageMaker;
 import project.spring.nft.service.ArtService;
@@ -265,35 +263,16 @@ public class ArtController {
 			int maxMoney=(Integer)readMap.get("maxMoney");
 			model.addAttribute("maxMoney", maxMoney);			
 		}
-		
-		PaymentVO pvo=artService.readPayResult(artNo);
-		String payResult="";
-		if(pvo != null) { //결제된 작품이다
-			payResult="fail";
-		}else {
-			payResult="success";
-		}
-		
-		model.addAttribute("payResult", payResult);
 		model.addAttribute("vo", vo);
 		model.addAttribute("page", page);
 	} //end detail()
 	
 	@GetMapping("/arts/update")
-	public void updateGET(Model model, Integer artNo, HttpServletRequest request) {
+	public void updateGET(Model model, Integer artNo) {
 		logger.info("updateGET() 호출 : artNo = "+artNo);
-		
-		HttpSession session = request.getSession();
-		String memberId = (String) session.getAttribute("memberId");
-		
 		Map<String, Object> readMap=artService.readArtNo(artNo);
 		ArtVO vo=(ArtVO)readMap.get("vo");
-		if(memberId.equals(vo.getMemberId())) {
-			model.addAttribute("vo", vo);
-			model.addAttribute("access", "success");
-		}else {
-			model.addAttribute("access", "fail");
-		}
+		model.addAttribute("vo", vo);
 	} //end updateGET()
 	
 	@PostMapping("arts/update")
@@ -311,26 +290,16 @@ public class ArtController {
 	} //end updatePOST()
 
 	@GetMapping("arts/delete")
-	public String deletePOST(int artNo, RedirectAttributes reAttr,
-			HttpServletRequest request) throws Exception {
+	public String deletePOST(int artNo, RedirectAttributes reAttr) throws Exception {
 		logger.info("deletePOST() 호출");
-		HttpSession session = request.getSession();
-		String memberId = (String) session.getAttribute("memberId");
+		int result=artService.deleteArt(artNo);
 		
-		ArtVO vo=artService.readArtno(artNo);
-		if(memberId.equals(vo.getMemberId())) {
-			int result=artService.deleteArt(artNo);
-			
-			if(result==1) {
-				reAttr.addFlashAttribute("deleteResult", "success"); 
-				return "redirect:/main"; 
-			}else {
-				reAttr.addFlashAttribute("deleteResult", "fail"); 
-				return "redirect:/arts/detail?artNo="+artNo;
-			}			
-		}else { //작성자가 아닌 경우
+		if(result==1) {
+			reAttr.addFlashAttribute("deleteResult", "success"); 
+			return "redirect:/main"; 
+		}else {
 			reAttr.addFlashAttribute("deleteResult", "fail"); 
-			return "redirect:/main";
+			return "redirect:/arts/detail?artNo="+artNo;
 		}
 	} //end deletePOST()
 	

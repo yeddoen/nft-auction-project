@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import project.spring.nft.domain.ArtVO;
-import project.spring.nft.domain.PaymentVO;
 import project.spring.nft.pageutil.PageCriteria;
 
 //TODO 기능 추가 필요
@@ -43,9 +42,6 @@ public interface ArtService {
 	int deleteArt(int artNo) throws Exception;
 	//회원 낙찰 내역
 	List<ArtVO> readWinBid(String memberId);
-
+	List<ArtVO> readNotAuction();
 	ArtVO readArtno(int artNo);	
-	//작품의 결제유무 조회
-	PaymentVO readPayResult(int artNo);
-	
 } // end class
