@@ -195,7 +195,7 @@ img {
 								<br>
 								<div class="input-group mb-3">
 									<c:if test="${empty sessionScope.memberId }">
-										<p>로그인한 회원만 댓글 작성이 가능합니다. <a href="../members/login">로그인하기</a></p>
+										<p>로그인한 회원만 댓글 작성이 가능합니다. <a href="../members/login?artNo=${vo.artNo }">로그인하기</a></p>
 									</c:if>
 							    	<c:if test="${not empty sessionScope.memberId }">
 							     		<input type="hidden" id="memberReplyNo" readonly>

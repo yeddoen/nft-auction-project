@@ -75,8 +75,12 @@ public class MemberController {
 	} // end joinMemberPOST()
 
 	@GetMapping("/login")
-	public void loginMemberGET() {
+	public void loginMemberGET(int artNo, HttpServletRequest request) {
 		logger.info("loginMemberGET() 호출");
+		if(artNo>0) { //상세페이지의 댓글에서 로그인 이동한 경우
+			HttpSession session=request.getSession();
+			session.setAttribute("targetURL","../arts/detail?artNo="+artNo);
+		}
 	} // end loginMemberGET()
 
 	@PostMapping("/login")
