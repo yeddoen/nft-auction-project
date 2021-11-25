@@ -183,6 +183,15 @@ public class ArtController {
 		int result=artService.createArt(vo);
 		logger.info(result+"행 삽입");
 		
+		// 11.25 작품등록시 nft 변환하는거 만들기!
+		
+		
+		
+		
+		
+		
+		
+		
 		if(result==1) {
 			int nicknameUpdate=artService.updateNickname(vo.getMemberId());
 			logger.info(nicknameUpdate+"개 nickname 등록. art 등록 최종완료");
