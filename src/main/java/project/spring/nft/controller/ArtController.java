@@ -198,7 +198,7 @@ public class ArtController {
 			
 			// 현아 : 최신 블록 넘버 호출 성공, KAS계정생성하기
 			KAS kastest = new KAS();
-			kastest.getNFTContractList(); // 밥먹고 실행하기
+			kastest.deployKip17();
 			
 			
 			
