@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="project.spring.nft.ArtMapper">
+	
+	<insert id="insert">
+		insert into ${art} 
+		(${memberId}, ${artName}, ${artPrice}, ${artContent}, ${artShowDate}, ${artBasicFee},${artFileName})
+		values(#{memberId}, #{artName}, #{artPrice}, #{artContent}, #{artShowDate}, #{artBasicFee}, #{artFileName})
+	</insert>
+	
+	<update id="update_nickname">
+		update ${art}
+		set ${memberNickname} = (
+			select ${memberNickname}
+			from ${member}
+			where ${memberId}=#{memberId}
+		)
+		where ${memberId}=#{memberId}
+	</update>
+
+	<!-- 최신순 정렬(기본값) -->
+	<select id="select_all_by_no" resultType="ArtVO">
+		select b.${artNo}, b.${memberId}, b.${artName}, b.${artPrice}, 
+			b.${artContent}, b.${artShowDate}, b.${artReplyCount}, 
+			b.${artWishCount}, b.${artViewCount}, b.${artFileName}, b.${memberNickname}
+		from (
+		    select rownum rn, a.*
+		    from(
+		        select * from ${art} order by ${artNo} desc
+		    )a
+		)b
+		where rn between #{start} and #{end}
+	</select>
+	
+	<!-- 찜하기순 정렬 -->
+	<select id="select_all_by_wish" resultType="ArtVO">
+		select b.${artNo}, b.${memberId}, b.${artName}, b.${artPrice}, 
+			b.${artContent}, b.${artShowDate}, b.${artReplyCount}, 
+			b.${artWishCount}, b.${artViewCount}, b.${artFileName}, b.${memberNickname}
+		from (
+		    select rownum rn, a.*
+		    from(
+		        select * from ${art} order by ${artWishCount} desc
+		    )a
+		)b
+		where rn between #{start} and #{end}
+	</select>
+	
+	<!-- 조회수순 정렬 -->
+	<select id="select_all_by_view" resultType="ArtVO">
+		select b.${artNo}, b.${memberId}, b.${artName}, b.${artPrice}, 
+			b.${artContent}, b.${artShowDate}, b.${artReplyCount}, 
+			b.${artWishCount}, b.${artViewCount}, b.${artFileName}, b.${memberNickname}
+		from (
+		    select rownum rn, a.*
+		    from(
+		        select * from ${art} order by ${artViewCount} desc
+		    )a
+		)b
+		where rn between #{start} and #{end}
+	</select>
+	
+	<select id="select_total_cnt" resultType="Integer">
+		select count(*) total_cnt from ${art}
+	</select>
+	
+	<select id="select_art_name_cnt" resultType="Integer">
+		select count(*) total_cnt 
+		from ${art}
+		where ${artName} like #{keyword}
+	</select>
+	
+	<select id="select_nickname_cnt" resultType="Integer">
+		select count(*) total_cnt 
+		from ${art}
+		where ${memberNickname} like #{keyword}
+	</select>
+	
+	<!-- art 테이블에서 member id를 기준으로 select 가져오기 -->
+	<select id="select_by_member_id" resultType="ArtVO">
+		select * 
+		from ${art}
+		where ${memberId} = #{memberId}
+		order by ${artNo} desc
+	</select>
+		
+	<!-- 작품명 검색 -->
+	<select id="select_by_art_name" resultType="ArtVO">
+		select b.${artNo}, b.${memberId}, b.${artName}, b.${artPrice}, 
+			b.${artContent}, b.${artShowDate}, b.${artReplyCount}, 
+			b.${artWishCount}, b.${artViewCount}, b.${artFileName}, b.${memberNickname}
+		from (
+		    select rownum rn, a.*
+		    from(
+		        select * 
+		        from ${art} 
+		        where ${artName} like #{keyword}
+				order by ${artNo} desc
+		    )a
+		)b
+		where rn between #{start} and #{end}		
+	</select>
+	
+	
+	<!-- 작가이름 검색 -->
+	<select id="select_by_member_nickname" resultType="ArtVO">
+		select b.${artNo}, b.${memberId}, b.${artName}, b.${artPrice}, 
+			b.${artContent}, b.${artShowDate}, b.${artReplyCount}, 
+			b.${artWishCount}, b.${artViewCount}, b.${artFileName}, b.${memberNickname}
+		from (
+		    select rownum rn, a.*
+		    from(
+		        select * 
+		        from ${art} 
+		        where ${memberNickname} like #{keyword}
+				order by ${artNo} desc
+		    )a
+		)b
+		where rn between #{start} and #{end}	
+	</select>
+	
+	<!-- 작품 당 상세정보 -->
+	<select id="select_by_art_no" resultType="ArtVO">
+		select *
+		from ${art}
+		where ${artNo}=#{artNo}
+	</select>
+	
+	<!-- 조회수 업데이트 -->
+	<update id="update_view">
+		update ${art}
+		set ${artViewCount}=${artViewCount}+#{count}
+		where ${artNo}=#{artNo}
+	</update>
+	
+	<!-- 현아추가 -->
+	<!-- 찜수 업데이트 -->
+	<update id="update_wish_count">
+		update ${art}
+		set ${artWishCount}=${artWishCount}+#{count} <!-- 그냥 카운트 써도 되나? -->
+		where ${artNo}=#{artNo}
+	</update>
+	<!-- 댓글수 업데이트 -->
+	<update id="update_reply_count">
+		update ${art}
+		set ${artReplyCount} = ${artReplyCount} + #{amount}
+		where ${artNo} = #{artNo}
+	</update>
+	
+	<!-- 작품 수정 -->
+	<update id="update_art">
+		update ${art}
+		set ${artName}=#{artName}, ${artPrice}=#{artPrice},
+		${artContent}=#{artContent}, ${artShowDate}=#{artShowDate},
+		${artBasicFee}=#{artBasicFee}
+		where ${artNo}=#{artNo}
+	</update>
+	
+	<!-- 작품 삭제 -->
+	<delete id="delete_art">
+		delete from ${art}
+		where ${artNo}=#{artNo}
+	</delete>
+	
+	<!-- 회원 낙찰내역 -->
+	<select id="select_win_list" resultType="ArtVO">
+		select *
+		from ${art}
+		where ${artNo} IN (
+			select ${artNo}
+			from ${auction}
+			where ${memberId}=#{memberId}
+			and ${auctionResult}='T'
+		)
+	</select>
+</mapper>

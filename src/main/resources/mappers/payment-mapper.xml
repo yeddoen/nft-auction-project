@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="project.spring.nft.PaymentMapper">
+
+<insert id="insert">
+	insert into ${artPayment}
+	(${memberId}, ${artNo}, ${artName}, ${artPrice}, ${merchantUid}, ${paymentType})
+	values (#{memberId}, #{artNo}, #{artName}, #{artPrice}, #{merchantUid}, #{paymentType})
+</insert>
+
+<select id="select_by_member_id" resultType="PaymentVO">
+	select * from ${artPayment}
+	where ${memberId} = #{memberId}	
+</select>
+
+<select id="select_by_art_no" resultType="PaymentVO">
+	select * from ${artPayment}
+	where ${artNo} = #{artNo}
+</select>
+
+<update id="update_payment">
+
+</update>
+
+<delete id="delete_payment">
+
+</delete>
+
+<!-- 구매내역 -->
+<select id="select_all_by_id" resultType="PaymentVO">
+	select *
+	from ${artPayment}
+	where ${memberId}=#{memberId}
+	order by ${paymentDate} desc
+</select>
+</mapper>

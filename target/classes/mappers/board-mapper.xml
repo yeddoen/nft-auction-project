@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="project.spring.nft.QnABoardMapper">
+	  
+	  <insert id="insert">
+	  	insert into ${qnaboard} 
+	  	(${qnaboardTitle}, ${qnaboardContent}, ${memberNickname}, ${memberId})
+	  	values (#{qnaboardTitle}, #{qnaboardContent}, #{memberNickname}, #{memberId})
+	  </insert>
+	  
+	  <select id="select_all" resultType="QnABoardVO">
+	  	select * from ${qnaboard}
+	  	order by ${qnaboardNo} desc
+	  </select>
+
+	  <select id="select_by_qnaboard_no" resultType="QnABoardVO">
+	  	select * from ${qnaboard} where ${qnaboardNo} = #{qnaboardNo}
+	  </select>
+	  
+	  <update id="update">
+	  	update ${qnaboard} 
+	  	set ${qnaboardTitle} = #{qnaboardTitle}, ${qnaboardContent} = #{qnaboardContent}
+	  	where ${qnaboardNo} = #{qnaboardNo}
+	  </update>
+	  
+	  <delete id="delete">
+	  	delete from ${qnaboard} where ${qnaboardNo} = #{qnaboardNo}
+	  </delete>
+	  
+	   <select id="paging" resultType="QnABoardVO">
+	  	select b.${qnaboardNo}, b.${qnaboardTitle}, b.${qnaboardContent}, b.${memberNickname}, b.${qnaboardDate} 
+	  	from(
+	  		select rownum rn, a.* 
+	  		from(
+	  			select * from ${qnaboard} order by ${qnaboardNo} desc
+	 		)a
+	  	)b where rn between #{start} and #{end}
+	  </select>
+	  
+	  <select id="total_count" resultType="Integer">
+	  	select count(*) total_cnt from ${qnaboard}
+	  </select>
+
+<!-- 	  <select id="select_by_member_id" resultType="QnABoardVO">
+	  	select * from ${qnaboard}
+	  	where ${memberNickname} like #{memberNickname} 
+	  </select>
+	   -->
+	  <select id="select_by_title_content" resultType="QnABoardVO">
+	  	select * from ${qnaboard}
+	  	where ${qnaboardTitle} like #{keyword} or ${qnaboardContent} like #{keyword}
+	  	order by ${qnaboardNo} desc
+	  </select>
+	  
+	  <select id="select_list_by_member_id" resultType="QnABoardVO">
+	  	select * from ${qnaboard}
+	  	where ${memberId} = #{memberId}
+	  	order by ${qnaboardNo} desc
+	  </select>
+	  
+	  <select id="select_by_member_id" resultType="Integer">
+	  	select count(*) total_cnt from ${qnaboard}
+	  	where ${memberId} = #{memberId}
+	  </select>
+	  
+	  <update id="update_reply_count">
+	  	update ${qnaboard}
+	  	set ${qnareplyCount} = ${qnareplyCount} + #{amount}
+	  	where ${qnaboardNo} = #{qnaboardNo}
+	  </update>
+	  
+	  
+
+</mapper>
