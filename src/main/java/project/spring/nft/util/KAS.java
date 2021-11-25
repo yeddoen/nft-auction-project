@@ -46,8 +46,8 @@ public class KAS {
 	    String name = "My First KIP-17";
 	    String symbol = "MFK";
 	    String alias = "my-first-kip17";
-	    Kip17TransactionStatusResponse res = caver.kas.kip17.deploy(name, symbol, alias);
-	    System.out.println(res);
+//	    Kip17TransactionStatusResponse res = caver.kas.kip17.deploy(name, symbol, alias);
+//	    System.out.println(res);
 	  }
 
 } // end class
