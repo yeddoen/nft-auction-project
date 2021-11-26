@@ -16,7 +16,13 @@
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <!-- iamport.payment.js -->
   <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
-<title>즉시 결제</title>
+<title>결제 팝업창</title>
+<style type="text/css">
+img {
+	max-width: 100%;
+	height: auto;
+}
+</style>
 </head>
 <body>
 <div align="center">
@@ -74,7 +80,6 @@
 <input type="hidden" id="artNo" value="${avo.artNo }">
 <input type="hidden" id="artName" value="${avo.artName }">
 <input type="hidden" id="artPrice" value="${avo.artPrice }">
-<input type="hidden" id="artFileName" value="${avo.artFileName }">
 <input type="hidden" id="memberId" value="${vo.memberId }"> 
 <input type="hidden" id="paymentType" value="${typeResult }">  
 <c:if test="${not empty auvo }">
@@ -90,7 +95,7 @@
   	var artno = $('#artNo').val();
     var goodsname = $('#artName').val(); // 주문명
     var payment_type = $('#paymentType').val();//결제 종류(경매인지 즉시인지)
-    console.log(payment_type);
+    console.log(goodsname);
     var amount = 0;
     if(payment_type=='D'){ //즉시구매
 	    amount = $('#artPrice').val();
@@ -102,8 +107,6 @@
     var buyer_tel = $('#memberPhone').val(); // 주문자 연락처 - 필수
     var buyer_email = $('#memberEmail').val(); // 주문자 이메일
     var memberId = $('#memberId').val();
-    var artFileName = $('#artFileName').val();
-    var paymentType = "D"; // 즉시결제
   	var merchant_uid = $('#artName').val() + date + $('#memberId').val();
     IMP.init('imp84678220'); // 가맹점 식별 코드
       // IMP.request_pay(param, callback) 결제창 호출
@@ -126,12 +129,7 @@
                   'artName' : goodsname,
                   'artPrice' : amount,
                   'merchantUid' : merchant_uid,
-<<<<<<< HEAD
-                  'artFileName' : artFileName,
-                  'paymentType' : paymentType
-=======
                   'paymentType' : payment_type
->>>>>>> refs/remotes/origin/develop-yed
               }
       			  console.log(date);
       			  console.log(merchant_uid);
@@ -151,7 +149,7 @@
                   msg += '결제 금액 : ' + rsp.paid_amount;
                   msg += '카드 승인번호 : ' + rsp.apply_num;
                   alert(msg);
-                  location.href = 'result';
+                  location.href = 'result?artNo='+artno;
    
               })
           } else { // 결제 실패시

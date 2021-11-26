@@ -22,11 +22,9 @@
 .aside {
 	width: 30%;
 }
-
 #page-wrapper {
 	padding-left: 250px;
 }
-
 #sidebar-wrapper {
 	position: fixed;
 	width: 250px;
@@ -36,7 +34,6 @@
 	overflow-x: hidden;
 	overflow-y: auto;
 }
-
 #page-content-wrapper {
 	width: 100%;
 	padding: 20px;
@@ -48,33 +45,27 @@
 	padding: 0;
 	list-style: none;
 }
-
 .sidebar-nav li {
 	text-indent: 1.5em;
 	line-height: 2.8em;
 }
-
 .sidebar-nav li a {
 	display: block;
 	text-decoration: none;
 	color: #999;
 }
-
 .sidebar-nav li a:hover {
 	color: #fff;
 	background: rgba(255, 255, 255, 0.2);
 }
-
 .sidebar-nav>.sidebar-brand {
 	font-size: 1.3em;
 	line-height: 3em;
 }
-
 .aside {
 	width: 30%;
 	align: left;
 }
-
 .section {
 	width: 70%;
 	align : right;
@@ -117,11 +108,7 @@
 					<li><a href="member">회원정보</a></li>
 					<li><a href="../../wishlist/wishpage">위시리스트</a></li>
 					<li><a href="artlist">등록작품내역</a></li>
-<<<<<<< HEAD
-					<li><a href="#">구매작품내역</a></li>
-=======
 					<li><a href="shopping-list">구매작품내역</a></li>
->>>>>>> refs/remotes/origin/develop-yed
 					<li><a href="../../qnaboard/qnalist">QnA게시판</a></li>
 				</ul>
 			</div>
