@@ -74,12 +74,23 @@ public class MemberController {
 		}
 	} // end joinMemberPOST()
 
+	
 	@GetMapping("/login")
-	public void loginMemberGET(int artNo, HttpServletRequest request) {
+	public void loginMemberGET(HttpServletRequest request) {
 		logger.info("loginMemberGET() 호출");
-		if(artNo>0) { //상세페이지의 댓글에서 로그인 이동한 경우
+		
+		//만약 url에 parameter가 있다면
+		String uri=request.getRequestURI();
+		logger.info("요청 uri : "+uri);
+		String contextRoot=request.getContextPath();
+		logger.info("contextRoot : "+contextRoot);
+		uri=uri.replace(contextRoot, "");
+		String queryString=request.getQueryString();
+		logger.info("쿼리 스트링 : "+queryString);
+		
+		if(queryString != null) { //상세페이지의 댓글에서 로그인 이동한 경우
 			HttpSession session=request.getSession();
-			session.setAttribute("targetURL","../arts/detail?artNo="+artNo);
+			session.setAttribute("targetURL","../arts/detail?"+queryString);
 		}
 	} // end loginMemberGET()
 
