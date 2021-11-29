@@ -4,9 +4,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +14,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +28,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.web3j.protocol.exceptions.TransactionException;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import project.spring.nft.domain.ArtVO;
 import project.spring.nft.pageutil.PageCriteria;
@@ -186,93 +182,70 @@ public class ArtController {
 	@PostMapping("/arts/register")
 	public String registerPOST(ArtVO vo, RedirectAttributes reAttr)
 			throws ApiException, NoSuchMethodException, InstantiationException, ClassNotFoundException,
-			IllegalAccessException, InvocationTargetException, IOException, TransactionException {
+			IllegalAccessException, InvocationTargetException, IOException, TransactionException, InterruptedException {
 		logger.info("registerPOST() 호출 : vo = " + vo.toString());
 		int result = artService.createArt(vo);
 		logger.info(result + "행 삽입");
+
+		// selectAndDeployKip17(vo);
 
 		// 메타데이터와 파일을 json으로 저장.
 		String artName = vo.getArtName();
 		String artContent = vo.getArtContent();
 		String memberId = vo.getMemberId();
 
-		// TODO : 빠른 구현을 위해 일단 절대경로로했음
+		// 빠른 구현을 위해 일단 절대경로로했음. 카카오 일좀 해라
 		String artFileName = "http:/localhost:8080/nft-auction/arts/display?fileName=" + vo.getArtFileName();
 
-		JSONObject metadata = new JSONObject();
-		metadata.put("name", artName);
-		metadata.put("description", artContent);
-		metadata.put("image", artFileName);
-		metadata.put("memberId", memberId);
-
-		Gson gson = new GsonBuilder().disableHtmlEscaping().create();
-		String st = gson.toJson(metadata);
-		System.out.println("metadata.json 확인 : " + st);
-
-		// TODO : 빠른 구현을 위해 일단 절대경로로했음
-		Path path = Paths.get("C:\\Study\\JsonUpload\\metadata.json");
-		Files.write(path, st.getBytes());
-
 		// 이제 이 metadata.json을 uri에 넣고 mint 하기.
-
 		mintKip17(vo);
-		
+
 		if (result == 1) { // 등록에 성공하면!
 			int nicknameUpdate = artService.updateNickname(vo.getMemberId());
 			logger.info(nicknameUpdate + "개 nickname 등록. art 등록 최종완료");
 			reAttr.addFlashAttribute("registerResult", "success");
-			
-			// nft 조회하기
-			// nftKas.selectKip17();
-			
+
 			return "redirect:/main";
 		} else {
 			return "redirect:/arts/register";
 		}
 	} // end registerPOST()
-	
-	
-	public void mintKip17(ArtVO vo) throws NoSuchMethodException, IOException, InstantiationException, ClassNotFoundException, IllegalAccessException, InvocationTargetException, TransactionException, ApiException {
-		// caver-java-ext-kas로 KIP-17 토큰을 발행하는 경우, API request의 body에 필요한 데이터를 함수의 파라미터로 전송합니다.
-		// caver.kas.kip17.mint((addressOrAlias, to, tokenId, tokenURI);
+
+	public void mintKip17(ArtVO vo)
+			throws NoSuchMethodException, IOException, InstantiationException, ClassNotFoundException,
+			IllegalAccessException, InvocationTargetException, TransactionException, ApiException {
+		
 		CaverExtKAS caver = new CaverExtKAS();
 		caver.initKASAPI("1001", "KASKEMNC1D88Q7GH1TNVLZHR", "HOkyolJgnqehhk44F9ecIcbHCN6m-HBk-ARWMOYt");
 
-		// TODO : 토큰 소유자의 지갑. 매개변수로 받아오기.
-		String to = vo.getMemberAccount();  // kaikas 지갑.
-		
-		
-		
-		String id = "0x" + getRamdomPassword(2); // 토큰의 아이디 TODO : uuid로 만들기
-		String uri = "C:\\Study\\JsonUpload\\metadata.json"; // 메타데이터주소.
-		String contractAlias = "test";
-		
+		String to = vo.getMemberAccount(); // 사용자의 kaikas 지갑.
+		String id = "0x" + getRamdomPassword(4); // 토큰의 아이디 그냥 점차 증가하는거로 만들까.
+		String uri = vo.getArtJsonUri(); // 메타데이터주소.
+		logger.info("jsonuri : " + vo.getArtJsonUri()); // DB에는 안넣음!
+		String contractAlias = vo.getMemberId();
+
 		Kip17TransactionStatusResponse response = caver.kas.kip17.mint(contractAlias, to, id, uri);
-		
+
 		System.out.println("KIP-17 토큰 발행 response result " + response);
 		response.getTransactionHash();
-		
+
 	} // end mint()
-	
-	public String getRamdomPassword(int len) { 
-		char[] charSet = new char[] { 
-				'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
-//				'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 
-//				'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 
-//				'U', 'V', 'W', 'X', 'Y', 'Z' 
-				}; 
-		int idx = 0; 
-		StringBuffer sb = new StringBuffer(); 
-		logger.info("charSet.length : "+charSet.length); 
-		
-		for (int i = 0; i < len; i++) { 
-			idx = (int) (charSet.length * Math.random()); 
-			// 36 * 생성된 난수를 Int로 추출 (소숫점제거) 
-			logger.info("idx : "+idx); 
-			sb.append(charSet[idx]); 
-		} 
-		return sb.toString(); 
-	} //end getRamdomPassword()
+
+	public String getRamdomPassword(int len) {
+		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+		int idx = 0;
+		StringBuffer sb = new StringBuffer();
+		logger.info("charSet.length : " + charSet.length);
+
+		for (int i = 0; i < len; i++) {
+			idx = (int) (charSet.length * Math.random());
+			// 9 * 생성된 난수를 Int로 추출 (소숫점제거)
+			logger.info("idx : " + idx);
+			sb.append(charSet[idx]);
+		}
+
+		return sb.toString();
+	} // end getRamdomPassword()
 
 	@GetMapping("/arts/upload-ajax")
 	public void uploadAjaxGET() {
@@ -372,6 +345,9 @@ public class ArtController {
 	public String deletePOST(int artNo, RedirectAttributes reAttr) throws Exception {
 		logger.info("deletePOST() 호출");
 		int result = artService.deleteArt(artNo);
+
+		KAS kas = new KAS();
+		kas.selecteNftKip17();
 
 		if (result == 1) {
 			reAttr.addFlashAttribute("deleteResult", "success");

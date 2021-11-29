@@ -16,6 +16,7 @@ public class ArtVO {
 	private String artFileName;
 	private String memberNickname;
 	private String memberAccount;
+	private String artJsonUri;
 	
 	public ArtVO() {
 		super();
@@ -24,7 +25,7 @@ public class ArtVO {
 
 	public ArtVO(int artNo, String memberId, String artName, int artPrice, String artContent, String artShowDate,
 			int artBasicFee, int artReplyCount, int artWishCount, int artViewCount, String artFileName,
-			String memberNickname, String memberAccount) {
+			String memberNickname, String memberAccount, String artJsonUri) {
 		super();
 		this.artNo = artNo;
 		this.memberId = memberId;
@@ -39,6 +40,7 @@ public class ArtVO {
 		this.artFileName = artFileName;
 		this.memberNickname = memberNickname;
 		this.memberAccount = memberAccount;
+		this.artJsonUri = artJsonUri;
 	}
 
 	public int getArtNo() {
@@ -144,6 +146,14 @@ public class ArtVO {
 	public void setMemberAccount(String memberAccount) {
 		this.memberAccount = memberAccount;
 	}
+	
+	public String getArtJsonUri() {
+		return artJsonUri;
+	}
+
+	public void setArtJsonUri(String artJsonUri) {
+		this.artJsonUri = artJsonUri;
+	}
 
 	@Override
 	public String toString() {
@@ -151,7 +161,7 @@ public class ArtVO {
 				+ ", artContent=" + artContent + ", artShowDate=" + artShowDate + ", artBasicFee=" + artBasicFee
 				+ ", artReplyCount=" + artReplyCount + ", artWishCount=" + artWishCount + ", artViewCount="
 				+ artViewCount + ", artFileName=" + artFileName + ", memberNickname=" + memberNickname
-				+ ", memberAccount=" + memberAccount + "]";
+				+ ", memberAccount=" + memberAccount + ", artJsonuri=" + artJsonUri + "]";
 	}
 	
 	

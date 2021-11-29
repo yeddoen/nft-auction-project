@@ -17,10 +17,10 @@
 <body style="text-align: center;">
 	<h1>작품 등록 페이지</h1>
 	<form method="post">
-		<input type="hidden" name="memberId" value="${sessionScope.memberId }">
-		<input type="text" name="artName" placeholder="작품명 입력" required><br>
+		<input type="hidden" id="member_id" name="memberId" value="${sessionScope.memberId }">
+		<input type="text" id="art_name" name="artName" value="" placeholder="작품명 입력" required><br>
 		<input type="number" name="artPrice" placeholder="즉시판매가 입력" required><br>
-		<input type="text" name="artContent" placeholder="작품설명 입력" required><br>
+		<input type="text" id="art_content" value="" name="artContent" placeholder="작품설명 입력" required><br>
 		작품 게시기간 설정<br> <input type="datetime-local" name="artShowDate"
 			required><br> <input type="number" name="artBasicFee"
 			placeholder="경매시작금 입력" required><br> 이미지 등록<br>
@@ -28,7 +28,8 @@
 		<div class="upload-list"></div>
 		<input type="hidden" id="file_name" name="artFileName" value=""
 			required> 
-		<input type="hidden" id="memberAccount" name="memberAccount" value="" required=>	
+		<input type="hidden" id="memberAccount" name="memberAccount" value="" required>	
+		<input type="hidden" id="uri" name="artJsonUri" value="" required>
 		<input type="submit" value="등록하기">
 	</form>
 	<!-- JavaScript -->
@@ -81,16 +82,43 @@
                   			$('#memberAccount').attr('value', klaytn.selectedAddress);
                   			console.log('input의 계정값 : ' + $('#memberAccount').val());
                   			
+                  			// metadata api로 json파일 서버에 올리기
+                  			var artName = $('#art_name').val();
+                  			var description = $('#art_content').val();
+                  			var image = "http:/localhost:8080/nft-auction/arts/display?fileName=" + fileName;
+                  			var minter = $('#member_id').val();
+                  			
+                  			const settings = {
+                  			        "async": true,
+                  			        "crossDomain": true,
+                  			        "url": "https://metadata-api.klaytnapi.com/v1/metadata",
+                  			        "method": "POST",
+                  			        "headers": {
+                  			          "Content-Type": "application/json",
+                  			          "x-chain-id": "1001",
+                  			          "Authorization": "Basic S0FTS0VNTkMxRDg4UTdHSDFUTlZMWkhSOkhPa3lvbEpnbnFlaGhrNDRGOWVjSWNiSENONm0tSEJrLUFSV01PWXQ="
+                  			        },
+                  			        "processData": false,
+                  			        "data": "{\n  \"metadata\": {\n    \"name\": \"" + artName + "\"," 
+                  			            + "\n    \"description\": \"" + description + "\"," 
+                  			            + "\n    \"image\": \"" + image + "\"," 
+                  			            + "\n   \"minter\": \"" + minter + "\""  
+                  			            + "}\n}"
+                  			};
+
+                  			$.ajax(settings).done(function (response) {
+                  			  	console.log("metadata api 응답 : "  + JSON.stringify(response));
+                  			   	console.log("metadata의 uri : " + typeof(response['uri']));
+                  			   	// 이거 DB에 넣어버리고 서버단으로 전송하기!
+                  			   	$('#uri').attr('value', response['uri']);    
+                  			});
                   			
              			 } else { // 설치되지 않은 경우, 설치할 수 있도록 유도하기.
                  			location.href = 'https://chrome.google.com/webstore/detail/kaikas/jblndlipeogpafnldhgmapagcccfchpi?hl=ko';
-                         
              			 }
 					    
-					    
-					    
 						console.log(fileName); //서버에 업로드된 파일이름을 가지고옴
-						//11.17
+						
 						if(fileName=='fail'){
 							alert('jpg, png, gif 파일만 등록할 수 있습니다.');
 						}else{

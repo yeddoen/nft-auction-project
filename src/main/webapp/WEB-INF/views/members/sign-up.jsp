@@ -113,7 +113,7 @@
 							onsubmit="return submitAble();">
 							<div class="input-group mb-3">
 								<input type="text" class="form-control" id="member_id"
-									name="memberId" placeholder="아이디 입력" required
+									name="memberId" min="3" placeholder="아이디 입력" required
 									aria-label="아이디 입력" aria-describedby="check_id">
 								<button class="btn btn-outline-secondary" type="button"
 									id="check_id">아이디 중복체크</button>
@@ -149,8 +149,12 @@
 									name="memberEmail" placeholder="이메일 입력" required>
 							</p>
 							<p>
-								<button type="button" id="btn-kaikas" class="btn btn-primary">kaikas 연동</button>
-								<input type="submit" class="btn btn-primary" value="가입하기">
+							<p>
+								<button type="button" id="btn-kaikas" class="btn btn-primary"
+									value="kaikas 연동">kaikas 연동</button><!-- 버튼 클릭안하면 가입할 수 있게 해야함.. -->
+							</p>
+							<p>
+							<input type="submit" class="btn btn-primary" value="가입하기">
 							</p>
 						</form>
 					</div>
@@ -170,11 +174,20 @@
         $(function() {
             var IMP = window.IMP;
             IMP.init('iamport'); //관리자 체험용
+            
+       
+           
+            
 
             /* 아이디 중복 체크 */
             $('#check_id').click(function() {
                 var member_id = $('#member_id').val();
-                if (!member_id) {
+                
+                /*아이디 3글자 이상(nft 등록시 심볼3글자를 위한 것.)*/
+                if (member_id.length < 3) {
+                    $('#check_id_result').css('color', 'red');
+                    $('#check_id_result').html("아이디를 3글자 이상으로 입력해주세요.");
+                } else if (!member_id) {
                     $('#check_id_result').css('color', 'red');
                     $('#check_id_result').html("아이디를 입력해주세요.");
                 } else {
@@ -307,22 +320,32 @@
             	}  
             }); // end metamask api */
 
-            $('#btn-kaikas').click(function() {
-                if (typeof window.klaytn !== 'undefined') {
-                    console.log('kaikas installed!') // 카이카스가 설치된 경우
-                    console.log('현재 네트워크 : ' + klaytn.networkVersion);
-                    console.log('현재 지갑의 주소 : ' + klaytn.selectedAddress);
-                    
-                    klaytn.enable(); // 열기!
-                    // Kaikas user detected. You can now use the provider.
-                    const provider = window['klaytn'] // provider에 주입하기.
-                } else { // 설치되지 않은 경우, 설치할 수 있도록 유도하기.
-                    location.href = 'https://chrome.google.com/webstore/detail/kaikas/jblndlipeogpafnldhgmapagcccfchpi?hl=ko';
-                           
-                }
+            $('#btn-kaikas')
+                    .click(
+                            function() {
+                                if (typeof window.klaytn !== 'undefined') {
+                                    klaytn.enable(); // KAIKAS 열기!
+                                    console.log('kaikas installed!') // 카이카스가 설치된 경우
+                                    console.log('현재 네트워크 : '
+                                            + klaytn.networkVersion);
+                                    console.log('현재 지갑의 주소 : '
+                                            + klaytn.selectedAddress);
+                                    
+                                    console.log(klaytn._kaikas.isApproved());
+                       
+                                    if(klaytn.selectedAddress === 'undefined') {
+                                        alert('KAIKAS와 연동하세요!');
+                                        klaytn.enable(); // KAIKAS 열기!
+                                    } else if (klaytn.selectedAddress !== 'undefined') {
+                                        alert('KAIKAS와 연동되었습니다!');
+                                    }
+                                    const provider = window['klaytn'] // provider에 주입하기.
+                                } else { // 설치되지 않은 경우, 설치할 수 있도록 유도하기.
+                                    location.href = 'https://chrome.google.com/webstore/detail/kaikas/jblndlipeogpafnldhgmapagcccfchpi?hl=ko';
 
-            }); // end btn-kaikas.click()
-            
+                                }
+
+                            }); // end btn-kaikas.click()
 
             /* 전화번호 형식적용 */
             $('#member_phone').keyup(

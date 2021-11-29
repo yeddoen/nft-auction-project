@@ -29,6 +29,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		 <property name="artFileName" value="art_file_name"/>
 		 <property name="memberNickname" value="member_nickname"/>
 		 <property name="memberAccount" value="member_account"/>
+		 <property name="artJsonUri" value="art_json_uri"/>
+		 
 		 
 		 <property name="auction" value="auction"/>
 		 <property name="auctionNo" value="auction_no"/>

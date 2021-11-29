@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,10 +10,17 @@
 <!-- 제이쿼리 -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- 부트스트랩 -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
 <!-- Popper JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <!-- css -->
 <style type="text/css">
 img {
@@ -30,58 +37,57 @@ li {
 }
 
 .carousel-indicators {
-  position: absolute;
-  right: 0;
-  bottom: 10px;
-  left: 0;
-  z-index: 15;
-  display: flex;
-  justify-content: center;
-  padding-left: 0; // override <ol> default
-  // Use the .carousel-control's width as margin so we don't overlay those
-  margin-right: $carousel-control-width;
-  margin-left: $carousel-control-width;
-  list-style: none;
+	position: absolute;
+	right: 0;
+	bottom: 10px;
+	left: 0;
+	z-index: 15;
+	display: flex;
+	justify-content: center;
+	padding-left: 0; // override <ol> default // Use the
+	.carousel-control's width as margin so we don't overlay those
+	margin-right : $ carousel-control-width;
+	margin-left: $carousel-control-width;
+	list-style: none; li { position : relative;
+	flex: 0 1 auto;
+	width: $carousel-indicator-width;
+	height: $carousel-indicator-height;
+	margin-right: $carousel-indicator-spacer;
+	margin-left: $carousel-indicator-spacer;
+	text-indent: -999px;
+	cursor: pointer;
+	background-color: rgba($ carousel-indicator-active-bg, .5); // Use
+	pseudo classes to increase the hit area by 10px on top and bottom. & :
+	: before {
+      position : absolute;
+	top: -10px;
+	left: 0;
+	display: inline-block;
+	width: 100%;
+	height: 10px;
+	content: "";
+}
 
-  li {
-    position: relative;
-    flex: 0 1 auto;
-    width: $carousel-indicator-width;
-    height: $carousel-indicator-height;
-    margin-right: $carousel-indicator-spacer;
-    margin-left: $carousel-indicator-spacer;
-    text-indent: -999px;
-    cursor: pointer;
-    background-color: rgba($carousel-indicator-active-bg, .5);
+&
+::after {
+	position: absolute;
+	bottom: -10px;
+	left: 0;
+	display: inline-block;
+	width: 100%;
+	height: 10px;
+	content: "";
+}
 
-    // Use pseudo classes to increase the hit area by 10px on top and bottom.
-    &::before {
-      position: absolute;
-      top: -10px;
-      left: 0;
-      display: inline-block;
-      width: 100%;
-      height: 10px;
-      content: "";
-    }
-    &::after {
-      position: absolute;
-      bottom: -10px;
-      left: 0;
-      display: inline-block;
-      width: 100%;
-      height: 10px;
-      content: "";
-    }
-  }
-
-  .active {
-    background-color: $carousel-indicator-active-bg;
-  }
+}
+.active {
+	background-color: $carousel-indicator-active-bg;
+}
 }
 </style>
 <title>메인 페이지</title>
 <script type="text/javascript">
+    
 </script>
 </head>
 <body style="text-align: center;">
@@ -113,8 +119,7 @@ li {
 	</nav>
 	<!-- 낙찰 alert -->
 	<c:if test="${not empty sessionScope.memberId }">
-		<div id="bid_alert">
-		</div>
+		<div id="bid_alert"></div>
 	</c:if>
 	<!-- 검색 -->
 	<br>
@@ -134,9 +139,9 @@ li {
 		<div class="row">
 			<div class="col-sm-8"></div>
 			<div class="col-sm-4">
-				<a href="cur"><button type="button" class="btn">등록순</button></a>
-				<a href="wish"><button type="button" class="btn">찜하기순</button></a>
-				<a href="view"><button type="button" class="btn">조회수순</button></a>
+				<a href="cur"><button type="button" class="btn">등록순</button></a> <a
+					href="wish"><button type="button" class="btn">찜하기순</button></a> <a
+					href="view"><button type="button" class="btn">조회수순</button></a>
 			</div>
 		</div>
 		<br>
@@ -145,24 +150,25 @@ li {
 			<c:forEach var="vo" items="${list }">
 				<div class="col-sm-4">
 					<div class="card border-primary mb-3" style="max-width: 20rem;">
-						<div class="card-header">by ${vo.memberNickname} </div>
+						<div class="card-header">by ${vo.memberNickname}</div>
 						<div class="card-body">
-							<a href="arts/detail?artNo=${vo.artNo}&page=${pageMaker.criteria.page}">
+							<a
+								href="arts/detail?artNo=${vo.artNo}&page=${pageMaker.criteria.page}">
 								<h4 class="card-title">
-								<img src="/nft-auction/arts/display?fileName=${vo.artFileName }"></h4>
+									<img
+										src="/nft-auction/arts/display?fileName=${vo.artFileName }">
+								</h4>
 								<hr>
 								<p class="card-text">${vo.artName }</p>
-							</a>
-							<span class="float-right">찜수 ${vo.artWishCount}</span>
+							</a> <span class="float-right">찜수 ${vo.artWishCount}</span>
 						</div>
 					</div>
-				</div>			
+				</div>
 			</c:forEach>
 		</div>
 	</div>
 	<!-- 페이징처리 -->
-	<div id="paging">
-	</div>
+	<div id="paging"></div>
 	<input type="hidden" id="hasPrev" value="${pageMaker.hasPrev }">
 	<input type="hidden" id="startPageNo" value="${pageMaker.startPageNo }">
 	<input type="hidden" id="endPageNo" value="${pageMaker.endPageNo }">
@@ -171,6 +177,7 @@ li {
 	<input type="hidden" id="logout_result" value="${logoutResult }">
 	<input type="hidden" id="join_result" value="${joinResult }">
 	<input type="hidden" id="register_result" value="${registerResult }">
+	<input type="hidden" id="delete_result" value="${deleteResult }">
 	<input type="hidden" id="member_id" value="${sessionScope.memberId }">
 	<!-- footer -->
 	<footer class="bd-footer py-5 mt-5 bg-secondary sticky-bottom">
@@ -180,192 +187,233 @@ li {
 		</div>
 	</footer>
 	<!-- JavaScript -->
-	<script type="text/javascript">		
-		$(function(){
-			showPagination();
-			winningBid();
-			/* 동작 수행 완료 alert */
-	  		confirmLoginResult();
-	  		confirmLogoutResult();
-	  		confirmJoinResult();
-	  		confirmRegisterResult();
-	  		
-			function confirmLoginResult() {
-				var result=$('#login_result').val();
-				if(result=='success'){
-					alert('로그인 성공');
-				}
-			}//end confirmLoginRslut()
-			
-			function confirmLogoutResult() {
-				var result=$('#logout_result').val();
-				if(result=='success'){
-					alert('로그아웃 성공');
-				}
-			}//end confirmLogoutResult()
-			
-			function confirmJoinResult() {
-				var result=$('#join_result').val();
-				if(result=='success'){
-					alert('회원가입 성공');
-				}
-			}//end confirmJoinResult()
-			
-			// 작품 등록에 성공하면 메인화면에서 출력.
-			function confirmRegisterResult() {
-				var result=$('#register_result').val();
-				if(result=='success'){
-					alert('NFT변환 및 작품 등록 성공');
-				}
-			}//end confirmRegisterResult()
-			
-			/* 정렬 */
-			$('#current_list').click(function(){
-				$('#wish_list').removeClass('btn-primary');
-				$('#view_list').removeClass('btn-primary');
-				$(this).addClass('btn-primary'); //클릭된 버튼
-				currentAllList();
-			}); //end current_list click()
+	<script type="text/javascript">
+        $(function() {
+            showPagination();
+            winningBid();
+            /* 동작 수행 완료 alert */
+            confirmLoginResult();
+            confirmLogoutResult();
+            confirmJoinResult();
+            confirmRegisterResult();
+            confirmDeleteResult();
 
-			$('#wish_list').click(function(){
-				$('#current_list').removeClass('btn-primary');
-				$('#view_list').removeClass('btn-primary');
-				$(this).addClass('btn-primary'); //클릭된 버튼
-				wishAllList();
-			}); //end wish_list click()
+            function confirmLoginResult() {
+                var result = $('#login_result').val();
+                if (result == 'success') {
+                    alert('로그인 성공');
+                }
+            }//end confirmLoginRslut()
 
-			$('#view_list').click(function(){
-				$('#current_list').removeClass('btn-primary');
-				$('#wish_list').removeClass('btn-primary');
-				$(this).addClass('btn-primary'); //클릭된 버튼
-				viewAllList();
-			}); //end view_list click()
-			
-		}); //end document
-		
-		/* 페이지네이션 */
-		function showPagination() {
-			var hasPrev=$('#hasPrev').val();
-			var hasNext=$('#hasNext').val();
-			var startPageNo=$('#startPageNo').val();
-			var endPageNo=$('#endPageNo').val();
-			console.log(hasPrev+', '+hasNext+', '+startPageNo+', '+endPageNo);
-			
-			var paging='';
-			var prev='disabled';
-			var next='disabled';
-			var start='';
-			var end='';
-			if(hasPrev == "true"){ // hasPrev/Next가 문자열이라
-				prev='';
-			}
-			if(hasNext == "true"){
-				next='';
-			}
-			
-			var queryString=$(location).attr('search');
-			queryString=queryString.replace('?','');
-			var URLSearch = new URLSearchParams(location.search);
-			var url = '';
-			console.log(URLSearch);
-			
-			//url 쿼리스트링연결
-			if(!queryString){
-				start = 'page='+ (startPageNo-1);
-				end = 'page='+ (parseInt(endPageNo)+1);
-			}else{
-				if(URLSearch.get('page') != null){ //page 쿼리스트링이 있으면
-					URLSearch.set('page', (startPageNo-1));
-					start=URLSearch.toString();
-					URLSearch.set('page', (parseInt(endPageNo)+1));
-					end=URLSearch.toString();
-					console.log(start+', '+end);
-				}else{
-					start = queryString+'&page='+(startPageNo-1);	
-					end = queryString+'&page='+(parseInt(endPageNo)+1);	
-					console.log(start+', '+end)
-				}
-			}
-						
-			paging+='<ul class="pagination justify-content-center">'
-				+'<li class="page-item '+prev+'">'
-				+'<a class="page-link" href="?'+start+'">&laquo;</a></li>';
-			
-			for (var i = startPageNo; i <= endPageNo; i++) {
-				if(!queryString){ 
-					url='page='+i;						
-				}else{ //쿼리스트링이 있으면
-					if(URLSearch.get('page') != null){ //page 쿼리스트링이 있으면
-						URLSearch.set('page', i);
-						url=URLSearch.toString();
-					}else{
-						url=queryString+'&page='+i;						
-					}
-				}
-				console.log(url);				
-				
-				paging+='<li class="page-item">'
-					+'<a class="page-link" href="?'+url+'">'+i+'</a>'
-					+'<input type="hidden" class="page-num" value="'+i+'">'
-					+'</li>';
-			}
-			
-			paging+='<li class="page-item '+next+'">'
-				+'<a class="page-link" href="?'+end+'">&raquo;</a></li>'
-				+'</ul>';
-			
-			$('#paging').html(paging);
-			pageAction();
-		} //end showPagination()
-		
-		/* 현재 페이지네이션 표시 */
-		function pageAction() {
-			var url = $(location).attr('search'); //쿼리스트링
-			var URLSearch = new URLSearchParams(location.search);
-			var page_num=url.charAt(url.length-1);
-			console.log(page_num);
-			
-			$('input[class=page-num]').each(function(x){
-				console.log(x);
-				
-				if(!URLSearch.get('page') && (x+1)==1){
-					$(this).parents('.page-item').last().addClass('active');
-				}
-				if(page_num == (x+1)){
-					console.log($(this).parents('.page-item').last());
-					$(this).parents('.page-item').last().addClass('active');
-				}
-			})
-		}//end pageAction()
-		
-		/* 회원 낙찰 소식 알림 */
-		function winningBid() {
-			var member_id=$('#member_id').val();
-			console.log(member_id);
-			$.ajax({
-				type:'post',
-				url:'arts/winning',
-				data:{
-					memberId:member_id
-				},
-				success:function(resultData){
-					console.log(resultData);
-					var list='';
-					$(resultData).each(function(){
-						list+='<div class="alert alert-warning m-0 alert-dismissible fade show" role="alert">'
-							+'<strong>'+member_id+'님</strong> ['
-							+this.artName+']작품이 낙찰됐습니다. 결제를 진행하세요. '
-							+'<a href="arts/detail?artNo='+this.artNo+'">'
-							+'<button class="btn btn-outline-primary btn-sm">작품으로 이동</button></a>'
-							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close">'
-							+'<span aria-hidden="true">&times;</span>'
-							+'</button>'
-							+'</div>';
-					}); //end each
-					$('#bid_alert').html(list);
-				}
-			})
-		} //end winningBid()
-	</script>
+            function confirmLogoutResult() {
+                var result = $('#logout_result').val();
+                if (result == 'success') {
+                    alert('로그아웃 성공');
+                }
+            }//end confirmLogoutResult()
+
+            function confirmJoinResult() {
+                var result = $('#join_result').val();
+                if (result == 'success') {
+                    alert('회원가입 성공');
+                }
+            }//end confirmJoinResult()
+
+            // 작품 등록에 성공하면 메인화면에서 출력.
+            function confirmRegisterResult() {
+                var result = $('#register_result').val();
+                if (result == 'success') {
+                    alert('NFT 발행 및 작품 등록 성공!');
+                }
+            }//end confirmRegisterResult()
+
+            // 작품 삭제에 성공하면 메인화면에서 출력.
+            function confirmDeleteResult() {
+                var result = $('#delete_result').val();
+                if (result == 'success') {
+                    alert('NFT 소각 및 작품 삭제 성공!');
+
+                    const settings = {
+                        "async" : true,
+                        "crossDomain" : true,
+                        "url" : "https://metadata-api.klaytnapi.com/v1/contract/0x37b23fa7289b8a3055839fdf36d2bed9d7714665/token/0x8967",
+                        "method" : "POST",
+                        "headers" : {
+                            "Content-Type" : "application/json",
+                            "x-chain-id" : "1001",
+                            "Authorization" : "Basic S0FTS0VNTkMxRDg4UTdHSDFUTlZMWkhSOkhPa3lvbEpnbnFlaGhrNDRGOWVjSWNiSENONm0tSEJrLUFSV01PWXQ="
+                        },
+                        "processData" : false,
+                        "data" : "{\n  \"sender\": \"0x2d883293342ec229951b2f2f95d09cd0dcf749b5\",\n  \"owner\": \"0x2d883293342ec229951b2f2f95d09cd0dcf749b5\",\n  \"to\": \"0x0000000000000000000000000000000000000000\"\n}"
+                    };
+
+                    $.ajax(settings).done(function(response) {
+                        console.log('삭제 응답 결과 ' + response);
+                    });
+                }
+            } // end confirmDeleteResult()
+
+            /* 정렬 */
+            $('#current_list').click(function() {
+                $('#wish_list').removeClass('btn-primary');
+                $('#view_list').removeClass('btn-primary');
+                $(this).addClass('btn-primary'); //클릭된 버튼
+                currentAllList();
+            }); //end current_list click()
+
+            $('#wish_list').click(function() {
+                $('#current_list').removeClass('btn-primary');
+                $('#view_list').removeClass('btn-primary');
+                $(this).addClass('btn-primary'); //클릭된 버튼
+                wishAllList();
+            }); //end wish_list click()
+
+            $('#view_list').click(function() {
+                $('#current_list').removeClass('btn-primary');
+                $('#wish_list').removeClass('btn-primary');
+                $(this).addClass('btn-primary'); //클릭된 버튼
+                viewAllList();
+            }); //end view_list click()
+
+        }); //end document
+
+        /* 페이지네이션 */
+        function showPagination() {
+            var hasPrev = $('#hasPrev').val();
+            var hasNext = $('#hasNext').val();
+            var startPageNo = $('#startPageNo').val();
+            var endPageNo = $('#endPageNo').val();
+            console.log(hasPrev + ', ' + hasNext + ', ' + startPageNo + ', '
+                    + endPageNo);
+
+            var paging = '';
+            var prev = 'disabled';
+            var next = 'disabled';
+            var start = '';
+            var end = '';
+            if (hasPrev == "true") { // hasPrev/Next가 문자열이라
+                prev = '';
+            }
+            if (hasNext == "true") {
+                next = '';
+            }
+
+            var queryString = $(location).attr('search');
+            queryString = queryString.replace('?', '');
+            var URLSearch = new URLSearchParams(location.search);
+            var url = '';
+            console.log(URLSearch);
+
+            //url 쿼리스트링연결
+            if (!queryString) {
+                start = 'page=' + (startPageNo - 1);
+                end = 'page=' + (parseInt(endPageNo) + 1);
+            } else {
+                if (URLSearch.get('page') != null) { //page 쿼리스트링이 있으면
+                    URLSearch.set('page', (startPageNo - 1));
+                    start = URLSearch.toString();
+                    URLSearch.set('page', (parseInt(endPageNo) + 1));
+                    end = URLSearch.toString();
+                    console.log(start + ', ' + end);
+                } else {
+                    start = queryString + '&page=' + (startPageNo - 1);
+                    end = queryString + '&page=' + (parseInt(endPageNo) + 1);
+                    console.log(start + ', ' + end)
+                }
+            }
+
+            paging += '<ul class="pagination justify-content-center">'
+                    + '<li class="page-item '+prev+'">'
+                    + '<a class="page-link" href="?' + start
+                    + '">&laquo;</a></li>';
+
+            for (var i = startPageNo; i <= endPageNo; i++) {
+                if (!queryString) {
+                    url = 'page=' + i;
+                } else { //쿼리스트링이 있으면
+                    if (URLSearch.get('page') != null) { //page 쿼리스트링이 있으면
+                        URLSearch.set('page', i);
+                        url = URLSearch.toString();
+                    } else {
+                        url = queryString + '&page=' + i;
+                    }
+                }
+                console.log(url);
+
+                paging += '<li class="page-item">'
+                        + '<a class="page-link" href="?'
+                        + url
+                        + '">'
+                        + i
+                        + '</a>'
+                        + '<input type="hidden" class="page-num" value="'+i+'">'
+                        + '</li>';
+            }
+
+            paging += '<li class="page-item '+next+'">'
+                    + '<a class="page-link" href="?' + end
+                    + '">&raquo;</a></li>' + '</ul>';
+
+            $('#paging').html(paging);
+            pageAction();
+        } //end showPagination()
+
+        /* 현재 페이지네이션 표시 */
+        function pageAction() {
+            var url = $(location).attr('search'); //쿼리스트링
+            var URLSearch = new URLSearchParams(location.search);
+            var page_num = url.charAt(url.length - 1);
+            console.log(page_num);
+
+            $('input[class=page-num]').each(function(x) {
+                console.log(x);
+
+                if (!URLSearch.get('page') && (x + 1) == 1) {
+                    $(this).parents('.page-item').last().addClass('active');
+                }
+                if (page_num == (x + 1)) {
+                    console.log($(this).parents('.page-item').last());
+                    $(this).parents('.page-item').last().addClass('active');
+                }
+            })
+        }//end pageAction()
+
+        /* 회원 낙찰 소식 알림 */
+        function winningBid() {
+            var member_id = $('#member_id').val();
+            console.log(member_id);
+            $
+                    .ajax({
+                        type : 'post',
+                        url : 'arts/winning',
+                        data : {
+                            memberId : member_id
+                        },
+                        success : function(resultData) {
+                            console.log(resultData);
+                            var list = '';
+                            $(resultData)
+                                    .each(
+                                            function() {
+                                                list += '<div class="alert alert-warning m-0 alert-dismissible fade show" role="alert">'
+                                                        + '<strong>'
+                                                        + member_id
+                                                        + '님</strong> ['
+                                                        + this.artName
+                                                        + ']작품이 낙찰됐습니다. 결제를 진행하세요. '
+                                                        + '<a href="arts/detail?artNo='
+                                                        + this.artNo
+                                                        + '">'
+                                                        + '<button class="btn btn-outline-primary btn-sm">작품으로 이동</button></a>'
+                                                        + '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'
+                                                        + '<span aria-hidden="true">&times;</span>'
+                                                        + '</button>'
+                                                        + '</div>';
+                                            }); //end each
+                            $('#bid_alert').html(list);
+                        }
+                    })
+        } //end winningBid()
+    </script>
 </body>
 </html>
