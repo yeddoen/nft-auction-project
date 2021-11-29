@@ -155,8 +155,8 @@ public class ArtDAOImple implements ArtDAO {
 
 	@Override
 	public List<ArtVO> selectNotAuction() {
-		// TODO Auto-generated method stub
-		return null;
+		logger.info("selectNotAuction() 호출");
+		return sqlSession.selectList(NAMESPACE + ".select_not_auction");
 	}
 
 }

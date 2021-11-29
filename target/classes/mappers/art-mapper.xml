@@ -141,7 +141,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		left outer join ${auction}
 		on ${art}.${artNo} = ${auction}.${artNo}
 		where ${auction}.${artNo} is null
-		order by ${artShowDate} desc
+		order by ${art}.${artShowDate} desc
 	</select>
 
 	<!-- 현아추가 -->

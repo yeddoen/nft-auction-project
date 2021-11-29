@@ -60,7 +60,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from ${auction}
 		inner join ${art}
 		on ${auction}.${artNo} = ${art}.${artNo}
-		order by ${auctionDate} desc
+        where ${auctionDate}
+        in (select max(${auctionDate})
+        from ${auction}
+        group by ${artNo})        
+        order by ${auctionMoney} desc
 	</select>
 
 </mapper>
