@@ -149,7 +149,7 @@
 									name="memberEmail" placeholder="이메일 입력" required>
 							</p>
 							<p>
-								<button id="btn-kaikas" class="btn btn-primary">kaikas 연동</button>
+								<button type="button" id="btn-kaikas" class="btn btn-primary">kaikas 연동</button>
 								<input type="submit" class="btn btn-primary" value="가입하기">
 							</p>
 						</form>
@@ -310,14 +310,19 @@
             $('#btn-kaikas').click(function() {
                 if (typeof window.klaytn !== 'undefined') {
                     console.log('kaikas installed!') // 카이카스가 설치된 경우
+                    console.log('현재 네트워크 : ' + klaytn.networkVersion);
+                    console.log('현재 지갑의 주소 : ' + klaytn.selectedAddress);
+                    
                     klaytn.enable(); // 열기!
                     // Kaikas user detected. You can now use the provider.
                     const provider = window['klaytn'] // provider에 주입하기.
+                } else { // 설치되지 않은 경우, 설치할 수 있도록 유도하기.
+                    location.href = 'https://chrome.google.com/webstore/detail/kaikas/jblndlipeogpafnldhgmapagcccfchpi?hl=ko';
+                           
                 }
 
-                // klaytn.isKaikas. => 이걸로 어떤 네트워크인지 판별.
-
-            });
+            }); // end btn-kaikas.click()
+            
 
             /* 전화번호 형식적용 */
             $('#member_phone').keyup(

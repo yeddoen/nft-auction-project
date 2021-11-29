@@ -38,7 +38,7 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 	
 	<!-- 문자열 리소스를 bean으로 추가 -->
 	<bean id="uploadPath" class="java.lang.String">
-		<constructor-arg value="C:\\Study\\FileUpload">
+		<constructor-arg value="C:\\Study\\FileUpload"> <!-- 파일경로 -->
 		</constructor-arg>
 	</bean>
 

@@ -211,10 +211,11 @@ li {
 				}
 			}//end confirmJoinResult()
 			
+			// 작품 등록에 성공하면 메인화면에서 출력.
 			function confirmRegisterResult() {
 				var result=$('#register_result').val();
 				if(result=='success'){
-					alert('작품 등록 성공');
+					alert('NFT변환 및 작품 등록 성공');
 				}
 			}//end confirmRegisterResult()
 			
