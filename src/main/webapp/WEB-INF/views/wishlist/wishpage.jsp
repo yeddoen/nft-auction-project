@@ -27,7 +27,6 @@ img {
 #page-wrapper {
 	padding-left: 250px;
 }
-
 #sidebar-wrapper {
 	position: fixed;
 	width: 250px;
@@ -37,7 +36,6 @@ img {
 	overflow-x: hidden;
 	overflow-y: auto;
 }
-
 #page-content-wrapper {
 	width: 100%;
 	padding: 20px;
@@ -49,28 +47,23 @@ img {
 	padding: 0;
 	list-style: none;
 }
-
 .sidebar-nav li {
 	text-indent: 1.5em;
 	line-height: 2.8em;
 }
-
 .sidebar-nav li a {
 	display: block;
 	text-decoration: none;
 	color: #999;
 }
-
 .sidebar-nav li a:hover {
 	color: #fff;
 	background: rgba(255, 255, 255, 0.2);
 }
-
 .sidebar-nav>.sidebar-brand {
 	font-size: 1.3em;
 	line-height: 3em;
 }
-
 .aside {
 	width: 30%;
 	align: left;

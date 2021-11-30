@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import project.spring.nft.domain.ArtAuctionVO;
 import project.spring.nft.domain.AuctionVO;
 
 @Repository
@@ -46,7 +47,6 @@ public class AuctionDAOImple implements AuctionDAO {
 		return sqlSession.selectOne(NAMESPACE+".select_max_money", artNo);
 	}
 
-	
 	@Override
 	public int deleteArtNo(int artNo) {
 		logger.info("deleteArtNo() 호출 : artNo = "+artNo);
@@ -67,9 +67,9 @@ public class AuctionDAOImple implements AuctionDAO {
 		logger.info("selectWinner() 호출");
 		return sqlSession.selectOne(NAMESPACE+".select_winner", artNo);
 	}
-
+	
 	@Override
-	public List<AuctionVO> select() {
+	public List<ArtAuctionVO> select() {
 		logger.info("select() 호출");
 		return sqlSession.selectList(NAMESPACE + ".select_all");
 	}

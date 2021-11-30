@@ -44,6 +44,8 @@ public interface ArtService {
 	//회원 낙찰 내역
 	List<ArtVO> readWinBid(String memberId);
 
+	List<ArtVO> readNotAuction();
+
 	ArtVO readArtno(int artNo);	
 	//작품의 결제유무 조회
 	PaymentVO readPayResult(int artNo);

@@ -47,6 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<!-- 낙찰자 아이디 조회 -->
+
 	<select id="select_winner" resultType="AuctionVO">
 		select *
 		from ${auction}
@@ -55,9 +56,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 실시간 조회 -->
-	<select id="select_all" resultType="AuctionVO">
+	<select id="select_all" resultType="ArtAuctionVO">
 		select * from ${auction}
-		order by ${auctionNo} desc
+		inner join ${art}
+		on ${auction}.${artNo} = ${art}.${artNo}
+        where ${auctionDate}
+        in (select max(${auctionDate})
+        from ${auction}
+        group by ${artNo})        
+        order by ${auctionMoney} desc
 	</select>
 	
 	<!-- 경매 참가한 내역 -->

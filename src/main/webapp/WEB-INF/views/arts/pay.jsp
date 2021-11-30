@@ -100,6 +100,7 @@ img {
     var goodsname = $('#artName').val(); // 주문명
     var payment_type = $('#paymentType').val();//결제 종류(경매인지 즉시인지)
     console.log(payment_type);
+    console.log(goodsname);
     var amount = 0;
     if(payment_type=='D'){ //즉시구매
 	    amount = $('#artPrice').val();

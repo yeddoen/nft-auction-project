@@ -23,16 +23,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import project.spring.nft.domain.ArtVO;
 import project.spring.nft.domain.AuctionVO;
 import project.spring.nft.domain.MemberVO;
+
 import project.spring.nft.domain.PaymentVO;
-import project.spring.nft.domain.WishlistVO;
 import project.spring.nft.pageutil.PageCriteria;
 import project.spring.nft.pageutil.PageMaker;
 import project.spring.nft.service.ArtService;
@@ -449,7 +447,7 @@ public class MemberController {
 		
 
 	} // end artlistGET()
-    
+
     @GetMapping("/my-page/shopping-list")
     public void shoppingList(Model model, HttpServletRequest request) {
     	logger.info("shoppingList() 호출");

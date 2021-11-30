@@ -42,6 +42,10 @@
         <li class="list-group-item list-group-item-primary" style="width: 10rem">작품 번호</li>
         <li class="list-group-item" style="width: 30rem">${vo.artNo }</li>
       </ul>
+      <ul class="list-group list-group-horizontal justify-content-center">
+        <li class="list-group-item list-group-item-primary" style="width: 10rem">파일 이름</li>
+        <li class="list-group-item" style="width: 30rem">${vo.artFileName }</li>
+      </ul>
     </div>    
     <br>
       <button type="button" class="btn btn-primary" onclick= "myPage()">마이페이지</button>

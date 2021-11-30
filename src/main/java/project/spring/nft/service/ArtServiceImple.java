@@ -133,7 +133,7 @@ public class ArtServiceImple implements ArtService {
 		logger.info("updateWishCount() 호출 : artNo = "+artNo+", count = "+count);
 		return artDAO.updateWishCount(artNo, count);
 	}
-	
+
 	@Transactional
 	@Override
 	public int updateArt(ArtVO vo) {
@@ -147,6 +147,7 @@ public class ArtServiceImple implements ArtService {
 		return result;
 	}
 	
+
 	//작품 삭제 시 작품에 달린 댓글, 경매기록, 찜도 전부 지워져야함
 	//TODO 만약 누군가 구매했다면 작품삭제 불가능(구매기능 만들고 업데이트)
 	@Transactional
@@ -213,4 +214,10 @@ public class ArtServiceImple implements ArtService {
 		return artDAO.getTotalMyArt(memberId);
 	}
 	
+
+	@Override
+	public List<ArtVO> readNotAuction() {
+		logger.info("readNotAuction() 호출");
+		return artDAO.selectNotAuction();
+	}
 }

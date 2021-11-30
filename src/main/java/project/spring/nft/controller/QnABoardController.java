@@ -70,17 +70,21 @@ public class QnABoardController {
 	} // end qnalist()
 
 	@GetMapping("/qnadetail")
-	public void detail(Model model, Integer qnaboardNo, String memberId) {
+	public void detail(Model model, Integer qnaboardNo, HttpServletRequest request) {
 		logger.info("detail() 호출 : qnaboardNo = " + qnaboardNo);
 		QnABoardVO vo = qnaboardservice.read(qnaboardNo);
+		HttpSession session = request.getSession();
+		String memberId = (String) session.getAttribute("memberId");
 		MemberVO mo = memberservice.readByMemberId(memberId);
 		model.addAttribute("vo", vo);
 		model.addAttribute("mo", mo);
 	} // end qnadetail()
 
 	@GetMapping("/qnaregister")
-	public void registerGET(Model model,String memberId) {
+	public void registerGET(Model model, HttpServletRequest request) {
 		logger.info("registerGET() 호출");
+		HttpSession session = request.getSession();
+		String memberId = (String) session.getAttribute("memberId");
 		MemberVO mo = memberservice.readByMemberId(memberId);
 		model.addAttribute("mo", mo);
 	} // end registerGET()
@@ -106,9 +110,11 @@ public class QnABoardController {
 	}
 
 	@GetMapping("/qnaupdate")
-	public void updateGET(Model model, Integer qnaboardNo, Integer page) {
+	public void updateGET(Model model, Integer qnaboardNo, Integer page, HttpServletRequest request) {
 		logger.info("updateGET() 호출 : qnaboardNo = " + qnaboardNo);
 		QnABoardVO vo = qnaboardservice.read(qnaboardNo);
+		HttpSession session = request.getSession();
+		String memberId = (String) session.getAttribute("memberId");
 		model.addAttribute("vo", vo);
 		model.addAttribute("page", page);
 	}

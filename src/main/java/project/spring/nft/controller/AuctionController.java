@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import project.spring.nft.domain.ArtAuctionVO;
 import project.spring.nft.domain.ArtVO;
 import project.spring.nft.domain.AuctionVO;
 import project.spring.nft.service.ArtService;
@@ -33,16 +34,15 @@ public class AuctionController {
 	@GetMapping("/auctionRT")
 	public void AuctionRTList(Model model) {
 		logger.info("auctionRT 호출");
-		List<AuctionVO> RTlist = auctionService.read();
-		List<ArtVO> artList = new ArrayList<ArtVO>();
-		ArtVO avo = null;
-		for(AuctionVO vo : RTlist) {
-			int artNo = vo.getArtNo();
-			avo = artService.readArtno(artNo);
-			logger.info(avo.toString());
-			artList.add(avo);
-		}
+		List<ArtAuctionVO> RTlist = auctionService.read();
+		/*
+		 * List<ArtVO> artList = new ArrayList<ArtVO>(); ArtVO avo = null; for(AuctionVO
+		 * vo : RTlist) { int artNo = vo.getArtNo(); avo = artService.readArtno(artNo);
+		 * logger.info(avo.toString()); artList.add(avo); }
+		 */
+		List<ArtVO> notAuction = artService.readNotAuction();
 		model.addAttribute("RTlist", RTlist);
-		model.addAttribute("artList", artList);
+		/* model.addAttribute("artList", artList); */
+		model.addAttribute("notAuction", notAuction);
 	}
 }

@@ -36,7 +36,7 @@ public interface MemberService {
 	
 	//비밀번호 찾기
 	MemberVO findPasswordasEmail(String memberId, String memberEmail);
-	
+
 	//구매내역
 	List<PaymentVO> readPaymentAll(String memberId);
 	
