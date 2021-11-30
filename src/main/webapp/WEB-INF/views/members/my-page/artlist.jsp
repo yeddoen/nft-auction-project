@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -131,28 +132,46 @@ img {
 			<div class="content m-3" style="padding-bottom: 200px">
 				<!-- 등록한 작품 내역 리스트 보여주기!!! -->
 				<div class="row">
-					<c:forEach var="vo" items="${list }">
-						<div class="col-sm-4">
-							<div class="card border-primary mb-3" style="max-width: 20rem;">
-								<div class="card-header">by ${vo.memberId}</div>
-								<div class="card-body">
-									<a
-										href="../../arts/detail?artNo=${vo.artNo}&page=${pageMaker.criteria.page}">
-										<h4 class="card-title">
-											<img
-												src="/nft-auction/arts/display?fileName=${vo.artFileName }">
-										</h4>
-										<hr>
-										<p class="card-text">${vo.artName }</p>
-										
-									</a>
+					<c:if test="${not empty list }">
+						<c:forEach var="vo" items="${list }">
+							<div class="col-sm-4">
+								<div class="card border-primary mb-3" style="max-width: 20rem;">
+									<div class="card-header">by ${vo.memberId}</div>
+									<div class="card-body">
+										<a
+											href="../../arts/detail?artNo=${vo.artNo}&page=${pageMaker.criteria.page}">
+											<h4 class="card-title">
+												<img
+													src="/nft-auction/arts/display?fileName=${vo.artFileName }">
+											</h4>
+											<hr>
+											<p class="card-text">${vo.artName }</p>
+											
+										</a>
+									</div>
 								</div>
 							</div>
-						</div>
-					</c:forEach>
+						</c:forEach>
+					</c:if>
 				</div>
 				<!-- 페이징처리 -->
 				<div id="paging" class="mt-3">
+				</div>
+				<!-- 정산 -->
+				<div class="row mt-5" style="text-align: left;">
+					<div class="col m-3">
+						<h2>정산 받기</h2>
+						<hr>
+						<div class="m-5">
+							<p><strong>${sessionScope.memberId }님</strong>의 
+							현재 정산 가능한 금액은 
+							<span style="font-size: 1.3em;">
+							<fmt:formatNumber value="${profit }" type="currency"
+										currencySymbol="" /></span>원
+							 입니다. <small style="color: grey;">(수수료 5% 제외)</small></p>
+							<button type="button" id="btn-refund" class="btn btn-outline-primary popover-test">정산하기</button>
+						</div>
+					</div>
 				</div>
 			</div>
 			<!-- footer -->
@@ -175,6 +194,7 @@ img {
 	<input type="hidden" id="startPageNo" value="${pageMaker.startPageNo }">
 	<input type="hidden" id="endPageNo" value="${pageMaker.endPageNo }">
 	<input type="hidden" id="hasNext" value="${pageMaker.hasNext }">
+	<input type="hidden" id="profit" value="${profit }">
 	<!-- JavaScript -->
 	<script type="text/javascript">
 		showPagination();
@@ -273,6 +293,17 @@ img {
 				}
 			})
 		}//end pageAction()
+		
+		$('#btn-refund').click(function(){
+			var profit=$('#profit').val();
+			
+			if(profit ==0){
+				alert('정산받을 수 있는 환급액이 없습니다.');
+			}else{
+				window.open('refund', 'PopupWin','width=900, height=800, resizable=no');
+			}
+		}); //end btn-refund click
+		
     </script>
 
 </body>

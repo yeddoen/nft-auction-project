@@ -428,6 +428,19 @@ public class MemberController {
 		logger.info("이전 버튼 존재 유무 : "+pageMaker.isHasPrev());
 		logger.info("다음 버튼 존재 유무 : "+pageMaker.isHasNext());
 		model.addAttribute("pageMaker", pageMaker);
+		
+		//수익금 내역
+		try {
+			double profit=memberService.readProfit(memberId); //총 수익금
+			//정산받은 금액이 있다면 빼기
+			Integer refund=memberService.readRefund(memberId);
+			profit=profit-refund;
+			profit= profit - (profit*0.05);
+			model.addAttribute("profit", profit);
+		} catch (NullPointerException e) {
+			model.addAttribute("profit", 0);
+		}
+		
 
 	} // end artlistGET()
     

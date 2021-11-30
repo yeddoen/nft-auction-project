@@ -296,12 +296,15 @@ li {
 			$('input[class=page-num]').each(function(x){
 				console.log(x);
 				
-				if(!URLSearch.get('page') && (x+1)==1){
-					$(this).parents('.page-item').last().addClass('active');
-				}
-				if(page_num == (x+1)){
-					console.log($(this).parents('.page-item').last());
-					$(this).parents('.page-item').last().addClass('active');
+				if(!URLSearch.get('page')){
+					if((x+1)==1){
+						$(this).parents('.page-item').last().addClass('active');
+					}
+				}else{
+					if(page_num == (x+1)){
+						console.log($(this).parents('.page-item').last());
+						$(this).parents('.page-item').last().addClass('active');
+					}
 				}
 			})
 		}//end pageAction()

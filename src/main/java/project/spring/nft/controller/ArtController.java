@@ -85,6 +85,7 @@ public class ArtController {
 		pageMaker.setPageData();
 		logger.info("이전 버튼 존재 유무 : "+pageMaker.isHasPrev());
 		logger.info("다음 버튼 존재 유무 : "+pageMaker.isHasNext());
+		logger.info("전체 게시글 수 : "+pageMaker.getTotalCount());
 		model.addAttribute("pageMaker", pageMaker);
 	} //end currentAllList()
 	
@@ -108,6 +109,9 @@ public class ArtController {
 		pageMaker.setCriteria(criteria);
 		pageMaker.setTotalCount(artService.getTotalNumsOfRecords());
 		pageMaker.setPageData();
+		logger.info("이전 버튼 존재 유무 : "+pageMaker.isHasPrev());
+		logger.info("다음 버튼 존재 유무 : "+pageMaker.isHasNext());
+		logger.info("전체 게시글 수 : "+pageMaker.getTotalCount());
 		model.addAttribute("pageMaker", pageMaker);
 		
 		return "main";
@@ -133,6 +137,9 @@ public class ArtController {
 		pageMaker.setCriteria(criteria);
 		pageMaker.setTotalCount(artService.getTotalNumsOfRecords());
 		pageMaker.setPageData();
+		logger.info("이전 버튼 존재 유무 : "+pageMaker.isHasPrev());
+		logger.info("다음 버튼 존재 유무 : "+pageMaker.isHasNext());
+		logger.info("전체 게시글 수 : "+pageMaker.getTotalCount());
 		model.addAttribute("pageMaker", pageMaker);
 		
 		return "main";
@@ -169,6 +176,9 @@ public class ArtController {
 
 		pageMaker.setCriteria(criteria);
 		pageMaker.setPageData();
+		logger.info("이전 버튼 존재 유무 : "+pageMaker.isHasPrev());
+		logger.info("다음 버튼 존재 유무 : "+pageMaker.isHasNext());
+		logger.info("전체 게시글 수 : "+pageMaker.getTotalCount());
 		model.addAttribute("pageMaker", pageMaker);
 		
 		return "main";

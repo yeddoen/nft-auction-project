@@ -136,7 +136,7 @@ img {
 				</div>
 			</div>
 
-			<div class="container m-3" style="padding-bottom: 200px;">
+			<div class="content m-3" style="padding-bottom: 200px;">
 				<!-- 위시리스트 리스트 보여주기!!! -->
 				<div class="row">
 					<c:forEach var="vo" items="${list }">

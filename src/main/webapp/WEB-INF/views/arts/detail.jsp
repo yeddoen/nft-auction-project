@@ -59,12 +59,12 @@ img {
 						<li class="nav-item"><a class="nav-link" href="../members/login">로그인</a>
 						</li>
 						<li class="nav-item"><a class="nav-link"
-							href="/members/sign-up">회원가입</a></li>
+							href="../members/sign-up">회원가입</a></li>
 					</c:if>
 					<c:if test="${not empty sessionScope.memberId }">
 						<li class="nav-item"><a class="nav-link" href="../members/logout">로그아웃</a></li>
 						<li class="nav-item"><a class="nav-link"
-							href="/members/my-page/member">마이페이지</a></li>
+							href="../members/my-page/member">마이페이지</a></li>
 					</c:if>
 				</ul>
 			</div>

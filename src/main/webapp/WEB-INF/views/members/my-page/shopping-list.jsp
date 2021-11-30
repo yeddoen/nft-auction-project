@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -131,7 +132,7 @@ img {
 					<hr>
 				</div>
 			</div>
-			<div class="container m-3" style="padding-bottom: 200px;">
+			<div class="content m-3" style="padding-bottom: 200px;">
 				<div class="row">
 					<c:forEach var="vo" items="${ list}">
 						<div class="col-sm-4">
@@ -139,7 +140,9 @@ img {
 								<div class="card-header">작품명 : ${vo.artName }</div>
 								<div class="card-body">
 									<img src="/nft-auction/arts/display?fileName=${vo.artFileName }"><br>
-									구매일자 : ${vo.paymentDate }<br>
+									구매일자 : 
+									<fmt:formatDate value="${vo.paymentDate }" pattern="yyyy-MM-dd HH:mm:ss" var="paymentDate" />
+									${paymentDate }<br>
 									구매가격 : ${vo.artPrice }							
 								</div>
 							</div>

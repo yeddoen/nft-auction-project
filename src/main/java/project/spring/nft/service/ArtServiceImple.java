@@ -93,7 +93,7 @@ public class ArtServiceImple implements ArtService {
 
 	@Override
 	public List<ArtVO> readMemberNickname(PageCriteria criteria, String keyword) {
-		logger.info("readMemberNo() : keyword = "+keyword);
+		logger.info("readMemberNickname() : keyword = "+keyword);
 		return artDAO.selectMemberNickname(criteria, keyword);
 	}
 	
