@@ -45,7 +45,7 @@ public class PaymentDAOImple implements PaymentDAO {
 	}
 	
 	@Override
-	public int selectProfit(String memberId) {
+	public Double selectProfit(String memberId) {
 		logger.info("selectProfit() 호출");
 		return sqlsession.selectOne(NAMESPACE+".select_profit", memberId);
 	} //end selectProfit()

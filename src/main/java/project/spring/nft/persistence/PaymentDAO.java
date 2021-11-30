@@ -17,5 +17,5 @@ public interface PaymentDAO {
 	List<PaymentVO> selectAll(String memberId);
 	
 	//판매수익
-	int selectProfit(String memberId);
+	Double selectProfit(String memberId);
 }

@@ -21,4 +21,6 @@ public interface AuctionDAO {
 	AuctionVO selectWinner(int artNo);
 	// 실시간 작품 거래 조회 경매 번호순
 	List<AuctionVO> select();
+	//사용자의 경매 참가내역
+	List<AuctionVO> selectMyAcution(String memberId);
 }

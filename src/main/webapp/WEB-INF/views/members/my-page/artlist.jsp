@@ -166,8 +166,7 @@ img {
 							<p><strong>${sessionScope.memberId }님</strong>의 
 							현재 정산 가능한 금액은 
 							<span style="font-size: 1.3em;">
-							<fmt:formatNumber value="${profit }" type="currency"
-										currencySymbol="" /></span>원
+							${profit }</span>원
 							 입니다. <small style="color: grey;">(수수료 5% 제외)</small></p>
 							<button type="button" id="btn-refund" class="btn btn-outline-primary popover-test">정산하기</button>
 						</div>
@@ -300,7 +299,7 @@ img {
 			if(profit ==0){
 				alert('정산받을 수 있는 환급액이 없습니다.');
 			}else{
-				window.open('refund', 'PopupWin','width=900, height=800, resizable=no');
+				window.open('refund?profit='+profit, 'PopupWin','width=900, height=800, resizable=no');
 			}
 		}); //end btn-refund click
 		

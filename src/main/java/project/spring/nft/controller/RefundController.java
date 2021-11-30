@@ -20,8 +20,9 @@ public class RefundController {
 	private RefundService refundService;
 	
 	@GetMapping("/members/my-page/refund")
-	public void refundGET() {
+	public void refundGET(Double profit, Model model) {
 		logger.info("refundGET() 호출");
+		model.addAttribute("profit", profit);
 	} //end refundGET()
 	
 	@PostMapping("/members/my-page/refund")

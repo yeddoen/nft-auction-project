@@ -19,8 +19,8 @@
 <!-- JavaScript -->
 <script type="text/javascript">
 	function confirm(){
-		var money=$('#refund_money').val();
-		var profit=$('#profit').val();
+		var money=parseInt($('#refund_money').val());
+		var profit=parseFloat($('#profit').val());
 		
 		if(money>profit){ //잔액보다 많은 액수를 입력한 경우
 			$('#confirm_money').css('color', 'red');
@@ -37,18 +37,19 @@
 </script>
 </head>
 <body style="text-align: center">
-	<div class="container m-5 p-5">
+	<div class="container p-5">
 		<div class="card m-5 p-5">
 			<div class="card-body p-5">
-				<p>잔액 : ${profit }</p>
-				<button>계좌 연동</button>
+				<p>잔액 : ${profit } 원</p>
+				<button>지갑 연동</button>
 				<hr>
-				계좌 입력 
+				<p> 계좌 입력 <br> 
+				<small style="color: grey;">(환급까지 2~3일이 소요될 수 있습니다.)</small></p>
 				<form action="refund" method="post" onsubmit="return confirm();">
 					<input type="hidden" name="memberId" value="${sessionScope.memberId }">
-					<input type="text" class="form-control" name="refundAccount" placeholder="계좌 입력" required><br>
+					<input type="text" class="form-control" name="refundAccount" placeholder="계좌 입력 ex.은행 12345-12346" required><br>
 					<input type="number" class="form-control" id="refund_money" name="refundMoney" placeholder="정산액 입력" required><br>
-					<span id="confirm_money"></span>
+					<span id="confirm_money"></span><br>
 					<input type="submit" value="환급하기">
 				</form>
 			</div>
@@ -65,6 +66,8 @@
 			
 			if(refundResult=='success'){
 				window.close();
+			}else if(refundResult=='fail'){ //fail
+				alert('환급 실패. 다시 입력해주세요.');
 			}
 		}
 	</script>

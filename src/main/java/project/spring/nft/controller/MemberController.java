@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import project.spring.nft.domain.ArtVO;
+import project.spring.nft.domain.AuctionVO;
 import project.spring.nft.domain.MemberVO;
 import project.spring.nft.domain.PaymentVO;
 import project.spring.nft.domain.WishlistVO;
@@ -430,49 +431,74 @@ public class MemberController {
 		model.addAttribute("pageMaker", pageMaker);
 		
 		//수익금 내역
-		try {
-			double profit=memberService.readProfit(memberId); //총 수익금
-			//정산받은 금액이 있다면 빼기
-			Integer refund=memberService.readRefund(memberId);
-			profit=profit-refund;
-			profit= profit - (profit*0.05);
-			model.addAttribute("profit", profit);
-		} catch (NullPointerException e) {
-			model.addAttribute("profit", 0);
+		Double profit=memberService.readProfit(memberId); //총 수익금
+		if(profit==null) {
+			profit=0.0;
 		}
+		logger.info("순수 profit : "+profit);
+		//정산받은 금액이 있다면 빼기
+		Integer refund=memberService.readRefund(memberId);
+		if(refund==null) {
+			refund=0;
+		}
+		logger.info("정산받은 refund : "+refund);
+		profit=profit-refund;
+		profit= profit - (profit*0.05);
+		logger.info("최종 profit : "+profit);
+		model.addAttribute("profit", profit);
 		
 
 	} // end artlistGET()
     
     @GetMapping("/my-page/shopping-list")
-    public void shoppingList(Model model, HttpServletRequest request, Integer page, Integer numsPerPage) {
+    public void shoppingList(Model model, HttpServletRequest request) {
     	logger.info("shoppingList() 호출");
-    	
-    	PageCriteria criteria = new PageCriteria();
-		if(page !=null) {
-			criteria.setPage(page);
-		}
-		if(numsPerPage!=null) {
-			criteria.setNumsPerPage(numsPerPage);
-		}
 
 		HttpSession session = request.getSession();
 		String memberId = (String) session.getAttribute("memberId");
 		
-		List<PaymentVO> list=memberService.readPaymentAll(memberId);
-		for (PaymentVO vo : list) {
+		//기본값 경매 참가중인 리스트
+		myAuctionList(memberId, model);
+    } //end shoppingList()
+    
+    @GetMapping("/my-page/auction")
+    public String shoppingMyAuction(Model model, HttpServletRequest request) {
+    	logger.info("shoppingMyAuction() 호출");
+    	
+		HttpSession session = request.getSession();
+		String memberId = (String) session.getAttribute("memberId");
+		myAuctionList(memberId, model);
+		
+		return "members/my-page/shopping-list";
+    } //end shoppingMyAuction()
+    
+    public void myAuctionList(String memberId, Model model) {
+		List<AuctionVO> auctionList=memberService.readAuctionAll(memberId);
+		for (AuctionVO vo : auctionList) {
 			System.out.println(vo.toString());
 		}
-		if(list != null) {
-			model.addAttribute("list", list);			
+		if(auctionList != null) {		
+			model.addAttribute("auctionList", auctionList);
 		}
-		
-		PageMaker pageMaker=new PageMaker();
-		pageMaker.setCriteria(criteria);
-		pageMaker.setPageData();
-		model.addAttribute("pageMaker", pageMaker);
-		
-    } //end shoppingList()
-
-	
+		model.addAttribute("sortResult", "auction");
+	} //end myAuctionList()
+    
+    @GetMapping("/my-page/pay")
+	public String shoppingMyPay(Model model, HttpServletRequest request) {
+    	logger.info("shoppingMyPay() 호출");
+    	
+		HttpSession session = request.getSession();
+		String memberId = (String) session.getAttribute("memberId");
+    	
+		List<PaymentVO> payList=memberService.readPaymentAll(memberId);
+		for (PaymentVO vo : payList) {
+			System.out.println(vo.toString());
+		}
+		if(payList != null) {
+			model.addAttribute("payList", payList);			
+		}
+		model.addAttribute("sortResult", "pay");
+    	
+		return "members/my-page/shopping-list";
+    } //end shoppingMyPay()
 } // end class

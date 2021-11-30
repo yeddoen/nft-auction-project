@@ -133,8 +133,32 @@ img {
 				</div>
 			</div>
 			<div class="content m-3" style="padding-bottom: 200px;">
+				<div class="row mb-5">
+					<div class="col-sm-8"></div>
+					<div class="col-sm-4">
+						<a href="auction"><button type="button" class="btn btn-outline-primary" id="btn_auction">경매진행중</button></a>
+						<a href="pay"><button type="button" class="btn btn-outline-primary" id="btn_pay">결제완료</button></a>
+					</div>
+				</div>
 				<div class="row">
-					<c:forEach var="vo" items="${ list}">
+				<%-- <c:if test="${not empty auctionList }">
+					<c:forEach var="vo" items="${ auctionList}">
+						<div class="col-sm-4">
+							<div class="card border-primary mb-3">
+								<div class="card-header">작품명 : ${vo.artName }</div>
+								<div class="card-body">
+									<img src="/nft-auction/arts/display?fileName=${vo.artFileName }"><br>
+									참여일자 : 
+									<fmt:formatDate value="${vo.auctionDate }" pattern="yyyy-MM-dd HH:mm:ss" var="auctionDate" />
+									${auctionDate }<br>
+									참여가격 : ${vo.auctionMoney }							
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+				</c:if> --%> 
+				<c:if test="${empty auctionList && not empty payList }">
+					<c:forEach var="vo" items="${ payList}">
 						<div class="col-sm-4">
 							<div class="card border-primary mb-3">
 								<div class="card-header">작품명 : ${vo.artName }</div>
@@ -148,6 +172,7 @@ img {
 							</div>
 						</div>
 					</c:forEach>
+				</c:if>
 				</div>
 			</div>
 			<!-- footer -->
@@ -164,5 +189,26 @@ img {
 			</div>
 		</div>
 	</section>
+	<input type="hidden" id="sortResult" value="${sortResult }">
+	<!-- JavaScript -->
+	<script type="text/javascript">
+		$(function(){
+			confirmSortResult();
+			
+			/* 정렬 버튼 active */
+			function confirmSortResult() {
+				var sortResult=$('#sortResult').val();
+				console.log(sortResult);
+				
+				if(sortResult=='pay'){
+					$('#btn_auction').removeClass('active');
+					$('#btn_pay').addClass('active');
+				}else if(sortResult=='auction'){
+					$('#btn_pay').removeClass('active');
+					$('#btn_auction').addClass('active');
+				}
+			}
+		}); //end document
+	</script>
 </body>
 </html>
