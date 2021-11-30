@@ -175,10 +175,6 @@
             var IMP = window.IMP;
             IMP.init('iamport'); //관리자 체험용
             
-       
-           
-            
-
             /* 아이디 중복 체크 */
             $('#check_id').click(function() {
                 var member_id = $('#member_id').val();

@@ -38,6 +38,7 @@ import xyz.groundx.caver_ext_kas.CaverExtKAS;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.ApiException;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.kip17.model.Kip17ContractInfoResponse;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.kip17.model.Kip17DeployResponse;
+import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.wallet.model.Account;
 
 @Controller
 @RequestMapping(value = "/members")
@@ -48,6 +49,8 @@ public class MemberController {
 	private MemberService memberService;
 	@Autowired
 	private JavaMailSender mailSender;
+	@Autowired
+	private ArtService artService;
 	@Inject
 	BCryptPasswordEncoder passEncoder;
 
@@ -56,8 +59,6 @@ public class MemberController {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Autowired
-	private ArtService artService;
 
 	@GetMapping("/sign-up")
 	public void joinMemberGET() {
@@ -69,11 +70,22 @@ public class MemberController {
 		logger.info("joinMemberPOST() 호출 : vo = " + vo.toString());
 		// 비밀번호 암호화
 		vo.setMemberPassword(passEncoder.encode(vo.getMemberPassword()));
+		
+		// 11.30 현아. DB 회원가입 성공시 KAS api의 account pool 계정 생성!
+		CaverExtKAS caver = new CaverExtKAS();
+		caver.initKASAPI("1001", "KASKEMNC1D88Q7GH1TNVLZHR", "HOkyolJgnqehhk44F9ecIcbHCN6m-HBk-ARWMOYt");
+		Account account = caver.kas.wallet.createAccount();
+		String memberAccount = account.getAddress();
+		vo.setMemberAccount(memberAccount);
+		
+		System.out.println("Wallet API로 사용자 계정 생성 : " + account); // DB 등록.
+		
 		int result = memberService.createMember(vo);
 		logger.info(result + "행 삽입");
 
 		if (result == 1) {
-			// 11.29 현아. 회원가입 성공시 컨트랙트 생성! 
+			// 11.29 현아. 회원가입 성공시 컨트랙트 생성!
+			logger.info("vo에 들어가는 사용자 memberAccount" + memberAccount);
 			deployKip17(vo);
 			reAttr.addFlashAttribute("joinResult", "success");
 			// main에서 회원가입 성공 alert 띄우기
@@ -92,11 +104,11 @@ public class MemberController {
 		String name = memberId.toUpperCase(); // Token의 이름은 사용자의 아이디 대문자.
 		String symbol = memberId.substring(0, 3).toUpperCase(); // Token symbol은 사용자의 아이디 앞글자 3개 대문자
 		String alias = memberId; // Token의 별명도 사용자의 아이디
-		String chainId = caver.getKas().getKip17().getChainId();
 
 		Kip17DeployResponse res = caver.kas.kip17.deploy(name, symbol, alias);
 
-		System.out.println("KIP-17 컨트랙트 배포 response result : " + res + ", 네트워크 상황 : " + chainId); // 결제대금안넣었음.
+		System.out.println("KIP-17 컨트랙트 배포 response result : " + res); // 컨트랙트의 주소 결과뜸!
+	
 	}
 
 	@GetMapping("/login")

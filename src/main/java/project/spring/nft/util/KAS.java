@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.web3j.protocol.exceptions.TransactionException;
 
+import com.klaytn.caver.Caver;
 import com.klaytn.caver.kct.kip17.KIP17;
 import com.klaytn.caver.methods.response.Quantity;
 
@@ -15,6 +16,7 @@ import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.ApiException;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.wallet.model.Account;
 import xyz.groundx.caver_ext_kas.kas.tokenhistory.TokenHistoryQueryOptions;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.tokenhistory.api.TokenApi;
+import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.tokenhistory.model.Nft;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.tokenhistory.model.NftContractDetail;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.tokenhistory.model.PageableNftContractDetails;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.tokenhistory.model.PageableNfts;
@@ -87,6 +89,7 @@ public class KAS {
 		Kip17ContractInfoResponse contractRes = caver.kas.kip17.getContract(alias);
 
 		System.out.println("KIP-17 별명 " + alias + " 이름의 컨트랙트 조회 : " + contractRes);
+		System.out.println("KIP-17 alias(memberid)를 매개변수로 컨트랙트 주소조회 : " + contractRes.getAddress());
 	} // 해당 alias가 없으면 오류가 뜸..!
 
 	// KAS의 KIP-17 API를 활용해 NFT 발행.
@@ -118,7 +121,7 @@ public class KAS {
 		CaverExtKAS caver = new CaverExtKAS();
 		caver.initKASAPI(chainId, accessKeyId, secretAccessKey);
 
-		String contractAddress = "0x37b23fa7289b8a3055839fdf36d2bed9d7714665"; //test
+		String contractAddress = "0x37b23fa7289b8a3055839fdf36d2bed9d7714665"; // test
 		String from = "0x2d883293342ec229951b2f2f95d09cd0dcf749b5";
 		String tokenId = "0x8967";
 		String sender = "0x2d883293342ec229951b2f2f95d09cd0dcf749b5";
@@ -142,7 +145,7 @@ public class KAS {
 		NftContractDetail detail = caver.kas.tokenHistory.getNFTContract(address);
 		System.out.println("KIP-17 특정 컨트랙트 계정의 NFT 토큰 조회 : " + detail);
 	} // end select()
-	
+
 	// KAS의 KIP-17 API를 활용해 특정 컨트랙트 주소에서 발행된 모든 ! NFT들 조회.
 	public void selecteNftKip17() throws ApiException {
 		CaverExtKAS caver = new CaverExtKAS();
@@ -152,5 +155,22 @@ public class KAS {
 		PageableNfts detail = caver.kas.tokenHistory.getNFTList(address);
 		System.out.println("KIP-17 특정 컨트랙트 계정의 모든 NFT 토큰 조회 : " + detail);
 	} // end select()
+
+	// KAS의 KIP-17 API를 활용해 특정 컨트랙트 주소에서 발행된 하나의 NFT 조회.
+	public void selectOneNftKip17() throws ApiException {
+		CaverExtKAS caver = new CaverExtKAS();
+		caver.initKASAPI(chainId, accessKeyId, secretAccessKey);
+		
+		ArtVO vo = new ArtVO();
+		vo.getArtTokenId();
+		
+		String address = "0x94b74823e4a49e6e2c10ee3df814c2bf5e273899"; // 컨트랙트의 주소
+		String tokenId = "0xd727";
+		
+		Nft nft = caver.kas.tokenHistory.getNFT(address, tokenId);
+		
+		System.out.println("KIP-17 특정 컨트랙트 계정의 하나의 NFT 정보를 조회 : " + nft);
+		
+	}
 
 } // end class

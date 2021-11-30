@@ -28,7 +28,7 @@ public class ArtDAOTest {
 	
 	@Test
 	public void testDAO() {
-		testInsert();
+		// testInsert();
 		//testSearch();
 		//testSearch2();
 		//testSelect();
@@ -91,15 +91,15 @@ public class ArtDAOTest {
 //		}
 //	}
 
-	private void testInsert() {
-		ArtVO vo = new ArtVO(0, "test", "artname", 500, "content", "2021-01-20", 100, 0, 0, 0, "filename.jpg", "nickname", "0x098499626f6aeE2051Ad043EBC73FcAfC84330F4");
-		int result=dao.insertArt(vo);
-		if(result==1) {
-			logger.info("insert 성공");
-			int update=dao.updateNickName(vo.getMemberId());
-			logger.info(update+"개 nickname 변경. art 등록 최종완료");
-		}else {
-			logger.info("insert 실패");
-		}
-	}
+//	private void testInsert() {
+//		ArtVO vo = new ArtVO(0, "test", "artname", 500, "content", "2021-01-20", 100, 0, 0, 0, "filename.jpg", "nickname", "0x098499626f6aeE2051Ad043EBC73FcAfC84330F4");
+//		int result=dao.insertArt(vo);
+//		if(result==1) {
+//			logger.info("insert 성공");
+//			int update=dao.updateNickName(vo.getMemberId());
+//			logger.info(update+"개 nickname 변경. art 등록 최종완료");
+//		}else {
+//			logger.info("insert 실패");
+//		}
+//	}
 } // end class

@@ -6,9 +6,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insert">
 		insert into ${member} 
 		(${memberId}, ${memberPassword}, ${memberName}, 
-		${memberNickname}, ${memberPhone}, ${memberEmail}, ${memberUid})
+		${memberNickname}, ${memberPhone}, ${memberEmail}, ${memberUid}, ${memberAccount})
 		values(#{memberId}, #{memberPassword}, #{memberName}, 
-		#{memberNickname}, #{memberPhone}, #{memberEmail}, #{memberUid})
+		#{memberNickname}, #{memberPhone}, #{memberEmail}, #{memberUid}, #{memberAccount})
 	</insert>
 	
 	<!-- 확인용 -->

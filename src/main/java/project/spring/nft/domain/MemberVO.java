@@ -5,12 +5,12 @@ public class MemberVO {
 	private String memberId, memberPassword;
 	private String memberName, memberNickname;
 	private String memberPhone, memberEmail;
-	private String memberUid;
+	private String memberUid, memberAccount;
 	
 	public MemberVO() {}
 
 	public MemberVO(int memberNo, String memberId, String memberPassword, String memberName, String memberNickname,
-			String memberPhone, String memberEmail, String memberUid) {
+			String memberPhone, String memberEmail, String memberUid, String memberAccount) {
 		super();
 		this.memberNo = memberNo;
 		this.memberId = memberId;
@@ -20,6 +20,7 @@ public class MemberVO {
 		this.memberPhone = memberPhone;
 		this.memberEmail = memberEmail;
 		this.memberUid = memberUid;
+		this.memberAccount = memberAccount;
 	}
 
 	public int getMemberNo() {
@@ -85,12 +86,20 @@ public class MemberVO {
 	public void setMemberUid(String memberUid) {
 		this.memberUid = memberUid;
 	}
+	
+	public String getMemberAccount() {
+		return memberAccount;
+	}
+
+	public void setMemberAccount(String memberAccount) {
+		this.memberAccount = memberAccount;
+	}
 
 	@Override
 	public String toString() {
 		return "MemberVO [memberNo=" + memberNo + ", memberId=" + memberId + ", memberPassword=" + memberPassword
 				+ ", memberName=" + memberName + ", memberNickname=" + memberNickname + ", memberPhone=" + memberPhone
-				+ ", memberEmail=" + memberEmail + ", memberUid=" + memberUid + "]";
+				+ ", memberEmail=" + memberEmail + ", memberUid=" + memberUid + ", memberAccount=" + memberAccount + "]";
 	}
 
-}
+} // end class

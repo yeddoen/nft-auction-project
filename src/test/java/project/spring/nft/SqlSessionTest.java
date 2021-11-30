@@ -27,7 +27,7 @@ public class SqlSessionTest {
 	
 	@Test
 	public void testInsert() {
-		MemberVO vo=new MemberVO(0, "idid", "1234", "테스터", "텟", "010-1111-2222", "test@test.ete", "ididiuid");
+		MemberVO vo=new MemberVO(0, "idid", "1234", "테스터", "텟", "010-1111-2222", "test@test.ete", "ididiuid", "54545");
 		//가고싶은 쿼리 태그를 namespace 뒤에 넣어 매칭해준다
 		int result=sqlSession.insert(NAMESPACE+".insert", vo);
 		//insert(key, value)

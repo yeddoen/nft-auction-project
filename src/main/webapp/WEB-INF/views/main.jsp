@@ -233,7 +233,7 @@ li {
                 if (result == 'success') {
                     alert('NFT 소각 및 작품 삭제 성공!');
 
-                    const settings = {
+                    /* const settings = {
                         "async" : true,
                         "crossDomain" : true,
                         "url" : "https://metadata-api.klaytnapi.com/v1/contract/0x37b23fa7289b8a3055839fdf36d2bed9d7714665/token/0x8967",
@@ -249,7 +249,7 @@ li {
 
                     $.ajax(settings).done(function(response) {
                         console.log('삭제 응답 결과 ' + response);
-                    });
+                    }); */
                 }
             } // end confirmDeleteResult()
 

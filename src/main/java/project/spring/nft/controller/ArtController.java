@@ -7,11 +7,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -30,15 +32,21 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.web3j.protocol.exceptions.TransactionException;
 
 import project.spring.nft.domain.ArtVO;
+import project.spring.nft.domain.MemberVO;
+import project.spring.nft.domain.NftVO;
 import project.spring.nft.pageutil.PageCriteria;
 import project.spring.nft.pageutil.PageMaker;
 import project.spring.nft.service.ArtService;
+import project.spring.nft.service.MemberService;
+import project.spring.nft.service.NftService;
 import project.spring.nft.util.FileUploadUtil;
 import project.spring.nft.util.KAS;
 import project.spring.nft.util.MediaUtil;
 import xyz.groundx.caver_ext_kas.CaverExtKAS;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.ApiException;
+import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.kip17.model.Kip17ContractInfoResponse;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.kip17.model.Kip17TransactionStatusResponse;
+import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.tokenhistory.model.Nft;
 
 @Controller
 public class ArtController {
@@ -50,6 +58,12 @@ public class ArtController {
 
 	@Autowired
 	private ArtService artService;
+
+	@Autowired
+	private MemberService memberService;
+
+	@Autowired
+	private NftService nftService;
 
 	@GetMapping("main")
 	public void main(Model model, Integer page, Integer numsPerPage) {
@@ -180,27 +194,41 @@ public class ArtController {
 	} // end registerGET()
 
 	@PostMapping("/arts/register")
-	public String registerPOST(ArtVO vo, RedirectAttributes reAttr)
+	public String registerPOST(ArtVO vo, RedirectAttributes reAttr, HttpServletRequest request)
 			throws ApiException, NoSuchMethodException, InstantiationException, ClassNotFoundException,
 			IllegalAccessException, InvocationTargetException, IOException, TransactionException, InterruptedException {
+		HttpSession session = request.getSession();
+		String memberId = (String) session.getAttribute("memberId");
+		MemberVO mvo = memberService.readByMemberId(memberId);
+
+		logger.info("registerPOST() 호출 : 멤버 mvo = " + mvo.toString());
 		logger.info("registerPOST() 호출 : vo = " + vo.toString());
+		vo.setMemberAccount(mvo.getMemberAccount());
+
+		// mint
+		CaverExtKAS caver = new CaverExtKAS();
+		caver.initKASAPI("1001", "KASKEMNC1D88Q7GH1TNVLZHR", "HOkyolJgnqehhk44F9ecIcbHCN6m-HBk-ARWMOYt");
+
+		String nftOwner = mvo.getMemberAccount(); // 사용자의 account pool 계정
+		String nftTokenId = "0x" + getRamdomPassword(4); // 토큰의 아이디 그냥 점차 증가하는거로 만들까.
+		vo.setArtTokenId(nftTokenId); // art DB에 넣기.
+		String nftJsonUri = vo.getArtJsonUri(); // 메타데이터주소.
+		String nftContractAlias = vo.getMemberId();
+
+		Kip17TransactionStatusResponse response = caver.kas.kip17.mint(nftContractAlias, nftOwner, nftTokenId,
+				nftJsonUri);
+		System.out.println("KIP-17 토큰 발행 response result " + response);
+
 		int result = artService.createArt(vo);
 		logger.info(result + "행 삽입");
 
-		// selectAndDeployKip17(vo);
-
-		// 메타데이터와 파일을 json으로 저장.
-		String artName = vo.getArtName();
-		String artContent = vo.getArtContent();
-		String memberId = vo.getMemberId();
-
 		// 빠른 구현을 위해 일단 절대경로로했음. 카카오 일좀 해라
-		String artFileName = "http:/localhost:8080/nft-auction/arts/display?fileName=" + vo.getArtFileName();
-
-		// 이제 이 metadata.json을 uri에 넣고 mint 하기.
-		mintKip17(vo);
+		// String artFileName =
+		// "http:/localhost:8080/nft-auction/arts/display?fileName=" +
+		// vo.getArtFileName();
 
 		if (result == 1) { // 등록에 성공하면!
+			// selectAndInsertKip17(mvo, vo);
 			int nicknameUpdate = artService.updateNickname(vo.getMemberId());
 			logger.info(nicknameUpdate + "개 nickname 등록. art 등록 최종완료");
 			reAttr.addFlashAttribute("registerResult", "success");
@@ -211,25 +239,45 @@ public class ArtController {
 		}
 	} // end registerPOST()
 
-	public void mintKip17(ArtVO vo)
-			throws NoSuchMethodException, IOException, InstantiationException, ClassNotFoundException,
-			IllegalAccessException, InvocationTargetException, TransactionException, ApiException {
-		
+	private void selectAndInsertKip17(MemberVO mvo, ArtVO vo) throws ApiException {
+
 		CaverExtKAS caver = new CaverExtKAS();
 		caver.initKASAPI("1001", "KASKEMNC1D88Q7GH1TNVLZHR", "HOkyolJgnqehhk44F9ecIcbHCN6m-HBk-ARWMOYt");
 
-		String to = vo.getMemberAccount(); // 사용자의 kaikas 지갑.
-		String id = "0x" + getRamdomPassword(4); // 토큰의 아이디 그냥 점차 증가하는거로 만들까.
-		String uri = vo.getArtJsonUri(); // 메타데이터주소.
-		logger.info("jsonuri : " + vo.getArtJsonUri()); // DB에는 안넣음!
-		String contractAlias = vo.getMemberId();
+		// KIP-17 특정 alias 컨트랙트 조회(컨트랙트 주소 반환)
+		String alias = mvo.getMemberId();
+		Kip17ContractInfoResponse contractRes = caver.kas.kip17.getContract(alias);
+		System.out.println("KIP-17 별명 " + alias + " 이름의 컨트랙트 조회 : " + contractRes);
+		System.out.println("KIP-17 alias(memberid)를 매개변수로 컨트랙트 주소조회 : " + contractRes.getAddress());
 
-		Kip17TransactionStatusResponse response = caver.kas.kip17.mint(contractAlias, to, id, uri);
+		String contractAddress = contractRes.getAddress();
+		String tokenId = vo.getArtTokenId();
+		System.out.println("주소 : " + contractAddress + ", 토큰 아이디 : " + tokenId);
 
-		System.out.println("KIP-17 토큰 발행 response result " + response);
-		response.getTransactionHash();
+		// KAS의 KIP-17 API를 활용해 특정 컨트랙트 주소에서 발행된 하나의 NFT 조회
 
-	} // end mint()
+		Nft nft = caver.kas.tokenHistory.getNFT(contractAddress, tokenId);
+		System.out.println("KIP-17 특정 컨트랙트 계정의 하나의 NFT 정보를 조회 : " + nft);
+
+		String nftPreviousOwner = nft.getPreviousOwner();
+		String nftTxHash = nft.getTransactionHash();
+		long ca = nft.getCreatedAt();
+		long ua = nft.getUpdatedAt();
+		Timestamp nftCreatedAt = new Timestamp(ca);
+		Timestamp nftUpdatedAt = new Timestamp(ua);
+
+		// NftDB에 정보등록.
+		NftVO nvo = new NftVO(0, tokenId, alias, mvo.getMemberAccount(), nftPreviousOwner, vo.getArtJsonUri(),
+				nftTxHash, nftCreatedAt, nftUpdatedAt);
+
+		int result = nftService.create(nvo);
+		if (result == 1) {
+			logger.info("nft db에 등록 성공");
+		} else {
+			logger.info("nft db에 등록 실패");
+		}
+
+	}
 
 	public String getRamdomPassword(int len) {
 		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
@@ -342,14 +390,18 @@ public class ArtController {
 	} // end updatePOST()
 
 	@GetMapping("arts/delete")
-	public String deletePOST(int artNo, RedirectAttributes reAttr) throws Exception {
+	public String deletePOST(int artNo, HttpServletRequest request, RedirectAttributes reAttr)
+			throws Exception {
 		logger.info("deletePOST() 호출");
+
+		HttpSession session = request.getSession();
+		String memberId = (String) session.getAttribute("memberId");
+		MemberVO vo = memberService.readByMemberId(memberId);
+		ArtVO avo = artService.readArtno(artNo);
 		int result = artService.deleteArt(artNo);
 
-		KAS kas = new KAS();
-		kas.selecteNftKip17();
-
 		if (result == 1) {
+			deleteKip17(vo, avo, request);
 			reAttr.addFlashAttribute("deleteResult", "success");
 			return "redirect:/main";
 		} else {
@@ -357,6 +409,21 @@ public class ArtController {
 			return "redirect:/arts/detail?artNo=" + artNo;
 		}
 	} // end deletePOST()
+
+	private void deleteKip17(MemberVO vo, ArtVO avo, HttpServletRequest request) throws ApiException {
+		CaverExtKAS caver = new CaverExtKAS();
+		caver.initKASAPI("1001", "KASKEMNC1D88Q7GH1TNVLZHR", "HOkyolJgnqehhk44F9ecIcbHCN6m-HBk-ARWMOYt");
+
+		String contractAddress = vo.getMemberId(); // alias로 사용. 사용자의 memberId.
+		String from = vo.getMemberAccount(); // 사용자의 account
+		String tokenId = avo.getArtTokenId(); // 해당 발행된 컨트랙트의 nft 토큰아이디.
+		System.out.println("alias : " + contractAddress + "from : " + from + "tokenId" + tokenId);
+
+		Kip17TransactionStatusResponse res = caver.kas.kip17.burn(contractAddress, from, tokenId);
+
+		System.out.println("KIP-17 토큰 삭제 response result " + res);
+
+	}
 
 	@PostMapping("arts/winning")
 	@ResponseBody

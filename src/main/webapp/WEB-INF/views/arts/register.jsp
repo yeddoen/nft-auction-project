@@ -70,17 +70,13 @@
 					contentType:false,
 					success: function(fileName){
 					    if (typeof window.klaytn !== 'undefined') {
-                  			console.log('kaikas installed!') // 카이카스가 설치된 경우
+                  			/* console.log('kaikas installed!') // 카이카스가 설치된 경우
  
                  			console.log('현재 네트워크 : ' + klaytn.networkVersion);
                   			console.log('현재 지갑의 주소 : ' + klaytn.selectedAddress);
           
                   			const provider = window['klaytn']; // provider에 주입하기.
-                  			window.klaytn.enable(); // 열기!
-                  			
-                  			// klaytn.selectedAddress를 아트컨트롤러로 보내야함.
-                  			$('#memberAccount').attr('value', klaytn.selectedAddress);
-                  			console.log('input의 계정값 : ' + $('#memberAccount').val());
+                  			window.klaytn.enable(); // 열기! */
                   			
                   			// metadata api로 json파일 서버에 올리기
                   			var artName = $('#art_name').val();
