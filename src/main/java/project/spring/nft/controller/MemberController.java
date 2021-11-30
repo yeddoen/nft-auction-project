@@ -372,7 +372,7 @@ public class MemberController {
         	"<p>안녕하세요 회원님!<br>발급된 임시 비밀번호는 "
         	+randomPassword
         	+"입니다.<br>로그인하고 비밀번호를 변경해주세요.</p>";
-        String from = "qrqrqrqrt@gmail.com";
+        String from = "nft.auction.help@gmail.com";
         String to = memberEmail;
         
         try {

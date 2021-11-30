@@ -184,7 +184,7 @@ img {
 					<a href="#">이용약관</a> &nbsp;
 					<a href="#">사이트안내</a>
 					<br><br>
-					<small>문의 nftauction_admin@gmail.com</small>
+					<small>문의 nft.auction.help@gmail.com</small>
 				</div>
 			</div>
 		</div>

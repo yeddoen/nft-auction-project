@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <!-- Popper JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <!-- CSS -->
@@ -21,19 +21,13 @@ img {
 	max-width: 100%;
 	height: auto;
 }
-
 ul {
 	list-style-type: none;
 }
-
 li {
 	display: inline-block;
 }
-
 /* 사이드바 래퍼 스타일 */
-#page-wrapper {
-  padding-right: 250px;
-}
 #sidebar-wrapper {
   position: fixed;
   width: 350px;
@@ -75,7 +69,6 @@ li {
   width: 30%;
   align: left;
 }
-
 .carousel-indicators {
   position: absolute;
   right: 0;
@@ -89,7 +82,6 @@ li {
   margin-right: $carousel-control-width;
   margin-left: $carousel-control-width;
   list-style: none;
-
   li {
     position: relative;
     flex: 0 1 auto;
@@ -100,7 +92,6 @@ li {
     text-indent: -999px;
     cursor: pointer;
     background-color: rgba($carousel-indicator-active-bg, .5);
-
     // Use pseudo classes to increase the hit area by 10px on top and bottom.
     &::before {
       position: absolute;
@@ -121,16 +112,28 @@ li {
       content: "";
     }
   }
-
   .active {
     background-color: $carousel-indicator-active-bg;
   }
 }
-
+#page-wrapper {
+  padding-left: 250px;
+}
+#sidebar-wrapper {
+  position: fixed;
+  width: 250px;
+  height: 100%;
+  margin-left: -250px;
+  background: #000;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+#page-content-wrapper {
+  width: 100%;
+  padding: 20px;
+}
 </style>
 <title>메인 페이지</title>
-<script type="text/javascript">
-</script>
 </head>
 <body style="text-align: center;">
 	<!-- header -->
@@ -161,82 +164,86 @@ li {
 			</div>
 		</div>
 	</nav>
- <aside class="aside">
-    <div id="page-wrapper">  
-      <div id="sidebar-wrapper">
-        <iframe src="arts/auctionRT" height="900">
-        </iframe>
-      </div>
-      <!-- /사이드바 -->
-    </div>
-  </aside>
-<div class="example-container">
-  <div class="example-row">
-    <div class="example-content-main">
-    
-	<!-- 낙찰 alert -->
-	<c:if test="${not empty sessionScope.memberId }">
-		<div id="bid_alert">
+ 	<aside class="aside">
+		<div id="page-wrapper">  
+		<div id="sidebar-wrapper" class="bg-light">
+			<iframe src="arts/auctionRT" height="900">
+			</iframe>
 		</div>
-	</c:if>
-	<!-- 검색 -->
-	<br>
-	<div class="search m-3">
-		<form action="search" method="get">
-			<input type="radio" name="category" value="artName" checked>작품명
-			<input type="radio" name="category" value="memberNickname">작가명
-			<input type="text" id="keyword" name="keyword" placeholder="검색어 입력">
-			<input type="submit" class="btn btn-primary" value="검색">
-		</form>
-	</div>
-	<br>
-	<!-- 전체 작품 리스트 -->
-	<div class="container justify-content-center">
-		<!-- 정렬 기준 -->
-		<div class="row justify-content-center mb-3">
-			<div class="col-sm-8"></div>
-			<div class="col-sm-4">
-				<a href="cur"><button type="button" class="btn btn-outline-primary">등록순</button></a>
-				<a href="wish"><button type="button" class="btn btn-outline-primary">찜하기순</button></a>
-				<a href="view"><button type="button" class="btn btn-outline-primary">조회수순</button></a>
+		<!-- /사이드바 -->
+		</div>
+	</aside>    
+	<section class="section" style="text-align: center;">
+		<div id="page-wrapper">
+			<div id="page-content-wrapper">
+				<div class="container-fluid">
+					<!-- 낙찰 alert -->
+					<c:if test="${not empty sessionScope.memberId }">
+						<div id="bid_alert">
+						</div>
+					</c:if>
+					<!-- 검색 -->
+					<br>
+					<div class="search m-3">
+						<form action="search" method="get">
+							<input type="radio" name="category" value="artName" checked>작품명
+							<input type="radio" name="category" value="memberNickname">작가명
+							<input type="text" id="keyword" name="keyword" placeholder="검색어 입력">
+							<input type="submit" class="btn btn-primary" value="검색">
+						</form>
+					</div>
+					<br>
+				</div>
+			</div>
+			<!-- 전체 작품 리스트 -->
+			<div class="container justify-content-center">
+				<!-- 정렬 기준 -->
+				<div class="row justify-content-center mb-3">
+					<div class="col-sm-8"></div>
+					<div class="col-sm-4">
+						<a href="cur"><button type="button" class="btn btn-outline-primary">등록순</button></a>
+						<a href="wish"><button type="button" class="btn btn-outline-primary">찜하기순</button></a>
+						<a href="view"><button type="button" class="btn btn-outline-primary">조회수순</button></a>
+					</div>
+				</div>
+				<br>
+				<!-- 작품 목록 -->
+				<div class="row justify-content-center m-3">
+					<c:forEach var="vo" items="${list }">
+						<div class="col-sm-4 justify-content-center">
+							<div class="card border-primary mb-3">
+								<div class="card-header">by ${vo.memberNickname} </div>
+								<div class="card-body">
+									<a href="arts/detail?artNo=${vo.artNo}&page=${pageMaker.criteria.page}">
+										<h4 class="card-title">
+										<img src="/nft-auction/arts/display?fileName=${vo.artFileName }"></h4>
+										<hr>
+										<p class="card-text">${vo.artName }</p>
+									</a>
+									<span class="float-right">찜수 ${vo.artWishCount}</span>
+								</div>
+							</div>
+						</div>			
+					</c:forEach>
+				</div>
+				<!-- 페이징처리 -->
+				<div id="paging" class="m-5">
+				</div>
+			</div>
+			<!-- footer -->
+			<div class="mt-5 p-3 bg-light">
+				<div style="bottom: 0; height: 200px;">
+					<h4>NFT-AUCTION</h4>
+					<hr>
+					<br>
+					<a href="#">이용약관</a> &nbsp;
+					<a href="#">사이트안내</a>
+					<br><br>
+					<small>문의 nft.auction.help@gmail.com</small>
+				</div>
 			</div>
 		</div>
-		<br>
-		<!-- 작품 목록 -->
-		<div class="row justify-content-center m-3">
-			<c:forEach var="vo" items="${list }">
-				<div class="col-sm-4 justify-content-center">
-					<div class="card border-primary mb-3">
-						<div class="card-header">by ${vo.memberNickname} </div>
-						<div class="card-body">
-							<a href="arts/detail?artNo=${vo.artNo}&page=${pageMaker.criteria.page}">
-								<h4 class="card-title">
-								<img src="/nft-auction/arts/display?fileName=${vo.artFileName }"></h4>
-								<hr>
-								<p class="card-text">${vo.artName }</p>
-							</a>
-							<span class="float-right">찜수 ${vo.artWishCount}</span>
-						</div>
-					</div>
-				</div>			
-			</c:forEach>
-		</div>
-		<!-- 페이징처리 -->
-		<div id="paging" class="m-5">
-		</div>
-	</div>
-	<!-- footer -->
-	<div class="mt-5 p-3 bg-light">
-		<div style="bottom: 0; height: 200px;">
-			<h4>NFT-AUCTION</h4>
-			<hr>
-			<br>
-			<a href="#">이용약관</a> &nbsp;
-			<a href="#">사이트안내</a>
-			<br><br>
-			<small>문의 nftauction_admin@gmail.com</small>
-		</div>
-	</div>
+	</section>
 	<!-- hidden -->
 	<input type="hidden" id="hasPrev" value="${pageMaker.hasPrev }">
 	<input type="hidden" id="startPageNo" value="${pageMaker.startPageNo }">

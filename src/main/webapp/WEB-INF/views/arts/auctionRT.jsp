@@ -17,7 +17,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-  <section class="section m-3">
+  <section class="section m-3 bg-light">
     <div id="page-wrapper">
       <div id="page-content-wrapper">
  <div id="list">
