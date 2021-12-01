@@ -108,6 +108,7 @@ img {
     var buyer_email = $('#memberEmail').val(); // 주문자 이메일
     var memberId = $('#memberId').val();
   	var merchant_uid = $('#artName').val() + date + $('#memberId').val();
+  	var artFileName = $('#show_img').val();
     IMP.init('imp84678220'); // 가맹점 식별 코드
       // IMP.request_pay(param, callback) 결제창 호출
       IMP.request_pay({ // param
@@ -129,7 +130,8 @@ img {
                   'artName' : goodsname,
                   'artPrice' : amount,
                   'merchantUid' : merchant_uid,
-                  'paymentType' : payment_type
+                  'paymentType' : payment_type,
+                  'artFileName'	 : artFileName
               }
       			  console.log(date);
       			  console.log(merchant_uid);

@@ -148,15 +148,15 @@
       <!-- 로그인한 아이디가 작성한 게시글만 볼 수 있도록 수정
        관리자는 전체 게시글 확인할 수 있도록 수정 해야됨 -->
       <div class="input-group mb-3">
-        <span class="input-group-text " style="width: 10%">글 번호</span> <input
+        <span class="input-group-text " style="width: 15%">글 번호</span> <input
           type="text" value="${vo.qnaboardNo }" readonly>
       </div>
       <div class="input-group mb-3">
-        <span class="input-group-text " style="width: 10%">제목</span> <input
+        <span class="input-group-text " style="width: 15%">제목</span> <input
           type="text" value="${vo.qnaboardTitle }" readonly>
       </div>
       <div class="input-group mb-3">
-        <span class="input-group-text " style="width: 10%">닉네임</span> <input
+        <span class="input-group-text " style="width: 15%">닉네임</span> <input
           type="text" value="${vo.memberNickname }" readonly>
       </div>
       <div class="input-group mb-3">
@@ -164,7 +164,7 @@
           <fmt:formatDate value="${vo.qnaboardDate }"
             pattern="YYYY-MM-dd hh:mm" />
         </c:set>
-        <span class="input-group-text " style="width: 10%">작성일</span> <input
+        <span class="input-group-text " style="width: 15%">작성일</span> <input
           type="text" value="${qnaboardDate }" readonly>
       </div>
       <div>
@@ -189,7 +189,7 @@
           <input type="hidden" id="memberReplyId"
             value="${mo.memberId }">
           <div class="input-group mb-3">
-            <span class="input-group-text " style="width: 10%">닉네임</span>
+            <span class="input-group-text " style="width: 15%">닉네임</span>
             <input type="text" id="memberReplyNickname"
               value="${mo.memberNickname }" readonly>
           </div>
@@ -345,74 +345,39 @@
                                                 }); // end btn_add_reply()
 
                                 // 답글 버튼 눌렀을 때 답글 입력창
-                                $('#qnareplies')
-                                        .on(
-                                                'click',
-                                                'div .btn_reply',
-                                                function() {
-                                                    console
-                                                            .log("btn_reply click()");
-                                                    var replyAddNo = $(this)
-                                                            .closest(
-                                                                    '.reply_item')
-                                                            .find('#replyNo')
-                                                            .val();
-                                                    var memberReplyAddNickname = $(
-                                                            '#memberReplyNickname')
-                                                            .val();
-                                                    // var qnaboardNo2 = $(this).closest('.reply_item').find('#replyNo').val();
-                                                    // console.log(replyNo2);
-
-                                                    var inputAddReply = $('<div class="row offset-sm-1">'
-                                                            + '<input type="hidden" id="replyAddNo" value="'
-                                                            + parseInt(replyAddNo)
-                                                            + '">'
-                                                            + '<input type="hidden" id="memberAddId" value=" ${mo.memberId} " + readonly>'
-                                                            + '<span class="input-group-text " style="width: 15% ">닉네임</span>'
-                                                            + '<input type="text" id="memberReplyAddNickname" value="${mo.memberNickname }" readonly><br>'
-                                                            + '</div>'
-                                                            + '<div class="row offset-sm-1">'
-                                                            + '<textarea rows="3" cols="100" id="replyAddContent" placeholder="답글 내용을 입력하세요"></textarea>'
-                                                            // + '<input type="text" id="replyAddContent" placeholder="댓글 내용을 입력하세요">'                    
-                                                            + '<button type="button" class="btn_add_reply btn btn-primary mt-3-sm">답글 등록</button>'
-                                                            + '</div>');
-                                                    // + '<button type="button" class="btn_add_reply btn btn-link" type="button">o</button>');    
-                                                    $(this)
-                                                            .closest(
-                                                                    '.reply_item')
-                                                            .find('#reply')
-                                                            .html(inputAddReply)
-                                                            .toggle();
-                                                }); // end btn_reply()       
+                                $('#qnareplies').on('click','div .btn_reply',function() {
+                                    console.log("btn_reply click()");
+                                    var replyAddNo = $(this).closest('.reply_item').find('#replyNo').val();
+                                    var memberReplyAddNickname = $('#memberReplyNickname').val();
+                                    var inputAddReply = $('<div class="row offset-sm-1">'
+                                            + '<input type="hidden" id="replyAddNo" value="'
+                                            + parseInt(replyAddNo)
+                                            + '">'
+                                            + '<input type="hidden" id="memberAddId" value=" ${mo.memberId} " + readonly>'
+                                            // + '<span class="input-group-text " style="width: 15% ">닉네임</span>'
+                                            + '<input type="text" id="memberReplyAddNickname" value="${mo.memberNickname }" readonly><br>'
+                                            + '</div>'
+                                            + '<div class="row offset-sm-1">'
+                                            + '<textarea rows="3" cols="100" id="replyAddContent" placeholder="답글 내용을 입력하세요"></textarea>'
+                                            // + '<input type="text" id="replyAddContent" placeholder="댓글 내용을 입력하세요">'                    
+                                            + '<button type="button" class="btn_add_reply btn btn-warning mt-3-sm">답글 등록</button>'
+                                            + '</div>');
+                                             // + '<button type="button" class="btn_add_reply btn btn-link" type="button">o</button>');    
+                                     $(this).closest('.reply_item').find('#reply').html(inputAddReply).toggle();
+                                   }); // end btn_reply()       
 
                                 // 수정 버튼 눌렀을 때 수정 내용 입력창
-                                $('#qnareplies')
-                                        .on(
-                                                'click',
-                                                'div .btn_update',
-                                                function() {
-                                                    console
-                                                            .log("btn_update click()");
-                                                    var replyUpdateNo = $(this)
-                                                            .closest(
-                                                                    '.reply_item')
-                                                            .find('#replyNo')
-                                                            .val();
-                                                    var replyContent = $(this)
-                                                            .closest(
-                                                                    '.reply_item')
-                                                            .find(
-                                                                    '#replyContent')
-                                                            .val();
-                                                    var memberReplyAddNickname = $(
-                                                            '#memberReplyNickname')
-                                                            .val();
+                                $('#qnareplies').on('click','div .btn_update', function() {
+                                                    console.log("btn_update click()");
+                                                    var replyUpdateNo = $(this).closest('.reply_item').find('#replyNo').val();
+                                                    var replyContent = $(this).closest('.reply_item').find('#replyContent').val();
+                                                    var memberReplyAddNickname = $('#memberReplyNickname').val();
                                                     console.log(replyUpdateNo);
 
                                                     var inputUpdateReply = $('<div class="row offset-sm-1" >'
                                                             + '<input type="hidden" id="replyUpdateNo" value="'+replyUpdateNo+'">'
                                                             + '<input type="hidden" id="memberAddId" value=" ${mo.memberId} " + readonly>'
-                                                            + '<span class="input-group-text " style="width: 15% ">닉네임</span>'
+                                                            // + '<span class="input-group-text " style="width: 15% ">닉네임</span>'
                                                             + '<input type="text" id="memberReplyAddNickname" value="${mo.memberNickname }" readonly><br>'
                                                             + '</div>'
                                                             + '<div class="row offset-sm-1">'
@@ -420,7 +385,7 @@
                                                             + replyContent
                                                             + '</textarea>'
                                                             // + '<input type="text" id="replyAddContent" placeholder="댓글 내용을 입력하세요">'                    
-                                                            + '<button type="button" class="btn_update_reply btn btn-primary mt-3-sm">댓글 수정</button>'
+                                                            + '<button type="button" class="btn_update_reply btn btn-warning mt-3-sm">댓글 수정</button>'
                                                             + '</div>');
                                                     // + '<button type="button" class="btn_add_reply btn btn-link" type="button">o</button>');    
                                                     $(this) .closest('.reply_item').find('#reply') .html(inputUpdateReply).toggle();
@@ -436,8 +401,7 @@
                                             var replyWriter = $('#memberReplyNickname').val(); // 로그인 한 사용자 닉네임
                                             var list = '';
                                             console.log(replyWriter);
-											$(jsonData).each(
-											        function() {
+											$(jsonData).each(function() {
                                                     console.log(this);
 													// var hidden = 'hidden="hidden"';
                                                     var disabled = 'disabled';
@@ -445,7 +409,8 @@
                                                     var offset = 'offset-sm-1';
                                                     var replyContent = this.replyContent;
                                                     replyContent = replyContent.split('<br/>').join("\r\n");
-													function getFormatDate(date) {
+													
+                                                    function getFormatDate(date) {
                                                     	var year = date.getFullYear();
                                                         var month = (1 + date.getMonth());
                                                         month = month >= 10 ? month: '0'+ month;
@@ -455,9 +420,11 @@
                                                         var minutes = date.getMinutes();
                                                         return year+ '-' + month + '-' + day + ' ' + hour + ':' + minutes;
                                                     }
+                                                    
                                                     var replyDate = new Date(this.replyDate);
                                                     replyDate = getFormatDate(replyDate);
-							                        if (replyWriter == this.memberNickname) {
+							                       
+                                                    if (replyWriter == this.memberNickname) {
 							                            disabled = '';
                                                         readonly = '';
                                                     }
@@ -471,82 +438,64 @@
                                                         var offset = '';
                                                    } else {
                                                         var dis = 'disabled';
-                                                        var rep = '└RE: ';''
+                                                        var rep = '└─RE: ';''
                                                    }
-                                                                            list += '<div class="reply_item ' + offset + ' card">'
-                                                                                    //+ '<div class="div1">'
-                                                                                    + '<pre>'
-                                                                                    + rep
-                                                                                    + '<input type="hidden" id="replyNo" value="' + this.replyNo + '"/>'
-                                                                                    + '<input type="hidden" id="memberId" value="'+ this.memberId + '"/>'
-                                                                                    + '&nbsp;&nbsp;'
-                                                                                    + '<input type="hidden" id="memberReplyNickname" value="' + this.memberNickname + '"/>'
-                                                                                    + '<b>' + this.memberNickname + '</b><br>'
-                                                                                    + '&nbsp;&nbsp;' // 공백
-                                                                                    + '&nbsp;&nbsp;'
-                                                                                    + '<div class="col-sm-5">'
-                                                                                    + replyContent
-                                                                                    + '</div>'
-                                                                                    + '&nbsp;&nbsp;'
-                                                                                    + replyDate
-                                                                                    + '&nbsp;&nbsp;'
-                                                                                    + '<button class="btn_update btn btn-link btn-sm" type="button" '+ disabled +'>수정</button>'
-                                                                                    + '<button class="btn_delete btn btn-link btn-sm" type="button"'+ disabled +'>삭제</button>'
-                                                                                    + '<button class="btn_reply btn btn-link btn-sm" type="button" '+ dis +'>답글</button><br>'
-                                                                                    + '<input type="hidden" id="replyContent" value="' + this.replyContent + '" '+ readonly +'/>'
-                                                                                    //+ '<textarea id="replyContent" rows="3" cols="100"'+ readonly +'>'+ this.replyContent +'</textarea>'                       
-                                                                                    + '<div id="reply" style="display: none; width:80%;">'
-                                                                                    + '</div>'
-                                                                                    + '</pre>'
-                                                                                    + '</div>';
-
-                                                                        });
+                                                       list += '<div class="reply_item ' + offset + ' card border-secondary mb-3" style="max-width: 40rem;">'
+                                                          //+ '<div class="div1">'
+                                                            + '<pre>'
+                                                            + rep
+                                                            + '<input type="hidden" id="replyNo" value="' + this.replyNo + '"/>'
+                                                            + '<input type="hidden" id="memberId" value="'+ this.memberId + '"/>'
+                                                            + '&nbsp;&nbsp;'
+                                                            + '<input type="hidden" id="memberReplyNickname" value="' + this.memberNickname + '"/>'
+                                                            + '<b>' + this.memberNickname + '</b><br>'
+                                                            + '&nbsp;&nbsp;' // 공백
+                                                            + '&nbsp;&nbsp;'
+                                                            + '<div class="col-sm-5">'
+                                                            + replyContent
+                                                            + '</div>'
+                                                            + '&nbsp;&nbsp;'
+                                                            + '<span class="text-muted">' + replyDate + '</span>'
+                                                            // + replyDate
+                                                            + '&nbsp;&nbsp;'
+                                                            + '<button class="btn_update btn btn-link btn-sm" type="button" '+ disabled +'>수정</button>'
+                                                            + '<button class="btn_delete btn btn-link btn-sm" type="button"'+ disabled +'>삭제</button>'
+                                                            + '<button class="btn_reply btn btn-link btn-sm" type="button" '+ dis +'>답글</button><br>'
+                                                            + '<input type="hidden" id="replyContent" value="' + this.replyContent + '" '+ readonly +'/>'
+                                                            //+ '<textarea id="replyContent" rows="3" cols="100"'+ readonly +'>'+ this.replyContent +'</textarea>'                       
+                                                            + '<div id="reply" style="display: none; width:80%;">'
+                                                            + '</div>'
+                                                            + '</pre>'
+                                                            + '</div>';
+                                                    });
                                                         $('#qnareplies').html(list);
                                                     });
                                 } // end getAllReplies()    
 
                                 // 댓글 수정 버튼 클릭시
-                                $('#qnareplies')
-                                        .on(
-                                                'click',
-                                                '.reply_item .btn_update_reply',
-                                                function() {
-                                                    console.log(this);
-
-                                                    var replyUpdateNo = $(
-                                                            '#replyUpdateNo')
-                                                            .val();
-                                                    var replyContent = $(this)
-                                                            .prevAll(
-                                                                    '#replyAddContent')
-                                                            .val();
-                                                    console.log("선택된 댓글 번호 : "
-                                                            + replyNo
-                                                            + ", 댓글 내용 : "
-                                                            + replyContent);
-
-                                                    $
-                                                            .ajax({
-                                                                type : 'PUT',
-                                                                url : 'qnareplies/rest/'
-                                                                        + replyUpdateNo,
-                                                                data : JSON
-                                                                        .stringify({
-                                                                            'replyContent' : replyContent
-                                                                        }),
-                                                                headers : {
-                                                                    'Content-Type' : 'application/json',
-                                                                    'X-HTTP-Method-Override' : 'PUT'
-                                                                },
-                                                                success : function(
-                                                                        result) {
-                                                                    if (result == 'success') {
-                                                                        alert('댓글 수정 성공!');
-                                                                        getAllReplies();
-                                                                    }
-                                                                }
-                                                            });
-                                                }); // end btn_update()
+                                $('#qnareplies').on('click','.reply_item .btn_update_reply', function() {
+                                    console.log(this);
+                                    var replyUpdateNo = $('#replyUpdateNo').val();
+                                    var replyContent = $(this).prevAll('#replyAddContent').val();
+                                    console.log("선택된 댓글 번호 : "+ replyUpdateNo+ ", 댓글 내용 : "+ replyContent);
+                                    $.ajax({
+                                        type : 'PUT',
+                                        url : 'qnareplies/rest/' + replyUpdateNo,
+                                        data : JSON.stringify({
+                                            'replyContent' : replyContent
+                                    	}),
+                                        headers : {
+                                           'Content-Type' : 'application/json',
+                                           'X-HTTP-Method-Override' : 'PUT'
+                                           },
+                                        success : function(result) {
+                                            if (result == 'success') {
+                                                   alert('댓글 수정 성공!');
+                                                   getAllReplies();
+                                             }
+                                        }
+                                    });
+                                 }); // end btn_update()
 
                                 // 댓글 삭제 버튼 클릭시
                                 $('#qnareplies')

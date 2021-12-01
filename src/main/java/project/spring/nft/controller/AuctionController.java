@@ -35,14 +35,8 @@ public class AuctionController {
 	public void AuctionRTList(Model model) {
 		logger.info("auctionRT 호출");
 		List<ArtAuctionVO> RTlist = auctionService.read();
-		/*
-		 * List<ArtVO> artList = new ArrayList<ArtVO>(); ArtVO avo = null; for(AuctionVO
-		 * vo : RTlist) { int artNo = vo.getArtNo(); avo = artService.readArtno(artNo);
-		 * logger.info(avo.toString()); artList.add(avo); }
-		 */
-		List<ArtVO> notAuction = artService.readNotAuction();
+
 		model.addAttribute("RTlist", RTlist);
-		/* model.addAttribute("artList", artList); */
-		model.addAttribute("notAuction", notAuction);
+
 	}
 }

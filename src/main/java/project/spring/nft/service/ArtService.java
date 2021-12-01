@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import project.spring.nft.domain.ArtVO;
+import project.spring.nft.domain.MemberVO;
+import project.spring.nft.domain.PaymentVO;
 import project.spring.nft.pageutil.PageCriteria;
 
 //TODO 기능 추가 필요
@@ -33,7 +35,7 @@ public interface ArtService {
 	//조회수 카운팅 업데이트
 	int updateView(int artNo, int count);
 	// 등록작품내역에서 사용할 조회
-	List<ArtVO> readByMemberId(String memberId);
+	List<ArtVO> readByMemberId(PageCriteria criteria, String memberId);
 	// 찜수 업데이트
 	int updateWishCount(int artNo, int count);
 	//작품 수정
@@ -43,7 +45,12 @@ public interface ArtService {
 	//회원 낙찰 내역
 	List<ArtVO> readWinBid(String memberId);
 
-	List<ArtVO> readNotAuction();
-
 	ArtVO readArtno(int artNo);	
+	//작품의 결제유무 조회
+	PaymentVO readPayResult(int artNo);
+	//등록내역 개수
+	int getTotalMyArt(String memberId);
+	
+	MemberVO readMemberEmail(String memberId);
+		
 } // end class

@@ -64,5 +64,5 @@ public class AuctionRESTController {
 		} else {
 			return new ResponseEntity<String>("fail", HttpStatus.OK);
 		}
-	}
+	} //end updateAuctionResult()
 }

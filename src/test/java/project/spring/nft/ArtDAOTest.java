@@ -39,10 +39,10 @@ public class ArtDAOTest {
 
 	private void testSelectbyMemberId() {
 		String memberId = "test";
-		List<ArtVO> list = dao.selectMemberId(memberId);
-		for (ArtVO vo : list) {
-			logger.info(vo.toString());
-		}
+		//List<ArtVO> list = dao.selectMemberId(memberId);
+//		for (ArtVO vo : list) {
+//			logger.info(vo.toString());
+	//	}
 		
 	}
 

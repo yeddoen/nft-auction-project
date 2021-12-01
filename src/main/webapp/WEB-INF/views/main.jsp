@@ -5,34 +5,29 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- 모바일 디바이스에서 터치/줌 등을 지원하기 위한 meta 태그 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- 제이쿼리 -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<!-- 부트스트랩 -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <!-- Popper JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<!-- css -->
+<!-- CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/zephyr/bootstrap.min.css">
 <style type="text/css">
 img {
 	max-width: 100%;
 	height: auto;
 }
-
 ul {
 	list-style-type: none;
 }
-
 li {
 	display: inline-block;
 }
-
 /* 사이드바 래퍼 스타일 */
-#page-wrapper {
-  padding-right: 250px;
-}
 #sidebar-wrapper {
   position: fixed;
   width: 350px;
@@ -74,7 +69,6 @@ li {
   width: 30%;
   align: left;
 }
-
 .carousel-indicators {
   position: absolute;
   right: 0;
@@ -88,7 +82,6 @@ li {
   margin-right: $carousel-control-width;
   margin-left: $carousel-control-width;
   list-style: none;
-
   li {
     position: relative;
     flex: 0 1 auto;
@@ -99,7 +92,6 @@ li {
     text-indent: -999px;
     cursor: pointer;
     background-color: rgba($carousel-indicator-active-bg, .5);
-
     // Use pseudo classes to increase the hit area by 10px on top and bottom.
     &::before {
       position: absolute;
@@ -120,7 +112,6 @@ li {
       content: "";
     }
   }
-
   .active {
     background-color: $carousel-indicator-active-bg;
   }
@@ -148,97 +139,114 @@ li {
 </head>
 <body style="text-align: center;">
 	<!-- header -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-		<a class="navbar-brand" href="main">NFT-AUCTION</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
-			aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNavDropdown">
-			<ul class="navbar-nav ml-auto">
-				<li class="nav-item"><a class="nav-link" href="arts/register">작품등록</a>
-				</li>
-				<c:if test="${empty sessionScope.memberId }">
-					<li class="nav-item"><a class="nav-link" href="members/login">로그인</a>
+	<nav class="navbar navbar-expand-lg navbar-light bg-warning sticky-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="main">NFT-AUCTION</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNavDropdown">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item"><a class="nav-link" href="arts/register">작품등록</a>
 					</li>
-					<li class="nav-item"><a class="nav-link"
-						href="members/sign-up">회원가입</a></li>
-				</c:if>
-				<c:if test="${not empty sessionScope.memberId }">
-					<li class="nav-item"><a class="nav-link" href="members/logout">로그아웃</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="members/my-page/member">마이페이지</a></li>
-				</c:if>
-			</ul>
-		</div>
-	</nav>
- <aside class="aside">
-    <div id="page-wrapper">  
-      <div id="sidebar-wrapper">
-        <iframe src="arts/auctionRT" height="900">
-        </iframe>
-      </div>
-      <!-- /사이드바 -->
-    </div>
-  </aside>
-<div class="example-container">
-  <div class="example-row">
-    <div class="example-content-main">
-    
-	<!-- 낙찰 alert -->
-	<c:if test="${not empty sessionScope.memberId }">
-		<div id="bid_alert">
-		</div>
-	</c:if>
-	<!-- 검색 -->
-	<br>
-	<div class="search">
-		<form action="search" method="get">
-			<input type="radio" name="category" value="artName" checked>작품명
-			<input type="radio" name="category" value="memberNickname">작가명
-			<input type="text" id="keyword" name="keyword" placeholder="검색어 입력">
-			<input type="submit" class="btn btn-primary" value="검색">
-		</form>
-	</div>
-	<br>
-
-	<!-- 전체 작품 리스트 -->
-	<div class="container">
-		<!-- 정렬 기준 -->
-		<div class="row">
-			<div class="col-sm-8"></div>
-			<div class="col-sm-4">
-				<a href="cur"><button type="button" class="btn">등록순</button></a>
-				<a href="wish"><button type="button" class="btn">찜하기순</button></a>
-				<a href="view"><button type="button" class="btn">조회수순</button></a>
+					<c:if test="${empty sessionScope.memberId }">
+						<li class="nav-item"><a class="nav-link" href="members/login">로그인</a>
+						</li>
+						<li class="nav-item"><a class="nav-link"
+							href="members/sign-up">회원가입</a></li>
+					</c:if>
+					<c:if test="${not empty sessionScope.memberId }">
+						<li class="nav-item"><a class="nav-link" href="members/logout">로그아웃</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="members/my-page/member">마이페이지</a></li>
+					</c:if>
+				</ul>
 			</div>
 		</div>
-		<br>
-		<!-- 작품 목록 -->
-		<div class="row">
-			<c:forEach var="vo" items="${list }">
-				<div class="col-sm-4">
-					<div class="card border-primary mb-3" style="max-width: 20rem;">
-						<div class="card-header">by ${vo.memberNickname} </div>
-						<div class="card-body">
-							<a href="arts/detail?artNo=${vo.artNo}&page=${pageMaker.criteria.page}">
-								<h4 class="card-title">
-								<img src="/nft-auction/arts/display?fileName=${vo.artFileName }"></h4>
-								<hr>
-								<p class="card-text">${vo.artName }</p>
-							</a>
-							<span class="float-right">찜수 ${vo.artWishCount}</span>
-						</div>
-					</div>
-				</div>			
-			</c:forEach>
+	</nav>
+    <aside class="aside">
+		<div id="page-wrapper">  
+		<div id="sidebar-wrapper" class="bg-light">
+			<iframe src="arts/auctionRT" height="900">
+			</iframe>
 		</div>
-	</div>  
-  
-	<!-- 페이징처리 -->
-	<div id="paging">
+		<!-- /사이드바 -->
+		</div>
+	</aside> 
+    <section class="section" style="text-align: center; padding-bottom: 200px;">
+		<div id="page-wrapper">
+			<div id="page-content-wrapper">
+				<div class="container-fluid">
+					<!-- 낙찰 alert -->
+					<c:if test="${not empty sessionScope.memberId }">
+						<div id="bid_alert">
+						</div>
+					</c:if>
+					<!-- 검색 -->
+					<br>
+					<div class="search m-3">
+						<form action="search" method="get">
+							<input type="radio" name="category" value="artName" checked>작품명
+							<input type="radio" name="category" value="memberNickname">작가명
+							<input type="text" id="keyword" name="keyword" placeholder="검색어 입력">
+							<input type="submit" class="btn btn-primary" value="검색">
+						</form>
+					</div>
+					<br>
+				</div>
+			</div>
+			<!-- 전체 작품 리스트 -->
+			<div class="container justify-content-center">
+				<!-- 정렬 기준 -->
+				<div class="row justify-content-center mb-3">
+					<div class="col-sm-8"></div>
+					<div class="col-sm-4">
+						<a href="cur"><button type="button" class="btn btn-outline-primary">등록순</button></a>
+						<a href="wish"><button type="button" class="btn btn-outline-primary">찜하기순</button></a>
+						<a href="view"><button type="button" class="btn btn-outline-primary">조회수순</button></a>
+					</div>
+				</div>
+				<br>
+				<!-- 작품 목록 -->
+				<div class="row justify-content-center m-3">
+					<c:forEach var="vo" items="${list }">
+						<div class="col-sm-4 justify-content-center">
+							<div class="card border-primary mb-3">
+								<div class="card-header">by ${vo.memberNickname} </div>
+								<div class="card-body">
+									<a href="arts/detail?artNo=${vo.artNo}&page=${pageMaker.criteria.page}">
+										<h4 class="card-title">
+										<img src="/nft-auction/arts/display?fileName=${vo.artFileName }"></h4>
+										<hr>
+										<p class="card-text">${vo.artName }</p>
+									</a>
+									<span class="float-right">찜수 ${vo.artWishCount}</span>
+								</div>
+							</div>
+						</div>			
+					</c:forEach>
+				</div>
+				<!-- 페이징처리 -->
+				<div id="paging" class="m-5">
+				</div>
+			</div>
+      </div>
+  </section>
+	<!-- footer -->
+	<div class="mt-5 p-3 bg-light">
+		<div style="bottom: 0; height: 200px;">
+			<h4>NFT-AUCTION</h4>
+			<hr>
+			<br>
+			<a href="#">이용약관</a> &nbsp;
+			<a href="#">사이트안내</a>
+			<br><br>
+			<small>문의 nft.auction.help@gmail.com</small>
+		</div>
 	</div>
+	<!-- hidden -->
 	<input type="hidden" id="hasPrev" value="${pageMaker.hasPrev }">
 	<input type="hidden" id="startPageNo" value="${pageMaker.startPageNo }">
 	<input type="hidden" id="endPageNo" value="${pageMaker.endPageNo }">
@@ -248,17 +256,7 @@ li {
 	<input type="hidden" id="join_result" value="${joinResult }">
 	<input type="hidden" id="register_result" value="${registerResult }">
 	<input type="hidden" id="member_id" value="${sessionScope.memberId }">
-  </div>
-  
- </div>
-</div>
-	<!-- footer -->
-	<footer class="bd-footer py-5 mt-5 bg-secondary sticky-bottom">
-		<div class="container py-5">
-			<h4>NFT-AUCTION</h4>
-			<p>이용약관 고객센터..주소..어쩌구</p>
-		</div>
-	</footer>
+	<input type="hidden" id="delete_result" value="${deleteResult }">
 	<!-- JavaScript -->
 	<script type="text/javascript">		
 		$(function(){
@@ -269,6 +267,7 @@ li {
 	  		confirmLogoutResult();
 	  		confirmJoinResult();
 	  		confirmRegisterResult();
+	  		confirmDeleteResult();
 	  		
 			function confirmLoginResult() {
 				var result=$('#login_result').val();
@@ -298,6 +297,15 @@ li {
 				}
 			}//end confirmRegisterResult()
 			
+			function confirmDeleteResult() {
+				var result=$('#delete_result').val();
+				if(result=='success'){
+					alert('작품 삭제 성공');
+				}else if(result=='fail'){
+					alert('작성자만 삭제할 수 있습니다.');
+				}
+			} //end confirmDeleteResult()
+			
 			/* 정렬 */
 			$('#current_list').click(function(){
 				$('#wish_list').removeClass('btn-primary');
@@ -305,14 +313,12 @@ li {
 				$(this).addClass('btn-primary'); //클릭된 버튼
 				currentAllList();
 			}); //end current_list click()
-
 			$('#wish_list').click(function(){
 				$('#current_list').removeClass('btn-primary');
 				$('#view_list').removeClass('btn-primary');
 				$(this).addClass('btn-primary'); //클릭된 버튼
 				wishAllList();
 			}); //end wish_list click()
-
 			$('#view_list').click(function(){
 				$('#current_list').removeClass('btn-primary');
 				$('#wish_list').removeClass('btn-primary');
@@ -407,12 +413,15 @@ li {
 			$('input[class=page-num]').each(function(x){
 				console.log(x);
 				
-				if(!URLSearch.get('page') && (x+1)==1){
-					$(this).parents('.page-item').last().addClass('active');
-				}
-				if(page_num == (x+1)){
-					console.log($(this).parents('.page-item').last());
-					$(this).parents('.page-item').last().addClass('active');
+				if(!URLSearch.get('page')){
+					if((x+1)==1){
+						$(this).parents('.page-item').last().addClass('active');
+					}
+				}else{
+					if(page_num == (x+1)){
+						console.log($(this).parents('.page-item').last());
+						$(this).parents('.page-item').last().addClass('active');
+					}
 				}
 			})
 		}//end pageAction()
@@ -431,14 +440,12 @@ li {
 					console.log(resultData);
 					var list='';
 					$(resultData).each(function(){
-						list+='<div class="alert alert-warning m-0 alert-dismissible fade show" role="alert">'
+						list+='<div class="alert alert-primary alert-dismissible m-0 fade show" role="alert">'
+							+'<button type="button" class="btn-close" data-bs-dismiss="alert"></button>'
 							+'<strong>'+member_id+'님</strong> ['
 							+this.artName+']작품이 낙찰됐습니다. 결제를 진행하세요. '
 							+'<a href="arts/detail?artNo='+this.artNo+'">'
 							+'<button class="btn btn-outline-primary btn-sm">작품으로 이동</button></a>'
-							+'<button type="button" class="close" data-dismiss="alert" aria-label="Close">'
-							+'<span aria-hidden="true">&times;</span>'
-							+'</button>'
 							+'</div>';
 					}); //end each
 					$('#bid_alert').html(list);

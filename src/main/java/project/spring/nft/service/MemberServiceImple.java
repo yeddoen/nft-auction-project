@@ -11,6 +11,7 @@ import project.spring.nft.domain.MemberVO;
 import project.spring.nft.domain.PaymentVO;
 import project.spring.nft.persistence.MemberDAO;
 import project.spring.nft.persistence.PaymentDAO;
+import project.spring.nft.persistence.RefundDAO;
 
 @Service
 public class MemberServiceImple implements MemberService {
@@ -21,6 +22,8 @@ public class MemberServiceImple implements MemberService {
 	private MemberDAO memberDAO;
 	@Autowired
 	private PaymentDAO paymentDAO;
+	@Autowired
+	private RefundDAO refundDAO;
 	
 	@Override
 	public int createMember(MemberVO vo) {
@@ -63,7 +66,13 @@ public class MemberServiceImple implements MemberService {
 		logger.info("deleteMember() 호출 : memberNo = "+memberId);
 		return memberDAO.deleteMember(memberId, memberPassword);
 	}
-
+	
+	@Override
+	public List<String> findIdasPhone(String memberName, String memberPhone) {
+		logger.info("findIdasPhone() 호출");
+		return memberDAO.findIdasPhone(memberName, memberPhone);
+	}
+	
 	@Override
 	public List<String> findIdasEmail(String memberName, String memberEmail) {
 		logger.info("findIdasEmail() 호출");
@@ -81,12 +90,17 @@ public class MemberServiceImple implements MemberService {
 		logger.info("readAll() 호출");
 		return paymentDAO.selectAll(memberId);
 	}
-
+	
 	@Override
-	public List<String> findIdasPhone(String memberName, String memberPhone) {
-		logger.info("findIdasPhone() 호출");
-		return memberDAO.findIdasPhone(memberName, memberPhone);
+	public int readProfit(String memberId) {
+		logger.info("readProfit() 호출 : memberId = "+memberId);
+		return paymentDAO.selectProfit(memberId);
 	}
 	
-
+	
+	@Override
+	public Integer readRefund(String memberId) {
+		logger.info("readRefund() 호출");
+		return refundDAO.select(memberId);
+	}
 } // end class

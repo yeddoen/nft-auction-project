@@ -62,10 +62,10 @@ public class ArtReplyServiceImple implements ArtReplyService {
 	@Override
 	public int delete(int artReplyNo, int artNo) throws Exception {
 		logger.info("delete() 호출");
-		artReplyDAO.delete(artReplyNo);
-		logger.info("댓글 삭제 성공");
+		int result = artReplyDAO.delete(artReplyNo);
+		logger.info(result + "개 댓글 삭제 성공");
 
-		artDAO.updateReplyCount(-1, artNo);
+		artDAO.updateReplyCount(-result, artNo);
 		logger.info("작품 댓글 개수 업데이트 성공");
 		return 1;
 	}

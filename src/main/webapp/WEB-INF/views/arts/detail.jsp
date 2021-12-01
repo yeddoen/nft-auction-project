@@ -6,14 +6,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- 모바일 디바이스에서 터치/줌 등을 지원하기 위한 meta 태그 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <!-- Popper JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <!-- CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/zephyr/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 <style type="text/css">
 img {
@@ -21,54 +24,50 @@ img {
 	height: auto;
 }
 
-tr {
-	width: 100%;
-	display: inline-table;
-	height: 60px;
-	table-layout: fixed;
+.scrolltbody {
+    display: inline-block;
+    width: auto;
+    border-collapse: collapse;
+    font-size: 16px;
 }
-
-table{
-  max-width: 100%;
-  height: auto;
-  table-layout: fixed;
- display: -moz-groupbox;
+.scrolltbody tbody {
+    display: inline-block;
+    height: 300px;
+    overflow: auto;
 }
-tbody{
-  overflow-y: scroll;
-  height: 300px;
-  width: 100%;
-  position: absolute;
-}
+.scrolltbody th:nth-of-type(1), .scrolltbody td:nth-of-type(1) { width: 200px; }
+.scrolltbody th:nth-of-type(2), .scrolltbody td:nth-of-type(2) { width: 200px; }
+.scrolltbody th:nth-of-type(3), .scrolltbody td:nth-of-type(3) { width: 200px; }
 </style>
-
 <title>상세 페이지 - ${vo.artName}</title>
 </head>
 <body style="text-align: center;">
 	<!-- header -->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-		<a class="navbar-brand" href="../main">NFT-AUCTION</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
-			aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNavDropdown">
-			<ul class="navbar-nav ml-auto">
-				<li class="nav-item"><a class="nav-link" href="register">작품등록</a>
-				</li>
-				<c:if test="${empty sessionScope.memberId }">
-					<li class="nav-item"><a class="nav-link" href="../members/login">로그인</a>
+	<nav class="navbar navbar-expand-lg navbar-light bg-warning sticky-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="../main">NFT-AUCTION</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNavDropdown">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item"><a class="nav-link" href="register">작품등록</a>
 					</li>
-					<li class="nav-item"><a class="nav-link"
-						href="/members/sign-up">회원가입</a></li>
-				</c:if>
-				<c:if test="${not empty sessionScope.memberId }">
-					<li class="nav-item"><a class="nav-link" href="../members/logout">로그아웃</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="../members/my-page/member">마이페이지</a></li>
-				</c:if>
-			</ul>
+					<c:if test="${empty sessionScope.memberId }">
+						<li class="nav-item"><a class="nav-link" href="../members/login">로그인</a>
+						</li>
+						<li class="nav-item"><a class="nav-link"
+							href="../members/sign-up">회원가입</a></li>
+					</c:if>
+					<c:if test="${not empty sessionScope.memberId }">
+						<li class="nav-item"><a class="nav-link" href="../members/logout">로그아웃</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="../members/my-page/member">마이페이지</a></li>
+					</c:if>
+				</ul>
+			</div>
 		</div>
 	</nav>
 	<br>
@@ -101,7 +100,10 @@ tbody{
 									<span id="art_wish_count">${vo.artWishCount }</span>
 								</button>
 								<!-- 찜하기를 누를떄 실행되는 메소드 만들기 -->
-							</div>
+                            <c:if test="${not empty sessionScope.memberId }">
+                                <button type="button" id="btn_declare" class="btn btn-outline-danger btn-sm">신고</button>
+							</c:if>
+                          </div>
 						</div>
 						<hr>
 						<div class="row">
@@ -122,12 +124,14 @@ tbody{
 							</div>
 						</div>
 						<div style="margin: 10px;">
-							<button class="btn btn-primary" type="button" id="btn_auction"
-								data-toggle="collapse" data-target="#collapseAuction" style="margin: 3px;"
-								aria-expanded="false" aria-controls="collapseAuction">
-								경매 참여하기</button>
-							<button id="btn_buy" class="btn btn-primary" style="margin: 3px;" type="button">
-								즉시 구매하기</button>	
+							<c:if test="${not empty sessionScope.memberId }">
+								<button class="btn btn-primary" type="button" id="btn_auction"
+									data-toggle="collapse" data-target="#collapseAuction" style="margin: 3px;"
+									aria-expanded="false" aria-controls="collapseAuction">
+									경매 참여하기</button>
+								<button id="btn_buy" class="btn btn-primary" style="margin: 3px;" type="button">
+									즉시 구매하기</button>	
+							</c:if>
 						</div>
 						<div class="collapse" id="collapseAuction">
 							<div class="card card-body">
@@ -149,17 +153,21 @@ tbody{
 				<br>
 				<div class="row">
 					<div class="col">
-						<table class="table table-hover w-auto">
-							<thead>
-								<tr>
-									<th scope="col">닉네임</th>
-									<th scope="col">입찰가격</th>
-									<th scope="col">입찰시각</th>
-								</tr>
-							</thead>
-							<tbody id="auctionTable">
-							</tbody>
-						</table>
+						<div class="card mb-4">
+							<div class="card-body">
+								<table class="table table-hover scrolltbody">
+									<thead>
+										<tr>
+											<th scope="col">닉네임</th>
+											<th scope="col">입찰가격</th>
+											<th scope="col">입찰시각</th>
+										</tr>
+									</thead>
+									<tbody id="auctionTable">
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -179,7 +187,7 @@ tbody{
 							<div class="tab-pane fade show active" id="content">
 								<br>
 								<p>${vo.artContent }</p>
-								<c:if test="${not empty sessionScope.memberId }">
+								<c:if test="${vo.memberId eq sessionScope.memberId}">
 									<div style="text-align: right;">
 										<a href="update?artNo=${vo.artNo }"><button type="button" class="btn btn-primary">수정</button></a>
 										<a href="delete?artNo=${vo.artNo }"><button type="button" class="btn btn-primary">삭제</button></a>
@@ -190,18 +198,23 @@ tbody{
 								<br>
 								<div class="input-group mb-3">
 									<c:if test="${empty sessionScope.memberId }">
-										<p>로그인한 회원만 댓글 작성이 가능합니다. <a href="../members/login">로그인하기</a></p>
+										<p>로그인한 회원만 댓글 작성이 가능합니다. <a href="../members/login?artNo=${vo.artNo }">로그인하기</a></p>
 									</c:if>
 							    	<c:if test="${not empty sessionScope.memberId }">
 							     		<input type="hidden" id="memberReplyNo" readonly>
-							     		<input type="text" id="memberReplyId" value="${vo.memberId }">
+							     		<input type="hidden" id="memberReplyId" value="${vo.memberId }">
 									    <input type="text" id="memberReplyNickname" value="${vo.memberNickname }" readonly>
-							     		<input type="text" id="artReplyContent" class="form-control" placeholder="댓글 내용을 입력하세요">
-							     		<button type="button" id="btn_add" class="btn btn-outline-primary">등록</button>
+							     		<!-- <input type="text" id="artReplyContent" class="form-control" placeholder="댓글 내용을 입력하세요"> -->
+							     		<div class="card border-secondary">
+                                          <textarea rows="5" cols="70" id="artReplyContent" placeholder="댓글 내용을 입력하세요"></textarea>
+                                        </div>
+                                        <button type="button" id="btn_add" class="btn btn-outline-primary">등록</button>
 							     	</c:if>
 								</div>
-								<hr>								
+								<hr>
+                               <div style="text-align: left;">								
 								<div id="replies">
+                               </div>
 								</div>
 							</div>
 						</div>
@@ -211,9 +224,16 @@ tbody{
 		</div>
 	</div>
 	<!-- footer -->
-	<div class="jumbotron text-center mt-5 mb-0">
-		<h4>NFT-AUCTION</h4>
-		<p>이용약관 고객센터..주소..어쩌구</p>
+	<div class="mt-5 p-3 bg-light">
+		<div style="bottom: 0; height: 200px;">
+			<h4>NFT-AUCTION</h4>
+			<hr>
+			<br>
+			<a href="#">이용약관</a> &nbsp;
+			<a href="#">사이트안내</a>
+			<br><br>
+			<small>문의 nftauction_admin@gmail.com</small>
+		</div>
 	</div>
 	<!-- hidden -->
 	<input type="hidden" id="show_date" value="${vo.artShowDate }">
@@ -522,11 +542,16 @@ tbody{
             // var qnaboardNo2 = $(this).closest('.reply_item').find('#artReplyNo').val();
             // console.log(artReplyNo2);
              
-            var inputAddReply = $('<input type="hidden" id="replyAddNo" value="'+parseInt(replyAddNo)+'">'
-                    + '<input type="text" id="memberAddId" value=" ${vo.memberId} " + readonly>'
+            var inputAddReply = $('<div class="row offset-sm-1">'
+                    + '<input type="hidden" id="replyAddNo" value="'+parseInt(replyAddNo)+'">'
+                    + '<input type="hidden" id="memberAddId" value=" ${vo.memberId} " + readonly>'
+                    // + '<span class="input-group-text " style="width: 15% ">닉네임</span>'
                     + '<input type="text" id="memberReplyAddNickname" value="${vo.memberNickname }" readonly>'
-                    + '<input type="text" id="replyAddContent" placeholder="댓글 내용을 입력하세요">'
-                    + '<button type="button" class="btn_add_reply">작성</button>');
+                    + '</div>'
+                    + '<div class="row offset-sm-1">'
+                    + '<textarea rows="3" cols="100" id="replyAddContent" placeholder="답글 내용을 입력하세요"></textarea>'
+                    //+ '<input type="text" id="replyAddContent" placeholder="댓글 내용을 입력하세요">'
+                    + '<button type="button" class="btn_add_reply btn btn-warning mt-3-sm">답글 등록</button>');
             $(this).closest('.reply_item').find('#reply').html(inputAddReply).toggle();   
 
             }); // end btn_reply()	        
@@ -584,6 +609,8 @@ tbody{
 							// var hidden = 'hidden="hidden"';
 							var disabled = 'disabled';
 							var readonly = 'readonly';
+							var offset = 'offset-sm-1';
+							var artReplyContent = this.artReplyContent;
 	                            
 							function getFormatDate(date){
 								var year = date.getFullYear();              
@@ -611,28 +638,33 @@ tbody{
 							if(this.artReplyParentNo == 0) {
 								var dis='';
 								var rep='';
+								var offset = '';
 							} else {
 								var dis='disabled';
-								var rep='└RE: ';
+								var rep='└─RE: ';
 							}
 							
-							list += '<div class="reply_item">'
+							list += '<div class="reply_item ' + offset + ' card border-light mb-3" style="max-width: 40rem;">'
 								+ '<pre>'
 		                        + rep
 		                        + '<input type="hidden" id="artReplyNo" value="' + this.artReplyNo + '"/>'
 		                        + '<input type="hidden" id="memberId" value="'+ this.memberId + '"/>'
 		                        + '&nbsp;&nbsp;'
 		                        + '<input type="hidden" id="memberReplyNickname" value="' + this.memberNickname + '"/>'
-		                        + this.memberNickname
+		                        + '<b>' + this.memberNickname + '</b><br>'
 		                        + '&nbsp;&nbsp;' // 공백
-		                        + '<input type="text" id="artReplyContent" value="' + this.artReplyContent + '" '+ readonly +'/>'
+		                        //+ '<input type="text" id="artReplyContent" value="' + this.artReplyContent + '" '+ readonly +'/>'
+		                        + '<div class="col-sm-5 offset-sm-1">'
+                                + artReplyContent
+                                + '</div>'
 		                        + '&nbsp;&nbsp;'
-		                        + artReplyDate
-		                        + '&nbsp;&nbsp;'
-		                        + '<button class="btn_update" type="button" '+ disabled +'>수정</button>'
-		                        + '<button class="btn_delete" type="button" '+ disabled +'>삭제</button>'
-		                        + '<button type="button" class="btn_reply" '+ dis +'>답글</button><br>'                         
-		                        + '<div id="reply" style="display: none;">'  
+		                        + '<span class="text-muted">' + artReplyDate + '</span>'
+		                        //+ '&nbsp;&nbsp;'
+		                        + '<button class="btn_update btn btn-link btn-sm" type="button" '+ disabled +'>수정</button>'
+		                        + '<button class="btn_delete btn btn-link btn-sm" type="button" '+ disabled +'>삭제</button>'
+		                        + '<button type="button" class="btn_reply btn btn-link btn-sm" '+ dis +'>답글</button><br>'                         
+		                        + '<input type="hidden" id="artReplyContent" value="' + this.artReplyContent + '" '+ readonly +'/>'
+		                        + '<div id="reply" style="display: none; width:80%;">'  
 		                        + '</div>'
 		                        + '</pre>'
 		                        + '</div>';
@@ -643,11 +675,36 @@ tbody{
 	            );
 	        } // end getAllReplies()
 	        
+	     // 수정 버튼 눌렀을 때 수정 내용 입력창
+            $('#replies').on('click','div .btn_update', function() {                
+            	console.log("btn_update click()");
+                var replyUpdateNo = $(this).closest('.reply_item').find('#artReplyNo').val();
+                var artReplyContent = $(this).closest('.reply_item').find('#artReplyContent').val();
+                var memberReplyAddNickname = $('#memberReplyNickname').val();
+                console.log(replyUpdateNo);
+
+                var inputUpdateReply = $('<div class="row offset-sm-1" >'                        
+                    	+ '<input type="hidden" id="replyUpdateNo" value="'+replyUpdateNo+'">'
+                        + '<input type="hidden" id="memberAddId" value=" ${vo.memberId} " + readonly>'
+                       // + '<span class="input-group-text " style="width: 15% ">닉네임</span>'
+                        + '<input type="text" id="memberReplyAddNickname" value="${vo.memberNickname }" readonly><br>'
+                        + '</div>'
+                        + '<div class="row offset-sm-1">'
+                        + '<textarea rows="3" cols="100" id="artReplyContent">'
+                        + artReplyContent
+                        + '</textarea>'
+                        // + '<input type="text" id="replyAddContent" placeholder="댓글 내용을 입력하세요">'                    
+                        + '<button type="button" class="btn_update_reply btn btn-warning mt-3-sm">댓글 수정</button>'
+                        + '</div>');
+                        // + '<button type="button" class="btn_add_reply btn btn-link" type="button">o</button>');    
+               $(this) .closest('.reply_item').find('#reply') .html(inputUpdateReply).toggle();
+             }); // end btn_reply()
+	        
 			/* 댓글 수정 */
-	        $('#replies').on('click', '.reply_item .btn_update', function() {
+	        $('#replies').on('click', '.reply_item .btn_update_reply', function() {
 	            console.log(this);
 	            
-	            var artReplyNo = $(this).prevAll('#artReplyNo').val();
+	            var artReplyNo = $('#replyUpdateNo').val();
 	            var artReplyContent = $(this).prevAll('#artReplyContent').val();
 	            console.log("선택된 댓글 번호 : " + artReplyNo + ", 댓글 내용 : " + artReplyContent);
 	            
@@ -723,6 +780,20 @@ tbody{
 					return;
 				}else{
 					window.open('pay?artNo=${vo.artNo}&type=D', 'PopupWin','width=900, height=800, resizable=no');
+				}
+			}); //end btn_buy click
+			
+			/* 신고 버튼을 눌렀을 때 */
+			$('#btn_declare').click(function(){
+				var artNo=$('#art_no').val();
+				var creator=$('#creator').val();
+				
+				//창작자가 신고불가능
+				if(member_id==creator){
+					alert('Creator는 신고할 수 없습니다.');
+					return;
+				}else{
+					window.open('declare?artNo=${vo.artNo}', 'PopupWin','width=600, height=350, resizable=no');
 				}
 			}); //end btn_buy click
 			
