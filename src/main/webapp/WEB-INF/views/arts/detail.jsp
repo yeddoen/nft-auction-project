@@ -181,8 +181,10 @@ tbody{
 								<p>${vo.artContent }</p>
 								<c:if test="${not empty sessionScope.memberId }">
 									<div style="text-align: right;">
-										<a href="update?artNo=${vo.artNo }"><button type="button" class="btn btn-primary">수정</button></a>
-										<a href="delete?artNo=${vo.artNo }"><button type="button" id="btn-deleteArt" class="btn btn-primary">삭제</button></a>
+										<c:if test="${sessionScope.memberId eq vo.memberId }">
+											<a href="update?artNo=${vo.artNo }"><button type="button" class="btn btn-primary">수정</button></a>
+											<a href="delete?artNo=${vo.artNo }"><button type="button" id="btn-deleteArt" class="btn btn-primary">삭제</button></a>
+										</c:if>	
 									</div>
 								</c:if>
 							</div>
