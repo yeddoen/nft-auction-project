@@ -66,7 +66,6 @@
 </style>
 </head>
 <body>
-<<<<<<< HEAD
 	<!-- header -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-warning sticky-top">
 		<div class="container-fluid">
@@ -95,8 +94,6 @@
 			</div>
 		</div>
 	</nav>
-=======
->>>>>>> develop-cha
 	<aside class="aside">
 		<div id="page-wrapper">
 			<!-- 사이드바 -->
@@ -106,11 +103,7 @@
 					<li><a href="member">회원정보</a></li>
 					<li><a href="../../wishlist/wishpage">위시리스트</a></li>
 					<li><a href="artlist">등록작품내역</a></li>
-<<<<<<< HEAD
 					<li><a href="shopping-list">구매작품내역</a></li>
-=======
-					<li><a href="#">구매작품내역</a></li>
->>>>>>> develop-cha
 					<li><a href="../../qnaboard/qnalist">QnA게시판</a></li>
 				</ul>
 			</div>

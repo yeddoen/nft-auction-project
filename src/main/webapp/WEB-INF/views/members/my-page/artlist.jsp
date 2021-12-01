@@ -23,24 +23,7 @@ img {
 	max-width: 100%;
 	height: auto;
 }
-<<<<<<< HEAD
 /* 사이드바 래퍼 스타일 */
-=======
-
-ul {
-	list-style-type: none;
-}
-
-li {
-	display: inline-block;
-}
-
-/* 사이드바 래퍼 스타일 */
-.aside {
-	width: 30%;
-}
-
->>>>>>> develop-cha
 #page-wrapper {
 	padding-left: 250px;
 }
@@ -85,14 +68,6 @@ li {
 	width: 30%;
 	align: left;
 }
-<<<<<<< HEAD
-=======
-
-.section {
-	width: 70%;
-	align: right;
-}
->>>>>>> develop-cha
 </style>
 </head>
 <body>
@@ -119,16 +94,8 @@ li {
 					</c:if>
 				</ul>
 			</div>
-<<<<<<< HEAD
 		</div>
 	</nav>
-=======
-		</nav>
-
-	</header>
-
-
->>>>>>> develop-cha
 	<aside class="aside">
 		<div id="page-wrapper">
 			<!-- 사이드바 -->
@@ -138,23 +105,14 @@ li {
 					<li><a href="member">회원정보</a></li>
 					<li><a href="../../wishlist/wishpage">위시리스트</a></li>
 					<li><a href="artlist">등록작품내역</a></li>
-<<<<<<< HEAD
 					<li><a href="shopping-list">구매작품내역</a></li>
-=======
-					<li><a href="#">구매작품내역</a></li>
->>>>>>> develop-cha
 					<li><a href="../../qnaboard/qnalist">QnA게시판</a></li>
 				</ul>
 			</div>
 			<!-- /사이드바 -->
 		</div>
 	</aside>
-<<<<<<< HEAD
 	<section class="section" style="text-align: center;">
-=======
-
-	<section class="section">
->>>>>>> develop-cha
 		<div id="page-wrapper">
 			<!-- 본문 헤더 -->
 			<div id="page-content-wrapper" style="text-align: left;">
@@ -163,7 +121,6 @@ li {
 					<hr>
 				</div>
 			</div>
-<<<<<<< HEAD
 			<div class="content m-3" style="padding-bottom: 200px">
 				<!-- 등록한 작품 내역 리스트 보여주기!!! -->
 				<div class="row">
@@ -220,36 +177,6 @@ li {
 					<small>문의 nft.auction.help@gmail.com</small>
 				</div>
 			</div>
-=======
-
-			<div class="content">
-				<!-- 등록한 작품 내역 리스트 보여주기!!! -->
-				<c:forEach var="vo" items="${list }">
-					<div class="col-sm-4">
-						<div class="card border-primary mb-3" style="max-width: 20rem;">
-							<div class="card-header">by ${vo.memberId}</div>
-							<div class="card-body">
-								<a
-									href="../../arts/detail?artNo=${vo.artNo}&page=${pageMaker.criteria.page}">
-									<h4 class="card-title">
-										<img
-											src="/nft-auction/arts/display?fileName=${vo.artFileName }">
-									</h4>
-									<hr>
-									<p class="card-text">${vo.artName }</p>
-									
-								</a>
-							</div>
-						</div>
-					</div>
-				</c:forEach>
-
-
-			</div>
-
-			<div class="content-btn"></div>
-
->>>>>>> develop-cha
 		</div>
 	</section>
 	

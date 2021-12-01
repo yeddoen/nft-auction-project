@@ -284,32 +284,30 @@ public class MemberController {
 	// TODO : 삭제 하면 DB는 완료되는데 서버 오류뜸(세션때문인듯 NullPoint에러가뜸!!)
 	// update 페이지에서 회원탈퇴 db로
 	@PostMapping("/my-page/delete")
-	public String deleteMemberPOST(Model model, MemberVO vo, HttpServletRequest request) {
+	public String deleteMemberPOST(Model model, String memberPassword, HttpServletRequest request) {
 		logger.info("deletePOST() 호출");
 		HttpSession session = request.getSession();
 		String memberId = (String) session.getAttribute("memberId");
-		vo.setMemberId(memberId);
-		String memberPassword = request.getParameter("memberPassword");
-		logger.info(vo.toString());
-		// input에서 입력받은 비밀번호와 VO에 있는 패스워드가 일치 하지 않는 경우엔
-		if (memberPassword != vo.getMemberPassword()) {
-			logger.info("비밀번호 일치 실패");
-			return "redirect:/members/my-page/delete";
-
-		} else { // 일치하는 경우 정상인 경우.
-			int result = memberService.deleteMember(memberId, memberPassword);
+		
+		//로그인한 아이디와 일치하는 회원정보
+		MemberVO vo=memberService.readByMemberId(memberId); 
+			
+		//입력받은 비번과 vo의 비번이 일치하는 경우
+		if(passEncoder.matches(memberPassword, vo.getMemberPassword())) {
+			int result=memberService.deleteMember(memberId, memberPassword);
 			if (result == 1) {
 				logger.info(result + "삭제 성공 , 세션 삭제하기");
 				// 세션 삭제후 메인페이지로 돌아가게 만들기
-				session.removeAttribute(memberId);
+				session.removeAttribute("memberId");
 				return "redirect:/members/login";
 			} else {
 				logger.info(result + "삭제 실패 , 세션 유지 아이디 : " + memberId);
 				return "redirect:/members/login";
 			}
-
+		} else { //일치하지 않음
+			logger.info("비밀번호 일치 실패");
+			return "redirect:/members/my-page/delete";
 		}
-
 	} // end deletePOST()
 
 	@GetMapping("/find-id")
