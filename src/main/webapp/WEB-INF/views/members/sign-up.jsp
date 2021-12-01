@@ -101,17 +101,29 @@
 						<h2>회원가입</h2>
 						<form action="sign-up" method="post" onsubmit="return submitAble();">
 							<div class="input-group mb-3">
-								<input type="text" class="form-control" id="member_id" name="memberId" placeholder="아이디 입력" required aria-label="아이디 입력" aria-describedby="check_id">
-								<button class="btn btn-outline-secondary" type="button" id="check_id">아이디 중복체크</button>
+								<input type="text" class="form-control" id="member_id"
+									name="memberId" min="3" placeholder="아이디 입력" required
+									aria-label="아이디 입력" aria-describedby="check_id">
+								<button class="btn btn-outline-secondary" type="button"
+									id="check_id">아이디 중복체크</button>
 							</div>
 							<div id="check_id_result" class="mb-3"></div>
 							<div class="input-group mb-3">
-							  <input type="text" class="form-control" id="member_name" name="memberName" placeholder="실명 입력" required aria-label="실명 입력" aria-describedby="check_confirm">
-							  <button class="btn btn-outline-secondary" type="button" id="check_confirm">본인인증</button>
+								<input type="text" class="form-control" id="member_name"
+									name="memberName" placeholder="실명 입력" required
+									aria-label="실명 입력" aria-describedby="check_confirm">
+								<button class="btn btn-outline-secondary" type="button"
+									id="check_confirm">본인인증</button>
 							</div>
 							<input type="hidden" id="member_uid" name="memberUid" value="">
-							<p><input type="password" class="form-control" id="member_pw" name="memberPassword" placeholder="비밀번호 입력" required></p>
-							<p><input type="password" class="form-control" id="confirm_pw" placeholder="비밀번호 확인" required></p>
+							<p>
+								<input type="password" class="form-control" id="member_pw"
+									name="memberPassword" placeholder="비밀번호 입력" required>
+							</p>
+							<p>
+								<input type="password" class="form-control" id="confirm_pw"
+									placeholder="비밀번호 확인" required>
+							</p>
 							<div id="confirm_pw_result" class="mb-3"></div>
 							<p><input type="text" class="form-control" name="memberNickname" placeholder="닉네임 입력" required></p>
 							<p><input type="text" class="form-control" id="member_phone" name="memberPhone" placeholder="전화번호 입력" required></p>
@@ -138,127 +150,175 @@
 	</div>
 	<!-- JavaScript -->
 	<script type="text/javascript">
-		$(function() {
-			var IMP = window.IMP;
-			IMP.init('iamport'); //관리자 체험용
-			
-			/* 아이디 중복 체크 */
-			$('#check_id').click(function(){
-				var member_id=$('#member_id').val();
-				if(!member_id){
-            		$('#check_id_result').css('color', 'red');
-					$('#check_id_result').html("아이디를 입력해주세요.");
-				}else{
-					$.ajax({
-						type:'get',
-		                url:'rest/id-check/'+member_id,
-		                success:function(result, status){
-		                	console.log(result + " : "+ status);
-		                	if(result==0){
-		                		id_check=true;
-		                		$('#check_id_result').css('color', 'green');
-			                	$('#check_id_result').html("사용가능한 아이디입니다.");
-		                	}else{ // 1인 경우
-		                		id_check=false;
-		                		$('#check_id_result').css('color', 'red');
-			                	$('#check_id_result').html("중복된 아이디입니다.");
-		                	}
-		                }
-					}); //end ajax
-				}
-			}); //end check_id click
-			
-			$('#member_id').change(function(){
-				if(id_check==true){ //중복체크하고 다시 id를 변경한 경우
-					id_check=false;
-				}
-			}); //end member_id change()
-	
-			/* 회원 본인인증 */
-			$("#check_confirm").click(function() {
-				var member_name = $('#member_name').val();
-				var member_id=$('#member_id').val();
-				
-				if(!member_name){
-					alert("이름을 입력해주세요.");
-					if(id_check!=true){
-						alert("아이디 중복체크를 해주세요.");
-					}
-				}else{
-					IMP.certification({
-						name : member_name,
-						merchant_uid : 'member_' + member_id // 고유 인증id
-					}, function(rsp) {
-						if (rsp.success) {
-							// 인증성공
-							console.log(rsp.imp_uid);
-							console.log(rsp.merchant_uid);
+        $(function() {
+            var IMP = window.IMP;
+            IMP.init('iamport'); //관리자 체험용
+            
+            /* 아이디 중복 체크 */
+            $('#check_id').click(function() {
+                var member_id = $('#member_id').val();
+                
+                /*아이디 3글자 이상(nft 등록시 심볼3글자를 위한 것.)*/
+                if (member_id.length < 3) {
+                    $('#check_id_result').css('color', 'red');
+                    $('#check_id_result').html("아이디를 3글자 이상으로 입력해주세요.");
+                } else if (!member_id) {
+                    $('#check_id_result').css('color', 'red');
+                    $('#check_id_result').html("아이디를 입력해주세요.");
+                } else {
+                    $.ajax({
+                        type : 'get',
+                        url : 'rest/id-check/' + member_id,
+                        success : function(result, status) {
+                            console.log(result + " : " + status);
+                            if (result == 0) {
+                                id_check = true;
+                                $('#check_id_result').css('color', 'green');
+                                $('#check_id_result').html("사용가능한 아이디입니다.");
+                            } else { // 1인 경우
+                                id_check = false;
+                                $('#check_id_result').css('color', 'red');
+                                $('#check_id_result').html("중복된 아이디입니다.");
+                            }
+                        }
+                    }); //end ajax
+                }
+            }); //end check_id click
 
-							$.ajax({
-								type : 'POST',
-								url : 'rest/confirm',
-								data : {memberUid : rsp.merchant_uid},
-								success:function(result, status){
-									$('#member_uid').attr('value', result);
-									$('#member_name').attr('readonly',true);
-									$('#check_confirm').attr('disalbed', true);
-									member_check = true;
-									alert("본인인증에 성공했습니다.");
-								}
-							});
-						} else {
-							// 인증취소 또는 인증실패
-							member_check = false;
-							/* var msg = '인증에 실패하였습니다.<br>';
-							msg += '에러내용 : ' + rsp.error_msg; */
-							//본인인증 오류로 인해 임시처리
-							var msg='진행하세여';
-							$('#member_uid').val('member_'+member_id); 
-							member_check = true;
-							alert(msg);
-						}
-					}); //end IMP.certification
-				}
-			}); //end check_confirm click()
-			
-			/* 비밀번호 확인 */
-			$('#member_pw').blur(function(){
-				var member_pw=$('#member_pw').val();
-				var confirm_pw=$('#confirm_pw').val();
-				
-				if(confirm_pw){ //비밀번호 확인 값이 입력되었을때만 
-					if(member_pw==confirm_pw){
-						pw_check=true;
-						$('#confirm_pw_result').css('color','green');
-						$('#confirm_pw_result').html("비밀번호가 일치합니다.");
-					}else{
-						pw_check=false;
-						$('#confirm_pw_result').css('color','red');
-						$('#confirm_pw_result').html("비밀번호가 일치하지 않습니다.");
-					}
-				}
-				
-			}); //end member_pw blur()
-			
-			$('#confirm_pw').blur(function(){
-				var member_pw=$('#member_pw').val();
-				var confirm_pw=$('#confirm_pw').val();
-				
-				if(!member_pw || !confirm_pw){
-					pw_check=false;
-					$('#confirm_pw_result').css('color','red');
-					$('#confirm_pw_result').html("비밀번호를 입력하세요.");
-				}else{
-					if(member_pw==confirm_pw){
-						pw_check=true;
-						$('#confirm_pw_result').css('color','green');
-						$('#confirm_pw_result').html("비밀번호가 일치합니다.");
-					}else{
-						pw_check=false;
-						$('#confirm_pw_result').css('color','red');
-						$('#confirm_pw_result').html("비밀번호가 일치하지 않습니다.");
-					}
-				}
+            $('#member_id').change(function() {
+                if (id_check == true) { //중복체크하고 다시 id를 변경한 경우
+                    id_check = false;
+                }
+            }); //end member_id change()
+
+            /* 회원 본인인증 */
+            $("#check_confirm").click(function() {
+                var member_name = $('#member_name').val();
+                var member_id = $('#member_id').val();
+
+                if (!member_name) {
+                    alert("이름을 입력해주세요.");
+                    if (id_check != true) {
+                        alert("아이디 중복체크를 해주세요.");
+                    }
+                } else {
+                    IMP.certification({
+                        name : member_name,
+                        merchant_uid : 'member_' + member_id // 고유 인증id
+                    }, function(rsp) {
+                        if (rsp.success) {
+                            // 인증성공
+                            console.log(rsp.imp_uid);
+                            console.log(rsp.merchant_uid);
+
+                            $.ajax({
+                                type : 'POST',
+                                url : 'rest/confirm',
+                                data : {
+                                    memberUid : rsp.merchant_uid
+                                },
+                                success : function(result, status) {
+                                    $('#member_uid').attr('value', result);
+                                    $('#member_name').attr('readonly', true);
+                                    $('#check_confirm').attr('disalbed', true);
+                                    member_check = true;
+                                    alert("본인인증에 성공했습니다.");
+                                }
+                            });
+                        } else {
+                            // 인증취소 또는 인증실패
+                            member_check = false;
+                            /* var msg = '인증에 실패하였습니다.<br>';
+                            msg += '에러내용 : ' + rsp.error_msg; */
+                            //본인인증 오류로 인해 임시처리
+                            var msg = '진행하세여';
+                            $('#member_uid').val('member_' + member_id);
+                            member_check = true;
+                            alert(msg);
+                        }
+                    }); //end IMP.certification
+                }
+            }); //end check_confirm click()
+
+            /* 비밀번호 확인 */
+            $('#member_pw').blur(function() {
+                var member_pw = $('#member_pw').val();
+                var confirm_pw = $('#confirm_pw').val();
+
+                if (confirm_pw) { //비밀번호 확인 값이 입력되었을때만 
+                    if (member_pw == confirm_pw) {
+                        pw_check = true;
+                        $('#confirm_pw_result').css('color', 'green');
+                        $('#confirm_pw_result').html("비밀번호가 일치합니다.");
+                    } else {
+                        pw_check = false;
+                        $('#confirm_pw_result').css('color', 'red');
+                        $('#confirm_pw_result').html("비밀번호가 일치하지 않습니다.");
+                    }
+                }
+
+            }); //end member_pw blur()
+
+            $('#confirm_pw').blur(function() {
+                var member_pw = $('#member_pw').val();
+                var confirm_pw = $('#confirm_pw').val();
+
+                if (!member_pw || !confirm_pw) {
+                    pw_check = false;
+                    $('#confirm_pw_result').css('color', 'red');
+                    $('#confirm_pw_result').html("비밀번호를 입력하세요.");
+                } else {
+                    if (member_pw == confirm_pw) {
+                        pw_check = true;
+                        $('#confirm_pw_result').css('color', 'green');
+                        $('#confirm_pw_result').html("비밀번호가 일치합니다.");
+                    } else {
+                        pw_check = false;
+                        $('#confirm_pw_result').css('color', 'red');
+                        $('#confirm_pw_result').html("비밀번호가 일치하지 않습니다.");
+                    }
+                }
+
+            }); //end confirm_pw blur()
+
+            // 현아(11.25) : 메타마스크말고 카카오 클레이튼 암호화폐지갑인 카이카스로 연동함.
+            /* const ethereumButton = document.querySelector('.enableEthereumButton');
+            // 메타마스크연동버튼을 클릭하면
+            ethereumButton.addEventListener('click', () => {
+            	if (typeof window.ethereum !== 'undefined') {
+            		console.log('MetaMask is installed!'); // 메타마스크가 설치된경우
+            		//Will Start the metamask extension
+            		ethereum.request({ method: 'eth_requestAccounts' });
+            	} else { // 아니라면 설치할 수 있도록 유도하기.
+            	    console.log('Please install MetaMask!');
+            		location.href = "https://metamask.io/";
+            	}  
+            }); // end metamask api */
+
+            $('#btn-kaikas')
+                    .click(
+                            function() {
+                                if (typeof window.klaytn !== 'undefined') {
+                                    klaytn.enable(); // KAIKAS 열기!
+                                    console.log('kaikas installed!') // 카이카스가 설치된 경우
+                                    console.log('현재 네트워크 : '
+                                            + klaytn.networkVersion);
+                                    console.log('현재 지갑의 주소 : '
+                                            + klaytn.selectedAddress);
+                                    
+                                    console.log(klaytn._kaikas.isApproved());
+                       
+                                    if(klaytn.selectedAddress === 'undefined') {
+                                        alert('KAIKAS와 연동하세요!');
+                                        klaytn.enable(); // KAIKAS 열기!
+                                    } else if (klaytn.selectedAddress !== 'undefined') {
+                                        alert('KAIKAS와 연동되었습니다!');
+                                    }
+                                    const provider = window['klaytn'] // provider에 주입하기.
+                                } else { // 설치되지 않은 경우, 설치할 수 있도록 유도하기.
+                                    location.href = 'https://chrome.google.com/webstore/detail/kaikas/jblndlipeogpafnldhgmapagcccfchpi?hl=ko';
+
+                                }
 
 			}); //end confirm_pw blur()
 			

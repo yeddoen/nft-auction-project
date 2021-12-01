@@ -6,8 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<insert id="insert">
 		insert into ${art} 
-		(${memberId}, ${artName}, ${artPrice}, ${artContent}, ${artShowDate}, ${artBasicFee},${artFileName})
-		values(#{memberId}, #{artName}, #{artPrice}, #{artContent}, #{artShowDate}, #{artBasicFee}, #{artFileName})
+		(${memberId}, ${artName}, ${artPrice}, ${artContent}, ${artShowDate}, ${artBasicFee}, ${artFileName}, ${memberAccount}, ${artJsonUri}, ${artTokenId})
+		values(#{memberId}, #{artName}, #{artPrice}, #{artContent}, #{artShowDate}, #{artBasicFee}, #{artFileName}, #{memberAccount}, #{artJsonUri}, #{artTokenId})
 	</insert>
 	
 	<update id="update_nickname">
@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="select_all_by_no" resultType="ArtVO">
 		select b.${artNo}, b.${memberId}, b.${artName}, b.${artPrice}, 
 			b.${artContent}, b.${artShowDate}, b.${artReplyCount}, 
-			b.${artWishCount}, b.${artViewCount}, b.${artFileName}, b.${memberNickname}
+			b.${artWishCount}, b.${artViewCount}, b.${artFileName}, b.${memberNickname}, b.${memberAccount}, b.${artJsonUri}, b.${artTokenId}
 		from (
 		    select rownum rn, a.*
 		    from(
@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="select_all_by_wish" resultType="ArtVO">
 		select b.${artNo}, b.${memberId}, b.${artName}, b.${artPrice}, 
 			b.${artContent}, b.${artShowDate}, b.${artReplyCount}, 
-			b.${artWishCount}, b.${artViewCount}, b.${artFileName}, b.${memberNickname}
+			b.${artWishCount}, b.${artViewCount}, b.${artFileName}, b.${memberNickname}, b.${memberAccount}, b.${artJsonUri}, b.${artTokenId}
 		from (
 		    select rownum rn, a.*
 		    from(
@@ -52,7 +52,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="select_all_by_view" resultType="ArtVO">
 		select b.${artNo}, b.${memberId}, b.${artName}, b.${artPrice}, 
 			b.${artContent}, b.${artShowDate}, b.${artReplyCount}, 
-			b.${artWishCount}, b.${artViewCount}, b.${artFileName}, b.${memberNickname}
+			b.${artWishCount}, b.${artViewCount}, b.${artFileName}, b.${memberNickname}, b.${memberAccount}, b.${artJsonUri}, b.${artTokenId}
 		from (
 		    select rownum rn, a.*
 		    from(
@@ -90,7 +90,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="select_by_art_name" resultType="ArtVO">
 		select b.${artNo}, b.${memberId}, b.${artName}, b.${artPrice}, 
 			b.${artContent}, b.${artShowDate}, b.${artReplyCount}, 
-			b.${artWishCount}, b.${artViewCount}, b.${artFileName}, b.${memberNickname}
+			b.${artWishCount}, b.${artViewCount}, b.${artFileName}, b.${memberNickname}, b.${memberAccount}, b.${artJsonUri}, b.${artTokenId}
 		from (
 		    select rownum rn, a.*
 		    from(
@@ -108,7 +108,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="select_by_member_nickname" resultType="ArtVO">
 		select b.${artNo}, b.${memberId}, b.${artName}, b.${artPrice}, 
 			b.${artContent}, b.${artShowDate}, b.${artReplyCount}, 
-			b.${artWishCount}, b.${artViewCount}, b.${artFileName}, b.${memberNickname}
+			b.${artWishCount}, b.${artViewCount}, b.${artFileName}, b.${memberNickname}, b.${memberAccount}, b.${artJsonUri}, b.${artTokenId}
 		from (
 		    select rownum rn, a.*
 		    from(
@@ -159,6 +159,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<!-- 작품 수정 -->
+	<!-- 11.29 현아. 수정시 메타데이터 uri도 수정되어야할까? -->
 	<update id="update_art">
 		update ${art}
 		set ${artName}=#{artName}, ${artPrice}=#{artPrice},

@@ -14,6 +14,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		 <property name="memberPhone" value="member_phone"/>
 		 <property name="memberEmail" value="member_email"/>
 		 <property name="memberUid" value="member_uid"/>
+		 <property name="memberAccount" value="member_account"/>
 		 
 		 <property name="art" value="art"/>
 		 <property name="artNo" value="art_no"/>
@@ -28,6 +29,10 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		 <property name="artViewCount" value="art_view_count"/>
 		 <property name="artFileName" value="art_file_name"/>
 		 <property name="memberNickname" value="member_nickname"/>
+		 <property name="memberAccount" value="member_account"/>
+		 <property name="artJsonUri" value="art_json_uri"/>
+		 <property name="artTokenId" value="art_token_id"/>
+		 
 		 
 		 <property name="auction" value="auction"/>
 		 <property name="auctionNo" value="auction_no"/>
@@ -90,6 +95,17 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<property name="memberId" value="member_id"/>
 		<property name="refundAccount" value="refund_account"/>
 		<property name="refundMoney" value="refund_money"/>
+		
+		<property name="nft" value="nft"/>
+		<property name="nftNo" value="nft_no"/>
+		<property name="nftTokenId" value="nft_token_id"/>
+		<property name="nftContractAlias" value="nft_contract_alias"/>
+		<property name="nftOwner" value="nft_owner"/>
+		<property name="nftPreviousOwner" value="nft_previous_owner"/>
+		<property name="nftJsonUri" value="nft_json_uri"/>
+		<property name="nftTxHash" value="nft_tx_hash"/>
+		<property name="nftCreatedAt" value="nft_created_at"/>
+		<property name="nftUpdatedAt" value="nft_updated_at"/>
 	</properties>
 	
 	<settings>

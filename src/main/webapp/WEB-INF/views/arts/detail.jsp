@@ -186,8 +186,10 @@ img {
 								<p>${vo.artContent }</p>
 								<c:if test="${vo.memberId eq sessionScope.memberId}">
 									<div style="text-align: right;">
-										<a href="update?artNo=${vo.artNo }"><button type="button" class="btn btn-primary">수정</button></a>
-										<a href="delete?artNo=${vo.artNo }"><button type="button" class="btn btn-primary">삭제</button></a>
+										<c:if test="${sessionScope.memberId eq vo.memberId }">
+											<a href="update?artNo=${vo.artNo }"><button type="button" class="btn btn-primary">수정</button></a>
+											<a href="delete?artNo=${vo.artNo }"><button type="button" id="btn-deleteArt" class="btn btn-primary">삭제</button></a>
+										</c:if>	
 									</div>
 								</c:if>
 							</div>
@@ -738,7 +740,12 @@ img {
 				}
 			}); //end btn_buy click
 			
+			// 11.29 현아 삭제버튼 누르면 정말삭제하시겠습니까? 알러트 띄우기
+			$('#btn-deleteArt').click(function(){
+				alert('정말 삭제하시겠습니까?');
+			});
 			
+	        
 			/* date format */
 			const formatDate = (current_datetime)=>{
 			    let formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " + current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds();

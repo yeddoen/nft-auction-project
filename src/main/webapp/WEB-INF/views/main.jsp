@@ -256,61 +256,72 @@ li {
 	<input type="hidden" id="member_id" value="${sessionScope.memberId }">
 	<input type="hidden" id="delete_result" value="${deleteResult }">
 	<!-- JavaScript -->
-	<script type="text/javascript">		
-		$(function(){
-			showPagination();
-			winningBid();
-			/* 동작 수행 완료 alert */
-	  		confirmLoginResult();
-	  		confirmLogoutResult();
-	  		confirmJoinResult();
-	  		confirmRegisterResult();
-	  		confirmDeleteResult();
-	  		
-			function confirmLoginResult() {
-				var result=$('#login_result').val();
-				if(result=='success'){
-					alert('로그인 성공');
-				}
-			}//end confirmLoginRslut()
-			
-			function confirmLogoutResult() {
-				var result=$('#logout_result').val();
-				if(result=='success'){
-					alert('로그아웃 성공');
-				}
-			}//end confirmLogoutResult()
-			
-			function confirmJoinResult() {
-				var result=$('#join_result').val();
-				if(result=='success'){
-					alert('회원가입 성공');
-				}
-			}//end confirmJoinResult()
-			
-			function confirmRegisterResult() {
-				var result=$('#register_result').val();
-				if(result=='success'){
-					alert('작품 등록 성공');
-				}
-			}//end confirmRegisterResult()
-			
-			function confirmDeleteResult() {
-				var result=$('#delete_result').val();
-				if(result=='success'){
-					alert('작품 삭제 성공');
-				}else if(result=='fail'){
-					alert('작성자만 삭제할 수 있습니다.');
-				}
-			} //end confirmDeleteResult()
-			
-			/* 정렬 */
-			$('#current_list').click(function(){
-				$('#wish_list').removeClass('btn-primary');
-				$('#view_list').removeClass('btn-primary');
-				$(this).addClass('btn-primary'); //클릭된 버튼
-				currentAllList();
-			}); //end current_list click()
+	<script type="text/javascript">
+        $(function() {
+            showPagination();
+            winningBid();
+            /* 동작 수행 완료 alert */
+            confirmLoginResult();
+            confirmLogoutResult();
+            confirmJoinResult();
+            confirmRegisterResult();
+            confirmDeleteResult();
+
+            function confirmLoginResult() {
+                var result = $('#login_result').val();
+                if (result == 'success') {
+                    alert('로그인 성공');
+                }
+            }//end confirmLoginRslut()
+
+            function confirmLogoutResult() {
+                var result = $('#logout_result').val();
+                if (result == 'success') {
+                    alert('로그아웃 성공');
+                }
+            }//end confirmLogoutResult()
+
+            function confirmJoinResult() {
+                var result = $('#join_result').val();
+                if (result == 'success') {
+                    alert('회원가입 성공');
+                }
+            }//end confirmJoinResult()
+
+            // 작품 등록에 성공하면 메인화면에서 출력.
+            function confirmRegisterResult() {
+                var result = $('#register_result').val();
+                if (result == 'success') {
+                    alert('NFT 발행 및 작품 등록 성공!');
+                }
+            }//end confirmRegisterResult()
+
+            // 작품 삭제에 성공하면 메인화면에서 출력.
+            function confirmDeleteResult() {
+                var result = $('#delete_result').val();
+                if (result == 'success') {
+                    alert('NFT 소각 및 작품 삭제 성공!');
+
+                    /* const settings = {
+                        "async" : true,
+                        "crossDomain" : true,
+                        "url" : "https://metadata-api.klaytnapi.com/v1/contract/0x37b23fa7289b8a3055839fdf36d2bed9d7714665/token/0x8967",
+                        "method" : "POST",
+                        "headers" : {
+                            "Content-Type" : "application/json",
+                            "x-chain-id" : "1001",
+                            "Authorization" : "Basic S0FTS0VNTkMxRDg4UTdHSDFUTlZMWkhSOkhPa3lvbEpnbnFlaGhrNDRGOWVjSWNiSENONm0tSEJrLUFSV01PWXQ="
+                        },
+                        "processData" : false,
+                        "data" : "{\n  \"sender\": \"0x2d883293342ec229951b2f2f95d09cd0dcf749b5\",\n  \"owner\": \"0x2d883293342ec229951b2f2f95d09cd0dcf749b5\",\n  \"to\": \"0x0000000000000000000000000000000000000000\"\n}"
+                    };
+
+                    $.ajax(settings).done(function(response) {
+                        console.log('삭제 응답 결과 ' + response);
+                    }); */
+                }
+            } // end confirmDeleteResult()
+
 
 			$('#wish_list').click(function(){
 				$('#current_list').removeClass('btn-primary');
