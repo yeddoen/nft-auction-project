@@ -73,8 +73,10 @@
 						<div class="file-drop" style="color:grey;">첨부할 이미지를 drop해주세요.</div>
 						<div class="upload-list m-5"></div>
 						<input type="hidden" id="file_name" name="artFileName" value="" required>
+						<input type="hidden" id="memberAccount" name="memberAccount" value="" required>	
+						<input type="hidden" id="uri" name="artJsonUri" value="" required>
 						<div class="d-grid gap-2 mt-4">
-							<input type="submit" class="btn btn-primary rounded-pill" value="등록하기">
+						<input type="submit" class="btn btn-primary rounded-pill" value="등록하기">
 						</div>
 					</form>
 				</div>
@@ -93,33 +95,16 @@
 			<small>문의 nft.auction.help@gmail.com</small>
 		</div>
 	</div>
-	<h1>작품 등록 페이지</h1>
-	<form method="post">
-		<input type="hidden" id="member_id" name="memberId" value="${sessionScope.memberId }">
-		<input type="text" id="art_name" name="artName" value="" placeholder="작품명 입력" required><br>
-		<input type="number" name="artPrice" placeholder="즉시판매가 입력" required><br>
-		<input type="text" id="art_content" value="" name="artContent" placeholder="작품설명 입력" required><br>
-		작품 게시기간 설정<br> <input type="datetime-local" name="artShowDate"
-			required><br> <input type="number" name="artBasicFee"
-			placeholder="경매시작금 입력" required><br> 이미지 등록<br>
-		<div class="file-drop" style="color: grey;">이미지를 drop해주세요.</div>
-		<div class="upload-list"></div>
-		<input type="hidden" id="file_name" name="artFileName" value=""
-			required> 
-		<input type="hidden" id="memberAccount" name="memberAccount" value="" required>	
-		<input type="hidden" id="uri" name="artJsonUri" value="" required>
-		<input type="submit" value="등록하기">
-	</form>
 	<!-- JavaScript -->
 	<script type="text/javascript">
-		if (typeof window.klaytn !== 'undefined') {
+		/* if (typeof window.klaytn == 'undefined') {
 			console.log('kaikas installed!') // 카이카스가 설치된 경우
 			const accounts = klaytn.enable();
 			const account = accounts[0];
 		}
 		console.log('현재 네트워크 : ' + klaytn.networkVersion);
 		console.log('현재 지갑의 주소 : ' + klaytn.selectedAddress);
-	
+	 */
 		$(function(){
 			$('.file-drop').on('dragenter dragover', function(event){
 				//drop 이벤트의 기본 동작을 막음
@@ -147,7 +132,7 @@
 					processData:false,
 					contentType:false,
 					success: function(fileName){
-					    if (typeof window.klaytn !== 'undefined') {
+					    if (typeof window.klaytn == 'undefined') {
                   			/* console.log('kaikas installed!') // 카이카스가 설치된 경우
  
                  			console.log('현재 네트워크 : ' + klaytn.networkVersion);
@@ -187,8 +172,6 @@
                   			   	$('#uri').attr('value', response['uri']);    
                   			});
                   			
-             			 } else { // 설치되지 않은 경우, 설치할 수 있도록 유도하기.
-                 			location.href = 'https://chrome.google.com/webstore/detail/kaikas/jblndlipeogpafnldhgmapagcccfchpi?hl=ko';
              			 }
 					    
 						console.log(fileName); //서버에 업로드된 파일이름을 가지고옴

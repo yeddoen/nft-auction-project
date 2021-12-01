@@ -34,6 +34,7 @@ import org.web3j.protocol.exceptions.TransactionException;
 import project.spring.nft.domain.ArtVO;
 import project.spring.nft.domain.MemberVO;
 import project.spring.nft.domain.NftVO;
+import project.spring.nft.domain.PaymentVO;
 import project.spring.nft.pageutil.PageCriteria;
 import project.spring.nft.pageutil.PageMaker;
 import project.spring.nft.service.ArtService;
@@ -224,6 +225,7 @@ public class ArtController {
 		String nftOwner = mvo.getMemberAccount(); // 사용자의 account pool 계정
 		String nftTokenId = "0x" + getRamdomPassword(4); // 토큰의 아이디 그냥 점차 증가하는거로 만들까.
 		vo.setArtTokenId(nftTokenId); // art DB에 넣기.
+		logger.info(vo.getArtTokenId());
 		String nftJsonUri = vo.getArtJsonUri(); // 메타데이터주소.
 		String nftContractAlias = vo.getMemberId();
 

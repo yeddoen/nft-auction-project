@@ -101,7 +101,11 @@
 					<li><a href="member">회원정보</a></li>
 					<li><a href="../../wishlist/wishpage">위시리스트</a></li>
 					<li><a href="artlist">등록작품내역</a></li>
+<<<<<<< HEAD
 					<li><a href="shopping-list">구매작품내역</a></li>
+=======
+					<li><a href="#">구매작품내역</a></li>
+>>>>>>> develop-cha
 					<li><a href="../../qnaboard/qnalist">QnA게시판</a></li>
 				</ul>
 			</div>

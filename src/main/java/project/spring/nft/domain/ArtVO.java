@@ -23,7 +23,6 @@ public class ArtVO {
 
 	public ArtVO(int artNo, String memberId, String artName, int artPrice, String artContent, String artShowDate,
 			int artBasicFee, int artReplyCount, int artWishCount, int artViewCount, String artFileName,
-			String memberNickname) {
 			String memberNickname, String memberAccount, String artJsonUri, String artTokenId) {
 		super();
 		this.artNo = artNo;

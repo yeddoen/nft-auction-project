@@ -28,13 +28,16 @@ public class ArtDAOTest {
 	
 	@Test
 	public void testDAO() {
-		//testInsert();
+		// testInsert();
 		//testSearch();
 		//testSearch2();
 		//testSelect();
 //		testSearch();
 		//getNums();
 		//testSelectbyMemberId();
+
+		// testSelectbyMemberId();
+
 	}
 
 	/*
@@ -91,7 +94,7 @@ public class ArtDAOTest {
 //	}
 
 //	private void testInsert() {
-//		ArtVO vo=new ArtVO(0, "test", "제발요요", 10000, "테스트중", null, 0, 0, 0, "s_ssssss.png", "");
+//		ArtVO vo = new ArtVO(0, "test", "artname", 500, "content", "2021-01-20", 100, 0, 0, 0, "filename.jpg", "nickname", "0x098499626f6aeE2051Ad043EBC73FcAfC84330F4");
 //		int result=dao.insertArt(vo);
 //		if(result==1) {
 //			logger.info("insert 성공");

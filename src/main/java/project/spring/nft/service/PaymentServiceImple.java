@@ -46,4 +46,5 @@ public class PaymentServiceImple implements PaymentService {
 		logger.info("readArtNo() 호출");
 		return auctionDAO.selectWinner(artNo);
 	}
+
 }
