@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import project.spring.nft.domain.ArtAuctionVO;
 import project.spring.nft.domain.ArtVO;
 import project.spring.nft.domain.AuctionVO;
 import project.spring.nft.domain.MemberVO;
@@ -471,12 +472,14 @@ public class MemberController {
     } //end shoppingMyAuction()
     
     public void myAuctionList(String memberId, Model model) {
-		List<AuctionVO> auctionList=memberService.readAuctionAll(memberId);
-		for (AuctionVO vo : auctionList) {
+		List<ArtAuctionVO> auctionList=memberService.readAuctionAll(memberId);
+		for (ArtAuctionVO vo : auctionList) {
 			System.out.println(vo.toString());
 		}
 		if(auctionList != null) {		
 			model.addAttribute("auctionList", auctionList);
+		}else {
+			logger.info("auctionList NULL");
 		}
 		model.addAttribute("sortResult", "auction");
 	} //end myAuctionList()
@@ -494,6 +497,8 @@ public class MemberController {
 		}
 		if(payList != null) {
 			model.addAttribute("payList", payList);			
+		}else {
+			logger.info("payList NULL");
 		}
 		model.addAttribute("sortResult", "pay");
     	

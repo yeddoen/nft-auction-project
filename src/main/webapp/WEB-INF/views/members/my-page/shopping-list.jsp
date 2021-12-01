@@ -141,7 +141,7 @@ img {
 					</div>
 				</div>
 				<div class="row">
-				<%-- <c:if test="${not empty auctionList }">
+				<c:if test="${not empty auctionList && empty payList }">
 					<c:forEach var="vo" items="${ auctionList}">
 						<div class="col-sm-4">
 							<div class="card border-primary mb-3">
@@ -156,7 +156,7 @@ img {
 							</div>
 						</div>
 					</c:forEach>
-				</c:if> --%> 
+				</c:if>
 				<c:if test="${empty auctionList && not empty payList }">
 					<c:forEach var="vo" items="${ payList}">
 						<div class="col-sm-4">

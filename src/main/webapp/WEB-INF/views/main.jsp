@@ -163,8 +163,8 @@ li {
 				</ul>
 			</div>
 		</div>
-	</nav>
- 	<aside class="aside">
+	</nav>   
+	<aside class="aside">
 		<div id="page-wrapper">  
 		<div id="sidebar-wrapper" class="bg-light">
 			<iframe src="arts/auctionRT" height="900">
@@ -172,8 +172,8 @@ li {
 		</div>
 		<!-- /사이드바 -->
 		</div>
-	</aside>    
-	<section class="section" style="text-align: center;">
+	</aside> 
+	<section class="section" style="text-align: center; padding-bottom: 200px;">
 		<div id="page-wrapper">
 			<div id="page-content-wrapper">
 				<div class="container-fluid">
@@ -230,20 +230,20 @@ li {
 				<div id="paging" class="m-5">
 				</div>
 			</div>
-			<!-- footer -->
-			<div class="mt-5 p-3 bg-light">
-				<div style="bottom: 0; height: 200px;">
-					<h4>NFT-AUCTION</h4>
-					<hr>
-					<br>
-					<a href="#">이용약관</a> &nbsp;
-					<a href="#">사이트안내</a>
-					<br><br>
-					<small>문의 nft.auction.help@gmail.com</small>
-				</div>
-			</div>
 		</div>
 	</section>
+	<!-- footer -->
+	<div class="mt-5 p-3 bg-light">
+		<div style="bottom: 0; height: 200px;">
+			<h4>NFT-AUCTION</h4>
+			<hr>
+			<br>
+			<a href="#">이용약관</a> &nbsp;
+			<a href="#">사이트안내</a>
+			<br><br>
+			<small>문의 nft.auction.help@gmail.com</small>
+		</div>
+	</div>
 	<!-- hidden -->
 	<input type="hidden" id="hasPrev" value="${pageMaker.hasPrev }">
 	<input type="hidden" id="startPageNo" value="${pageMaker.startPageNo }">

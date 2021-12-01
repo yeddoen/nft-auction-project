@@ -2,6 +2,7 @@ package project.spring.nft.service;
 
 import java.util.List;
 
+import project.spring.nft.domain.ArtAuctionVO;
 import project.spring.nft.domain.AuctionVO;
 import project.spring.nft.domain.MemberVO;
 import project.spring.nft.domain.PaymentVO;
@@ -47,5 +48,5 @@ public interface MemberService {
 	Integer readRefund(String memberId);
 	
 	//경매참가내역
-	List<AuctionVO> readAuctionAll(String memberId);
+	List<ArtAuctionVO> readAuctionAll(String memberId);
 }

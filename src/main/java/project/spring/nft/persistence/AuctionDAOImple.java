@@ -75,7 +75,7 @@ public class AuctionDAOImple implements AuctionDAO {
 	}
 	
 	@Override
-	public List<AuctionVO> selectMyAcution(String memberId) {
+	public List<ArtAuctionVO> selectMyAcution(String memberId) {
 		logger.info("selectMyAcution() 호출 : memberId = "+memberId);
 		return sqlSession.selectList(NAMESPACE+".select_my_auction", memberId);
 	}

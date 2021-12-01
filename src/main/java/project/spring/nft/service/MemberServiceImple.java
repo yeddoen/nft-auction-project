@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import project.spring.nft.domain.ArtAuctionVO;
 import project.spring.nft.domain.AuctionVO;
 import project.spring.nft.domain.MemberVO;
 import project.spring.nft.domain.PaymentVO;
@@ -109,7 +110,7 @@ public class MemberServiceImple implements MemberService {
 	}
 	
 	@Override
-	public List<AuctionVO> readAuctionAll(String memberId) {
+	public List<ArtAuctionVO> readAuctionAll(String memberId) {
 		logger.info("readAuctionAll() 호출");
 		return auctionDAO.selectMyAcution(memberId);
 	}
