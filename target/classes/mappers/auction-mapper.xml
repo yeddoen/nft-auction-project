@@ -66,5 +66,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         group by ${artNo})        
         order by ${auctionMoney} desc
 	</select>
+	
+	<!-- 경매 참가한 내역 -->
+	<select id="select_my_auction" resultType="ArtAuctionVO">
+		select *from ${auction}
+		join ${art} 
+		on ${auction}.${artNo}=${art}.${artNo}
+		where ${auction}.${memberId}=#{memberId}
+		order by ${auction}.${auctionNo} desc
+ 	</select>
 
 </mapper>

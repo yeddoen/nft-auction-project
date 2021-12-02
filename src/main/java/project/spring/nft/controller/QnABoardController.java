@@ -1,8 +1,11 @@
 package project.spring.nft.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -58,7 +61,7 @@ public class QnABoardController {
 			logger.info(list.toString());			
 			pageMaker.setTotalCount(qnaboardservice.getTotalNumsOfRecords());
 		} else {
-			List<QnABoardVO> list = qnaboardservice.selectListByMemberId(memberId);
+			List<QnABoardVO> list = qnaboardservice.selectListByMemberId(criteria, memberId);
 			model.addAttribute("qnalist", list);
 			logger.info(list.toString());
 			pageMaker.setTotalCount(qnaboardservice.selectByMemberId(memberId));
@@ -98,34 +101,36 @@ public class QnABoardController {
 		int result = qnaboardservice.create(vo);
 		logger.info(result + "개 입력");
 		if (result == 1) {
-			reAttr.addFlashAttribute("insert_result", "success");
 			HttpSession session = request.getSession();
 			session.setAttribute(vo.getMemberId(), memberId);
 			session.setAttribute(vo.getMemberNickname(), memberNickname);
+			reAttr.addFlashAttribute("insertResult", "success");
 			return "redirect:/qnaboard/qnalist";
 		} else {
-			reAttr.addFlashAttribute("insert_result", "fail");
+			reAttr.addFlashAttribute("insertResult", "fail");
 			return "redirect:/qnaboard/qnaregister";
 		}
 	}
 
 	@GetMapping("/qnaupdate")
-	public void updateGET(Model model, Integer qnaboardNo, Integer page, HttpServletRequest request) {
+	public void updateGET(Model model, Integer qnaboardNo) {
 		logger.info("updateGET() 호출 : qnaboardNo = " + qnaboardNo);
 		QnABoardVO vo = qnaboardservice.read(qnaboardNo);
-		HttpSession session = request.getSession();
-		String memberId = (String) session.getAttribute("memberId");
+		// HttpSession session = request.getSession();
+		// String memberId = (String) session.getAttribute("memberId");
 		model.addAttribute("vo", vo);
-		model.addAttribute("page", page);
+		// model.addAttribute("page", page);
 	}
 
 	@PostMapping("/qnaupdate")
-	public String updatePUT(QnABoardVO vo, Integer page) {
-		logger.info("updatePUT() 호출 : bno" + vo.getQnaboardNo());
+	public String updatePOST(QnABoardVO vo, RedirectAttributes reAttr) {
+		logger.info("updatePOST() 호출 : vo = " + vo.toString());
 		int result = qnaboardservice.update(vo);
 		if (result == 1) {
+			reAttr.addFlashAttribute("updateResult", "success");
 			return "redirect:/qnaboard/qnalist";
 		} else {
+			reAttr.addFlashAttribute("updateResult", "fail");
 			return "redirect:/qnaboard/qnaupdate?bno=" + vo.getQnaboardNo();
 		}
 	}

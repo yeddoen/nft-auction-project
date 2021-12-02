@@ -6,8 +6,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<style type="text/css">
+<!-- 모바일 디바이스에서 터치/줌 등을 지원하기 위한 meta 태그 -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<!-- CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/zephyr/bootstrap.min.css">
+<style type="text/css">>
 .div1 {
   text-align: left;
   width: 400px;
@@ -18,10 +28,7 @@
   border-width: 1px;
 }
 
-.aside {
-  width: 30%;
-}
-
+/* 사이드바 래퍼 스타일 */
 #page-wrapper {
   padding-left: 250px;
 }
@@ -74,52 +81,30 @@
   align: left;
 }
 
-.section {
-  width: 70%;
-  align: right;
-}
 </style>
 <title>QnA 상세보기</title>
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script
-  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script
-  src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 </head>
 <body>
-  <!-- header -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-warning sticky-top">
-    <a class="navbar-brand" href="../main">NFT-AUCTION</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse"
-      data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item"><a class="nav-link"
-          href="../arts/register">작품등록</a></li>
-        <c:if test="${empty sessionScope.memberId }">
-          <li class="nav-item"><a class="nav-link"
-            href="../members/login">로그인</a></li>
-          <li class="nav-item"><a class="nav-link"
-            href="../members/sign-up">회원가입</a></li>
-        </c:if>
-        <c:if test="${not empty sessionScope.memberId }">
-          <li class="nav-item"><a class="nav-link"
-            href="../members/logout">로그아웃</a></li>
-          <li class="nav-item"><a class="nav-link"
-            href="../members/my-page/member">마이페이지</a></li>
-        </c:if>
-      </ul>
-    </div>
-  </nav>
+   <!-- header -->
+	<nav class="navbar navbar-expand-lg navbar-light bg-warning sticky-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="../main">NFT-AUCTION</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNavDropdown">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item"><a class="nav-link" href="../arts/register">작품등록</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="../members/logout">로그아웃</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="../members/my-page/member">마이페이지</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
   <aside class="aside">
     <div id="page-wrapper">
       <!-- 사이드바 -->
@@ -136,10 +121,12 @@
       <!-- /사이드바 -->
     </div>
   </aside>
-  <section class="section m-3">
+  <section class="section">
     <div id="page-wrapper">
       <div id="page-content-wrapper">
-        <h1>QnA 게시글 상세보기</h1>
+      <br>
+        <p class="h1">${vo.qnaboardTitle }</p>
+        <hr>
       </div>
       <!-- 로그인 아이디 : memberId, memberNickname
        게시글 작성자 아이디 : memberBoardId, memberBoardNickname
@@ -147,16 +134,17 @@
        대댓글 작성자 아이디 : memberAddReplyId, memberAddReplyNickname -->
       <!-- 로그인한 아이디가 작성한 게시글만 볼 수 있도록 수정
        관리자는 전체 게시글 확인할 수 있도록 수정 해야됨 -->
+     <div class="m-3">
       <div class="input-group mb-3">
-        <span class="input-group-text " style="width: 15%">글 번호</span> <input
+        <span class="input-group-text " style="width: 10%">글 번호</span> <input
           type="text" value="${vo.qnaboardNo }" readonly>
       </div>
-      <div class="input-group mb-3">
-        <span class="input-group-text " style="width: 15%">제목</span> <input
+      <%-- <div class="input-group mb-3">
+        <span class="input-group-text " style="width: 10%">제목</span> <input
           type="text" value="${vo.qnaboardTitle }" readonly>
-      </div>
+      </div> --%>
       <div class="input-group mb-3">
-        <span class="input-group-text " style="width: 15%">닉네임</span> <input
+        <span class="input-group-text " style="width: 10%">닉네임</span> <input
           type="text" value="${vo.memberNickname }" readonly>
       </div>
       <div class="input-group mb-3">
@@ -164,7 +152,7 @@
           <fmt:formatDate value="${vo.qnaboardDate }"
             pattern="YYYY-MM-dd hh:mm" />
         </c:set>
-        <span class="input-group-text " style="width: 15%">작성일</span> <input
+        <span class="input-group-text " style="width: 10%">작성일</span> <input
           type="text" value="${qnaboardDate }" readonly>
       </div>
       <div>
@@ -172,13 +160,13 @@
       </div>
       <div>
         <a href="qnalist"><input type="button"
-          class="btn btn-warning" value="글 목록"></a>
+          class="btn btn-primary" value="글 목록"></a>
         <c:if test="${vo.memberId eq sessionScope.memberId}">
           <!-- 게시글 작성자와 로그인한 아이디가 같으면 글 수정, 삭제 가능 -->
           <a href="qnaupdate?qnaboardNo=${vo.qnaboardNo }"><button
-              class="btn btn-warning">글 수정</button></a>
+              class="btn btn-primary">글 수정</button></a>
           <a href="qnadelete?qnaboardNo=${vo.qnaboardNo }"><input
-            type="button" value="글 삭제" class="btn btn-warning"></a>
+            type="button" value="글 삭제" class="btn btn-primary"></a>
         </c:if>
         <hr>
       </div>
@@ -198,151 +186,103 @@
               placeholder="댓글 내용을 입력하세요"></textarea>
           </div>
           <button type="button" id="btn_add"
-            class="btn btn-warning mt-3">댓글 등록</button>
+            class="btn btn-primary mt-3">댓글 등록</button>
 
         </c:if>
       </div>
       <hr>
-      <div style="text-align: left;">
-        <div id="qnareplies"></div>
-      </div>
-      <div>
-        <br> <br> <br> <br> <br> <br> <br>
-      </div>
-    </div>
-  </section>
+      <div id="qnareplies" style="text-align: left;"></div>
+	       </div>
         <!-- footer -->
-      <div class="mt-5 p-3 bg-light">
-        <div style="bottom: 0; height: 200px;">
+       <div class="mt-5 p-3 bg-light">
+        <div style="bottom: 0; height: 200px; text-align: center;">
           <h4>NFT-AUCTION</h4>
           <hr>
           <br>
           <a href="#">이용약관</a> &nbsp;
           <a href="#">사이트안내</a>
           <br><br>
-          <small>문의 nftauction_admin@gmail.com</small>
+          <small>문의 nft.auction.help@gmail.com</small>
         </div>
-      </div>>
+      </div>
+    </div>
+    
+  </section>
 
 
 
 
 
   <script type="text/javascript">
-            $(document)
-                    .ready(
-                            function() {
-                                var qnaboardNo = $('#qnaboardNo').val();
+            $(document).ready(function() {
+                var qnaboardNo = $('#qnaboardNo').val();
+				console.log("test");
+                getAllReplies();
 
-                                console.log("test");
-                                getAllReplies();
+                // 댓글 작성 버튼 클릭
+                $('#btn_add').click(function() {
+                    var replyContent = $('#replyContent').val();
+                    replyContent = replyContent.replace('/r/n', '<br/>');
+                    var replyParentNo = "0";
+                    var memberReplyNickname = $('#memberReplyNickname').val();
+                    var memberReplyId = $('#memberReplyId').val();
+                    var obj = {
+                            'qnaboardNo' : qnaboardNo,
+                            'replyParentNo' : replyParentNo,
+                            'replyContent' : replyContent,
+                            'memberNickname' : memberReplyNickname,
+                            'memberId' : memberReplyId
+                    };
+                    var JSONObj = JSON.stringify(obj);
+                    	$.ajax({
+                    	    type : 'POST',
+                    	    url : 'qnareplies/rest',
+							headers : {
+							    'Content-Type' : 'application/json',
+                                'X-HTTP-Method-Override' : 'POST'
+                            },
+                            data : JSONObj,
+                            success : function(result, status) {
+                                if (result == 1) {
+                                    alert('댓글 입력 성공');
+                                    getAllReplies();
+                                }
+                        	}
+                        });
 
-                                // 댓글 작성 버튼 클릭
-                                $('#btn_add')
-                                        .click(
-                                                function() {
+                 }); // end btn_add()
 
-                                                    var replyContent = $(
-                                                            '#replyContent')
-                                                            .val();
-                                                    replyContent = replyContent
-                                                            .replace('/r/n',
-                                                                    '<br/>');
-                                                    var replyParentNo = "0";
-                                                    var memberReplyNickname = $(
-                                                            '#memberReplyNickname')
-                                                            .val();
-                                                    var memberReplyId = $(
-                                                            '#memberReplyId')
-                                                            .val();
-                                                    //var replyDepth = "0";
-                                                    var obj = {
-                                                        'qnaboardNo' : qnaboardNo,
-                                                        'replyParentNo' : replyParentNo,
-                                                        //'replyDepth' : replyDepth,
-                                                        'replyContent' : replyContent,
-                                                        'memberNickname' : memberReplyNickname,
-                                                        'memberId' : memberReplyId
-                                                    };
-
-                                                    var JSONObj = JSON
-                                                            .stringify(obj);
-
-                                                    $
-                                                            .ajax({
-                                                                type : 'POST',
-                                                                url : 'qnareplies/rest',
-                                                                headers : {
-                                                                    'Content-Type' : 'application/json',
-                                                                    'X-HTTP-Method-Override' : 'POST'
-                                                                },
-                                                                data : JSONObj,
-                                                                success : function(
-                                                                        result,
-                                                                        status) {
-                                                                    if (result == 1) {
-                                                                        alert('댓글 입력 성공');
-                                                                        getAllReplies();
-
-                                                                    }
-                                                                }
-                                                            });
-
-                                                }); // end btn_add()
-
-                                // 대댓글 버튼 클릭
-                                $('#qnareplies')
-                                        .on(
-                                                'click',
-                                                '.btn_add_reply',
-                                                function() {
-                                                    // $('.btn_add_reply').click(function() {          
-                                                    console.log("대댓글 작성 클릭");
-                                                    var replyAddContent = $(
-                                                            '#replyAddContent')
-                                                            .val();
-                                                    var replyParentNo = $(
-                                                            '#replyAddNo')
-                                                            .val();
-                                                    var memberNickname = $(
-                                                            '#memberReplyAddNickname')
-                                                            .val();
-                                                    var memberAddId = $(
-                                                            '#memberAddId')
-                                                            .val();
-                                                    // var replyDepth = "1";
-                                                    var obj = {
-                                                        'qnaboardNo' : qnaboardNo,
-                                                        'replyParentNo' : replyParentNo,
-                                                        //'replyDepth' : replyDepth,
-                                                        'replyContent' : replyAddContent,
-                                                        'memberNickname' : memberNickname,
-                                                        'memberId' : memberAddId
-                                                    };
-
-                                                    var JSONObj = JSON
-                                                            .stringify(obj);
-
-                                                    $
-                                                            .ajax({
-                                                                type : 'POST',
-                                                                url : 'qnareplies/rest',
-                                                                headers : {
-                                                                    'Content-Type' : 'application/json',
-                                                                    'X-HTTP-Method-Override' : 'POST'
-                                                                },
-                                                                data : JSONObj,
-                                                                success : function(
-                                                                        result,
-                                                                        status) {
-                                                                    if (result == 1) {
-                                                                        alert('댓글 입력 성공');
-                                                                        getAllReplies();
-                                                                    }
-                                                                }
-                                                            });
-
-                                                }); // end btn_add_reply()
+                 // 대댓글 버튼 클릭
+                 $('#qnareplies').on('click', '.btn_add_reply', function() {
+                     console.log("대댓글 작성 클릭");
+                     var replyAddContent = $('#replyAddContent').val();
+                     var replyParentNo = $('#replyAddNo').val();
+                     var memberNickname = $('#memberReplyAddNickname').val();
+                     var memberAddId = $('#memberAddId').val();
+                     var obj = {
+                             'qnaboardNo' : qnaboardNo,
+                             'replyParentNo' : replyParentNo,
+                             'replyContent' : replyAddContent,
+                             'memberNickname' : memberNickname,
+                             'memberId' : memberAddId
+                     };
+                     var JSONObj = JSON.stringify(obj);
+                     	$.ajax({
+                     	    type : 'POST',
+                            url : 'qnareplies/rest',
+                            headers : {
+                                'Content-Type' : 'application/json',
+                                'X-HTTP-Method-Override' : 'POST'
+                            },
+                            data : JSONObj,
+                            success : function(result, status) {
+                                if (result == 1) {
+                                    alert('댓글 입력 성공');
+                                    getAllReplies();
+                                }
+                            }
+                         });
+                    }); // end btn_add_reply()
 
                                 // 답글 버튼 눌렀을 때 답글 입력창
                                 $('#qnareplies').on('click','div .btn_reply',function() {

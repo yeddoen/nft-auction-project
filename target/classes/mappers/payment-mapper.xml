@@ -35,4 +35,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	where ${memberId}=#{memberId}
 	order by ${paymentDate} desc
 </select>
+
+<!-- 판매 총 금액 -->
+<select id="select_profit" resultType="Double">
+	select sum(${artPrice})
+	from ${artPayment}
+	where ${artNo} IN (
+		select ${artNo}
+		from ${art}
+		where ${memberId}=#{memberId}
+	)
+</select>
 </mapper>

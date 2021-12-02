@@ -19,9 +19,6 @@
   src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style type="text/css">
 /* 사이드바 래퍼 스타일 */
-.aside {
-  width: 30%;
-}
 
 #page-wrapper {
   padding-left: 250px;
@@ -75,10 +72,6 @@
   align: left;
 }
 
-.section {
-  width: 70%;
-  align: right;
-}
 </style>
 </head>
 <body>
@@ -159,5 +152,22 @@
       </form>
     </div>
   </section>
+  <!-- hidden -->
+    <input type="hidden" id="insert_result" value="${insertResult }">
+  <script type="text/javascript">
+  	$(function() {
+  	    confirmInsertResult();
+  	    
+  	    function confirmInsertResult() {
+            var result = $('#insert_result').val();
+            console.log(result);
+            if (result == 'fail') {
+                alert('문의글 등록 실패');
+            } else if (result == 'success') {
+                alert('문의글이 등록되었습니다.');
+            }
+        } // end confirmInsertResult()
+  	});
+  </script>
 </body>
 </html>

@@ -7,8 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import project.spring.nft.domain.ArtAuctionVO;
+import project.spring.nft.domain.AuctionVO;
 import project.spring.nft.domain.MemberVO;
 import project.spring.nft.domain.PaymentVO;
+import project.spring.nft.persistence.AuctionDAO;
 import project.spring.nft.persistence.MemberDAO;
 import project.spring.nft.persistence.PaymentDAO;
 import project.spring.nft.persistence.RefundDAO;
@@ -24,6 +27,8 @@ public class MemberServiceImple implements MemberService {
 	private PaymentDAO paymentDAO;
 	@Autowired
 	private RefundDAO refundDAO;
+	@Autowired
+	private AuctionDAO auctionDAO;
 	
 	@Override
 	public int createMember(MemberVO vo) {
@@ -87,12 +92,12 @@ public class MemberServiceImple implements MemberService {
 	
 	@Override
 	public List<PaymentVO> readPaymentAll(String memberId) {
-		logger.info("readAll() 호출");
+		logger.info("readPaymentAll() 호출");
 		return paymentDAO.selectAll(memberId);
 	}
 	
 	@Override
-	public int readProfit(String memberId) {
+	public Double readProfit(String memberId) {
 		logger.info("readProfit() 호출 : memberId = "+memberId);
 		return paymentDAO.selectProfit(memberId);
 	}
@@ -102,5 +107,11 @@ public class MemberServiceImple implements MemberService {
 	public Integer readRefund(String memberId) {
 		logger.info("readRefund() 호출");
 		return refundDAO.select(memberId);
+	}
+	
+	@Override
+	public List<ArtAuctionVO> readAuctionAll(String memberId) {
+		logger.info("readAuctionAll() 호출");
+		return auctionDAO.selectMyAcution(memberId);
 	}
 } // end class

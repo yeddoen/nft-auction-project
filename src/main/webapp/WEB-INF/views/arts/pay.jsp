@@ -88,6 +88,7 @@ img {
   <script> 
 
   imgShow(); 
+  confirmPayResult();
       
   function requestPay() {
   	var IMP = window.IMP; 
@@ -166,6 +167,15 @@ img {
 			show_img=show_img.replace('/s_','/');
 			$('#image').html('<img src="/nft-auction/arts/pay/display?fileName='+show_img+'">');
 		} //end imgShow()
+		
+		/* 비회원 접근 */
+		function confirmPayResult() {
+			var result=$('#pay_result').val();
+			if(result=='fail'){
+				alert('비회원은 구매할 수 없습니다.');
+				window.close();
+			}
+		} //end confirmPayResult()
 
     
  

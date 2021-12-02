@@ -1,95 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration
-PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!DOCTYPE configuration SYSTEM "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-	<!-- DB 테이블과 컬럼들을 mapper 매핑을 위한 변수 선언 -->
-	<properties>
-		 <property name="member" value="member"/>
-		 <property name="memberNo" value="member_no"/>
-		 <property name="memberId" value="member_id"/>
-		 <property name="memberPassword" value="member_password"/>
-		 <property name="memberName" value="member_name"/>
-		 <property name="memberNickname" value="member_nickname"/>
-		 <property name="memberPhone" value="member_phone"/>
-		 <property name="memberEmail" value="member_email"/>
-		 <property name="memberUid" value="member_uid"/>
-		 
-		 <property name="art" value="art"/>
-		 <property name="artNo" value="art_no"/>
-		 <property name="memberId" value="member_id"/>
-		 <property name="artName" value="art_name"/>
-		 <property name="artPrice" value="art_price"/>
-		 <property name="artContent" value="art_content"/>
-		 <property name="artShowDate" value="art_show_date"/>
-		 <property name="artBasicFee" value="art_basic_fee"/>
-		 <property name="artReplyCount" value="art_reply_count"/>
-		 <property name="artWishCount" value="art_wish_count"/>
-		 <property name="artViewCount" value="art_view_count"/>
-		 <property name="artFileName" value="art_file_name"/>
-		 <property name="memberNickname" value="member_nickname"/>
-		 
-		 <property name="auction" value="auction"/>
-		 <property name="auctionNo" value="auction_no"/>
-		 <property name="artNo" value="art_no"/>
-		 <property name="memberId" value="member_id"/>
-		 <property name="memberNickname" value="member_nickname"/>
-		 <property name="auctionMoney" value="auction_money"/>
-		 <property name="auctionDate" value="auction_date"/>
-		 <property name="auctionResult" value="auction_result"/>
-		 
-		 <property name="qnaboard" value="qnaboard"/>
-		 <property name="qnaboardNo" value="qnaboard_no"/>
-		 <property name="qnaboardTitle" value="qnaboard_title"/>
-		 <property name="qnaboardContent" value="qnaboard_content"/>
-		 <property name="memberId" value="member_id"/>
-		 <property name="memberNickname" value="member_nickname"/>
-		 <property name="qnaboardDate" value="qnaboard_date"/>
-		 <property name="qnareplyCount" value="qnareply_count"/>
+<!-- DB 테이블과 컬럼들을 mapper 매핑을 위한 변수 선언 -->
+<properties>
+<property value="member" name="member"/>
+<property value="member_no" name="memberNo"/>
+<property value="member_id" name="memberId"/>
+<property value="member_password" name="memberPassword"/>
+<property value="member_name" name="memberName"/>
+<property value="member_nickname" name="memberNickname"/>
+<property value="member_phone" name="memberPhone"/>
+<property value="member_email" name="memberEmail"/>
+<property value="member_uid" name="memberUid"/>
+<property value="member_account" name="memberAccount"/>
+<property value="art" name="art"/>
+<property value="art_no" name="artNo"/>
+<property value="member_id" name="memberId"/>
+<property value="art_name" name="artName"/>
+<property value="art_price" name="artPrice"/>
+<property value="art_content" name="artContent"/>
+<property value="art_show_date" name="artShowDate"/>
+<property value="art_basic_fee" name="artBasicFee"/>
+<property value="art_reply_count" name="artReplyCount"/>
+<property value="art_wish_count" name="artWishCount"/>
+<property value="art_view_count" name="artViewCount"/>
+<property value="art_file_name" name="artFileName"/>
+<property value="member_nickname" name="memberNickname"/>
+<property value="member_account" name="memberAccount"/>
+<property value="art_json_uri" name="artJsonUri"/>
+<property value="art_token_id" name="artTokenId"/>
+<property value="auction" name="auction"/>
+<property value="auction_no" name="auctionNo"/>
+<property value="art_no" name="artNo"/>
+<property value="member_id" name="memberId"/>
+<property value="member_nickname" name="memberNickname"/>
+<property value="auction_money" name="auctionMoney"/>
+<property value="auction_date" name="auctionDate"/>
+<property value="auction_result" name="auctionResult"/>
+<property value="qnaboard" name="qnaboard"/>
+<property value="qnaboard_no" name="qnaboardNo"/>
+<property value="qnaboard_title" name="qnaboardTitle"/>
+<property value="qnaboard_content" name="qnaboardContent"/>
+<property value="member_id" name="memberId"/>
+<property value="member_nickname" name="memberNickname"/>
+<property value="qnaboard_date" name="qnaboardDate"/>
+<property value="qnareply_count" name="qnareplyCount"/>
+<property value="qnareply" name="qnareply"/>
+<property value="reply_no" name="replyNo"/>
+<property value="qnaboard_no" name="qnaboardNo"/>
+<property value="reply_parent_no" name="replyParentNo"/>
+<property value="reply_content" name="replyContent"/>
+<property value="member_id" name="memberId"/>
+<property value="member_nickname" name="memberNickname"/>
+<property value="reply_date" name="replyDate"/>
+<property value="wishlist" name="wishlist"/>
+<property value="wish_no" name="wishNo"/>
+<property value="member_id" name="memberId"/>
+<property value="art_name" name="artName"/>
+<property value="art_price" name="artPrice"/>
+<property value="art_file_name" name="artFileName"/>
+<property value="art_no" name="artNo"/>
+<property value="art_reply" name="artReply"/>
+<property value="art_reply_no" name="artReplyNo"/>
+<property value="art_no" name="artNo"/>
+<property value="art_reply_parent_no" name="artReplyParentNo"/>
+<property value="art_reply_content" name="artReplyContent"/>
+<property value="art_reply_date" name="artReplyDate"/>
+<property value="member_id" name="memberId"/>
+<property value="member_nickname" name="memberNickname"/>
+<property value="art_payment" name="artPayment"/>
+<property value="payment_no" name="paymentNo"/>
+<property value="member_id" name="memberId"/>
+<property value="art_no" name="artNo"/>
+<property value="art_name" name="artName"/>
+<property value="art_price" name="artPrice"/>
+<property value="merchant_uid" name="merchantUid"/>
+<property value="payment_date" name="paymentDate"/>
+<property value="payment_type" name="paymentType"/>
+<property value="art_file_name" name="artFileName"/>
+<property value="refund" name="refund"/>
+<property value="refund_no" name="refundNo"/>
+<property value="member_id" name="memberId"/>
+<property value="refund_account" name="refundAccount"/>
+<property value="refund_money" name="refundMoney"/>
+<property value="nft" name="nft"/>
+<property value="nft_no" name="nftNo"/>
+<property value="nft_token_id" name="nftTokenId"/>
+<property value="nft_contract_alias" name="nftContractAlias"/>
+<property value="nft_owner" name="nftOwner"/>
+<property value="nft_previous_owner" name="nftPreviousOwner"/>
+<property value="nft_json_uri" name="nftJsonUri"/>
+<property value="nft_tx_hash" name="nftTxHash"/>
+<property value="nft_created_at" name="nftCreatedAt"/>
+<property value="nft_updated_at" name="nftUpdatedAt"/>
+</properties>
 
-		<property name="qnareply" value="qnareply"/>
-		<property name="replyNo" value="reply_no"/>
-		<property name="qnaboardNo" value="qnaboard_no"/>
-		<property name="replyParentNo" value="reply_parent_no"/>
-		<property name="replyDepth" value="reply_depth"/>
-		<property name="replyContent" value="reply_content"/>
-		<property name="memberId" value="member_id"/>
-		<property name="memberNickname" value="member_nickname"/>
-		<property name="replyDate" value="reply_date"/>
-		
-		<property name="wishlist" value="wishlist"/>
-		<property name="wishNo" value="wish_no"/>
-		<property name="memberId" value="member_id"/>
-		<property name="artName" value="art_name"/>
-		<property name="artPrice" value="art_price"/>
-		<property name="artFileName" value="art_file_name"/>
-		<property name="artNo" value="art_no"/>
-		
-		<property name="artReply" value="art_reply"/>
-		<property name="artReplyNo" value="art_reply_no"/>
-		<property name="artNo" value="art_no"/>
-		<property name="artReplyParentNo" value="art_reply_parent_no"/>
-		<property name="artReplyContent" value="art_reply_content"/>
-		<property name="artReplyDate" value="art_reply_date"/>
-		<property name="memberId" value="member_id"/>
-		<property name="memberNickname" value="member_nickname"/>
-		
-		<property name="artPayment" value="art_payment"/>
-		<property name="paymentNo" value="payment_no"/>
-		<property name="memberId" value="member_id"/>
-		<property name="artNo" value="art_no"/>
-		<property name="artName" value="art_name"/>
-		<property name="artPrice" value="art_price"/>
-		<property name="merchantUid" value="merchant_uid"/>
-		<property name="paymentDate" value="payment_date"/>
-		<property name="paymentType" value="payment_type"/>
-	</properties>
-	
-	<settings>
-		<setting name="mapUnderscoreToCamelCase" value="true"/>
-	</settings>
-	
-	<typeAliases>
-		<package name="project.spring.nft.domain"/>
-	</typeAliases>
+
+<settings>
+<setting value="true" name="mapUnderscoreToCamelCase"/>
+</settings>
+
+<typeAliases>
+<package name="project.spring.nft.domain"/>
+</typeAliases>
+
 </configuration>

@@ -164,4 +164,11 @@ public class ArtDAOImple implements ArtDAO {
 		logger.info("getTotalMyArt() 호출");
 		return sqlSession.selectOne(NAMESPACE+".select_my_art_count", memberId); 
 	} 
+
+	@Override
+	public List<ArtVO> selectNotAuction() {
+		logger.info("selectNotAuction() 호출");
+		return sqlSession.selectList(NAMESPACE + ".select_not_auction");
+	}
+
 }

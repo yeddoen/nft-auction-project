@@ -1,5 +1,6 @@
 package project.spring.nft.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -72,9 +73,9 @@ public class QnABoardServiceImple implements QnABoardService {
 
 
 	@Override
-	public List<QnABoardVO> selectListByMemberId(String memberId) {
+	public List<QnABoardVO> selectListByMemberId(PageCriteria criteria, String memberId) {
 		logger.info("selectListByMemberId() 호출");
-		return dao.selectListByMemberId(memberId);
+		return dao.selectListByMemberId(criteria ,memberId);
 	}
 
 

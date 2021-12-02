@@ -75,9 +75,13 @@ public class QnABoardDAOImple implements QnABoardDAO {
 		return sqlSession.selectOne(NAMESPACE + ".select_by_member_id", memberId);
 	}
 	@Override
-	public List<QnABoardVO> selectListByMemberId(String memberId) {
+	public List<QnABoardVO> selectListByMemberId(PageCriteria c, String memberId) {
 		logger.info("selectListByMemberId() 호출");
-		return sqlSession.selectList(NAMESPACE + ".select_list_by_member_id", memberId);
+		Map<String, Object> args = new HashMap<String, Object>();
+		args.put("start", c.getStart());
+		args.put("end", c.getEnd());
+		args.put("memberId", memberId);
+		return sqlSession.selectList(NAMESPACE + ".select_list_by_member_id", args);
 	}
 	
 }

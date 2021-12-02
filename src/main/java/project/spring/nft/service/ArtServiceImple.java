@@ -223,6 +223,10 @@ public class ArtServiceImple implements ArtService {
 		return memberDAO.selectByMemberId(memberId);
 	}
 	
-	
+	@Override
+	public List<ArtVO> readNotAuction() {
+		logger.info("readNotAuction() 호출");
+		return artDAO.selectNotAuction();
+	}
 	
 }

@@ -6,8 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
   <insert id="insert">
     insert into ${qnareply}
-    (${qnaboardNo}, ${replyParentNo}, ${replyDepth}, ${replyContent}, ${memberNickname}, ${memberId})
-    values (#{qnaboardNo}, #{replyParentNo}, #{replyDepth}, #{replyContent}, #{memberNickname}, #{memberId})
+    (${qnaboardNo}, ${replyParentNo}, ${replyContent}, ${memberNickname}, ${memberId})
+    values (#{qnaboardNo}, #{replyParentNo}, #{replyContent}, #{memberNickname}, #{memberId})
   </insert>
 
   <select id="select_all_by_qnaboard_no" resultType="QnAReplyVO">

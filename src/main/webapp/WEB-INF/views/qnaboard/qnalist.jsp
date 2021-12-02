@@ -72,49 +72,40 @@ ul {
 </style>
 
 <meta charset="UTF-8">
+<!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<title>QnA List</title>
+<!-- 모바일 디바이스에서 터치/줌 등을 지원하기 위한 meta 태그 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script
-  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script
-  src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<!-- 로그인한 아이디가 작성한 게시글만 볼 수 있도록 수정
-       관리자는 전체 게시글 확인할 수 있도록 수정 해야됨 -->
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<!-- CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/zephyr/bootstrap.min.css">
+<title>QnA List</title>
 </head>
 <body>
-
-  <!-- header -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-warning sticky-top">
-    <a class="navbar-brand" href="../main">NFT-AUCTION</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse"
-      data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
-      aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item"><a class="nav-link"
-          href="../arts/register">작품등록</a></li>
-        <c:if test="${empty sessionScope.memberId }">
-          <li class="nav-item"><a class="nav-link"
-            href="../members/login">로그인</a></li>
-          <li class="nav-item"><a class="nav-link"
-            href="../members/sign-up">회원가입</a></li>
-        </c:if>
-        <c:if test="${not empty sessionScope.memberId }">
-          <li class="nav-item"><a class="nav-link"
-            href="../members/logout">로그아웃</a></li>
-          <li class="nav-item"><a class="nav-link"
-            href="../members/my-page/member">마이페이지</a></li>
-        </c:if>
-      </ul>
-    </div>
-  </nav>
+    <!-- header -->
+	<nav class="navbar navbar-expand-lg navbar-light bg-warning sticky-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="../main">NFT-AUCTION</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNavDropdown">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item"><a class="nav-link" href="../arts/register">작품등록</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="../members/logout">로그아웃</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="../members/my-page/member">마이페이지</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
   <aside class="aside">
     <div id="page-wrapper">
       <!-- 사이드바 -->
@@ -125,13 +116,13 @@ ul {
           <li><a href="../wishlist/wishpage">위시리스트</a></li>
           <li><a href="../members/my-page/artlist">등록작품내역</a></li>
           <li><a href="../members/my-page/shopping-list">구매작품내역</a></li>
-          <li><a href="../qnaboard/qnalist">QnA게시판</a></li>
+          <li><a href="qnalist">QnA게시판</a></li>
         </ul>
       </div>
       <!-- /사이드바 -->
     </div>
   </aside>
-	<section class="section">
+	<section class="section" >
 		<div id="page-wrapper">
 			<!-- 본문 헤더 -->
 			<div id="page-content-wrapper">
@@ -140,9 +131,9 @@ ul {
 					<hr>
 				</div>
 			</div>
-			<div class="content m-3">
+			<div class="content m-3" style="padding-bottom: 200px;">
 
-              <button type="button" class="btn btn-warning" onclick="location.href='qnaregister?memberId=<%=session.getAttribute("memberId")%>'">문의하기</button>
+              <button type="button" class="btn btn-primary" onclick="location.href='qnaregister'">문의하기</button>
 			  <!-- <button class="btn btn-primary"></button> -->
 			  <div align="center">
 			    <table class="table">
@@ -185,23 +176,48 @@ ul {
 			  </ul>
 			  </div>
 			</div>
+		     <!-- footer -->
+	      <div class="mt-5 p-3 bg-light">
+	        <div style="bottom: 0; height: 200px; text-align: center;">
+	          <h4>NFT-AUCTION</h4>
+	          <hr>
+	          <br>
+	          <a href="#">이용약관</a> &nbsp;
+	          <a href="#">사이트안내</a>
+	          <br><br>
+	          <small>문의 nft.auction.help@gmail.com</small>
+	        </div>
+	      </div>
 		</div>
-	</section>
-        <!-- footer -->
-      <div class="mt-5 p-3 bg-light">
-        <div style="bottom: 0; height: 200px;">
-          <h4>NFT-AUCTION</h4>
-          <hr>
-          <br>
-          <a href="#">이용약관</a> &nbsp;
-          <a href="#">사이트안내</a>
-          <br><br>
-          <small>문의 nftauction_admin@gmail.com</small>
-        </div>
-      </div>>
-  
+	</section>  
+  <!-- hidden -->
+    <input type="hidden" id="update_result" value="${updateResult }">
+    <input type="hidden" id="insert_result" value="${insertResult }">
   <script type="text/javascript">
     $(document).ready(function() {
+		confirmUpdateResult();
+		confirmInsertResult();
+		
+        function confirmUpdateResult() {
+            var result = $('#update_result').val();
+            console.log(result);
+            if (result == 'fail') {
+                alert('문의글 수정 실패');
+            } else if (result == 'success') {
+                alert('문의글이 수정되었습니다.');
+            }
+        } // end confirmUpdateResult()
+        
+        function confirmInsertResult() {
+            var result = $('#insert_result').val();
+            console.log(result);
+            if (result == 'fail') {
+                alert('문의글 등록 실패');
+            } else if (result == 'success') {
+                alert('문의글이 등록되었습니다.');
+            }
+        } // end confirmInsertResult()
+        
         // 로그인 버튼 클릭
         $('#btn_login').click(function() {
             location = '../members/login';

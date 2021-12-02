@@ -100,10 +100,7 @@ img {
 									<span id="art_wish_count">${vo.artWishCount }</span>
 								</button>
 								<!-- 찜하기를 누를떄 실행되는 메소드 만들기 -->
-                            <c:if test="${not empty sessionScope.memberId }">
-                                <button type="button" id="btn_declare" class="btn btn-outline-danger btn-sm">신고</button>
-							</c:if>
-                          </div>
+							</div>
 						</div>
 						<hr>
 						<div class="row">
@@ -189,8 +186,10 @@ img {
 								<p>${vo.artContent }</p>
 								<c:if test="${vo.memberId eq sessionScope.memberId}">
 									<div style="text-align: right;">
-										<a href="update?artNo=${vo.artNo }"><button type="button" class="btn btn-primary">수정</button></a>
-										<a href="delete?artNo=${vo.artNo }"><button type="button" class="btn btn-primary">삭제</button></a>
+										<c:if test="${sessionScope.memberId eq vo.memberId }">
+											<a href="update?artNo=${vo.artNo }"><button type="button" class="btn btn-primary">수정</button></a>
+											<a href="delete?artNo=${vo.artNo }"><button type="button" id="btn-deleteArt" class="btn btn-primary">삭제</button></a>
+										</c:if>	
 									</div>
 								</c:if>
 							</div>
@@ -203,18 +202,19 @@ img {
 							    	<c:if test="${not empty sessionScope.memberId }">
 							     		<input type="hidden" id="memberReplyNo" readonly>
 							     		<input type="hidden" id="memberReplyId" value="${vo.memberId }">
-									    <input type="text" id="memberReplyNickname" value="${vo.memberNickname }" readonly>
-							     		<!-- <input type="text" id="artReplyContent" class="form-control" placeholder="댓글 내용을 입력하세요"> -->
-							     		<div class="card border-secondary">
-                                          <textarea rows="5" cols="70" id="artReplyContent" placeholder="댓글 내용을 입력하세요"></textarea>
+									    <div class="input-group mb-3">
+                                          <span class="input-group-text " style="width: 15%">닉네임</span>
+                                          <input type="text" id="memberReplyNickname" value="${vo.memberNickname }" readonly>
+							     		</div>
+                                        <div>
+                                          <textarea class="form-control" rows="5" cols="100" id="artReplyContent" placeholder="댓글 내용을 입력하세요"></textarea>
                                         </div>
-                                        <button type="button" id="btn_add" class="btn btn-outline-primary">등록</button>
+<!--                                         <input type="text" id="artReplyContent" class="form-control" placeholder="댓글 내용을 입력하세요">
+ -->							     		<button type="button" id="btn_add" class="btn btn-outline-primary">등록</button>
 							     	</c:if>
 								</div>
-								<hr>
-                               <div style="text-align: left;">								
+								<hr>								
 								<div id="replies">
-                               </div>
 								</div>
 							</div>
 						</div>
@@ -232,7 +232,7 @@ img {
 			<a href="#">이용약관</a> &nbsp;
 			<a href="#">사이트안내</a>
 			<br><br>
-			<small>문의 nftauction_admin@gmail.com</small>
+			<small>문의 nft.auction.help@gmail.com</small>
 		</div>
 	</div>
 	<!-- hidden -->
@@ -783,7 +783,12 @@ img {
 				}
 			}); //end btn_buy click
 			
-			/* 신고 버튼을 눌렀을 때 */
+			// 11.29 현아 삭제버튼 누르면 정말삭제하시겠습니까? 알러트 띄우기
+			$('#btn-deleteArt').click(function(){
+				alert('정말 삭제하시겠습니까?');
+			});
+			
+			/* 12.01 한슬 신고 버튼을 눌렀을 때 */
 			$('#btn_declare').click(function(){
 				var artNo=$('#art_no').val();
 				var creator=$('#creator').val();
