@@ -100,6 +100,7 @@ img {
 									<span id="art_wish_count">${vo.artWishCount }</span>
 								</button>
 								<!-- 찜하기를 누를떄 실행되는 메소드 만들기 -->
+                                <button type="button" id="btn_declare" class="btn btn-outline-danger btn-sm">신고</button>
 							</div>
 						</div>
 						<hr>
@@ -801,7 +802,7 @@ img {
 					window.open('declare?artNo=${vo.artNo}', 'PopupWin','width=600, height=350, resizable=no');
 				}
 			}); //end btn_buy click
-			
+
 			
 			/* date format */
 			const formatDate = (current_datetime)=>{

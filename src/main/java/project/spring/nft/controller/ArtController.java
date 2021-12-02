@@ -497,11 +497,7 @@ public class ArtController {
 		logger.info("declareGET() 호출");
 		HttpSession session = request.getSession();
 		String memberId = (String) session.getAttribute("memberId");
-		/*
-		 * if(memberId == null) { model.addAttribute("accessResult", "fail");
-		 * logger.info(memberId); } else { model.addAttribute("accessResult",
-		 * "success"); logger.info(memberId); }
-		 */
+
 		model.addAttribute("artNo", artNo);
 		MemberVO vo = artService.readMemberEmail(memberId);
 		logger.info(vo.toString());
@@ -513,17 +509,18 @@ public class ArtController {
 	public void declarePOST(HttpServletResponse response, RedirectAttributes reAttr, String memberEmail, int artNo, String declareContent) throws Exception {
 		logger.info("declarePOST() 호출");
 		int result = sendMail(memberEmail, artNo, declareContent);
-		if(result == 1) {
-			logger.info(result+"개 메일 발송 완료");
-			PrintWriter out = response.getWriter();
-			out.println("<script> alert('신고 접수가 완료되었습니다.'); window.close(); </script>");
-			reAttr.addFlashAttribute("emailResult", "success");
-		} else {
-			logger.info("메일 발송 실패");
-			PrintWriter out = response.getWriter();
-			out.println("<script> alert('다시 시도해주세요'); </script>");
-			reAttr.addFlashAttribute("emailResult", "fail");
-		}
+			if(result == 1) {
+				logger.info(result+"개 메일 발송 완료");
+				PrintWriter out = response.getWriter();
+				out.println("<script> alert('신고가 접수되었습니다. 감사합니다.'); window.close(); </script>");
+				reAttr.addFlashAttribute("emailResult", "success");
+			} else {
+				logger.info("메일 발송 실패");	
+				PrintWriter out = response.getWriter();
+				out.println("<script> alert('신고 접수 실패 다시 시도해주세요'); window.close(); </script>");
+				reAttr.addFlashAttribute("emailResult", "fail");
+			}
+		
 	}
 	
 	// 작품 신고
@@ -532,7 +529,7 @@ public class ArtController {
 		String subject = artNo + "번 작품 신고 접수";
 		String content = "신고 내용 : " + declareContent;
 		String from = memberEmail;
-		String to = "nft.auction.help@gmail.com";
+		String to = "hansl2249@naver.com";
 		
 		MimeMessage mail = mailSender.createMimeMessage();
 		MimeMessageHelper mailHelper = new MimeMessageHelper(mail, "UTF-8");
