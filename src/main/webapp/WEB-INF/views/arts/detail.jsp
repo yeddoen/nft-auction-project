@@ -171,16 +171,19 @@ img {
 			</div>
 		</div>
 		<!-- 작품설명 & 댓글 -->
+    
 		<div class="row">
 			<div class="col-sm-7">
 				<div class="card bg-light mb-3">
 					<div class="card-body">
+                      <div id="reloadArea">
 						<ul class="nav nav-tabs">
-							<li class="nav-item"><a class="nav-link active"
-								data-toggle="tab" href="#content">작품설명</a></li>
-							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#art_reply">댓글 (${vo.artReplyCount })</a></li>
+							<li class="nav-item"><a class="nav-link active" id="contentActive"
+								data-toggle="tab" href="#content">작품설명</a></li>                            
+							<li class="nav-item"><a class="nav-link" data-toggle="tab" id="replyActive"
+								href="#art_reply">댓글 (${vo.artReplyCount })</a></li>                            
 						</ul>
+            </div>
 						<div class="tab-content">
 							<div class="tab-pane fade show active" id="content">
 								<br>
@@ -218,7 +221,7 @@ img {
 								<div id="replies">
 								</div>
 							</div>
-						</div>
+						</div>                     
 					</div>
 				</div>
 			</div>
@@ -256,6 +259,7 @@ img {
 			imgShow();
 			getAllBidsList();
 			getAllReplies();
+			
 			
 			var timer=setInterval(auctionTimer, 1000); //1초마다 timer 반복하기							
 			paymentResult();
@@ -645,7 +649,7 @@ img {
 								var rep='└─RE: ';
 							}
 							
-							list += '<div class="reply_item ' + offset + ' card border-light mb-3" style="max-width: 40rem;">'
+							list += '<div class="reply_item ' + offset + ' card border-light mb-3" style="max-width: 40rem;"  align="left">'
 								+ '<pre>'
 		                        + rep
 		                        + '<input type="hidden" id="artReplyNo" value="' + this.artReplyNo + '"/>'
@@ -672,7 +676,7 @@ img {
 	 
 							});
 						$('#replies').html(list);
-					}    
+	                     
 	            );
 	        } // end getAllReplies()
 	        

@@ -165,8 +165,8 @@
           <!-- 게시글 작성자와 로그인한 아이디가 같으면 글 수정, 삭제 가능 -->
           <a href="qnaupdate?qnaboardNo=${vo.qnaboardNo }"><button
               class="btn btn-primary">글 수정</button></a>
-          <a href="qnadelete?qnaboardNo=${vo.qnaboardNo }"><input
-            type="button" value="글 삭제" class="btn btn-primary"></a>
+          <a href="qnadelete?qnaboardNo=${vo.qnaboardNo }"><button
+            id="btn_delete" value="글 삭제" class="btn btn-primary">삭제</button></a>
         </c:if>
         <hr>
       </div>
@@ -183,7 +183,7 @@
           </div>
           <div>
             <textarea rows="5" cols="100" id="replyContent"
-              placeholder="댓글 내용을 입력하세요"></textarea>
+              placeholder="댓글 내용을 입력하세요" required></textarea>
           </div>
           <button type="button" id="btn_add"
             class="btn btn-primary mt-3">댓글 등록</button>
@@ -218,10 +218,15 @@
                 var qnaboardNo = $('#qnaboardNo').val();
 				console.log("test");
                 getAllReplies();
-
+                
+                // 글 삭제 버튼 클릭
+                $('#btn_delete').click(function() {
+                   alert('정말 삭제하시겠습니까?') 
+                });
+				
                 // 댓글 작성 버튼 클릭
                 $('#btn_add').click(function() {
-                    var replyContent = $('#replyContent').val();
+                    var replyContent = $('#replyContent').val();                    	
                     replyContent = replyContent.replace('/r/n', '<br/>');
                     var replyParentNo = "0";
                     var memberReplyNickname = $('#memberReplyNickname').val();

@@ -511,6 +511,8 @@ public class ArtController {
 		int result = sendMail(memberEmail, artNo, declareContent);
 			if(result == 1) {
 				logger.info(result+"개 메일 발송 완료");
+				response.setCharacterEncoding("UTF-8");
+				response.setContentType("text/html; charset=UTF-8");
 				PrintWriter out = response.getWriter();
 				out.println("<script> alert('신고가 접수되었습니다. 감사합니다.'); window.close(); </script>");
 				reAttr.addFlashAttribute("emailResult", "success");

@@ -27,6 +27,11 @@ ul {
 li {
 	display: inline-block;
 }
+@media (max-width: 1000px) {
+  .auctionRT{
+    display : none;
+  }
+}
 /* 사이드바 래퍼 스타일 */
 #sidebar-wrapper {
   position: fixed;
@@ -168,7 +173,7 @@ li {
 	</nav>
     <aside class="aside">
 		<div id="page-wrapper">  
-		<div id="sidebar-wrapper" class="bg-light">
+		<div id="sidebar-wrapper" class="auctionRT">
 			<iframe src="arts/auctionRT" height="900">
 			</iframe>
 		</div>
