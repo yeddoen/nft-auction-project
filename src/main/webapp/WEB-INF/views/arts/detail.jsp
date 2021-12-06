@@ -376,7 +376,7 @@ img {
 							     		<input type="hidden" id="memberReplyId" value="${vo.memberId }">
 									    <div class="input-group mb-3">
                                           <span class="input-group-text " style="width: 15%">닉네임</span>
-                                          <input type="text" id="memberReplyNickname" value="${vo.memberNickname }" readonly>
+                                          <input type="text" id="memberReplyNickname" value="${mo.memberNickname }" readonly>
 							     		</div>
                                         <div>
                                           <textarea class="form-control" rows="5" cols="100" id="artReplyContent" placeholder="댓글 내용을 입력하세요"></textarea>
@@ -717,7 +717,7 @@ img {
                     + '<input type="hidden" id="replyAddNo" value="'+parseInt(replyAddNo)+'">'
                     + '<input type="hidden" id="memberAddId" value=" ${vo.memberId} " + readonly>'
                     // + '<span class="input-group-text " style="width: 15% ">닉네임</span>'
-                    + '<input type="text" id="memberReplyAddNickname" value="${vo.memberNickname }" readonly>'
+                    + '<input type="text" id="memberReplyAddNickname" value="'+memberReplyAddNickname+'" readonly>'
                     + '</div>'
                     + '<div class="row offset-sm-1">'
                     + '<textarea rows="3" cols="100" id="replyAddContent" placeholder="답글 내용을 입력하세요"></textarea>'
@@ -733,7 +733,7 @@ img {
 	          console.log("대댓글 작성 클릭");
 	            var replyAddContent = $('#replyAddContent').val();
 	            var artReplyParentNo = $('#replyAddNo').val();
-	            var memberNickname = $('#memberReplyAddNickname').val();
+	            var memberNickname = $('#memberReplyNickname').val();
 	            var memberAddId = $('#memberAddId').val();
 	            var obj = {
 	                    'artNo' : art_no,
@@ -772,7 +772,7 @@ img {
 	                  	console.log(jsonData);
 	                    var replyWriter = $('#memberReplyNickname').val(); // 로그인 한 사용자 닉네임
 	                    var list = '';
-						console.log(replyWriter);
+						console.log(''+replyWriter);
 	                        
 						$(jsonData).each(function() {
 							console.log(this);
@@ -814,6 +814,11 @@ img {
 								var dis='disabled';
 								var rep='└─RE: ';
 							}
+							
+							if (!replyWriter) {
+								var dis='disabled';
+							}
+							console.log('disabled: '+disabled+', '+readonly+', dis:'+dis);
 							
 							list += '<div class="reply_item ' + offset + ' card border-light mb-3" style="max-width: 40rem;"  align="left">'
 								+ '<pre>'
@@ -861,7 +866,7 @@ img {
                     	+ '<input type="hidden" id="replyUpdateNo" value="'+replyUpdateNo+'">'
                         + '<input type="hidden" id="memberAddId" value=" ${vo.memberId} " + readonly>'
                        // + '<span class="input-group-text " style="width: 15% ">닉네임</span>'
-                        + '<input type="text" id="memberReplyAddNickname" value="${vo.memberNickname }" readonly><br>'
+                        + '<input type="text" id="memberReplyAddNickname" value="'+memberReplyAddNickname+'" readonly><br>'
                         + '</div>'
                         + '<div class="row offset-sm-1">'
                         + '<textarea rows="3" cols="100" id="artReplyContent">'
@@ -966,13 +971,18 @@ img {
 			$('#btn_declare').click(function(){
 				var artNo=$('#art_no').val();
 				var creator=$('#creator').val();
+				var member_id=$('#member_id').val();
 				
-				//창작자가 신고불가능
-				if(member_id==creator){
-					alert('Creator는 신고할 수 없습니다.');
-					return;
+				if(!member_id){ //로그인 안한 사용자
+					alert('로그인해주세요!');
 				}else{
-					window.open('declare?artNo=${vo.artNo}', 'PopupWin','width=600, height=350, resizable=no');
+					//창작자가 신고불가능
+					if(member_id==creator){
+						alert('Creator는 신고할 수 없습니다.');
+						return;
+					}else{
+						window.open('declare?artNo=${vo.artNo}', 'PopupWin','width=600, height=350, resizable=no');
+					}
 				}
 			}); //end btn_buy click
 

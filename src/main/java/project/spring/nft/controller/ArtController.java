@@ -385,6 +385,8 @@ public class ArtController {
 		logger.info("detail() 호출 : artNo = " + artNo + ", page = " + page);
 		// 조회수 카운팅
 		String ip = request.getRemoteAddr();
+		HttpSession session=request.getSession();
+		String memberId=(String) session.getAttribute("memberId");
 		int count = 0;
 		logger.info("ip : " + ip);
 		count++;
@@ -407,7 +409,14 @@ public class ArtController {
 		} else {
 			payResult = "success";
 		}
-
+		
+		if(memberId!=null) {
+			MemberVO mo = memberService.readByMemberId(memberId);
+			model.addAttribute("mo", mo);			
+		}else {
+			model.addAttribute("mo", null);	
+		}
+		
 		model.addAttribute("payResult", payResult);
 		model.addAttribute("vo", vo);
 		model.addAttribute("page", page);
