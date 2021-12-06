@@ -715,7 +715,7 @@ img {
              
             var inputAddReply = $('<div class="row offset-sm-1">'
                     + '<input type="hidden" id="replyAddNo" value="'+parseInt(replyAddNo)+'">'
-                    + '<input type="hidden" id="memberAddId" value=" ${vo.memberId} " + readonly>'
+                    + '<input type="hidden" id="memberAddId" value="${vo.memberId}" + readonly>'
                     // + '<span class="input-group-text " style="width: 15% ">닉네임</span>'
                     + '<input type="text" id="memberReplyAddNickname" value="'+memberReplyAddNickname+'" readonly>'
                     + '</div>'

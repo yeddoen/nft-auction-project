@@ -298,7 +298,7 @@
                                             + '<input type="hidden" id="replyAddNo" value="'
                                             + parseInt(replyAddNo)
                                             + '">'
-                                            + '<input type="hidden" id="memberAddId" value=" ${mo.memberId} " + readonly>'
+                                            + '<input type="hidden" id="memberAddId" value="${mo.memberId}" + readonly>'
                                             // + '<span class="input-group-text " style="width: 15% ">닉네임</span>'
                                             + '<input type="text" id="memberReplyAddNickname" value="${mo.memberNickname }" readonly><br>'
                                             + '</div>'
