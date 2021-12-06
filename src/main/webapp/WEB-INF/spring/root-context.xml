@@ -15,11 +15,17 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
 	<!-- 1. DataSource 설정 -->
-	<bean id="ds" class="oracle.jdbc.pool.OracleDataSource"	destroy-method="close">
+<!-- 	<bean id="ds" class="oracle.jdbc.pool.OracleDataSource"	destroy-method="close">
 		<property name="dataSourceName" value="ds"></property>
 		<property name="URL" value="jdbc:oracle:thin:@172.16.3.15:1521:xe"></property>
 		<property name="user" value="scott"></property>
 		<property name="password" value="tiger"></property>
+	</bean> -->
+	<bean id="ds" class="oracle.jdbc.pool.OracleDataSource"	destroy-method="close">
+		<property name="dataSourceName" value="ds"></property>
+		<property name="URL" value="jdbc:oracle:thin:@nftdatabase.cxoypnp2ldbw.ap-northeast-2.rds.amazonaws.com:1521:NFT"></property>
+		<property name="user" value="nft"></property>
+		<property name="password" value="nftauction"></property>
 	</bean>
 	
 	<!-- 2. SqlSessionFactory 설정 -->

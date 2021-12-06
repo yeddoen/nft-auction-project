@@ -60,8 +60,9 @@
 			</ul>
 			<ul class="list-group list-group-horizontal justify-content-center">
 				<li class="list-group-item list-group-item-primary"
-					style="width: 10rem">파일 이름</li>
-				<li class="list-group-item" style="width: 30rem">${vo.artFileName }</li>
+					style="width: 10rem">작품</li>
+				<li class="list-group-item" style="width: 30rem">
+					<img src="https://nftauctionbucket.s3.ap-northeast-2.amazonaws.com/${vo.artFileName }"></li>
 			</ul>
 		</div>
 		<br>

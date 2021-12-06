@@ -173,7 +173,7 @@ img {
 		function imgShow() {
 			var show_img=$('#show_img').val();
 			show_img=show_img.replace('/s_','/');
-			$('#image').html('<img src="/nft-auction/arts/pay/display?fileName='+show_img+'">');
+			$('#image').html('<img src="https://nftauctionbucket.s3.ap-northeast-2.amazonaws.com/'+show_img+'">');
 		} //end imgShow()
 	
 		/* 비회원 접근 */

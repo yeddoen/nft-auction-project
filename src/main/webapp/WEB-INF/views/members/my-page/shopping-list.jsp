@@ -148,7 +148,7 @@ img {
 							<div class="card border-primary mb-3">
 								<div class="card-header">작품명 : ${vo.artName }</div>
 								<div class="card-body">
-									<img src="/nft-auction/arts/display?fileName=${vo.artFileName }"><br>
+									<img src="https://nftauctionbucket.s3.ap-northeast-2.amazonaws.com/${vo.artFileName }"><br>
 									참여일자 : 
 									<fmt:formatDate value="${vo.auctionDate }" pattern="yyyy-MM-dd HH:mm:ss" var="auctionDate" />
 									${auctionDate }<br>
@@ -172,7 +172,7 @@ img {
 							<div class="card border-primary mb-3">
 								<div class="card-header">작품명 : ${vo.artName }</div>
 								<div class="card-body">
-									<img src="/nft-auction/arts/display?fileName=${vo.artFileName }"><br>
+									<img src="https://nftauctionbucket.s3.ap-northeast-2.amazonaws.com/${vo.artFileName }"><br>
 									구매일자 : 
 									<fmt:formatDate value="${vo.paymentDate }" pattern="yyyy-MM-dd HH:mm:ss" var="paymentDate" />
 									${paymentDate }<br>

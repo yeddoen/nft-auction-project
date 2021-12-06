@@ -434,7 +434,7 @@ img {
 			function imgShow() {
 				var show_img=$('#show_img').val();
 				show_img=show_img.replace('/s_','/');
-				$('#image').html('<img src="/nft-auction/arts/display?fileName='+show_img+'">');
+				$('#image').html('<img src="https://nftauctionbucket.s3.ap-northeast-2.amazonaws.com/'+show_img+'">');
 			} //end imgShow()
 			
 			/* 로그아웃 상태에서 버튼제어 */
@@ -842,6 +842,9 @@ img {
 	 
 							});
 						$('#replies').html(list);
+						var count = (jsonData).length;
+	                       console.log(count);
+	                       $('#replyActive').html('댓글 (' + count + ')');
 	                    } 
 	            );
 	        } // end getAllReplies()

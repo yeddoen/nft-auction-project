@@ -25,7 +25,7 @@
 				<c:forEach items="${RTlist }" var="RTlist">
 					<div class="card bg-light" style="width: 13rem;">
 						<a href="detail?artNo=${RTlist.artNo}" target="_top"> 
-							<img src="/nft-auction/arts/display?fileName=${RTlist.artFileName }"
+							<img src="https://nftauctionbucket.s3.ap-northeast-2.amazonaws.com/${RTlist.artFileName }"
 							class="card-img-top" alt="${RTlist.artName }"></a>
 						<div class="card-body">
 							<p class="card-text">

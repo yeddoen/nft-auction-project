@@ -55,6 +55,8 @@ import project.spring.nft.service.WishlistService;
 import project.spring.nft.util.FileUploadUtil;
 import project.spring.nft.util.KAS;
 import project.spring.nft.util.MediaUtil;
+import project.spring.nft.util.S3Util;
+import project.spring.nft.util.UploadFileUtils;
 import xyz.groundx.caver_ext_kas.CaverExtKAS;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.ApiException;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.kip17.model.Kip17ContractInfoResponse;
@@ -77,6 +79,9 @@ public class ArtController {
 	
 	@Autowired
 	private JavaMailSender mailSender;
+	
+	S3Util s3 = new S3Util();
+	String bucketName = "nftauctionbucket";
 
 	@GetMapping("main")
 	public void main(Model model, Integer page, Integer numsPerPage) {
@@ -316,17 +321,31 @@ public class ArtController {
 	// 이미지 업로드.
 	@PostMapping("/arts/upload-ajax")
 	@ResponseBody
-	public ResponseEntity<String> uploadAjaxPOST(MultipartFile[] files) throws IOException {
-		logger.info("uploadAjaxPOST() 호출");
+	public String uploadAjaxPOST(MultipartFile[] files) throws Exception {
+		logger.info("uploadAjaxPOST() 호출 : file = "+files[0]);
 		// 파일 하나만 저장
-		String result = null; // 파일 경로 및 썸네일 이미지 이름
-		result = FileUploadUtil.saveUploadedFile(uploadPath, files[0].getOriginalFilename(), files[0].getBytes());
-		logger.info("fileuploadutil 의 result 로그 : " + result); // 11.17 수정
-		if (result == null) {
-			return new ResponseEntity<String>("fail", HttpStatus.OK);
-		} else {
-			return new ResponseEntity<String>(result, HttpStatus.OK);
-		}
+		/*
+		 * String result = null; // 파일 경로 및 썸네일 이미지 이름 result =
+		 * FileUploadUtil.saveUploadedFile(uploadPath, files[0].getOriginalFilename(),
+		 * files[0].getBytes()); logger.info("fileuploadutil 의 result 로그 : " + result);
+		 * // 11.17 수정 if (result == null) { return new ResponseEntity<String>("fail",
+		 * HttpStatus.OK); } else { return new ResponseEntity<String>(result,
+		 * HttpStatus.OK); }
+		 */
+		logger.info("originalName: " + files[0].getOriginalFilename()); //업로드한 실제파일명
+		String uploadpath = "FileUpload"; //s3 저장경로
+
+		ResponseEntity<String> img_path = new ResponseEntity<String>(
+				UploadFileUtils.uploadFile(uploadpath, files[0].getOriginalFilename(), files[0].getBytes()),
+				HttpStatus.CREATED);
+		
+		String ImagePath = (String) img_path.getBody();
+		logger.info(ImagePath);
+		
+		String artFileName=uploadpath+ImagePath;
+		logger.info("db 저장 파일명 : "+artFileName);
+		//s3에 저장된 파일경로(날짜포함)된 이름. db에 저장될 FileName
+		return artFileName;
 	} // end uploadAjaxPOST()
 
 	@GetMapping("/arts/display")
@@ -446,6 +465,8 @@ public class ArtController {
 			int result=artService.deleteArt(artNo);
 			if (result == 1) {
 				deleteKip17(vo, avo, request);
+				s3.fileDelete(bucketName, avo.getArtFileName());
+				logger.info("파일 삭제");
 				reAttr.addFlashAttribute("deleteResult", "success");
 				return "redirect:/main";
 			} else {

@@ -223,7 +223,7 @@ li {
 										<div class="card-body">
 											<a href="arts/detail?artNo=${vo.artNo}&page=${pageMaker.criteria.page}">
 												<h4 class="card-title">
-												<img src="/nft-auction/arts/display?fileName=${vo.artFileName }"></h4>
+												<img src="https://nftauctionbucket.s3.ap-northeast-2.amazonaws.com/${vo.artFileName }"></h4>
 												<hr>
 												<p class="card-text">${vo.artName }</p>
 											</a>

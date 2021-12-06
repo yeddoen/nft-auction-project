@@ -23,6 +23,10 @@
 	height: 100px;
 	border: 1px solid grey;
 }
+img {
+	max-width: 100%;
+	height: auto;
+}
 </style>
 </head>
 <body style="text-align: center;">
@@ -133,7 +137,7 @@
                   			// metadata api로 json파일 서버에 올리기
                   			var artName = $('#art_name').val();
                   			var description = $('#art_content').val();
-                  			var image = "http:/localhost:8080/nft-auction/arts/display?fileName=" + fileName;
+                  			var image = "https://nftauctionbucket.s3.ap-northeast-2.amazonaws.com/" + fileName;
                   			var minter = $('#member_id').val();
                   			
                   			const settings = {
@@ -168,7 +172,7 @@
 						if(fileName=='fail'){
 							alert('jpg, png, gif 파일만 등록할 수 있습니다.');
 						}else{
-							$('.upload-list').html("<img src='/nft-auction/arts/display?fileName="+fileName+"'>");
+							$('.upload-list').html("<img src='https://nftauctionbucket.s3.ap-northeast-2.amazonaws.com/"+fileName+"'>");
 							$('#file_name').attr('value', fileName);							
 						}
 					}//success
