@@ -676,7 +676,7 @@ img {
 	 
 							});
 						$('#replies').html(list);
-	                     
+	                    } 
 	            );
 	        } // end getAllReplies()
 	        
