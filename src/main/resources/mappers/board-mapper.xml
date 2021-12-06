@@ -54,15 +54,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  	order by ${qnaboardNo} desc
 	  </select>
 	  
-	  <select id="select_list_by_member_id" resultType="QnABoardVO">
+	  <!-- <select id="select_list_by_member_id" resultType="QnABoardVO">
 	  	select * from ${qnaboard}
 	  	where ${memberId} = #{memberId}
 	  	order by ${qnaboardNo} desc
-	  </select>
+	  </select> -->
 	  
 	  <select id="select_by_member_id" resultType="Integer">
 	  	select count(*) total_cnt from ${qnaboard}
 	  	where ${memberId} = #{memberId}
+	  </select>
+	  
+	  <select id="select_list_by_member_id" resultType="QnABoardVO">
+	  	select b.${qnaboardNo}, b.${qnaboardTitle}, b.${qnaboardContent}, b.${memberNickname}, b.${qnaboardDate} 
+	  	from(
+	  		select rownum rn, a.* 
+	  		from(
+	  			select * from ${qnaboard} where ${memberId} = #{memberId} order by ${qnaboardNo} desc
+	 		)a
+	  	)b where rn between #{start} and #{end}
 	  </select>
 	  
 	  <update id="update_reply_count">

@@ -106,16 +106,16 @@ img {
     if(payment_type=='D'){ //즉시구매
 	    amount = $('#artPrice').val();
     }else if(payment_type=='A'){ //경매 낙찰
-    	amount = $('#auctionMoney').val(); /* 값아직 안받아옴!!!@@ */
+    	amount = $('#auctionMoney').val(); 
     }
     console.log(amount);
-    var show_img = $('#show_img').val(); //이미지 파일명
     var buyer_name = $('#memberName').val(); // 주문자명
     var buyer_tel = $('#memberPhone').val(); // 주문자 연락처 - 필수
     var buyer_email = $('#memberEmail').val(); // 주문자 이메일
     var memberId = $('#memberId').val();
   	var merchant_uid = $('#artName').val() + date + $('#memberId').val();
-    IMP.init('imp84678220'); // 가맹점 식별 코드
+  	var artFileName = $('#show_img').val();//이미지 파일명
+    IMP.init('imp84678220'); // 가맹점 식별 코드 
       // IMP.request_pay(param, callback) 결제창 호출
       IMP.request_pay({ // param
           pg: 'html_inicis', // pg사 코드값
@@ -137,7 +137,7 @@ img {
                   'artPrice' : amount,
                   'merchantUid' : merchant_uid,
                   'paymentType' : payment_type,
-                  'artFileName' : show_img
+                  'artFileName'	 : artFileName
               }
       			  console.log(date);
       			  console.log(merchant_uid);

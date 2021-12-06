@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import project.spring.nft.domain.ArtVO;
+import project.spring.nft.domain.MemberVO;
 import project.spring.nft.domain.PaymentVO;
 import project.spring.nft.pageutil.PageCriteria;
 
@@ -51,5 +52,7 @@ public interface ArtService {
 	PaymentVO readPayResult(int artNo);
 	//등록내역 개수
 	int getTotalMyArt(String memberId);
-
+	
+	MemberVO readMemberEmail(String memberId);
+		
 } // end class

@@ -16,5 +16,5 @@ public interface QnABoardDAO {
 	int getTotalNumsOfRecords();
 	int updateReplyCount(int amount, int qnaboardNo);
 	int selectByMemberId(String memberId);
-	List<QnABoardVO> selectListByMemberId(String memberId);
+	List<QnABoardVO> selectListByMemberId(PageCriteria c, String memberId);
 }

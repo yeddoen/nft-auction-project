@@ -234,6 +234,7 @@ img {
 									<span id="art_wish_count">${vo.artWishCount }</span>
 								</button>
 								<!-- 찜하기를 누를떄 실행되는 메소드 만들기 -->
+                                <button type="button" id="btn_declare" class="btn btn-outline-danger btn-sm">신고</button>
 							</div>
 						</div>
 						<hr>
@@ -336,16 +337,19 @@ img {
 		</div>
 		
 		<!-- 작품설명 & 댓글 -->
+    
 		<div class="row">
 			<div class="col-sm-7">
 				<div class="card bg-light mb-3">
 					<div class="card-body">
+                      <div id="reloadArea">
 						<ul class="nav nav-tabs">
-							<li class="nav-item"><a class="nav-link active"
-								data-toggle="tab" href="#content">작품설명</a></li>
-							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#art_reply">댓글 (${vo.artReplyCount })</a></li>
+							<li class="nav-item"><a class="nav-link active" id="contentActive"
+								data-toggle="tab" href="#content">작품설명</a></li>                            
+							<li class="nav-item"><a class="nav-link" data-toggle="tab" id="replyActive"
+								href="#art_reply">댓글 (${vo.artReplyCount })</a></li>                            
 						</ul>
+            </div>
 						<div class="tab-content">
 							<div class="tab-pane fade show active" id="content">
 								<br>
@@ -365,26 +369,26 @@ img {
 								<br>
 								<div class="input-group mb-3">
 									<c:if test="${empty sessionScope.memberId }">
-										<p>
-											로그인한 회원만 댓글 작성이 가능합니다. <a
-												href="../members/login?artNo=${vo.artNo }">로그인하기</a>
-										</p>
+										<p>로그인한 회원만 댓글 작성이 가능합니다. <a href="../members/login?artNo=${vo.artNo }">로그인하기</a></p>
 									</c:if>
-									<c:if test="${not empty sessionScope.memberId }">
-										<input type="hidden" id="memberReplyNo" readonly>
-										<input type="text" id="memberReplyId" value="${vo.memberId }">
-										<input type="text" id="memberReplyNickname"
-											value="${vo.memberNickname }" readonly>
-										<input type="text" id="artReplyContent" class="form-control"
-											placeholder="댓글 내용을 입력하세요">
-										<button type="button" id="btn_add"
-											class="btn btn-outline-primary">등록</button>
-									</c:if>
+							    	<c:if test="${not empty sessionScope.memberId }">
+							     		<input type="hidden" id="memberReplyNo" readonly>
+							     		<input type="hidden" id="memberReplyId" value="${vo.memberId }">
+									    <div class="input-group mb-3">
+                                          <span class="input-group-text " style="width: 15%">닉네임</span>
+                                          <input type="text" id="memberReplyNickname" value="${vo.memberNickname }" readonly>
+							     		</div>
+                                        <div>
+                                          <textarea class="form-control" rows="5" cols="100" id="artReplyContent" placeholder="댓글 내용을 입력하세요"></textarea>
+                                        </div>
+							     		<button type="button" id="btn_add" class="btn btn-outline-primary">등록</button>
+							     	</c:if>
 								</div>
-								<hr>
-								<div id="replies"></div>
+								<hr>								
+								<div id="replies">
+								</div>
 							</div>
-						</div>
+						</div>                     
 					</div>
 				</div>
 			</div>
@@ -709,11 +713,16 @@ img {
             // var qnaboardNo2 = $(this).closest('.reply_item').find('#artReplyNo').val();
             // console.log(artReplyNo2);
              
-            var inputAddReply = $('<input type="hidden" id="replyAddNo" value="'+parseInt(replyAddNo)+'">'
-                    + '<input type="text" id="memberAddId" value=" ${vo.memberId} " + readonly>'
+            var inputAddReply = $('<div class="row offset-sm-1">'
+                    + '<input type="hidden" id="replyAddNo" value="'+parseInt(replyAddNo)+'">'
+                    + '<input type="hidden" id="memberAddId" value=" ${vo.memberId} " + readonly>'
+                    // + '<span class="input-group-text " style="width: 15% ">닉네임</span>'
                     + '<input type="text" id="memberReplyAddNickname" value="${vo.memberNickname }" readonly>'
-                    + '<input type="text" id="replyAddContent" placeholder="댓글 내용을 입력하세요">'
-                    + '<button type="button" class="btn_add_reply">작성</button>');
+                    + '</div>'
+                    + '<div class="row offset-sm-1">'
+                    + '<textarea rows="3" cols="100" id="replyAddContent" placeholder="답글 내용을 입력하세요"></textarea>'
+                    //+ '<input type="text" id="replyAddContent" placeholder="댓글 내용을 입력하세요">'
+                    + '<button type="button" class="btn_add_reply btn btn-warning mt-3-sm">답글 등록</button>');
             $(this).closest('.reply_item').find('#reply').html(inputAddReply).toggle();   
 
             }); // end btn_reply()	        
@@ -771,6 +780,8 @@ img {
 							// var hidden = 'hidden="hidden"';
 							var disabled = 'disabled';
 							var readonly = 'readonly';
+							var offset = 'offset-sm-1';
+							var artReplyContent = this.artReplyContent;
 	                            
 							function getFormatDate(date){
 								var year = date.getFullYear();              
@@ -798,43 +809,73 @@ img {
 							if(this.artReplyParentNo == 0) {
 								var dis='';
 								var rep='';
+								var offset = '';
 							} else {
 								var dis='disabled';
-								var rep='└RE: ';
+								var rep='└─RE: ';
 							}
 							
-							list += '<div class="reply_item">'
+							list += '<div class="reply_item ' + offset + ' card border-light mb-3" style="max-width: 40rem;"  align="left">'
 								+ '<pre>'
 		                        + rep
 		                        + '<input type="hidden" id="artReplyNo" value="' + this.artReplyNo + '"/>'
 		                        + '<input type="hidden" id="memberId" value="'+ this.memberId + '"/>'
 		                        + '&nbsp;&nbsp;'
 		                        + '<input type="hidden" id="memberReplyNickname" value="' + this.memberNickname + '"/>'
-		                        + this.memberNickname
+		                        + '<b>' + this.memberNickname + '</b><br>'
 		                        + '&nbsp;&nbsp;' // 공백
-		                        + '<input type="text" id="artReplyContent" value="' + this.artReplyContent + '" '+ readonly +'/>'
+		                        //+ '<input type="text" id="artReplyContent" value="' + this.artReplyContent + '" '+ readonly +'/>'
+		                        + '<div class="col-sm-5 offset-sm-1">'
+                                + artReplyContent
+                                + '</div>'
 		                        + '&nbsp;&nbsp;'
-		                        + artReplyDate
-		                        + '&nbsp;&nbsp;'
-		                        + '<button class="btn_update" type="button" '+ disabled +'>수정</button>'
-		                        + '<button class="btn_delete" type="button" '+ disabled +'>삭제</button>'
-		                        + '<button type="button" class="btn_reply" '+ dis +'>답글</button><br>'                         
-		                        + '<div id="reply" style="display: none;">'  
+		                        + '<span class="text-muted">' + artReplyDate + '</span>'
+		                        //+ '&nbsp;&nbsp;'
+		                        + '<button class="btn_update btn btn-link btn-sm" type="button" '+ disabled +'>수정</button>'
+		                        + '<button class="btn_delete btn btn-link btn-sm" type="button" '+ disabled +'>삭제</button>'
+		                        + '<button type="button" class="btn_reply btn btn-link btn-sm" '+ dis +'>답글</button><br>'                         
+		                        + '<input type="hidden" id="artReplyContent" value="' + this.artReplyContent + '" '+ readonly +'/>'
+		                        + '<div id="reply" style="display: none; width:80%;">'  
 		                        + '</div>'
 		                        + '</pre>'
 		                        + '</div>';
 	 
 							});
 						$('#replies').html(list);
-					}    
+	                    } 
 	            );
 	        } // end getAllReplies()
 	        
+	     // 수정 버튼 눌렀을 때 수정 내용 입력창
+            $('#replies').on('click','div .btn_update', function() {                
+            	console.log("btn_update click()");
+                var replyUpdateNo = $(this).closest('.reply_item').find('#artReplyNo').val();
+                var artReplyContent = $(this).closest('.reply_item').find('#artReplyContent').val();
+                var memberReplyAddNickname = $('#memberReplyNickname').val();
+                console.log(replyUpdateNo);
+
+                var inputUpdateReply = $('<div class="row offset-sm-1" >'                        
+                    	+ '<input type="hidden" id="replyUpdateNo" value="'+replyUpdateNo+'">'
+                        + '<input type="hidden" id="memberAddId" value=" ${vo.memberId} " + readonly>'
+                       // + '<span class="input-group-text " style="width: 15% ">닉네임</span>'
+                        + '<input type="text" id="memberReplyAddNickname" value="${vo.memberNickname }" readonly><br>'
+                        + '</div>'
+                        + '<div class="row offset-sm-1">'
+                        + '<textarea rows="3" cols="100" id="artReplyContent">'
+                        + artReplyContent
+                        + '</textarea>'
+                        // + '<input type="text" id="replyAddContent" placeholder="댓글 내용을 입력하세요">'                    
+                        + '<button type="button" class="btn_update_reply btn btn-warning mt-3-sm">댓글 수정</button>'
+                        + '</div>');
+                        // + '<button type="button" class="btn_add_reply btn btn-link" type="button">o</button>');    
+               $(this) .closest('.reply_item').find('#reply') .html(inputUpdateReply).toggle();
+             }); // end btn_reply()
+	        
 			/* 댓글 수정 */
-	        $('#replies').on('click', '.reply_item .btn_update', function() {
+	        $('#replies').on('click', '.reply_item .btn_update_reply', function() {
 	            console.log(this);
 	            
-	            var artReplyNo = $(this).prevAll('#artReplyNo').val();
+	            var artReplyNo = $('#replyUpdateNo').val();
 	            var artReplyContent = $(this).prevAll('#artReplyContent').val();
 	            console.log("선택된 댓글 번호 : " + artReplyNo + ", 댓글 내용 : " + artReplyContent);
 	            
@@ -918,6 +959,20 @@ img {
 				alert('정말 삭제하시겠습니까?');
 			});
 			
+			/* 12.01 한슬 신고 버튼을 눌렀을 때 */
+			$('#btn_declare').click(function(){
+				var artNo=$('#art_no').val();
+				var creator=$('#creator').val();
+				
+				//창작자가 신고불가능
+				if(member_id==creator){
+					alert('Creator는 신고할 수 없습니다.');
+					return;
+				}else{
+					window.open('declare?artNo=${vo.artNo}', 'PopupWin','width=600, height=350, resizable=no');
+				}
+			}); //end btn_buy click
+
 	        
 			/* date format */
 			const formatDate = (current_datetime)=>{

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import project.spring.nft.domain.ArtVO;
+import project.spring.nft.domain.MemberVO;
 import project.spring.nft.domain.PaymentVO;
 import project.spring.nft.pageutil.PageCriteria;
 import project.spring.nft.persistence.ArtDAO;
@@ -21,6 +22,8 @@ import project.spring.nft.persistence.AuctionDAO;
 import project.spring.nft.persistence.PaymentDAO;
 import project.spring.nft.persistence.QnABoardDAO;
 import project.spring.nft.persistence.QnAReplyDAO;
+import project.spring.nft.persistence.MemberDAO;
+import project.spring.nft.persistence.PaymentDAO;
 import project.spring.nft.persistence.WishlistDAO;
 
 @Service
@@ -42,6 +45,9 @@ public class ArtServiceImple implements ArtService {
 	@Autowired
 	private QnAReplyDAO qnaReplyDAO;
 
+	@Autowired
+	private MemberDAO memberDAO;
+	
 	@Override
 	public int createArt(ArtVO vo) {
 		logger.info("createArt 호출 : vo = " + vo.toString());
@@ -138,7 +144,7 @@ public class ArtServiceImple implements ArtService {
 		logger.info("updateWishCount() 호출 : artNo = " + artNo + ", count = " + count);
 		return artDAO.updateWishCount(artNo, count);
 	}
-
+	
 	@Transactional
 	@Override
 	public int updateArt(ArtVO vo) {
@@ -219,6 +225,10 @@ public class ArtServiceImple implements ArtService {
 		return artDAO.getTotalMyArt(memberId);
 	}
 
+	public MemberVO readMemberEmail(String memberId) {
+		logger.info("readMemberEmail() 호출");
+		return memberDAO.selectByMemberId(memberId);
+	}
 	@Override
 	public List<ArtVO> readNotAuction() {
 		logger.info("readNotAuction() 호출");

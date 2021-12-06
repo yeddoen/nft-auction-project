@@ -152,7 +152,15 @@ img {
 									참여일자 : 
 									<fmt:formatDate value="${vo.auctionDate }" pattern="yyyy-MM-dd HH:mm:ss" var="auctionDate" />
 									${auctionDate }<br>
-									참여가격 : ${vo.auctionMoney }							
+									참여가격 : ${vo.auctionMoney }	
+									<c:if test="${vo.auctionResult eq 'T' }">
+										<br>
+										<hr>
+										<small style="color:blue;">낙찰된 작품입니다. </small>	
+										<button class="btn btn-sm btn-primary"
+											onclick="window.open('../../arts/pay?artNo=${vo.artNo}&type=A', 'PopupWin','width=900, height=800, resizable=no');">
+											결제하기</button>					
+									</c:if>
 								</div>
 							</div>
 						</div>
@@ -189,6 +197,7 @@ img {
 		</div>
 	</section>
 	<input type="hidden" id="sortResult" value="${sortResult }">
+	<input type="hidden" id="auctionResult" value="${auctionResult }">
 	<!-- JavaScript -->
 	<script type="text/javascript">
 		$(function(){
@@ -206,7 +215,14 @@ img {
 					$('#btn_pay').removeClass('active');
 					$('#btn_auction').addClass('active');
 				}
-			}
+			} //end confirmSortResult()
+			
+			/* 경매 낙찰된 작품은 결제가능 */
+			$('#btn-win').click(function(){
+				var link='pay?artNo='+art_no+'&type=A';
+				window.open('pay?artNo=&type=A', 'PopupWin','width=900, height=800, resizable=no'); //결제페이지
+			}); //end btn-win click()
+			
 		}); //end document
 	</script>
 </body>

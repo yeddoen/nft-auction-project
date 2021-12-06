@@ -527,7 +527,7 @@ public class ArtController {
 		String subject = artNo + "번 작품 신고 접수";
 		String content = "신고 내용 : " + declareContent;
 		String from = memberEmail;
-		String to = "hansl2249@naver.com";
+		String to = "nft.auction.help@gmail.com";
 		
 		MimeMessage mail = mailSender.createMimeMessage();
 		MimeMessageHelper mailHelper = new MimeMessageHelper(mail, "UTF-8");
