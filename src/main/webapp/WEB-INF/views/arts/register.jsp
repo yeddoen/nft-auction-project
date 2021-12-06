@@ -49,6 +49,7 @@
 						<li class="nav-item"><a class="nav-link" href="../members/logout">로그아웃</a></li>
 						<li class="nav-item"><a class="nav-link"
 							href="../members/my-page/member">마이페이지</a></li>
+						<li class="nav-itm"><a class="nav-link"> ${sessionScope.memberId } 님, 접속중입니다!</a>
 					</c:if>
 				</ul>
 			</div>
@@ -63,10 +64,10 @@
 				<hr>
 				<div class="p-5">
 					<form method="post">
-						<input type="hidden" name="memberId" value="${sessionScope.memberId }">
-						<input type="text" class="form-control" name="artName" placeholder="작품명 입력" required><br>
+						<input type="hidden" name="memberId" value="${sessionScope.memberId }" id="member_id">
+						<input type="text" class="form-control" name="artName" placeholder="작품명 입력" required id="art_name"><br>
 						<input type="number" class="form-control" name="artPrice" placeholder="즉시판매가 입력" required><br>
-						<input type="text" class="form-control" name="artContent" placeholder="작품설명 입력" required><br>
+						<input type="text" class="form-control" name="artContent" placeholder="작품설명 입력" required id="art_content"><br>
 						작품 게시기간 설정<br>
 						<input type="datetime-local" class="form-control" name="artShowDate" required><br>
 						<input type="number" class="form-control" name="artBasicFee" placeholder="경매시작금 입력" required><br>
@@ -88,11 +89,8 @@
 		<div style="bottom: 0; height: 200px;">
 			<h4>NFT-AUCTION</h4>
 			<hr>
-			<br>
-			<a href="#">이용약관</a> &nbsp;
-			<a href="#">사이트안내</a>
-			<br><br>
-			<small>문의 nft.auction.help@gmail.com</small>
+			<br> <a href="../terms/termsOfService">이용약관</a> &nbsp; <a href="../terms/termsOfInformation">사이트안내</a> <br>
+			<br> <small>문의 nft.auction.help@gmail.com</small>
 		</div>
 	</div>
 	<!-- JavaScript -->
@@ -131,16 +129,7 @@
 					data:formData,
 					processData:false,
 					contentType:false,
-					success: function(fileName){
-					    if (typeof window.klaytn == 'undefined') {
-                  			/* console.log('kaikas installed!') // 카이카스가 설치된 경우
- 
-                 			console.log('현재 네트워크 : ' + klaytn.networkVersion);
-                  			console.log('현재 지갑의 주소 : ' + klaytn.selectedAddress);
-          
-                  			const provider = window['klaytn']; // provider에 주입하기.
-                  			window.klaytn.enable(); // 열기! */
-                  			
+					success: function(fileName){            			
                   			// metadata api로 json파일 서버에 올리기
                   			var artName = $('#art_name').val();
                   			var description = $('#art_content').val();
@@ -172,7 +161,7 @@
                   			   	$('#uri').attr('value', response['uri']);    
                   			});
                   			
-             			 }
+             			 
 					    
 						console.log(fileName); //서버에 업로드된 파일이름을 가지고옴
 						

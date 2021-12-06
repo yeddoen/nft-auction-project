@@ -18,4 +18,5 @@ public interface PaymentDAO {
 	
 	//판매수익
 	Double selectProfit(String memberId);
+	
 }

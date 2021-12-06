@@ -3,25 +3,36 @@ package project.spring.nft.controller;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.sql.Timestamp;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +51,7 @@ import project.spring.nft.pageutil.PageMaker;
 import project.spring.nft.service.ArtService;
 import project.spring.nft.service.MemberService;
 import project.spring.nft.service.NftService;
+import project.spring.nft.service.WishlistService;
 import project.spring.nft.util.FileUploadUtil;
 import project.spring.nft.util.KAS;
 import project.spring.nft.util.MediaUtil;
@@ -52,10 +64,9 @@ import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.tokenhistory.
 @Controller
 public class ArtController {
 	// 로거
-	private static final Logger logger=
-			LoggerFactory.getLogger(ArtController.class);
-	
-	@Resource(name ="uploadPath")
+	private static final Logger logger = LoggerFactory.getLogger(ArtController.class);
+
+	@Resource(name = "uploadPath")
 	private String uploadPath;
 
 	@Autowired
@@ -63,129 +74,140 @@ public class ArtController {
 
 	@Autowired
 	private MemberService memberService;
-
+	
 	@Autowired
-	private NftService nftService;
+	private JavaMailSender mailSender;
 
 	@GetMapping("main")
 	public void main(Model model, Integer page, Integer numsPerPage) {
 		logger.info("readMain() 호출");
-		logger.info("page = "+page+", numsPerPage = "+numsPerPage);
+		logger.info("page = " + page + ", numsPerPage = " + numsPerPage);
 		currentAllList(model, page, numsPerPage);
-	} //end main()
+	} // end main()
+	
+	@GetMapping("terms/termsOfService")
+	public String termsOfService() {
+		logger.info("termsOfService 호출");
+		return "terms/termsOfService";	
+	}
+	
+	@GetMapping("terms/termsOfInformation")
+	public String termsOfInformation() {
+		logger.info("termsOfInformation() 호출");
+		return "terms/termsOfInformation";
+	}
 	
 	@GetMapping("cur")
 	public String currentSort(Model model, Integer page, Integer numsPerPage) {
 		logger.info("currentSort() 호출");
-		logger.info("page = "+page+", numsPerPage = "+numsPerPage);
+		logger.info("page = " + page + ", numsPerPage = " + numsPerPage);
 		currentAllList(model, page, numsPerPage);
 
 		return "main";
-	} //end currentSort()
-	
+	} // end currentSort()
+
 	private void currentAllList(Model model, Integer page, Integer numsPerPage) {
 		logger.info("currentAllList() 호출");
 
 		PageCriteria criteria = new PageCriteria();
-		if(page !=null) {
+		if (page != null) {
 			criteria.setPage(page);
 		}
-		if(numsPerPage!=null) {
+		if (numsPerPage != null) {
 			criteria.setNumsPerPage(numsPerPage);
 		}
-		
-		List<ArtVO> list=artService.readCurrentArt(criteria);
-		model.addAttribute("list", list); //list 데이터 보내기
-		
-		PageMaker pageMaker=new PageMaker();
+
+		List<ArtVO> list = artService.readCurrentArt(criteria);
+		model.addAttribute("list", list); // list 데이터 보내기
+
+		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCriteria(criteria);
 		pageMaker.setTotalCount(artService.getTotalNumsOfRecords());
 		pageMaker.setPageData();
-		logger.info("이전 버튼 존재 유무 : "+pageMaker.isHasPrev());
-		logger.info("다음 버튼 존재 유무 : "+pageMaker.isHasNext());
-		logger.info("전체 게시글 수 : "+pageMaker.getTotalCount());
+		logger.info("이전 버튼 존재 유무 : " + pageMaker.isHasPrev());
+		logger.info("다음 버튼 존재 유무 : " + pageMaker.isHasNext());
+		logger.info("전체 게시글 수 : " + pageMaker.getTotalCount());
 		model.addAttribute("pageMaker", pageMaker);
-	} //end currentAllList()
-	
+	} // end currentAllList()
+
 	@GetMapping("wish")
 	public String wishSort(Model model, Integer page, Integer numsPerPage) {
 		logger.info("wishSort() 호출");
-		logger.info("page = "+page+", numsPerPage = "+numsPerPage);
+		logger.info("page = " + page + ", numsPerPage = " + numsPerPage);
 
 		PageCriteria criteria = new PageCriteria();
-		if(page !=null) {
+		if (page != null) {
 			criteria.setPage(page);
 		}
-		if(numsPerPage!=null) {
+		if (numsPerPage != null) {
 			criteria.setNumsPerPage(numsPerPage);
 		}
-		
-		List<ArtVO> list=artService.readWishArt(criteria);
-		model.addAttribute("list", list); //list 데이터 보내기
-		
-		PageMaker pageMaker=new PageMaker();
+
+		List<ArtVO> list = artService.readWishArt(criteria);
+		model.addAttribute("list", list); // list 데이터 보내기
+
+		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCriteria(criteria);
 		pageMaker.setTotalCount(artService.getTotalNumsOfRecords());
 		pageMaker.setPageData();
-		logger.info("이전 버튼 존재 유무 : "+pageMaker.isHasPrev());
-		logger.info("다음 버튼 존재 유무 : "+pageMaker.isHasNext());
-		logger.info("전체 게시글 수 : "+pageMaker.getTotalCount());
+		logger.info("이전 버튼 존재 유무 : " + pageMaker.isHasPrev());
+		logger.info("다음 버튼 존재 유무 : " + pageMaker.isHasNext());
+		logger.info("전체 게시글 수 : " + pageMaker.getTotalCount());
 		model.addAttribute("pageMaker", pageMaker);
 
 		return "main";
-	} //end wishSort()
-	
+	} // end wishSort()
+
 	@GetMapping("view")
 	public String viewSort(Model model, Integer page, Integer numsPerPage) {
 		logger.info("viewSort() 호출");
-		logger.info("page = "+page+", numsPerPage = "+numsPerPage);
+		logger.info("page = " + page + ", numsPerPage = " + numsPerPage);
 
 		PageCriteria criteria = new PageCriteria();
-		if(page !=null) {
+		if (page != null) {
 			criteria.setPage(page);
 		}
-		if(numsPerPage!=null) {
+		if (numsPerPage != null) {
 			criteria.setNumsPerPage(numsPerPage);
 		}
-		
-		List<ArtVO> list=artService.readViewArt(criteria);
-		model.addAttribute("list", list); //list 데이터 보내기
-		
-		PageMaker pageMaker=new PageMaker();
+
+		List<ArtVO> list = artService.readViewArt(criteria);
+		model.addAttribute("list", list); // list 데이터 보내기
+
+		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCriteria(criteria);
 		pageMaker.setTotalCount(artService.getTotalNumsOfRecords());
 		pageMaker.setPageData();
-		logger.info("이전 버튼 존재 유무 : "+pageMaker.isHasPrev());
-		logger.info("다음 버튼 존재 유무 : "+pageMaker.isHasNext());
-		logger.info("전체 게시글 수 : "+pageMaker.getTotalCount());
+		logger.info("이전 버튼 존재 유무 : " + pageMaker.isHasPrev());
+		logger.info("다음 버튼 존재 유무 : " + pageMaker.isHasNext());
+		logger.info("전체 게시글 수 : " + pageMaker.getTotalCount());
 		model.addAttribute("pageMaker", pageMaker);
 
 		return "main";
-	} //end viewSort()
-	
+	} // end viewSort()
+
 	@GetMapping("search")
-	public String search(Model model, Integer page, Integer numsPerPage,
-			String category, String keyword) {
-		logger.info("search() 호출 : category = "+category+", keyword = "+keyword);	
-		logger.info("page = "+page+", numsPerPage = "+numsPerPage);
+	public String search(Model model, Integer page, Integer numsPerPage, String category, String keyword) {
+		logger.info("search() 호출 : category = " + category + ", keyword = " + keyword);
+		logger.info("page = " + page + ", numsPerPage = " + numsPerPage);
 
 		PageCriteria criteria = new PageCriteria();
-		if(page !=null) {
+		if (page != null) {
 			criteria.setPage(page);
 		}
-		if(numsPerPage!=null) {
+		if (numsPerPage != null) {
 			criteria.setNumsPerPage(numsPerPage);
 		}
-		
-		List<ArtVO> list=null;
-		PageMaker pageMaker=new PageMaker();
-		
-		if(category.equals("artName")) { //직품명 검색
-			list=artService.readArtName(criteria, keyword);	
+
+		List<ArtVO> list = null;
+		PageMaker pageMaker = new PageMaker();
+
+		if (category.equals("artName")) { // 직품명 검색
+			list = artService.readArtName(criteria, keyword);
 			logger.info("검색 완료");
 			pageMaker.setTotalCount(artService.getArtNameNumsOfRecords(keyword));
-		}else { //작가닉네임 검색
-			list=artService.readMemberNickname(criteria, keyword);		
+		} else { // 작가닉네임 검색
+			list = artService.readMemberNickname(criteria, keyword);
 			pageMaker.setTotalCount(artService.getNicknameNumsOfRecords(keyword));
 
 		}
@@ -193,19 +215,19 @@ public class ArtController {
 
 		pageMaker.setCriteria(criteria);
 		pageMaker.setPageData();
-		logger.info("이전 버튼 존재 유무 : "+pageMaker.isHasPrev());
-		logger.info("다음 버튼 존재 유무 : "+pageMaker.isHasNext());
-		logger.info("전체 게시글 수 : "+pageMaker.getTotalCount());
+		logger.info("이전 버튼 존재 유무 : " + pageMaker.isHasPrev());
+		logger.info("다음 버튼 존재 유무 : " + pageMaker.isHasNext());
+		logger.info("전체 게시글 수 : " + pageMaker.getTotalCount());
 		model.addAttribute("pageMaker", pageMaker);
 
 		return "main";
-	} //end search()
+	} // end search()
 
 	@GetMapping("/arts/register")
 	public void registerGET() {
 		logger.info("registerGET() 호출");
-	} //end registerGET()
-	
+	} // end registerGET()
+
 	@PostMapping("/arts/register")
 	public String registerPOST(ArtVO vo, RedirectAttributes reAttr, HttpServletRequest request)
 			throws ApiException, NoSuchMethodException, InstantiationException, ClassNotFoundException,
@@ -242,7 +264,7 @@ public class ArtController {
 		// vo.getArtFileName();
 
 		if (result == 1) { // 등록에 성공하면!
-			// selectAndInsertKip17(mvo, vo);
+			// selectAndInsertKip17(mvo, vo, nftTokenId);
 			int nicknameUpdate = artService.updateNickname(vo.getMemberId());
 			logger.info(nicknameUpdate + "개 nickname 등록. art 등록 최종완료");
 			reAttr.addFlashAttribute("registerResult", "success");
@@ -253,8 +275,8 @@ public class ArtController {
 		}
 	} // end registerPOST()
 
-	private void selectAndInsertKip17(MemberVO mvo, ArtVO vo) throws ApiException {
-
+	private void selectAndInsertKip17(MemberVO mvo, ArtVO vo, String nftTokenId)
+			throws ApiException, IOException, InterruptedException {
 		CaverExtKAS caver = new CaverExtKAS();
 		caver.initKASAPI("1001", "KASKEMNC1D88Q7GH1TNVLZHR", "HOkyolJgnqehhk44F9ecIcbHCN6m-HBk-ARWMOYt");
 
@@ -265,33 +287,10 @@ public class ArtController {
 		System.out.println("KIP-17 alias(memberid)를 매개변수로 컨트랙트 주소조회 : " + contractRes.getAddress());
 
 		String contractAddress = contractRes.getAddress();
-		String tokenId = vo.getArtTokenId();
+		String tokenId = nftTokenId;
 		System.out.println("주소 : " + contractAddress + ", 토큰 아이디 : " + tokenId);
 
-		// KAS의 KIP-17 API를 활용해 특정 컨트랙트 주소에서 발행된 하나의 NFT 조회
-
-		Nft nft = caver.kas.tokenHistory.getNFT(contractAddress, tokenId);
-		System.out.println("KIP-17 특정 컨트랙트 계정의 하나의 NFT 정보를 조회 : " + nft);
-
-		String nftPreviousOwner = nft.getPreviousOwner();
-		String nftTxHash = nft.getTransactionHash();
-		long ca = nft.getCreatedAt();
-		long ua = nft.getUpdatedAt();
-		Timestamp nftCreatedAt = new Timestamp(ca);
-		Timestamp nftUpdatedAt = new Timestamp(ua);
-
-		// NftDB에 정보등록.
-		NftVO nvo = new NftVO(0, tokenId, alias, mvo.getMemberAccount(), nftPreviousOwner, vo.getArtJsonUri(),
-				nftTxHash, nftCreatedAt, nftUpdatedAt);
-
-		int result = nftService.create(nvo);
-		if (result == 1) {
-			logger.info("nft db에 등록 성공");
-		} else {
-			logger.info("nft db에 등록 실패");
-		}
-
-	}
+	} // method end ()
 
 	public String getRamdomPassword(int len) {
 		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
@@ -361,31 +360,35 @@ public class ArtController {
 	} // end display()
 
 	@GetMapping("/arts/detail")
-	public void detail(Model model, Integer artNo, Integer page, HttpServletRequest request) {
+	public void detail(Model model, Integer artNo, Integer page, HttpServletRequest request) throws ApiException,
+			NoSuchMethodException, InstantiationException, ClassNotFoundException, IllegalAccessException,
+			InvocationTargetException, IOException, TransactionException, InterruptedException, ParseException {
 		logger.info("detail() 호출 : artNo = " + artNo + ", page = " + page);
 		// 조회수 카운팅
 		String ip = request.getRemoteAddr();
 		int count = 0;
 		logger.info("ip : " + ip);
 		count++;
-		int updateView=artService.updateView(artNo, count);
-		logger.info(updateView+"행 조회수 업데이트");
+		int updateView = artService.updateView(artNo, count);
+		logger.info(updateView + "행 조회수 업데이트");
+
+		Map<String, Object> readMap = artService.readArtNo(artNo);
+		ArtVO vo = (ArtVO) readMap.get("vo");
+		logger.info("ArtVO 로그 : " + vo.toString());
 		
-		Map<String, Object> readMap=artService.readArtNo(artNo);
-		ArtVO vo=(ArtVO)readMap.get("vo");
-		if(readMap.containsKey("maxMoney")) { //maxMoney가 있으면
-			int maxMoney=(Integer)readMap.get("maxMoney");
-			model.addAttribute("maxMoney", maxMoney);			
+		if (readMap.containsKey("maxMoney")) { // maxMoney가 있으면
+			int maxMoney = (Integer) readMap.get("maxMoney");
+			model.addAttribute("maxMoney", maxMoney);
 		}
-		
-		PaymentVO pvo=artService.readPayResult(artNo);
-		String payResult="";
-		if(pvo != null) { //결제된 작품이다
-			payResult="fail";
-		}else {
-			payResult="success";
+
+		PaymentVO pvo = artService.readPayResult(artNo);
+		String payResult = "";
+		if (pvo != null) { // 결제된 작품이다
+			payResult = "fail";
+		} else {
+			payResult = "success";
 		}
-		
+
 		model.addAttribute("payResult", payResult);
 		model.addAttribute("vo", vo);
 		model.addAttribute("page", page);
@@ -393,60 +396,65 @@ public class ArtController {
 
 	@GetMapping("/arts/update")
 	public void updateGET(Model model, Integer artNo, HttpServletRequest request) {
-		logger.info("updateGET() 호출 : artNo = "+artNo);
-		
+		logger.info("updateGET() 호출 : artNo = " + artNo);
+
 		HttpSession session = request.getSession();
 		String memberId = (String) session.getAttribute("memberId");
-		
-		Map<String, Object> readMap=artService.readArtNo(artNo);
-		ArtVO vo=(ArtVO)readMap.get("vo");
-		if(memberId.equals(vo.getMemberId())) {
-			model.addAttribute("vo", vo);
-			model.addAttribute("access", "success");
-		}else {
-			model.addAttribute("access", "fail");
-		}
-	} //end updateGET()
-	
-	public void updateGET(Model model, Integer artNo) {
-		logger.info("updateGET() 호출 : artNo = " + artNo);
+
 		Map<String, Object> readMap = artService.readArtNo(artNo);
 		ArtVO vo = (ArtVO) readMap.get("vo");
-		model.addAttribute("vo", vo);
+
+		if (memberId.equals(vo.getMemberId())) {
+			model.addAttribute("vo", vo);
+			model.addAttribute("access", "success");
+		} else {
+			model.addAttribute("access", "fail");
+		}
 	} // end updateGET()
 
 	@PostMapping("arts/update")
-	public String updatePOST(ArtVO vo, RedirectAttributes reAttr) {
+	public String updatePOST(ArtVO vo, int artNo, RedirectAttributes reAttr)
+			throws IOException, InterruptedException, ParseException {
 		logger.info("updatePOST() 호출 : vo = " + vo.toString());
+		
+		
+		
 		int result = artService.updateArt(vo);
 
 		if (result == 1) {
+			logger.info("update 성공");
 			reAttr.addFlashAttribute("updateResult", "success");
 			return "redirect:/arts/detail?artNo=" + vo.getArtNo();
 		} else {
+			logger.info("update 실패");
 			reAttr.addFlashAttribute("updateResult", "fail");
 			return "redirect:/arts/update?artNo=" + vo.getArtNo();
 		}
 	} // end updatePOST()
 
 	@GetMapping("arts/delete")
-	public String deletePOST(int artNo, RedirectAttributes reAttr,
-			HttpServletRequest request) throws Exception {
-		logger.info("deletePOST() 호출");
+	public String delete(int artNo, RedirectAttributes reAttr, HttpServletRequest request) throws Exception {
+		logger.info("delete 호출");
 
 		HttpSession session = request.getSession();
 		String memberId = (String) session.getAttribute("memberId");
 		MemberVO vo = memberService.readByMemberId(memberId);
+		
 		ArtVO avo = artService.readArtno(artNo);
-		int result = artService.deleteArt(artNo);
-
-		if (result == 1) {
-			deleteKip17(vo, avo, request);
-			reAttr.addFlashAttribute("deleteResult", "success");
+		// wishlistService.delete(memberId, avo.getArtName()); // 작품 삭제시 wishlist 삭제 연동
+		if(memberId.equals(vo.getMemberId())) {
+			int result=artService.deleteArt(artNo);
+			if (result == 1) {
+				deleteKip17(vo, avo, request);
+				reAttr.addFlashAttribute("deleteResult", "success");
+				return "redirect:/main";
+			} else {
+				reAttr.addFlashAttribute("deleteResult", "fail");
+				return "redirect:/arts/detail?artNo=" + artNo;
+			}	
+		}else { //작성자가 아닌 경우
+			reAttr.addFlashAttribute("deleteResult", "fail"); 
 			return "redirect:/main";
-		} else {
-			reAttr.addFlashAttribute("deleteResult", "fail");
-			return "redirect:/arts/detail?artNo=" + artNo;
 		}
 	} // end deletePOST()
 
@@ -468,15 +476,68 @@ public class ArtController {
 	@PostMapping("arts/winning")
 	@ResponseBody
 	public List<ArtVO> winningBid(String memberId) {
-		logger.info("winningBid() 호출 : memberId = "+memberId);
-		if(memberId==null) {
-			return null; 
-		}else {
-			List<ArtVO> bidList=artService.readWinBid(memberId);
+		logger.info("winningBid() 호출 : memberId = " + memberId);
+		if (memberId == null) {
+			return null;
+		} else {
+			List<ArtVO> bidList = artService.readWinBid(memberId);
 			for (ArtVO vo : bidList) {
 				System.out.println(vo.toString());
 			}
 			return bidList;
 		}
 	} // end winningBid()
+	
+	@GetMapping("arts/declare")
+	public void declareGET(int artNo, HttpServletRequest request, Model model) {
+		logger.info("declareGET() 호출");
+		HttpSession session = request.getSession();
+		String memberId = (String) session.getAttribute("memberId");
+
+		model.addAttribute("artNo", artNo);
+		MemberVO vo = artService.readMemberEmail(memberId);
+		logger.info(vo.toString());
+		String memberEmail = vo.getMemberEmail();
+		model.addAttribute("memberEmail", memberEmail);
+	}
+	
+	@PostMapping("arts/declare")
+	public void declarePOST(HttpServletResponse response, RedirectAttributes reAttr, String memberEmail, int artNo, String declareContent) throws Exception {
+		logger.info("declarePOST() 호출");
+		int result = sendMail(memberEmail, artNo, declareContent);
+			if(result == 1) {
+				logger.info(result+"개 메일 발송 완료");
+				response.setCharacterEncoding("UTF-8");
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				out.println("<script> alert('신고가 접수되었습니다. 감사합니다.'); window.close(); </script>");
+				reAttr.addFlashAttribute("emailResult", "success");
+			} else {
+				logger.info("메일 발송 실패");	
+				PrintWriter out = response.getWriter();
+				out.println("<script> alert('신고 접수 실패 다시 시도해주세요'); window.close(); </script>");
+				reAttr.addFlashAttribute("emailResult", "fail");
+			}
+		
+	}
+	
+	// 작품 신고
+	public int sendMail(String memberEmail, int artNo, String declareContent) throws Exception {
+		int result = 0;
+		String subject = artNo + "번 작품 신고 접수";
+		String content = "신고 내용 : " + declareContent;
+		String from = memberEmail;
+		String to = "hansl2249@naver.com";
+		
+		MimeMessage mail = mailSender.createMimeMessage();
+		MimeMessageHelper mailHelper = new MimeMessageHelper(mail, "UTF-8");
+		mailHelper.setFrom(from);
+		mailHelper.setTo(to);
+		mailHelper.setSubject(subject);
+		mailHelper.setText(content, true);
+		
+		mailSender.send(mail);
+		result = 1;
+		return result;
+	} // end sendMail()
 }

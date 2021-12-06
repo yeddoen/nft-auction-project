@@ -48,4 +48,7 @@ public interface ArtDAO {
 	
 	// 경매에 등록되지 않은 작품 정보 조회
 	List<ArtVO> selectNotAuction();
+	
+	// 모든 작품 삭제하기 (멤버변수로 받아서)
+	int deleteAllArt(String memberId);
 }

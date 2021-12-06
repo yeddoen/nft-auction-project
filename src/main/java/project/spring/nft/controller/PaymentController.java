@@ -84,11 +84,21 @@ public class PaymentController {
 	
 	
 	@GetMapping("/result")
-	public void resultGET(int artNo, Model model) {
+	public void resultGET(int artNo, Model model, HttpServletRequest request) {
 		logger.info("resultGET() 호출");
 		PaymentVO vo = paymentservice.selectByArtNo(artNo);
 		logger.info("결제 정보 : " + vo.toString()); 
+		
+		HttpSession session = request.getSession();
+		String memberId = (String) session.getAttribute("memberId");
+		
+		MemberVO mvo = memberservice.readByMemberId(memberId);
+		ArtVO avo = artservice.readArtno(artNo);
+		
+		
 		model.addAttribute("vo", vo);
+		model.addAttribute("mvo", mvo);
+		model.addAttribute("avo", avo);
 	}
 	
 	@PostMapping("/result")
@@ -103,7 +113,7 @@ public class PaymentController {
 			HttpSession session = request.getSession();
 			session.setAttribute(vo.getMemberId(), memberId);
 		} else {
-			logger.info("외않되");
+			logger.info("안되네요.. 개발자 누구죠?");
 		}
 	}
 	

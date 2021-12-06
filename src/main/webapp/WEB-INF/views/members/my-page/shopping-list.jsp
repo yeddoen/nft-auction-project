@@ -101,6 +101,7 @@ img {
 						<li class="nav-item"><a class="nav-link" href="../logout">로그아웃</a></li>
 						<li class="nav-item"><a class="nav-link"
 							href="member">마이페이지</a></li>
+					<li class="nav-itm"><a class="nav-link"> ${sessionScope.memberId } 님, 접속중입니다!</a>
 					</c:if>
 				</ul>
 			</div>
@@ -176,14 +177,12 @@ img {
 				</div>
 			</div>
 			<!-- footer -->
-			<div class="mt-5 p-3 bg-light">
+			<div class="mt-5 p-3 bg-light" align="center">
 				<div style="bottom: 0; height: 200px;">
 					<h4>NFT-AUCTION</h4>
 					<hr>
-					<br>
-					<a href="#">이용약관</a> &nbsp;
-					<a href="#">사이트안내</a>
-					<br><br>
+					<br> <a href="../../terms/termsOfService">이용약관</a> &nbsp; <a
+						href="../../terms/termsOfInformation">사이트안내</a> <br> <br>
 					<small>문의 nft.auction.help@gmail.com</small>
 				</div>
 			</div>

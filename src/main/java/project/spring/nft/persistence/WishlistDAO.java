@@ -29,4 +29,9 @@ public interface WishlistDAO {
 	//작품 삭제 시 위시리스트 삭제
 	int deleteArt(int artNo);
 	
+	// 멤버변수로 작품삭제
+	int deleteArtByMemberId(String memberId);
+	
+	
+	
 } // end WishlistDAO

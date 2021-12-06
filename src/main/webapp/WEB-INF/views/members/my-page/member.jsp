@@ -90,6 +90,7 @@
 						<li class="nav-item"><a class="nav-link"
 							href="member">마이페이지</a></li>
 					</c:if>
+					<li class="nav-itm"><a class="nav-link"> ${sessionScope.memberId } 님, 접속중입니다!</a>
 				</ul>
 			</div>
 		</div>
@@ -125,7 +126,7 @@
 				<div class="row justify-content-center">
 					<div class="col-sm-7">
 						<div class="card">
-							<div class="card-body m-3">
+							<div class="card-body m-1">
 								<table class="table table-hover">
 								  <tbody>
 								    <tr>
@@ -148,6 +149,11 @@
 								      <th scope="row">이메일</th>
 								      <td>${vo.memberEmail }</td>
 								    </tr>
+								    <tr>
+								      <th scope="row">계정</th>
+								      <td><a href="" id="memberAccountLink">${vo.memberAccount }</a><p></p></td>
+								      
+								    </tr>
 								  </tbody>
 								</table>
 							</div>
@@ -159,22 +165,25 @@
 					</div>
 				</div>
 			</div>
+			<input type="hidden" id="member_account" value="${vo.memberAccount }">
 			<!-- footer -->
-			<div class="mt-5 p-3 bg-light">
+			<div class="mt-5 p-3 bg-light" align="center">
 				<div style="bottom: 0; height: 200px;">
 					<h4>NFT-AUCTION</h4>
 					<hr>
-					<br>
-					<a href="#">이용약관</a> &nbsp;
-					<a href="#">사이트안내</a>
-					<br><br>
+					<br> <a href="../../terms/termsOfService">이용약관</a> &nbsp; <a
+						href="../../terms/termsOfInformation">사이트안내</a> <br> <br>
 					<small>문의 nft.auction.help@gmail.com</small>
 				</div>
 			</div>
 		</div>
 	</section>
 	<script type="text/javascript">
-	
+		$(function(){
+		    var memberAccount = $('#member_account').val();
+		    $('#memberAccountLink').attr('href', 'https://baobab.scope.klaytn.com/account/' + memberAccount + '?tabId=txList');
+		    
+		});
 	</script>
 
 </body>

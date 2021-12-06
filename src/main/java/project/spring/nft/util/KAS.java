@@ -14,6 +14,7 @@ import project.spring.nft.domain.ArtVO;
 import xyz.groundx.caver_ext_kas.CaverExtKAS;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.ApiException;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.wallet.model.Account;
+import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.wallet.model.AccountStatus;
 import xyz.groundx.caver_ext_kas.kas.tokenhistory.TokenHistoryQueryOptions;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.tokenhistory.api.TokenApi;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.tokenhistory.model.Nft;
@@ -23,6 +24,7 @@ import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.tokenhistory.
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.kip17.api.Kip17TokenApi;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.kip17.model.Kip17ContractInfoResponse;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.kip17.model.Kip17DeployResponse;
+import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.kip17.model.Kip17TokenListResponse;
 import xyz.groundx.caver_ext_kas.rest_client.io.swagger.client.api.kip17.model.Kip17TransactionStatusResponse;
 
 public class KAS {
@@ -160,17 +162,52 @@ public class KAS {
 	public void selectOneNftKip17() throws ApiException {
 		CaverExtKAS caver = new CaverExtKAS();
 		caver.initKASAPI(chainId, accessKeyId, secretAccessKey);
-		
+
 		ArtVO vo = new ArtVO();
 		vo.getArtTokenId();
-		
+
 		String address = "0x94b74823e4a49e6e2c10ee3df814c2bf5e273899"; // 컨트랙트의 주소
 		String tokenId = "0xd727";
-		
+
 		Nft nft = caver.kas.tokenHistory.getNFT(address, tokenId);
-		
+
 		System.out.println("KIP-17 특정 컨트랙트 계정의 하나의 NFT 정보를 조회 : " + nft);
+
+	}
+
+	// my-first-kip17 토큰의 모든 리스트 정보 조회하기.
+	public void selectTokenListKip17() throws ApiException {
+		CaverExtKAS caver = new CaverExtKAS();
+		caver.initKASAPI(chainId, accessKeyId, secretAccessKey);
+
+		Kip17TokenListResponse response = caver.kas.kip17.getTokenList("my-first-kip17");
+		System.out.println(response);
+
+	}
+
+	// KAS의 KIP-17 API를 활용해 토큰 전송하기 (transfer)
+	public void transferKip17() throws ApiException {
+		CaverExtKAS caver = new CaverExtKAS();
+		caver.initKASAPI(chainId, accessKeyId, secretAccessKey);
+
+		String contractAlias = "my-first-kip17";
+		String ownerAddress = "0x{OwnerAddress}";
+		String recipientAddress = "0x{RecipientAddress}";
+		String tokenId = "0x321";
+		Kip17TransactionStatusResponse response = caver.kas.kip17.transfer(contractAlias, ownerAddress, ownerAddress,
+				recipientAddress, tokenId);
+		System.out.println(response);
+
+	}
+	
+	public void deleteAccountKip17( ) throws ApiException {
+		CaverExtKAS caver = new CaverExtKAS();
+		caver.initKASAPI(chainId, accessKeyId, secretAccessKey);
 		
+		String address = "0xe876Ab429A92C81A14F2aaD9B987A1fEb50d004a";
+		
+		AccountStatus result = caver.kas.wallet.deleteAccount(address);
+		System.out.println("계정삭제 결과 : " + result);
 	}
 
 } // end class

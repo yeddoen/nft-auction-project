@@ -11,33 +11,164 @@
 <!-- 모바일 디바이스에서 터치/줌 등을 지원하기 위한 meta 태그 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+	crossorigin="anonymous">
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
 <!-- Popper JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <!-- CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/zephyr/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/zephyr/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 <style type="text/css">
+table {
+	border: 1px solid #ccc;
+	border-collapse: collapse;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	table-layout: fixed;
+}
+
+table caption {
+	font-size: 1.5em;
+	margin: 0.5em 0 0.75em;
+}
+
+table tr {
+	background-color: #f8f8f8;
+	border: 1px solid #ddd;
+	padding: 0.35em;
+}
+
+table th, table td {
+	padding: 0.625em;
+	text-align: center;
+}
+
+table th {
+	font-size: 0.85em;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+@media screen and (max-width: 600px) {
+	table {
+		border: 0;
+	}
+	table caption {
+		font-size: 1.3em;
+	}
+	table thead {
+		border: none;
+		clip: rect(0, 0, 0, 0);
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		padding: 0;
+		position: absolute;
+		width: 1px;
+	}
+	table tr {
+		border-bottom: 3px solid #ddd;
+		display: block;
+		margin-bottom: 0.625em;
+	}
+	table td {
+		border-bottom: 1px solid #ddd;
+		display: block;
+		font-size: 0.8em;
+		text-align: right;
+	}
+	table td::before {
+		/*
+    * aria-label has no advantage, it won't be read inside a table
+    content: attr(aria-label);
+    */
+		content: attr(data-label);
+		float: left;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+	table td:last-child {
+		border-bottom: 0;
+	}
+}
+
+/* general styling */
+body {
+	font-family: "Open Sans", sans-serif;
+	line-height: 1.25;
+}
+
 img {
 	max-width: 100%;
 	height: auto;
 }
 
 .scrolltbody {
-    display: inline-block;
-    width: auto;
-    border-collapse: collapse;
-    font-size: 16px;
+	display: inline-block;
+	width: auto;
+	border-collapse: collapse;
+	font-size: 16px;
 }
+
 .scrolltbody tbody {
-    display: inline-block;
-    height: 300px;
-    overflow: auto;
+	display: inline-block;
+	height: 300px;
+	overflow: auto;
 }
-.scrolltbody th:nth-of-type(1), .scrolltbody td:nth-of-type(1) { width: 200px; }
-.scrolltbody th:nth-of-type(2), .scrolltbody td:nth-of-type(2) { width: 200px; }
-.scrolltbody th:nth-of-type(3), .scrolltbody td:nth-of-type(3) { width: 200px; }
+
+.scrolltbody th:nth-of-type(1), .scrolltbody td:nth-of-type(1) {
+	width: 200px;
+}
+
+.scrolltbody th:nth-of-type(2), .scrolltbody td:nth-of-type(2) {
+	width: 200px;
+}
+
+.scrolltbody th:nth-of-type(3), .scrolltbody td:nth-of-type(3) {
+	width: 200px;
+}
+
+.wrap {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.buttonNFT {
+	width: 140px;
+	height: 45px;
+	font-family: 'Roboto', sans-serif;
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 2.5px;
+	font-weight: 500;
+	color: #000;
+	background-color: #fff;
+	border: none;
+	border-radius: 45px;
+	box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease 0s;
+	cursor: pointer;
+	outline: none;
+}
+
+.buttonNFT:hover {
+	background-color: #2EE59D;
+	box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+	color: #fff;
+}
 </style>
 <title>상세 페이지 - ${vo.artName}</title>
 </head>
@@ -56,15 +187,18 @@ img {
 					<li class="nav-item"><a class="nav-link" href="register">작품등록</a>
 					</li>
 					<c:if test="${empty sessionScope.memberId }">
-						<li class="nav-item"><a class="nav-link" href="../members/login">로그인</a>
-						</li>
+						<li class="nav-item"><a class="nav-link"
+							href="../members/login">로그인</a></li>
 						<li class="nav-item"><a class="nav-link"
 							href="../members/sign-up">회원가입</a></li>
 					</c:if>
 					<c:if test="${not empty sessionScope.memberId }">
-						<li class="nav-item"><a class="nav-link" href="../members/logout">로그아웃</a></li>
+						<li class="nav-item"><a class="nav-link"
+							href="../members/logout">로그아웃</a></li>
 						<li class="nav-item"><a class="nav-link"
 							href="../members/my-page/member">마이페이지</a></li>
+						<li class="nav-itm"><a class="nav-link">
+								${sessionScope.memberId } 님, 접속중입니다!</a>
 					</c:if>
 				</ul>
 			</div>
@@ -106,7 +240,8 @@ img {
 						<div class="row">
 							<div class="col" style="text-align: left;">
 								<p style="font-size: 80%;">최저입찰가 ${vo.artBasicFee }원</p>
-								<p>즉시 구매금액<p>
+								<p>즉시 구매금액
+								<p>
 							</div>
 						</div>
 						<div class="row">
@@ -123,11 +258,11 @@ img {
 						<div style="margin: 10px;">
 							<c:if test="${not empty sessionScope.memberId }">
 								<button class="btn btn-primary" type="button" id="btn_auction"
-									data-toggle="collapse" data-target="#collapseAuction" style="margin: 3px;"
-									aria-expanded="false" aria-controls="collapseAuction">
-									경매 참여하기</button>
-								<button id="btn_buy" class="btn btn-primary" style="margin: 3px;" type="button">
-									즉시 구매하기</button>	
+									data-toggle="collapse" data-target="#collapseAuction"
+									style="margin: 3px;" aria-expanded="false"
+									aria-controls="collapseAuction">경매 참여하기</button>
+								<button id="btn_buy" class="btn btn-primary"
+									style="margin: 3px;" type="button">즉시 구매하기</button>
 							</c:if>
 						</div>
 						<div class="collapse" id="collapseAuction">
@@ -139,10 +274,13 @@ img {
 								<c:if test="${maxMoney >= 0 }">
 									<p>현재 최고 입찰액 : ${maxMoney}원</p>
 								</c:if>
-								<input type="hidden" id="member_id" value="${sessionScope.memberId }"><br> 
-								<input type="number" id="auction_money" class="form-control" placeholder="금액 입력"><br>
+								<input type="hidden" id="member_id"
+									value="${sessionScope.memberId }"><br> <input
+									type="number" id="auction_money" class="form-control"
+									placeholder="금액 입력"><br>
 								<p id="money_check" style="font-size: 80%;"></p>
-								<button type="button" id="btn_bid" class="btn btn-outline-primary">입찰하기</button>
+								<button type="button" id="btn_bid"
+									class="btn btn-outline-primary">입찰하기</button>
 							</div>
 						</div>
 					</div>
@@ -152,6 +290,7 @@ img {
 					<div class="col">
 						<div class="card mb-4">
 							<div class="card-body">
+
 								<table class="table table-hover scrolltbody">
 									<thead>
 										<tr>
@@ -169,6 +308,33 @@ img {
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<table id="nftTable">
+				<caption></caption>
+				<thead>
+					<tr>
+						<th scope="col">트랜잭션</th>
+						<th scope="col">발행시간</th>
+						<th scope="col">작가계정</th>
+						<th scope="col">메타데이터</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td data-label="Account" id="txHash"><a href=""
+							id="txHashLink" target="_blank"><button type="button" class="buttonNFT hover">TRANSACTION
+									</button></a></td>
+						<td data-label="Due Date" id="createdAt"></td>
+						<td data-label="Amount" id="memberAccount"><a href=""
+							id="memberAccountLink" target="_blank"><button type="button"
+									class="buttonNFT hover">CREATOR</button></a></td>
+						<td data-label="Period" id="uri"><a href="" id="tokenUriLink" target="_blank"><button
+									type="button" class="buttonNFT hover">METADATA</button></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
 		<!-- 작품설명 & 댓글 -->
 		<div class="row">
 			<div class="col-sm-7">
@@ -187,9 +353,11 @@ img {
 								<c:if test="${vo.memberId eq sessionScope.memberId}">
 									<div style="text-align: right;">
 										<c:if test="${sessionScope.memberId eq vo.memberId }">
-											<a href="update?artNo=${vo.artNo }"><button type="button" class="btn btn-primary">수정</button></a>
-											<a href="delete?artNo=${vo.artNo }"><button type="button" id="btn-deleteArt" class="btn btn-primary">삭제</button></a>
-										</c:if>	
+											<a href="update?artNo=${vo.artNo }"><button type="button"
+													class="btn btn-primary">수정</button></a>
+											<a href="delete?artNo=${vo.artNo }"><button type="button"
+													id="btn-deleteArt" class="btn btn-primary">삭제</button></a>
+										</c:if>
 									</div>
 								</c:if>
 							</div>
@@ -197,19 +365,24 @@ img {
 								<br>
 								<div class="input-group mb-3">
 									<c:if test="${empty sessionScope.memberId }">
-										<p>로그인한 회원만 댓글 작성이 가능합니다. <a href="../members/login?artNo=${vo.artNo }">로그인하기</a></p>
+										<p>
+											로그인한 회원만 댓글 작성이 가능합니다. <a
+												href="../members/login?artNo=${vo.artNo }">로그인하기</a>
+										</p>
 									</c:if>
-							    	<c:if test="${not empty sessionScope.memberId }">
-							     		<input type="hidden" id="memberReplyNo" readonly>
-							     		<input type="text" id="memberReplyId" value="${vo.memberId }">
-									    <input type="text" id="memberReplyNickname" value="${vo.memberNickname }" readonly>
-							     		<input type="text" id="artReplyContent" class="form-control" placeholder="댓글 내용을 입력하세요">
-							     		<button type="button" id="btn_add" class="btn btn-outline-primary">등록</button>
-							     	</c:if>
+									<c:if test="${not empty sessionScope.memberId }">
+										<input type="hidden" id="memberReplyNo" readonly>
+										<input type="text" id="memberReplyId" value="${vo.memberId }">
+										<input type="text" id="memberReplyNickname"
+											value="${vo.memberNickname }" readonly>
+										<input type="text" id="artReplyContent" class="form-control"
+											placeholder="댓글 내용을 입력하세요">
+										<button type="button" id="btn_add"
+											class="btn btn-outline-primary">등록</button>
+									</c:if>
 								</div>
-								<hr>								
-								<div id="replies">
-								</div>
+								<hr>
+								<div id="replies"></div>
 							</div>
 						</div>
 					</div>
@@ -222,11 +395,8 @@ img {
 		<div style="bottom: 0; height: 200px;">
 			<h4>NFT-AUCTION</h4>
 			<hr>
-			<br>
-			<a href="#">이용약관</a> &nbsp;
-			<a href="#">사이트안내</a>
-			<br><br>
-			<small>문의 nft.auction.help@gmail.com</small>
+			<br> <a href="../terms/termsOfService">이용약관</a> &nbsp; <a href="../terms/termsOfInformation">사이트안내</a> <br>
+			<br> <small>문의 nft.auction.help@gmail.com</small>
 		</div>
 	</div>
 	<!-- hidden -->
@@ -234,12 +404,15 @@ img {
 	<input type="hidden" id="show_img" value="${vo.artFileName }">
 	<input type="hidden" id="art_name" value="${vo.artName }">
 	<input type="hidden" id="art_price" value="${vo.artPrice }">
-	<%-- <input type="hidden" id="art_wish_count" value="${vo.artWishCount}"> --%>
 	<input type="hidden" id="art_no" value="${vo.artNo}">
 	<input type="hidden" id="max_money" value="${maxMoney }">
 	<input type="hidden" id="basic_money" value="${vo.artBasicFee }">
 	<input type="hidden" id="creator" value="${vo.memberId }">
 	<input type="hidden" id="pay_result" value="${payResult }">
+	<input type="hidden" id="art_token_id" value="${vo.artTokenId }">
+	<input type="hidden" id="art_member_account" value="${vo.memberAccount }">
+	<input type="hidden" id="art_json_uri" value="${vo.artJsonUri }">
+
 	<!-- JavaScript -->
 	<script type="text/javascript">
 		$(function(){
@@ -758,6 +931,73 @@ img {
 			var regexp = /\B(?=(\d{3})+(?!\d))/g;
 			return num.toString().replace(regexp, ',');
 			} //end AddComma
+			
+			// 12.01 현아 추가. 바로바로 응답받아서 테이블에 nft 정보 넣어버리기
+			var creator = $('#creator').val(); // art의 멤버가 컨트랙트 별명
+			var tokenId = $('#art_token_id').val();
+			
+			const settings = {
+			        "async": true,
+			        "crossDomain": true,
+			        "url": "https://kip17-api.klaytnapi.com/v1/contract/" + creator + "/token/" + tokenId,
+			        "method": "GET",
+			        "headers": {
+			          "Content-Type": "application/json",
+			          "x-chain-id": "1001",
+			          "Authorization": "Basic S0FTS0VNTkMxRDg4UTdHSDFUTlZMWkhSOkhPa3lvbEpnbnFlaGhrNDRGOWVjSWNiSENONm0tSEJrLUFSV01PWXQ="
+			        }
+			      };
+
+			      $.ajax(settings).done(function (response) {			        
+			        console.log("NFT 해당 아트 정보 조회 : "  + JSON.stringify(response));
+			        var txHash = response.transactionHash;
+			        
+			        var createdAt = response.createdAt * 1000;
+			        var dateCreated = new Date(createdAt);
+			        
+			        var memberAccount = $('#art_member_account').val();
+			        
+			        var tokenUri = response.tokenUri;
+			        
+			     	// 지금 시간을 기준으로 몇 분전, 몇 시간전 등 이렇게 만들까?
+			   		function timeForToday(dateCreated) {
+        				const today = new Date(); // 오늘 날짜
+       					const timeValue = new Date(dateCreated);
+
+        				const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+        				if (betweenTime < 1) return '방금전';
+        				if (betweenTime < 60) {
+            				return betweenTime + '분전';
+        				}
+
+        				const betweenTimeHour = Math.floor(betweenTime / 60);
+       					if (betweenTimeHour < 24) {
+            				return betweenTimeHour + '시간전';
+        				}
+
+        				const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+        				if (betweenTimeDay < 365) {
+            				return betweenTimeDay + '일전';
+        				}
+
+        				return Math.floor(betweenTimeDay / 365) + '년전';
+ 					}
+			     	
+			     	const result = timeForToday(dateCreated);
+			     	
+			     	
+			        $('#txHashLink').attr('href', 'https://baobab.scope.klaytn.com/tx/' + txHash + '?tabId=nftTransfer');
+			        
+			        $('#createdAt').text(result);
+			        
+			        $('#memberAccountLink').attr('href', 'https://baobab.scope.klaytn.com/account/' + memberAccount + '?tabId=txList');
+			        
+			        $('#tokenUriLink').attr('href', tokenUri);
+			        
+			      });
+			      
+			      
+			
 		}); //end document
 	</script>
 </body>

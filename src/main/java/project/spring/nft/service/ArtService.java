@@ -51,5 +51,5 @@ public interface ArtService {
 	PaymentVO readPayResult(int artNo);
 	//등록내역 개수
 	int getTotalMyArt(String memberId);
-		
+
 } // end class

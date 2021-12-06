@@ -18,29 +18,28 @@ import project.spring.nft.service.MemberService;
 @RestController
 @RequestMapping(value = "members/rest")
 public class MemberRESTController {
-	private static final Logger logger=
-			LoggerFactory.getLogger(MemberRESTController.class);
-	
+	private static final Logger logger = LoggerFactory.getLogger(MemberRESTController.class);
+
 	@Autowired
 	private MemberService memberService;
-	
+
 	@GetMapping("/id-check/{member_id}")
 	public ResponseEntity<Integer> idCheck(@PathVariable("member_id") String memberId) {
 		logger.info("idCheck() 호출");
-		//TODO db연결하고 확인해보기
-		int result=memberService.readIdCheck(memberId);
-		if(result==0) {
-			logger.info("아이디 중복 없음 : memberId = "+memberId);
-		}else {
+
+		int result = memberService.readIdCheck(memberId);
+		if (result == 0) {
+			logger.info("아이디 중복 없음 : memberId = " + memberId);
+		} else {
 			logger.info("중복된 아이디 있음");
-		}	
+		}
 		return new ResponseEntity<Integer>(result, HttpStatus.OK);
-	} //end idCheck()
-	
+	} // end idCheck()
+
 	@PostMapping("/confirm")
 	public ResponseEntity<String> confirmMemberPOST(String memberUid) {
-		logger.info("confirmMemberPOST() 호출 : memberUid = "+memberUid);
-		
+		logger.info("confirmMemberPOST() 호출 : memberUid = " + memberUid);
+
 		return new ResponseEntity<String>(memberUid, HttpStatus.OK);
-	} //end confirmMemberPOST()
+	} // end confirmMemberPOST()
 }

@@ -159,11 +159,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<!-- 작품 수정 -->
-	<!-- 11.29 현아. 수정시 메타데이터 uri도 수정되어야할까? -->
+	<!-- 11.29 현아. 변경 2개만 되게 했음.. -->
 	<update id="update_art">
 		update ${art}
-		set ${artName}=#{artName}, ${artPrice}=#{artPrice},
-		${artContent}=#{artContent}, ${artShowDate}=#{artShowDate},
+		set ${artShowDate}=#{artShowDate},
 		${artBasicFee}=#{artBasicFee}
 		where ${artNo}=#{artNo}
 	</update>
@@ -172,6 +171,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="delete_art">
 		delete from ${art}
 		where ${artNo}=#{artNo}
+	</delete>
+	
+	<!-- 12.02 현아 추가 -->
+	<!-- 모든 작품 삭제 -->
+	<delete id="delete_all_art">
+		delete from ${art}
+		where ${memberId}=#{memberId}
 	</delete>
 	
 	<!-- 회원 낙찰내역 -->

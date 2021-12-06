@@ -85,6 +85,7 @@ img {
 <input type="hidden" id="memberId" value="${vo.memberId }"> 
 <input type="hidden" id="paymentType" value="${typeResult }">  
 <input type="hidden" id="pay_result" value="${payResult }">
+
 <c:if test="${not empty auvo }">
 	<input type="hidden" id="auctionMoney" value="${auvo.auctionMoney }">
 </c:if>
@@ -140,7 +141,8 @@ img {
               }
       			  console.log(date);
       			  console.log(merchant_uid);
-
+	
+      			// 신용카드 결제 api 	  
               jQuery.ajax({
 
                   url: 'result', // 예: https://www.myservice.com/payments/complete
@@ -149,7 +151,9 @@ img {
                   data: JSON.stringify(obj)                      
                       // 기타 필요한 데이터 더 있으면 추가                 
               }).done(function (data) {
-                // 가맹점 서버 결제 API 성공시 로직
+                 
+
+                  // 가맹점 서버 결제 API 성공시 로직
                   var msg = '결제가 완료되었습니다.';
                   msg += '고유ID : ' + rsp.imp_uid;
                   msg += '주문 번호 : ' + rsp.merchant_uid;

@@ -86,6 +86,7 @@
 						<li class="nav-item"><a class="nav-link" href="logout">로그아웃</a></li>
 						<li class="nav-item"><a class="nav-link"
 							href="my-page/member">마이페이지</a></li>
+						<li class="nav-itm"><a class="nav-link"> ${sessionScope.memberId } 님, 접속중입니다!</a>
 					</c:if>
 				</ul>
 			</div>
@@ -128,8 +129,8 @@
 							<p><input type="text" class="form-control" name="memberNickname" placeholder="닉네임 입력" required></p>
 							<p><input type="text" class="form-control" id="member_phone" name="memberPhone" placeholder="전화번호 입력" required></p>
 							<p><input type="text" class="form-control" id="member_email" name="memberEmail" placeholder="이메일 입력" required></p>
-							<p><button class="enableEthereumButton btn btn-primary" id="btn-kaikas">klaytn 연동</button>
-							<input type="submit" class="btn btn-primary" value="가입하기"></p>
+							<!--<button class="enableEthereumButton btn btn-primary" id="btn-kaikas">klaytn 연동</button> -->
+							<p><input type="submit" class="btn btn-primary" value="가입하기"></p>
 						</form>
 					</div>
 				</div>
@@ -141,11 +142,8 @@
 		<div style="bottom: 0; height: 200px;">
 			<h4>NFT-AUCTION</h4>
 			<hr>
-			<br>
-			<a href="#">이용약관</a> &nbsp;
-			<a href="#">사이트안내</a>
-			<br><br>
-			<small>문의 nft.auction.help@gmail.com</small>
+			<br> <a href="../terms/termsOfService">이용약관</a> &nbsp; <a href="../terms/termsOfInformation">사이트안내</a> <br>
+			<br> <small>문의 nft.auction.help@gmail.com</small>
 		</div>
 	</div>
 	<!-- JavaScript -->
@@ -280,47 +278,6 @@
                 }
 
             }); //end confirm_pw blur()
-
-            // 현아(11.25) : 메타마스크말고 카카오 클레이튼 암호화폐지갑인 카이카스로 연동함.
-            /* const ethereumButton = document.querySelector('.enableEthereumButton');
-            // 메타마스크연동버튼을 클릭하면
-            ethereumButton.addEventListener('click', () => {
-            	if (typeof window.ethereum !== 'undefined') {
-            		console.log('MetaMask is installed!'); // 메타마스크가 설치된경우
-            		//Will Start the metamask extension
-            		ethereum.request({ method: 'eth_requestAccounts' });
-            	} else { // 아니라면 설치할 수 있도록 유도하기.
-            	    console.log('Please install MetaMask!');
-            		location.href = "https://metamask.io/";
-            	}  
-            }); // end metamask api */
-
-            $('#btn-kaikas')
-                    .click(
-                            function() {
-                                if (typeof window.klaytn !== 'undefined') {
-                                    klaytn.enable(); // KAIKAS 열기!
-                                    console.log('kaikas installed!') // 카이카스가 설치된 경우
-                                    console.log('현재 네트워크 : '
-                                            + klaytn.networkVersion);
-                                    console.log('현재 지갑의 주소 : '
-                                            + klaytn.selectedAddress);
-                                    
-                                    console.log(klaytn._kaikas.isApproved());
-                       
-                                    if(klaytn.selectedAddress === 'undefined') {
-                                        alert('KAIKAS와 연동하세요!');
-                                        klaytn.enable(); // KAIKAS 열기!
-                                    } else if (klaytn.selectedAddress !== 'undefined') {
-                                        alert('KAIKAS와 연동되었습니다!');
-                                    }
-                                    const provider = window['klaytn'] // provider에 주입하기.
-                                } else { // 설치되지 않은 경우, 설치할 수 있도록 유도하기.
-                                    location.href = 'https://chrome.google.com/webstore/detail/kaikas/jblndlipeogpafnldhgmapagcccfchpi?hl=ko';
-
-                                }
-
-			}); //end confirm_pw blur()
 			
 			/* klaytn 적용 */
 			$('#btn-kaikas').click(function() {

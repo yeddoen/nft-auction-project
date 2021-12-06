@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>QnA 문의하기</title>
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <!-- 모바일 디바이스에서 터치/줌 등을 지원하기 위한 meta 태그 -->
@@ -74,6 +74,7 @@
 }
 
 </style>
+<title>QnA 문의하기</title>
 </head>
 
 <body>
@@ -113,35 +114,46 @@
       <!-- /사이드바 -->
     </div>
   </aside>
-  <section class="section">
+  <br>
     <div id="page-wrapper">
-      <div id="page-content-wrapper">
-        <h1>QnA 수정</h1>
-        <hr>
-      </div>
+        <!-- <h1>QnA 수정</h1> -->
+      
 		<div class="m-3">
 	      <form action="qnaupdate" method="POST">
-	        <div>
-	          <input type="hidden" name="qnaboardNo"
-	            value="${vo.qnaboardNo }">
-	          <p>
-	            제목 : <input type="text" name="qnaboardTitle"
-	              value="${vo.qnaboardTitle }">
-	          </p>
-	        </div>
-	        <div>
+	         <div class="m-3">              
+	             <p class="h1"><input type="text" name="qnaboardTitle" value="${vo.qnaboardTitle }"></p>
+                             <hr><br>          
+              <div class="input-group mb-3">             
+                <span class="input-group-text " style="width: 10%">글 번호</span> <input
+                type="text" name="qnaboardNo" value="${vo.qnaboardNo }" readonly>
+              </div>
+	        
+	        <%-- <div>
 	          <p>작성자 : ${vo.memberNickname }</p>
-	        </div>
+	        </div> --%>
+          <div class="input-group mb-3">
+            <span class="input-group-text " style="width: 10%">닉네임</span> <input
+             type="text" value="${vo.memberNickname }" readonly>
+          </div>
+          <div class="input-group mb-3">
+            <c:set var="qnaboardDate">
+              <fmt:formatDate value="${vo.qnaboardDate }" pattern="YYYY-MM-dd hh:mm" />
+            </c:set>
+          <span class="input-group-text " style="width: 10%">작성일</span>
+           <input type="text" value="${qnaboardDate }" readonly>
+         </div>
 	        <div>
 	          <textarea rows="20" cols="120" name="qnaboardContent">${vo.qnaboardContent }</textarea>
 	        </div>
 	        <div>
-	          <input type="submit" value="수정">
-	          <button type="button" onclick="location.href='qnalist'">글
+	          <input type="submit" class="btn btn-primary mt-3" value="수정 등록">
+	          <button type="button" class="btn btn-primary mt-3" onclick="location.href='qnalist'">글
 	            목록</button>
 	        </div>
+          </div>
 	      </form>
 		</div>
+    </div>
       <!-- footer -->
       <div class="mt-5 p-3 bg-light">
         <div style="bottom: 0; height: 200px; text-align: center;">
@@ -153,9 +165,12 @@
           <br><br>
           <small>문의 nft.auction.help@gmail.com</small>
         </div>
-      </div>
+      
     </div>
-  </section>
+    
+    <script type="text/javascript">
+ 
+  </script>
 
 </body>
 </html>

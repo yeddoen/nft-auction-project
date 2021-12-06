@@ -133,7 +133,7 @@ ul {
 			</div>
 			<div class="content m-3" style="padding-bottom: 200px;">
 
-              <button type="button" class="btn btn-warning" onclick="location.href='qnaregister?memberId=<%=session.getAttribute("memberId")%>'">문의하기</button>
+              <button type="button" class="btn btn-primary" onclick="location.href='qnaregister'">문의하기</button>
 			  <!-- <button class="btn btn-primary"></button> -->
 			  <div align="center">
 			    <table class="table">
@@ -190,8 +190,34 @@ ul {
 	      </div>
 		</div>
 	</section>  
+  <!-- hidden -->
+    <input type="hidden" id="update_result" value="${updateResult }">
+    <input type="hidden" id="insert_result" value="${insertResult }">
   <script type="text/javascript">
     $(document).ready(function() {
+		confirmUpdateResult();
+		confirmInsertResult();
+		
+        function confirmUpdateResult() {
+            var result = $('#update_result').val();
+            console.log(result);
+            if (result == 'fail') {
+                alert('문의글 수정 실패');
+            } else if (result == 'success') {
+                alert('문의글이 수정되었습니다.');
+            }
+        } // end confirmUpdateResult()
+        
+        function confirmInsertResult() {
+            var result = $('#insert_result').val();
+            console.log(result);
+            if (result == 'fail') {
+                alert('문의글 등록 실패');
+            } else if (result == 'success') {
+                alert('문의글이 등록되었습니다.');
+            }
+        } // end confirmInsertResult()
+        
         // 로그인 버튼 클릭
         $('#btn_login').click(function() {
             location = '../members/login';

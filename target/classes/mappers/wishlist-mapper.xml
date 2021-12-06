@@ -45,4 +45,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from ${wishlist}
 		where ${artNo}=#{artNo}
 	</delete>
+	
+	<!-- 작품삭제 멤버변수로 -->
+	<delete id="delete_art_by_memberId">
+		delete from ${wishlist}
+		where ${memberId} = #{memberId}
+	</delete>
 </mapper>

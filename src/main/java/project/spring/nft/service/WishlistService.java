@@ -10,6 +10,6 @@ public interface WishlistService {
 	int delete(String memberId, String artName);
 	int readCount(String memberId, String artName);
 	
-	
+	int deleteArtByMemberId(String memberId);
 	
 } // end WishlistService class

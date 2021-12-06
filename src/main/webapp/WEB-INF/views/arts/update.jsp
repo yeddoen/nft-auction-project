@@ -42,6 +42,7 @@
 						<li class="nav-item"><a class="nav-link" href="../members/logout">로그아웃</a></li>
 						<li class="nav-item"><a class="nav-link"
 							href="../members/my-page/member">마이페이지</a></li>
+						<li class="nav-itm"><a class="nav-link"> ${sessionScope.memberId } 님, 접속중입니다!</a>
 					</c:if>
 				</ul>
 			</div>
@@ -57,12 +58,17 @@
 				<div class="p-5">
 					<form method="post">
 						<input type="hidden" name="memberId" value="${sessionScope.memberId }">
+						<input type="hidden" name="artNo" value="${vo.artNo }">
+						<input type="hidden" name="artName" value="${vo.artName }">
+						<input type="hidden" name="artContent" value="${vo.artContent }">
+						<input type="hidden" name="artPrice" value="${vo.artPrice }">
+						
 						작품명<br>
-						<input type="text" class="form-control" name="artName" value="${vo.artName }" required><br>
+						<p>${vo.artName} </p><br>
 						즉시 판매가<br>
-						<input type="number" class="form-control" name="artPrice" value="${vo.artPrice }" required><br>
+						<p>${vo.artPrice }</p><br>
 						작품 설명<br>
-						<input type="text" class="form-control" name="artContent" value="${vo.artContent }" required><br>
+						<p>${vo.artContent }</p><br>
 						작품 게시기간 설정<br>
 						<input type="datetime-local" class="form-control" name="artShowDate" value="${vo.artShowDate }" required><br>
 						경매시작금<br>
@@ -80,11 +86,8 @@
 		<div style="bottom: 0; height: 200px;">
 			<h4>NFT-AUCTION</h4>
 			<hr>
-			<br>
-			<a href="#">이용약관</a> &nbsp;
-			<a href="#">사이트안내</a>
-			<br><br>
-			<small>문의 nft.auction.help@gmail.com</small>
+			<br> <a href="../terms/termsOfService">이용약관</a> &nbsp; <a href="../terms/termsOfInformation">사이트안내</a> <br>
+			<br> <small>문의 nft.auction.help@gmail.com</small>
 		</div>
 	</div>
 	<!-- hidden -->

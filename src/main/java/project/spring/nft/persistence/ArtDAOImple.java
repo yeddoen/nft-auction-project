@@ -171,4 +171,11 @@ public class ArtDAOImple implements ArtDAO {
 		return sqlSession.selectList(NAMESPACE + ".select_not_auction");
 	}
 
+	@Override
+	public int deleteAllArt(String memberId) {
+		logger.info("deleteAllArt() 호출 : memberId=" + memberId);
+		return sqlSession.delete(NAMESPACE + ".delete_all_art", memberId);
+	}
+
+
 }

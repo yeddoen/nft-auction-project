@@ -7,17 +7,16 @@
 <head>
 <meta charset="UTF-8">
 <title>QnA 문의하기</title>
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<!-- 모바일 디바이스에서 터치/줌 등을 지원하기 위한 meta 태그 -->
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<!-- Popper JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<!-- CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/zephyr/bootstrap.min.css">
+<link rel="stylesheet"
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script
+  src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+  src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style type="text/css">
 /* 사이드바 래퍼 스타일 */
 
@@ -77,25 +76,32 @@
 </head>
 <body>
   <!-- header -->
-	<nav class="navbar navbar-expand-lg navbar-light bg-warning sticky-top">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="../main">NFT-AUCTION</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
-				aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNavDropdown">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item"><a class="nav-link" href="../arts/register">작품등록</a>
-					</li>
-					<li class="nav-item"><a class="nav-link" href="../members/logout">로그아웃</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="../members/my-page/member">마이페이지</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+  <nav class="navbar navbar-expand-lg navbar-light bg-warning sticky-top">
+    <a class="navbar-brand" href="../main">NFT-AUCTION</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+      data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link"
+          href="../arts/register">작품등록</a></li>
+        <c:if test="${empty sessionScope.memberId }">
+          <li class="nav-item"><a class="nav-link"
+            href="../members/login">로그인</a></li>
+          <li class="nav-item"><a class="nav-link"
+            href="../members/sign-up">회원가입</a></li>
+        </c:if>
+        <c:if test="${not empty sessionScope.memberId }">
+          <li class="nav-item"><a class="nav-link"
+            href="../members/logout">로그아웃</a></li>
+          <li class="nav-item"><a class="nav-link"
+            href="../members/my-page/member">마이페이지</a></li>
+        </c:if>
+      </ul>
+    </div>
+  </nav>
   <aside class="aside">
     <div id="page-wrapper">
       <!-- 사이드바 -->
@@ -106,60 +112,62 @@
           <li><a href="../wishlist/wishpage">위시리스트</a></li>
           <li><a href="../members/my-page/artlist">등록작품내역</a></li>
           <li><a href="../members/my-page/shopping-list">구매작품내역</a></li>
-          <li><a href="qnalist">QnA게시판</a></li>
+          <li><a href="../qnaboard/qnalist">QnA게시판</a></li>
         </ul>
       </div>
       <!-- /사이드바 -->
     </div>
   </aside>
-  <section class="section">
+  <section class="section m-3">
     <div id="page-wrapper">
       <div id="page-content-wrapper">
         <h1>문의하기</h1>
-        <hr>
       </div>
-      <div class="m-3">
-	      <form action="qnaregister" method="POST"
-	        enctype="multipart/form-data">
-	        <div class="input-group mb-3">
-	          <span class="input-group-text " style="width: 10%">제목</span> <input
-	            type="text" name="qnaboardTitle" id="qnaboardTitle"
-	            placeholder="제목을 입력하세요" required>
-	        </div>
-	        <div class="input-group mb-3">
-	          <span class="input-group-text" style="width: 10%">작성자</span> <input
-	            type="text" id="memberNickname" name="memberNickname"
-	            value="${mo.memberNickname}" readonly>
-	        </div>
-	        <div class="input-group mb-3">
-	          <span class="input-group-text" style="width: 10%">아이디</span> <input
-	            type="text" id="memberId" name="memberId"
-	            value="${sessionScope.memberId }" readonly>
-	        </div>
-	        <div>
-	          <textarea rows="20" cols="120" name="qnaboardContent"
-	            id="qnaboardContent" placeholder="내용을 입력하세요"></textarea>
-	        </div>
-	        <div>
-	          <input type="submit" class="btn btn-primary" value="등록">
-	          <a href="qnalist"><input type="button" value="글 목록"
-	            class="btn btn-primary"></a>
-	        </div>
-	      </form>
-      </div>
-      <!-- footer -->
-      <div class="mt-5 p-3 bg-light">
-        <div style="bottom: 0; height: 200px; text-align: center;">
-          <h4>NFT-AUCTION</h4>
-          <hr>
-          <br>
-          <a href="#">이용약관</a> &nbsp;
-          <a href="#">사이트안내</a>
-          <br><br>
-          <small>문의 nft.auction.help@gmail.com</small>
+      <form action="qnaregister" method="POST"
+        enctype="multipart/form-data">
+        <div class="input-group mb-3">
+          <span class="input-group-text " style="width: 10%">제목</span> <input
+            type="text" name="qnaboardTitle" id="qnaboardTitle"
+            placeholder="제목을 입력하세요" required>
         </div>
-      </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" style="width: 10%">작성자</span> <input
+            type="text" id="memberNickname" name="memberNickname"
+            value="${mo.memberNickname}" readonly>
+        </div>
+        <div class="input-group mb-3">
+          <span class="input-group-text" style="width: 10%">아이디</span> <input
+            type="text" id="memberId" name="memberId"
+            value="${sessionScope.memberId }" readonly>
+        </div>
+        <div>
+          <textarea rows="20" cols="120" name="qnaboardContent"
+            id="qnaboardContent" placeholder="내용을 입력하세요"></textarea>
+        </div>
+        <div>
+          <input type="submit" class="btn btn-primary" value="등록">
+          <a href="qnalist"><input type="button" value="글 목록"
+            class="btn btn-primary"></a>
+        </div>
+      </form>
     </div>
   </section>
+  <!-- hidden -->
+    <input type="hidden" id="insert_result" value="${insertResult }">
+  <script type="text/javascript">
+  	$(function() {
+  	    confirmInsertResult();
+  	    
+  	    function confirmInsertResult() {
+            var result = $('#insert_result').val();
+            console.log(result);
+            if (result == 'fail') {
+                alert('문의글 등록 실패');
+            } else if (result == 'success') {
+                alert('문의글이 등록되었습니다.');
+            }
+        } // end confirmInsertResult()
+  	});
+  </script>
 </body>
 </html>
