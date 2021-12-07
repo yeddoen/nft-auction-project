@@ -17,4 +17,5 @@ public interface QnABoardDAO {
 	int updateReplyCount(int amount, int qnaboardNo);
 	int selectByMemberId(String memberId);
 	List<QnABoardVO> selectListByMemberId(PageCriteria c, String memberId);
+	int deleteMemberId(String memberId);
 }

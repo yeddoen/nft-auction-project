@@ -40,4 +40,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   	delete from ${artReply}
   	where ${artNo} = #{artNo}
   </delete>
+  
+  <delete id="delete_id">
+  	delete from ${artReply}
+  	where ${memberId}=#{memberId}
+  </delete>
 </mapper>

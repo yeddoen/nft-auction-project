@@ -60,8 +60,6 @@ public class MemberController {
 	BCryptPasswordEncoder passEncoder;
 	@Autowired
 	private ArtService artService;
-	@Autowired
-	private WishlistService wishlistService;
 
 	@GetMapping("/sign-up")
 	public void joinMemberGET() {
@@ -318,9 +316,8 @@ public class MemberController {
 		// 입력받은 비번과 vo의 비번이 일치하는 경우
 		if (passEncoder.matches(memberPassword, vo.getMemberPassword())) {
 			// 12.02 현아 추가 Wishlist도 삭제해야함 
-			wishlistService.deleteArtByMemberId(memberId);
+			//wishlistService.deleteArtByMemberId(memberId);
 			// TODO : 경매 안보이게 만들기 => db에 컬럼 하나 만들어서, 
-			
 			
 
 			int result = memberService.deleteMember(memberId, memberPassword);

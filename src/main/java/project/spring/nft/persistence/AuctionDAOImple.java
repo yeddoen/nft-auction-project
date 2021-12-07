@@ -79,4 +79,11 @@ public class AuctionDAOImple implements AuctionDAO {
 		logger.info("selectMyAcution() 호출 : memberId = "+memberId);
 		return sqlSession.selectList(NAMESPACE+".select_my_auction", memberId);
 	}
+	
+	@Override
+	public int deleteMemberId(String memberId) {
+		logger.info("deleteMemberId() 호출");
+		return sqlSession.delete(NAMESPACE+".delete_id", memberId);
+	}
+	
 }

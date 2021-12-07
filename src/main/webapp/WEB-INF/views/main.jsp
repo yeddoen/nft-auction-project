@@ -174,7 +174,7 @@ li {
 			<aside class="aside">
 				<div id="page-wrapper">  
 				<div id="sidebar-wrapper" class="bg-light">
-					<iframe src="arts/auctionRT" height="500">
+					<iframe src="arts/auctionRT" height="900">
 					</iframe>
 				</div>
 				<!-- /사이드바 -->

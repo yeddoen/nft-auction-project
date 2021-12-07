@@ -28,4 +28,10 @@ public class RefundDAOImple implements RefundDAO {
 		logger.info("select() 호출 : memberId = "+memberId);
 		return sqlSession.selectOne(NAMESPACE+".select", memberId);
 	}
+	
+	@Override
+	public int deleteMemberId(String memberId) {
+		logger.info("deleteMemberId() 호출");
+		return sqlSession.delete(NAMESPACE+".delete_id", memberId);
+	}
 }

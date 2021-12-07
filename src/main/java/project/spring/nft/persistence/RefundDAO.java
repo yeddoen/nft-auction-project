@@ -7,4 +7,6 @@ public interface RefundDAO {
 	int insert(RefundVO vo);
 	//정산액 조회
 	Integer select(String memberId);
+	
+	int deleteMemberId(String memberId);
 }

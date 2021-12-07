@@ -15,4 +15,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from ${refund}
 		where ${memberId}=#{memberId}
 	</select>
+	
+	<delete id="delete_id">
+		delete from ${refund}
+		where ${memberId}=#{memberId}
+	</delete>
 </mapper>

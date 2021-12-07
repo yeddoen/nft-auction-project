@@ -6,15 +6,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import project.spring.nft.domain.ArtAuctionVO;
 import project.spring.nft.domain.AuctionVO;
 import project.spring.nft.domain.MemberVO;
 import project.spring.nft.domain.PaymentVO;
+import project.spring.nft.persistence.ArtDAO;
+import project.spring.nft.persistence.ArtReplyDAO;
 import project.spring.nft.persistence.AuctionDAO;
 import project.spring.nft.persistence.MemberDAO;
 import project.spring.nft.persistence.PaymentDAO;
+import project.spring.nft.persistence.QnABoardDAO;
+import project.spring.nft.persistence.QnAReplyDAO;
 import project.spring.nft.persistence.RefundDAO;
+import project.spring.nft.persistence.WishlistDAO;
 
 @Service
 public class MemberServiceImple implements MemberService {
@@ -29,6 +35,16 @@ public class MemberServiceImple implements MemberService {
 	private RefundDAO refundDAO;
 	@Autowired
 	private AuctionDAO auctionDAO;
+	@Autowired
+	private ArtDAO artDAO;
+	@Autowired
+	private WishlistDAO wishlistDAO;
+	@Autowired
+	private QnABoardDAO qnaboardDAO;
+	@Autowired
+	private QnAReplyDAO qnareplyDAO;
+	@Autowired
+	private ArtReplyDAO artreplyDAO;
 	
 	@Override
 	public int createMember(MemberVO vo) {
@@ -66,9 +82,33 @@ public class MemberServiceImple implements MemberService {
 		return memberDAO.updateMemberInfo(vo);
 	}
 
+	@Transactional
 	@Override
 	public int deleteMember(String memberId, String memberPassword) {
-		logger.info("deleteMember() 호출 : memberNo = "+memberId);
+		logger.info("deleteMember() 호출 : memberId = "+memberId);
+		//작품삭제
+		artDAO.deleteAllArt(memberId);
+		logger.info(memberId+"의 작품삭제 성공");
+		//작성자 댓글 삭제
+		artreplyDAO.deleteMemberId(memberId);
+		logger.info(memberId+"의 댓글 삭제");
+		//작성자 qna, qna댓글 삭제
+		qnaboardDAO.deleteMemberId(memberId);
+		logger.info(memberId+"의 qna 삭제");
+		qnareplyDAO.deleteMemberId(memberId);
+		logger.info(memberId+"의 qna댓글 삭제");
+		//작성자 경매내역 삭제
+		auctionDAO.deleteMemberId(memberId);
+		logger.info(memberId+"의 경매기록 삭제");
+		//작성자 위시 삭제
+		wishlistDAO.deleteArtByMemberId(memberId);
+		logger.info(memberId+"의 위시리스트 삭제");
+		/*
+		 * //작성자 정산 삭제 refundDAO.deleteMemberId(memberId);
+		 * logger.info(memberId+"의 정산내역 삭제"); //작성자 결제내역 삭제
+		 * paymentDAO.deleteMemberId(memberId); logger.info(memberId+"의 결제내역 삭제");
+		 */
+		
 		return memberDAO.deleteMember(memberId, memberPassword);
 	}
 	

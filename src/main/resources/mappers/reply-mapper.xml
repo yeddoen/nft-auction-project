@@ -30,4 +30,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     delete from ${qnareply} where ${replyNo} = #{replyNo} or ${replyParentNo} = #{replyNo}
   </delete>
   
+  <delete id="delete_id">
+  	delete from ${qnareply}
+  	where ${memberId}=#{memberId}
+  </delete>
+  
 </mapper>

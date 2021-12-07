@@ -10,5 +10,5 @@ public interface QnAReplyDAO {
 	List<QnAReplyVO> selectReply(int qnaboardNo, int replyParentNo);
 	int update(QnAReplyVO vo);
 	int delete(int replyNo);
-	
+	int deleteMemberId(String memberId);
 }

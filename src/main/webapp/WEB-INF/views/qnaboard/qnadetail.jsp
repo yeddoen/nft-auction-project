@@ -364,8 +364,8 @@
                                                         var hour = date.getHours();
                                                         var minutes = date.getMinutes();
                                                         return year+ '-' + month + '-' + day + ' ' + hour + ':' + minutes;
+	                                                    console.log('hour : '+hour);
                                                     }
-                                                    
                                                     var replyDate = new Date(this.replyDate);
                                                     replyDate = getFormatDate(replyDate);
 							                       

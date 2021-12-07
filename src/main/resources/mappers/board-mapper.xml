@@ -81,6 +81,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  	where ${qnaboardNo} = #{qnaboardNo}
 	  </update>
 	  
+	  <delete id="delete_id">
+	  	delete from ${qnaboard}
+	  	where ${memberId}=#{memberId}
+	  </delete>
 	  
 
 </mapper>

@@ -54,5 +54,11 @@ public class QnAReplyDAOImple implements QnAReplyDAO {
 		logger.info("delete() 호출");
 		return sqlsession.delete(NAMESPACE + ".delete", replyNo);
 	}
+	
+	@Override
+	public int deleteMemberId(String memberId) {
+		logger.info("deleteMemberId() 호출");
+		return sqlsession.delete(NAMESPACE+".delete_id", memberId);
+	}
 
 }

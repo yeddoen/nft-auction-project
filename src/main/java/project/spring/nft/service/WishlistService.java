@@ -9,7 +9,4 @@ public interface WishlistService {
 	List<WishlistVO> readByMemberId(String memberId);
 	int delete(String memberId, String artName);
 	int readCount(String memberId, String artName);
-	
-	int deleteArtByMemberId(String memberId);
-	
 } // end WishlistService class

@@ -49,4 +49,10 @@ public class PaymentDAOImple implements PaymentDAO {
 		logger.info("selectProfit() 호출");
 		return sqlsession.selectOne(NAMESPACE+".select_profit", memberId);
 	} //end selectProfit()
+	
+	@Override
+	public int deleteMemberId(String memberId) {
+		logger.info("deleteMemberId() 호출");
+		return sqlsession.delete(NAMESPACE+".delete_id", memberId);
+	}
 }

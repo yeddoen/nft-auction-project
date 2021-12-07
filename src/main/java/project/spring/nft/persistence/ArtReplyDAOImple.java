@@ -61,4 +61,10 @@ public class ArtReplyDAOImple implements ArtReplyDAO {
 		logger.info("deleteArtNo() 호출 : artNo = "+artNo);
 		return sqlsession.delete(NAMESPACE+".delete_art_no", artNo);
 	}
+	
+	@Override
+	public int deleteMemberId(String memberId) {
+		logger.info("deleteMemberId() 호출");
+		return sqlsession.delete(NAMESPACE+".delete_id", memberId);
+	}
 }

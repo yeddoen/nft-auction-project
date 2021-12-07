@@ -24,5 +24,6 @@ public interface AuctionDAO {
 	List<ArtAuctionVO> select();
 	//사용자의 경매 참가내역
 	List<ArtAuctionVO> selectMyAcution(String memberId);
+	int deleteMemberId(String memberId);
 
 }

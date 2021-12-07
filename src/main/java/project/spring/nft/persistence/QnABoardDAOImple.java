@@ -84,4 +84,10 @@ public class QnABoardDAOImple implements QnABoardDAO {
 		return sqlSession.selectList(NAMESPACE + ".select_list_by_member_id", args);
 	}
 	
+	@Override
+	public int deleteMemberId(String memberId) {
+		logger.info("deleteMemberId 호출");
+		return sqlSession.delete(NAMESPACE+".delete_id", memberId);
+	}
+	
 }

@@ -42,10 +42,4 @@ public class WishlistServiceImple implements WishlistService {
 		return dao.selectCount(memberId, artName);
 	}
 
-	@Override
-	public int deleteArtByMemberId(String memberId) {
-		logger.info("deleteart() 호출 : memberId = " + memberId);
-		return dao.deleteArtByMemberId(memberId);
-	}
-
 } // end WishlistServiceImple class

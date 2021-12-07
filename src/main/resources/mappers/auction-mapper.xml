@@ -74,4 +74,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where ${auction}.${memberId}=#{memberId}
 		order by ${auction}.${auctionNo} desc
 	</select>
+	
+	<delete id="delete_id">
+		delete from ${auction}
+		where ${memberId}=#{memberId}
+	</delete>
 </mapper>

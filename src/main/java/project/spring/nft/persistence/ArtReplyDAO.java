@@ -11,4 +11,5 @@ public interface ArtReplyDAO {
 	int update(ArtReplyVO vo);
 	int delete(int artReplyNo);
 	int deleteArtNo(int artNo);
+	int deleteMemberId(String memberId);
 }
