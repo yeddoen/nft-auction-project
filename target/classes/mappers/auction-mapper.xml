@@ -56,16 +56,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 실시간 조회 -->
-	<select id="select_all" resultType="ArtAuctionVO">
-		select * from ${auction}
-		inner join ${art}
-		on ${auction}.${artNo} = ${art}.${artNo}
-        where ${auctionDate}
+   <select id="select_all" resultType="ArtAuctionVO">
+      select * from ${auction}
+      inner join ${art}
+      on ${auction}.${artNo} = ${art}.${artNo}
+        where ${auctionResult} = 'F' and ${auctionDate}
         in (select max(${auctionDate})
         from ${auction}
         group by ${artNo})        
         order by ${auctionMoney} desc
-	</select>
+   </select>
 	
 	<!-- 경매 참가한 내역 -->
 	<select id="select_my_auction" resultType="ArtAuctionVO">
@@ -73,6 +73,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from ${auction} join ${art} on ${auction}.${artNo}=${art}.${artNo}
 		where ${auction}.${memberId}=#{memberId}
 		order by ${auction}.${auctionNo} desc
+	</select>
+	
+	<!-- 결제된 작품 찾기 -->
+	<select id="select_pay_result" resultType="Integer">
+		select ${auction}.${artNo}
+		from ${auction} join ${artPayment}
+		on ${auction}.${artNo}=${artPayment}.${artNo}
+		where ${auction}.${memberId}=#{memberId}
 	</select>
 	
 	<delete id="delete_id">

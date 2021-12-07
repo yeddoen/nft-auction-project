@@ -154,4 +154,10 @@ public class MemberServiceImple implements MemberService {
 		logger.info("readAuctionAll() 호출");
 		return auctionDAO.selectMyAcution(memberId);
 	}
+	
+	@Override
+	public List<Integer> readPayResult(String memberId) {
+		logger.info("readPayResult() 호출");
+		return auctionDAO.selectPay(memberId);
+	}
 } // end class

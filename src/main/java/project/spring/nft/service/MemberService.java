@@ -49,4 +49,7 @@ public interface MemberService {
 	
 	//경매참가내역
 	List<ArtAuctionVO> readAuctionAll(String memberId);
+	
+	//결제된 나의 경매참여 작품
+	List<Integer> readPayResult(String memberId);
 }

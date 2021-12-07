@@ -2,6 +2,7 @@ package project.spring.nft.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -519,9 +520,25 @@ public class MemberController {
 
 	public void myAuctionList(String memberId, Model model) {
 		List<ArtAuctionVO> auctionList = memberService.readAuctionAll(memberId);
-		for (ArtAuctionVO vo : auctionList) {
-			System.out.println(vo.toString());
+		List<PaymentVO> payList = memberService.readPaymentAll(memberId);
+		for (PaymentVO vo : payList) {
+			System.out.println("payment : "+vo.toString());
 		}
+		
+		for (int i = 0; i < payList.size(); i++) { // 3, 4
+			for (int j = 0; j < auctionList.size(); j++) { // 2, 3, 5, 7
+				if (payList.get(i).getArtNo() == auctionList.get(j).getArtNo()) {
+					// 일치하는 artNo가 없음
+					auctionList.remove(auctionList.get(j));
+				}
+			}
+		}
+
+		for (ArtAuctionVO vo : auctionList) {
+			System.out.println("ArtAuction : "+vo.toString());
+		}
+		
+		
 		if (auctionList != null) {
 			model.addAttribute("auctionList", auctionList);
 		} else {

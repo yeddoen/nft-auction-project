@@ -25,5 +25,7 @@ public interface AuctionDAO {
 	//사용자의 경매 참가내역
 	List<ArtAuctionVO> selectMyAcution(String memberId);
 	int deleteMemberId(String memberId);
+	//경매 참가내역에서 결제한거 조회하기
+	List<Integer> selectPay(String memberId);
 
 }
