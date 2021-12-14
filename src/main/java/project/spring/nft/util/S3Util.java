@@ -22,8 +22,8 @@ public class S3Util {
 	private static final Logger logger=
 			LoggerFactory.getLogger(S3Util.class);
 	
-	private String accessKey = "AKIAWX6TZVKVSANI5A6A"; // 엑세스 키
-	private String secretKey = "e4u3n05aoChUQ6qhqK0QhkPDRAYkOBo2X9rND4hx"; // 보안 엑세스 키
+	private String accessKey = "-"; // 엑세스 키
+	private String secretKey = "-"; // 보안 엑세스 키
 
 	private AmazonS3 conn;
 
