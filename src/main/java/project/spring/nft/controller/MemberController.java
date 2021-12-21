@@ -293,7 +293,7 @@ public class MemberController {
 	}
 
 	@PostMapping("/my-page/delete")
-	public String deleteMemberPOST(Model model, String memberPassword, HttpServletRequest request) throws ApiException {
+	public String deleteMemberPOST(Model model, String memberPassword, HttpServletRequest request) throws Exception {
 		logger.info("deletePOST() 호출");
 		HttpSession session = request.getSession();
 		String memberId = (String) session.getAttribute("memberId");
