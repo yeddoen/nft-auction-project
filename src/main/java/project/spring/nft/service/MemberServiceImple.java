@@ -84,7 +84,7 @@ public class MemberServiceImple implements MemberService {
 
 	@Transactional
 	@Override
-	public int deleteMember(String memberId, String memberPassword) {
+	public int deleteMember(String memberId, String memberPassword) throws Exception {
 		logger.info("deleteMember() 호출 : memberId = "+memberId);
 		//작품삭제
 		artDAO.deleteAllArt(memberId);
